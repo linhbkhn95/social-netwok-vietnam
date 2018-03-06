@@ -29,14 +29,53 @@
     -->
 
     <!--STYLES-->
+    <link rel="stylesheet" href="/styles/animate.css">
+    <link rel="stylesheet" href="/styles/bootstrap.min.css">
+    <link rel="stylesheet" href="/styles/font-awesome.min.css">
+    <link rel="stylesheet" href="/styles/importer.css">
+    <link rel="stylesheet" href="/styles/layout.css">
+    <link rel="stylesheet" href="/styles/react-table.css">
+    <link rel="stylesheet" href="/styles/slick-theme.min.css">
+    <link rel="stylesheet" href="/styles/slick.min.css">
     <!--STYLES END-->
   </head>
+   <script>
+    //    var recognition = new webkitSpeechRecognition();
+    //   recognition.continuous = true;
 
-  <body>
+    //  var output = document.getElementById('output');
+    //   recognition.onresult = function(event) {
+    //     console.log(event);
+    //   output.textContent = event.results[0][0].transcript;
+      function like(){
+        console.log('like');
+        
+        var recognition = new webkitSpeechRecognition();
+      // recognition.continuous = true;
+      // recognition.lang= "vie";
+        
+      //  console.log(recognition);
+        recognition.onresult = function(e) {
+          console.log(e);
+        // var rs = event.results[event.results.length-1]
+          // if(event.results.length>0){
+          //    var rs = event.results[event.results.length-1];
+          //    if(rs.isFinal){
+          //      console.log(rs[0].transcript);
+          //    }
+          // }
+        //  output.textContent = event.results[0][0].transcript;
+        }
+        recognition.start();
+    }
+    
+     
+    </script>
+  <body >
     <%- body %>
 
-
-
+    <div id="ouput"></div>
+    <div id="layout"></div>
     <!--
         Client-side Templates
         ========================
@@ -59,6 +98,7 @@
     -->
 
     <!--TEMPLATES-->
+    
     <!--TEMPLATES END-->
 
 
@@ -84,8 +124,14 @@
           + Use a different preprocessor, like TypeScript
 
     -->
-
+    <script src="/js/lib/jquery-3.1.1.min.js"></script>
     <!--SCRIPTS-->
+    <script src="/js/dependencies/sails.io.js"></script>
+    <script src="/js/bundel.js"></script>
+    <script src="/js/lib/bootstrap.min.js"></script>
+    <script src="/js/lib/jquery-3.1.1.min.js"></script>
+    <script src="/js/lib/jquery.min.js"></script>
+    <script src="/js/notifipopup.js"></script>
     <!--SCRIPTS END-->
   </body>
 </html>

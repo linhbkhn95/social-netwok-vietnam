@@ -1,0 +1,11 @@
+@media (min-width: 1200px){
+    .container {
+        max-width: 863px
+    }
+}
+@media (min-width: 768px){
+.navbar-right {
+    float: right!important;
+    margin-right: -15px;
+    font-size: 20px;
+}
