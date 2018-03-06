@@ -52,6 +52,13 @@ import {connect} from 'react-redux'
                           <NavItem eventKey={2} href="#">
                               <i className="fa fa-bell-o" aria-hidden="true"></i>
                           </NavItem>
+                           <NavDropdown eventKey={3}  id="basic-nav-dropdown">
+                            <MenuItem eventKey={3.1}>Cài đặt</MenuItem>
+                            {/* <MenuItem eventKey={3.1}></MenuItem>
+                            <MenuItem divider /> */}
+                            <MenuItem eventKey={3.2}>Đăng xuất</MenuItem>
+                          </NavDropdown>
+                          
                         </Nav>
                       </Navbar.Collapse>
                     </Navbar>;
