@@ -8,7 +8,7 @@ var {Provider} = require('react-redux');
 var store = require('app/store.js');
 var Test =require('app/components/Test.js');
 var Layout = require('app/components/Layout.js');
- var Home = require('app/components/pages/home/Home.js');
+ var Home = require('app/components/pages/wall/Wall.js');
 var Login = require('app/components/pages/login/Login.js');
 var ShopCart = require('app/components/pages/shopcart/ShopCart.js');
 var ShopMK = require('app/components/pages/shopMK/ShopMK.js');
@@ -51,12 +51,7 @@ if(localStorage.jwToken){
                    <Switch>
                        
                       <Route  exact   path="/" component={Home}/>
-                      <Route  path="/user/login" component={Login} />
-                      <Route  path="/shopCart" component={ShopCart} />
-                      <Route  path="/shopMK" component={ShopMK} />
-                      <Route path="/product/:d" component={Home} /> 
-                      <Route path="/user_shop/manager" component={UserManager}/>
-                      <Route path="/user/order/step" component={OrderStep}/>
+                       {/* <Route  exact   path="/wall" component={Home}/> */}
                       <Route render={function(){
                           return <p> not found</p>
                            }

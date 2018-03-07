@@ -14,7 +14,7 @@ class Layout extends React.Component{
                       		  <Nav />
                         </div>
                         <div className="clearfix"></div>
-                        <div className="wrapper">
+                        <div className="container jumbotron">
 		                     {this.props.children}
 		                       </div>
 		               

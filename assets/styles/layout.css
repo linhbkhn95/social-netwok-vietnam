@@ -9,3 +9,48 @@
     margin-right: -15px;
     font-size: 20px;
 }
+}
+header .dropdown-menu>li>a{
+    font-size: 12px;
+}
+.post-wall{
+    background: #1e2326;
+    color: wheat;
+    border-radius: 5px;
+}
+.question,.vote,.post-toggle{
+    float: left;
+    font-size: 16px;
+    padding:  10px ;
+    font-weight: bold;
+}
+.post-toggle{
+    float: left;
+    font-size: 16px;
+    padding:  10px 0px 10px 0px;;
+    font-weight: bold;
+}
+.btn-post{
+    float: right;
+    padding: 10px 0px 10px 0px;
+    font-size: 16px;
+}
+ .post-toggle .react-toggle--checked .react-toggle-thumb {
+    left: 30px;
+}
+.post-toggle .react-toggle-thumb{
+    width: 20px;
+    height: 18px;
+}
+.post-toggle .react-toggle-track{
+    height: 20px;
+}
+.post-toggle .text-toggle{
+    font-size: 11px;
+}
+.jumbotron{
+    background: black;
+}
+body{
+    background: black
+}
