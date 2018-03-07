@@ -28,6 +28,18 @@ if(localStorage.jwToken){
   store.dispatch(setCurrentUser(jwtDecode(localStorage.jwToken)));
   
 }
+import {cyan500} from 'material-ui/styles/colors';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import getMuiTheme from 'material-ui/styles/getMuiTheme';
+const muiTheme = getMuiTheme({
+  palette: {
+    textColor: cyan500,
+  },
+  appBar: {
+    height: 50,
+  },
+});
  class App extends React.Component{
  
 // require('style-loader!css-loader!foundation-sites/dist/css/foundation.min.css');
@@ -39,7 +51,7 @@ if(localStorage.jwToken){
 
      render(){
         return(
-        
+          <MuiThemeProvider muiTheme={muiTheme}>
              <Provider store={store}>
               <Router>
                   
@@ -62,7 +74,7 @@ if(localStorage.jwToken){
              </Router>
              </Provider>
         
-     
+            </MuiThemeProvider>
     )
   }
 }
