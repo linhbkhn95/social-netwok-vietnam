@@ -4,22 +4,14 @@ import {login} from 'app/action/actionUserName';
 import {withRouter} from 'react-router-dom'
 import Product from 'app/utils/Product.js'
 import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect} from 'react-router-dom';
+import Wall from './components/home/Home'
 class shopMK extends React.Component{
     constructor(props) {
         super(props);
     
         this.state = {
           data:[
-            {src:"product1.jpg",name:"Thìa Thay Thế",priceSale:"75,000",pre:"90,000"},
-            {src:"product2.jpg",name:"Hút Mũi Cana",priceSale:"75,000",pre:"90,000"},
-            {src:"product3.jpg",name:"Ty Giả",priceSale:"75,000",pre:"90,000"},
-            {src:"product4.jpg",name:"Vòi phun nước",priceSale:"75,000",pre:"90,000"},
-            {src:"product5.jpg",name:"Thìa Vét",priceSale:"75,000",pre:"90,000"},
-            {src:"product1.jpg",name:"Thìa Thay Thế",priceSale:"75,000",pre:"90,000"},
-            {src:"product2.jpg",name:"Hút Mũi Cana",priceSale:"75,000",pre:"90,000"},
-            {src:"product3.jpg",name:"Ty Giả",priceSale:"75,000",pre:"90,000"},
-            {src:"product4.jpg",name:"Vòi phun nước",priceSale:"75,000",pre:"90,000"},
-            {src:"product5.jpg",name:"Thìa Vét",priceSale:"75,000",pre:"90,000"}
+           
           ]
         };
       }
@@ -38,7 +30,7 @@ class shopMK extends React.Component{
                             <section id="user_main">
                                  <div className="col-md-12">
                                       <div className="home-user">
-                                        <div className="banner" style={{background:"url('https://moki.vn/files/avatar/cover_image_278_1475636648.jpg')", backgroundSize: "cover"}}>
+                                        <div className="banner" style={{background:"url('https://scontent.fhan3-2.fna.fbcdn.net/v/t31.0-8/c0.448.1537.568/1614137_218415011690269_629967604_o.jpg?_nc_cat=0&oh=a500ee40dc7a32385b873ce4eb47555e&oe=5B729458')", backgroundSize: "cover"}}>
                                                 <div className="background-cover">
                                                 </div>
                                                 <div className="link-share visible-xs">
@@ -58,11 +50,11 @@ class shopMK extends React.Component{
                                         <div className="bt-info">
                                             <div className="img-left">
                                                 <div className="avatar-user">
-                                                                            <div className="img-thumbnail itemImage" style={{backgroundImage: "url(https://moki.vn/files/avatar/avatar_5389_1471401404.jpg)"}}></div>
+                                                                            <div className="img-thumbnail itemImage" style={{backgroundImage: "url(https://scontent.fhan3-2.fna.fbcdn.net/v/t1.0-1/p240x240/16602731_581627045369062_8014670435340144193_n.jpg?_nc_cat=0&oh=3504a0fac397d0db0a14d28a96895dbb&oe=5B3BED13)"}}></div>
                                                                     </div>
                                             </div>
                                             <div className="name-user">
-                                                MK Shop            </div>
+                                              Trịnh Đức Bảo Linh         </div>
                                         </div>
                                         <div className="box-title hidden-xs">
                                             <div className="content-right">
@@ -70,22 +62,29 @@ class shopMK extends React.Component{
                                                     <li>
                                                         <p>
                                                             <span className="color-title">
-                                                                <i className="fa fa-shopping-bag"></i> Sản phẩm :
+                                                            <i className="fa fa-paper-plane" aria-hidden="true"></i>Bài đăng :
                                                             </span> 
-                                                            <span className="total_product">
-                                                                326                            </span>
-                                                        </p>
-                                                    </li>
-                                                    <li>
-                                                        <p>
-                                                            <span className="color-title"><i className="fa fa-shopping-bag"></i> Người theo dõi:</span> 
                                                             <span className="total_product">
                                                                 20                            </span>
                                                         </p>
                                                     </li>
                                                     <li>
                                                         <p>
-                                                            <span className="color-title"><i className="fa fa-shopping-bag"></i> Đánh giá :</span> 
+                                                            <span className="color-title"><i className="fa fa-users" aria-hidden="true"></i> Bạn bè:</span> 
+                                                            <span className="total_product">
+                                                                20                            </span>
+                                                        </p>
+                                                    </li>
+                                                    <li>
+                                                        <p>
+                                                            <span className="color-title"><i className="fa fa-id-card-o" aria-hidden="true"></i> Người theo dõi:</span> 
+                                                            <span className="total_product">
+                                                                20                            </span>
+                                                        </p>
+                                                    </li>
+                                                    <li>
+                                                        <p>
+                                                            <span className="color-title"><i className="fa fa-commenting" aria-hidden="true"></i> Bình luận :</span> 
                                                             <span className="total_product">
                                                                 31                            </span>
                                                         </p>
@@ -120,7 +119,7 @@ class shopMK extends React.Component{
                                                             <tbody><tr>
                                                                     <td>
                                                                         <span className="color-title">
-                                                                            <i className="fa fa-shopping-bag"></i> Số sản phẩm
+                                                                            <i className="fa fa-shopping-bag"></i> Bài đăng
                                                                         </span> 
                                                                     </td>
                                                                     <td>
@@ -179,13 +178,13 @@ class shopMK extends React.Component{
                                                                 <tr className="visible-xs">
                                                                     <td colSpan="2">
                                                                         <span className="status">
-                                                                            Shop chuyên bán hàng cho mẹ và bé. Các SP đều được nhập chính hãng, có nguồn gốc xuất xứ rõ ràng nên các mom yên tâm nhé. Shop luôn sẵn sàng tư vấn nhiệt tình, vui lòng khách đến, vừa lòng khách đi. RẤT HÂN HẠNH ĐƯỢC PHỤC VỤ                                            </span>
+                                                                           Vui vẻ, hòa đồng...                                </span>
                                                                     </td>
                                                                 </tr>
                                                             </tbody></table>
                                                         </div>
                                                         <div className="left-list">
-                                                            <h3 className="text-box">Đánh giá gần đây</h3>
+                                                            <h3 className="text-box">Bình luận gần đây</h3>
                                                             <aside>
                                                                 <div className="comment">
                                                                 <div className="item">
@@ -209,40 +208,9 @@ class shopMK extends React.Component{
                                         
                                         
                                                  </div> 
-                                                 <div className="col-md-9">
-                                                    <div className="status-user hidden-xs">
-                                                            <div className="text-status">
-                                                                Shop chuyên bán hàng cho mẹ và bé. Các SP đều được nhập chính hãng, có nguồn gốc xuất xứ rõ ràng nên các mom yên tâm nhé. Shop luôn sẵn sàng tư vấn nhiệt tình, vui lòng khách đến, vừa lòng khách đi. RẤT HÂN HẠNH ĐƯỢC PHỤC V<span className="moreellipses">...</span><span className="morecontent"><span>                        </span>
-                                                                <a href="" className="readmorestatus">Đọc thêm</a>
-                                                                </span>
-                                                        </div>
-                                                    </div>
-                                                    <div className="title-product">
-                                                        <h2>Sản phẩm của shop MK Shop</h2>
-                                                        <hr />
-                                                    </div>
-                                                    <div className="product-user">
-                                                            <div className="all-product">
-                                                                <div className="product-row">
-                                                                    <section>
-                                                                        <div className="row">
-                                                                             <div className="col-md-12">
-                                                                             {
-                                                                                this.state.data.map(function(item,index){
-                                                                                    return(
-                                                                                        <div key={index} style={{width:"33%",float:"left"}}>
-                                                                                        <Product  src={"../../images/"+item.src} name={item.name} priceSale={item.priceSale} pre={item.pre}  />
-                                                                                        </div>
-                                                                                    )
-
-                                                                                })
-                                                                              }
-                                                                             </div>
-                                                                        </div>
-                                                                    </section>
-                                                                </div>
-                                                            </div>
-                                                    </div>
+                                                 <div style={{paddingLeft:"0px"}} className="col-md-9">
+                                                   
+                                                    <Wall />
                                                  </div>
                                               
                                             </div>

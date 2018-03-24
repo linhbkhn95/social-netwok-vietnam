@@ -64,6 +64,8 @@ const muiTheme = getMuiTheme({
                        
                       <Route  exact   path="/" component={UserManager}/>
                       <Route     path="/wall" component={Home}/>
+                      <Route  path="/userpage" component={ShopMK} />
+
                        {/* <Route  exact   path="/wall" component={Home}/> */}
                       <Route render={function(){
                           return <p> not found</p>
