@@ -5,7 +5,9 @@ module.exports={
   entry:[
       //   'script!jquery/dist/jquery.min.js',
       // 'script!foundation-sites/dist/js/foundation.min.js',
+      'babel-polyfill',
       'app/index.js'
+
   ],
   output:{
      path:__dirname,

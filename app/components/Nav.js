@@ -11,12 +11,12 @@ import {connect} from 'react-redux'
 
     return (
          
-          <header>
+          <header className="header">
              
                     <Navbar fixedTop={true} inverse collapseOnSelect>
                       <Navbar.Header>
                         <Navbar.Brand>
-                          <a href="#brand">Tâm sự cùng người lạ</a>
+                          <a className="title-web" href="#brand">Tâm sự cùng người lạ</a>
                         </Navbar.Brand>
                         <Navbar.Toggle />
                       </Navbar.Header>
@@ -36,10 +36,19 @@ import {connect} from 'react-redux'
                         </Nav>
                         <Nav pullRight>
                          <NavItem eventKey={2} href="#">
-                              <i className="fa fa-user" aria-hidden="true"></i>
+                         <div className="user-avatar">
+                            <img className="img-user" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" />
+                        </div>
+                        <div style={{float:"left"}} className="">
+                            <div className="user-name">
+                                Linh td
+                            </div>
+                          
+                        </div>
+                         {/* <i className="fa fa-user" aria-hidden="true"></i> */}
                           </NavItem>
                         
-                          <NavItem eventKey={2} href="#">
+                          <NavItem style={{clear:""}} eventKey={2} href="#">
                                  <i className="fa fa-user-plus" aria-hidden="true"></i>                   
                          </NavItem>
                          <NavItem eventKey={1} href="#">

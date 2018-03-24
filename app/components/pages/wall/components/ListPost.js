@@ -1,7 +1,9 @@
 import React from 'react';
-import {NavLink} from 'react-router-dom';
+import {NavLink,Route} from 'react-router-dom';
 import ListPostNew from './components/ListPostNew'
+import ListDiscover from './components/ListDiscover'
 import HeaderListPost from './components/HeaderListPost'
+import Layout from './Layout'
 class ListPost extends React.Component{
   constructor(props){
         super(props)
@@ -20,8 +22,17 @@ class ListPost extends React.Component{
      return(
 
         <div className="col-md-12 list-post " >
-             <HeaderListPost />
-             <ListPostNew />
+             <Layout>
+                            {/* <Route exact path="/user_shop/manager" render={() => (
+                                    <h3>Please select a topic.</h3>
+                                    )}/> */}
+                              <Route exact path="/wall/newpost" component={ListPostNew} />
+                              <Route path="/wall/discover" component={ListDiscover} />
+                            
+                                 
+                        
+             </Layout>
+             {/* <ListPostNew /> */}
         </div>
      )
   }

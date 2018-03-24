@@ -4,12 +4,14 @@ import {NavLink} from 'react-router-dom';
 import Toggle from 'react-toggle'
 import "react-toggle/style.css"
 
-
+import ModalPost from './components/ModalPost'
 class HeaderPost extends React.Component{
   constructor(props){
         super(props)
         this.state={
-              toggle:true
+              toggle:true,
+              showModalPost:false,
+              onBlur:false
         }
   }
   onChange(event){
@@ -19,7 +21,29 @@ class HeaderPost extends React.Component{
       else
              this.setState({toggle:false})
   }
+  showModalPost(){
+   
+             this.setState({showModalPost:true})
+      
+  }
+  closeModal(){
+       this.setState({showModalPost:false})
+
+  }
+  onFocus(){
+      this.setState({showModalPost:true})
+  }
+  onBlur(){
+    
+      this.setState({onBlur:true})
+
+  }
+  access(){
+    this.setState({showModalPost:false})
+
+  }
   render(){
+        
      return(
 
         <div className="col-md-12 post-wall " >
@@ -36,7 +60,7 @@ class HeaderPost extends React.Component{
               </div>
 
               <div className="col-md-12 input-post">
-                    <input className="form-control" type="text" />
+                   <input  placeholder="Bạn đang nghĩ gì ?"   className="form-control" type="text" />
               </div>     
               
               <div className="col-md-12">
@@ -47,11 +71,12 @@ class HeaderPost extends React.Component{
                         onChange={this.onChange.bind(this)} /> 
                         < i className="text-toggle">Tâm sự ẩn danh</i>
                    </div>
-                   <div className="btn-post">
-                           <i className="fa fa-paper-plane" aria-hidden="true"></i> Đăng
+                   <div onClick={this.showModalPost.bind(this)} className="btn-post">
+                           <i  className="fa fa-paper-plane" aria-hidden="true"></i> Đăng
                    </div>
 
               </div>
+              <ModalPost access={this.access.bind(this)} show={this.state.showModalPost} onHide={this.closeModal.bind(this)} />
         </div>
      )
   }
