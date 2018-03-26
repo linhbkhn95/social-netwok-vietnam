@@ -90,6 +90,18 @@ section#user_main div.home-user .group-head .box-title .content-right {
     width: 85%;
     float: left;
 }
+section#user_main div.home-user .group-head .box-title .content-right li a{
+    text-decoration: none;
+    color: #525155
+}
+section#user_main div.home-user .group-head .box-title .content-right li a:hover{
+   
+    /* color: rgb(23, 138, 57) */
+}
+section#user_main div.home-user .group-head .box-title .content-right li a i{
+   
+  margin-right: 3px !important;
+}
 section#user_main div.home-user .group-head .box-title .content-right ul {
     float: left;
     list-style: none;
@@ -99,6 +111,8 @@ section#user_main div.home-user .group-head .box-title .content-right ul {
 section#user_main div.home-user .group-head .box-title .content-right ul li {
     float: left;
     padding: 10px 10px 10px 10px;
+    border-right: 1px solid #ebe8e8;
+
 
 }
 section#user_main div.home-user .group-head .box-title .content-right ul li p {
@@ -109,8 +123,9 @@ section#user_main div.home-user .group-head .box-title .content-right ul li p sp
     font-weight: bold;
 }
 section#user_main div.home-user .group-head .box-title .content-right ul li p span.total_product {
-    color: #f05077;
-    font-size: 14px;
+    color: #b0aeae;
+    font-size: 12px;
+    padding-left: 1px;
 }
 section#user_main div.home-user .group-head .box-title .content-right ul li div.link-share {
     float: right;
@@ -256,4 +271,43 @@ section#user_main div.content-main div.products-user {
 .content-right p{
     font-size: 14px;
     padding:8px 0px !important
+}
+section#user_main div.content-main .head{
+    border-bottom: 1px solid #dcdcdd;
+    padding-bottom: 5px;
+}
+/* .item-friend{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+} */
+.number-friend-middle{
+    font-size: 12px;
+    /* padding-left: 7px; */
+    color: #90949c;
+}
+.name-user{
+    font-weight: bold;
+    color: #19ab27;
+}
+.info-user{
+    padding: 32px 0px 21px 8px;
+    height: 100px;
+    display: inline-block;
+
+}
+.item-friend{
+    border: 1px solid #f6f0f0;
+    padding: 0px;
+}
+.info-user .btn{
+    padding: 3px 11px;
+    font-size: 12px
+}
+.info-user .dropdown-menu{
+    font-size: 12px;
+
+}
+.info-user .dropdown-menu .divider{
+    margin: 6px 0px;
 }

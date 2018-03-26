@@ -19,10 +19,11 @@ header .dropdown-menu>li>a{
     font-size: 12px;
 }
 .post-wall{
-    background: #080808;
-    /* color: wheat; */
-    color: #f5f5f5;
+    background: #ffffff;
+    color: #333;
+    /* color: #f5f5f5; */
     border-radius: 5px;
+    margin: 5px 0px 5px 0px;
 }
 .question,.vote,.post-toggle{
     float: left;

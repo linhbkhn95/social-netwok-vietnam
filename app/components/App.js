@@ -6,16 +6,16 @@ import {BrowserRouter as Router,Route,Switch,Ridirect,hashHistory,Redirect,NavLi
 var {Provider} = require('react-redux');
 
 var store = require('app/store.js');
-var Test =require('app/components/Test.js');
+// var Test =require('app/components/Test.js');
 var Layout = require('app/components/Layout.js');
  var Home = require('app/components/pages/wall/Wall.js');
 var Login = require('app/components/pages/login/Login.js');
-var ShopCart = require('app/components/pages/shopcart/ShopCart.js');
-var ShopMK = require('app/components/pages/shopMK/ShopMK.js');
+// var ShopCart = require('app/components/pages/shopcart/ShopCart.js');
+import UserPage from 'app/components/pages/userpage/UserPage.js';
 var UserManager = require('app/components/pages/usershopmanager/UserManager.js');
 
-import OrderStep from  'app/components/pages/shopcart/OrderStep.js';
-import DetailProduct from 'app/utils/DetailProduct.js';
+// import OrderStep from  'app/components/pages/shopcart/OrderStep.js';
+// import DetailProduct from 'app/utils/DetailProduct.js';
 import jwt from 'jsonwebtoken';
 import jwtDecode from 'jwt-decode';
 import setAuthorizationToken from 'app/utils/setAuthorizationToken.js';
@@ -64,7 +64,7 @@ const muiTheme = getMuiTheme({
                        
                       <Route  exact   path="/" component={UserManager}/>
                       <Route     path="/wall" component={Home}/>
-                      <Route  path="/userpage" component={ShopMK} />
+                      <Route  path="/userpage" component={UserPage} />
 
                        {/* <Route  exact   path="/wall" component={Home}/> */}
                       <Route render={function(){
