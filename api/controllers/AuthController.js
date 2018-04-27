@@ -5,35 +5,37 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 
+ 
 module.exports = {
     'index': function (req, res) {
-        var phone = req.param('phone');
+        var username = req.param('username');
         var password = req.param('password');
-        console.log(phone + password);
+        console.log(username + password);
 
-        if (!phone || !password) {
-          return res.json(401, {err: 'phone and password required'});
+        if (!username || !password) {
+          return res.json(401, {err: 'username and password required'});
         }
 
-        User.findOne({phone: phone}, function (err, user) {
+        User.findOne({username: username}, function (err, user) {
           if (!user) {
-            console.log(phone);
-            return res.json(401, {err: 'invalid phone or password'});
+           return  res.send(OutputInterface.errServer('Không tìm thấy user'))
+
           }
 
           User.comparePassword(password, user, function (err, valid) {
             if (err) {
-              return res.json(403, {err: 'forbidden'});
+              res.send(OutputInterface.errServer('Lỗi hệ thống'))
+
             }
 
             if (!valid) {
-              return res.json(401, {err: 'invalid phone or password'});
+              return res.send(OutputInterface.errServer('Mật khẩu không chính xác'))
+
             } else {
-            
-              res.json({
+              return res.send(OutputInterface.success({
                 user: user,
-                token: jwToken.issue({id : user.id,username:user.name })
-              });
+                token: jwToken.issue({id : user.id,username:user.fullname })
+              }))
             }
           });
         })

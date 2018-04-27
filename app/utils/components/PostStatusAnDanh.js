@@ -10,7 +10,9 @@ class Post extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            displayListComment:false
+            displayListComment:false,
+            texRepComment:'',
+            listRepComment:[]
         }
     }
     comment(){
@@ -34,12 +36,26 @@ class Post extends React.Component{
             })
         }
     }
+    repComment(e){
+        e.preventDefault();
+        console.log(this.state.texRepComment)
+        let comment ={}
+        comment.text = this.state.texRepComment
+        comment.time = Date.now()
+        this.state.listRepComment.push(comment)
+        this.setState({listRepComment:this.state.listRepComment,texRepComment:''})
+     
+    }
+    onChangeTextRepComment(e){
+        this.setState({texRepComment:e.target.value})
+    }
     render(){
         return(
-            <div style={{    marginBottom: "20px"}} className="col-md-12">
+            <div  className="col-md-12 post-status">
                 <article className="post"> 
                     <header>
-                      <h2> {this.props.title} </h2>
+                      <div className="pull-left title-post"><i className="fa fa-header" aria-hidden="true"></i> {this.props.title} </div>
+                        <div>  <div className="pull-right title-post"><i style={{marginRight:"3px"}} className="fa fa-flag-o" aria-hidden="true"></i>Tình yêu</div></div>
                     </header>
                     <div className="user-answer">
                         <div className="user-avatar">
@@ -57,31 +73,54 @@ class Post extends React.Component{
                      <div className="content-asw">
                             {this.props.content}
                      </div>
-                     <div className="footer-post">
+                     <div className="footer-post row">
                          <div className="btn-footer-post btn-heart">
-                            15  <i onClick={this.like.bind(this)} className="fa fa-heart-o" aria-hidden="true"></i>
+                            15  <i  style={{marginRight:"3px"}} onClick={this.like.bind(this)} className="fa fa-heart-o" aria-hidden="true"></i> Thích
                          </div>
-                         <div className="btn-footer-post btn-comment">
-                           22 <i onClick={this.comment.bind(this)} className="fa fa-comment-o" aria-hidden="true"></i>
+                         <div onClick={this.comment.bind(this)} className="btn-footer-post btn-comment">
+                           22 <i  style={{marginRight:"3px"}}  className="fa fa-comment-o" aria-hidden="true"></i>Bình luận
                          </div>
                          <div className="btn-footer-post btn-share">
-                          5 <i onClick={this.share.bind(this)} className="fa fa-share" aria-hidden="true"></i>
+                          5 <i style={{marginRight:"3px"}} onClick={this.share.bind(this)} className="fa fa-share" aria-hidden="true"></i>Chia sẻ
                         </div>
                          <div className="btn-more">
                        
-                         <NavDropdown eventKey={3}  id="basic-nav-dropdown">
+                         <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
                             <MenuItem  onClick={this.deletePost.bind(this)} eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bài đăng</MenuItem>
                             {/* <MenuItem eventKey={3.1}></MenuItem>
                             <MenuItem divider /> */}
                             <MenuItem eventKey={3.2}><i style={{marginRight:"10px"}}  className="fa fa-minus" aria-hidden="true"></i>
 Ẩn bài đăng</MenuItem>
                           </NavDropdown>
-                           <i>Xem thêm </i>
+                           <i >Xem thêm </i>
                          </div>
                      </div>
-                     <div style={{display:this.state.displayListComment?"block":"none"}} className="list-comment">
-                         <div>
-                          <input type="text" className="form-control" />
+                     <div style={{display:this.state.displayListComment?"block":"none"}} className="list-comment row">
+                         
+                          <div className="col-md-12 post-repcomment">
+                            {this.state.listRepComment.length>0?this.state.listRepComment.map((comment,index)=>{
+                                return(
+                                  <div key={index}>
+                                    <img className="img-user" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" />
+                                    
+                                    <div className="col-md-11">
+                                         <div className="text-rep"><span style={{    color:" #b2b2bb"}} className="">Linhtd </span>{comment.text}</div>
+                                         <div className="time">
+                                            <p className="">{moment(comment.time).lang('vi').fromNow()}</p>
+                                        </div>
+                                    </div>
+                                 </div>
+                                )
+                            }):null}
+                             
+                              
+                          </div>
+                          <div className="col-md-12 post-repcomment">
+                      
+                            <img className="img-user" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" />
+                     
+                          <div className="col-md-11">
+                              <form onSubmit={this.repComment.bind(this)}> <input value={this.state.texRepComment} onChange={this.onChangeTextRepComment.bind(this)} placeholder="Viết bình luận ..." type="text" className="form-control input-repcomment" /></form></div>
                         </div>
                          <div>
                          </div>

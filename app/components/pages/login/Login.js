@@ -28,39 +28,29 @@ class Login extends React.Component{
 
       var that =this;
        var {dispatch} = this.props;
-       var {phone, password} = this.refs;
-       console.log(phone.value);
+       var {username, password} = this.refs;
+       console.log(username.value);
    //  io.socket.get('/session/userlogin',{u:username.value}, function gotResponse(data, jwRes) {
    //     console.log('Server responded with status code ' + jwRes.statusCode + ' and data: ', data);
    //   });
-      axios.post('/auth/index', {phone: phone.value,password: password.value})
+      axios.post('/auth/index', {username: username.value,password: password.value})
        .then(res => {
          
-    //  console.log(res.data);
-         localStorage.setItem('jwToken',res.data.token);
-         setAuthorizationToken(res.data.token);
-         dispatch(setCurrentUser(jwtDecode(res.data.token)));
-       //  dispatch(showNotifi(""));
-         console.log(jwtDecode(res.data.token));
-         console.log("dang nhap ok");
-     //    console.log(that.refs.phone.getVal+' ' +that.refs.password.getValue());
-         dispatch(login(that.refs.phone.value));
-         that.props.history.push('/');
-     //   if(res.data!=null){
+        if(res.data.EC==0){
+ 
+            localStorage.setItem('jwToken',res.data.DT.token);
+            setAuthorizationToken(res.data.DT.token);
+            dispatch(setCurrentUser(jwtDecode(res.data.DT.token)));
+   
+      
+            dispatch(login(that.refs.username.value));
+            that.props.history.push('/wall');
+        }
+        else{
+            that.setState({textError:res.data.EM});
 
-     //     dispatch(login(res.data.user.email));
-     //     dispatch(authenticate());
-     //     axios.get('/session/getMenu')
-     //     .then(res => {
-     //       console.log(res.data);
-     //         dispatch(loadMenu(res.data));
-     //     })
-     //     .catch(err => console.log(err));
-     //   }
-     //   else{
-
-     //   //  dispatch(showNotifi(res.data));
-     //   }
+        }
+    
       })
      .catch(function(err){
         that.setState({textError:err.response.data.err});
@@ -72,11 +62,13 @@ class Login extends React.Component{
     render(){
         return(
             
-                <div className="row " style={{    background:"#f1f1f1"}}>    
+                <div className="row ">    
                  <div style={{marginTop:"50px"}} className="mainbox col-md-4 col-md-offset-4 col-sm-8 col-sm-offset-2">                    
                     <div className="panel panel-default" >
                             <div className="panel-heading">
-                                <div className="panel-title">Đăng nhập để vào mua bán</div>
+                                <div className="panel-title">Đăng nhập<i style={{marginLeft:"2px"}} className="fa fa-commenting" aria-hidden="true"></i>
+<i className="fa fa-question" aria-hidden="true"></i>
+ </div>
                                 <div style={{float:"right", fontSize: "80%", position: "relative", top:"-10px"}}><a href="#">Quên mật khẩu</a></div>
                             </div>     
 
@@ -88,7 +80,7 @@ class Login extends React.Component{
                                             
                                     <div style={{marginBottom: "25px"}} className="input-group">
                                                 <span className="input-group-addon"><i className="glyphicon glyphicon-user"></i></span>
-                                                <input ref="phone"  type="text" className="form-control" defaultValue="0123456789" placeholder="Nhập số điện thoại của bạn.."/>                                        
+                                                <input ref="username"  type="text" className="form-control" defaultValue="0123456789" placeholder="Nhập tên đăng nhập.."/>                                        
                                             </div>
                                         
                                     <div style={{marginBottom: "25px"}} className="input-group">
@@ -112,9 +104,10 @@ class Login extends React.Component{
                                         <div style={{marginTop:"10px"}} className="form-group">
                                         
 
-                                            <div className="col-sm-12 controls">
-                                            <a id="btn-login" onClick={this.login.bind(this)} href="#" className="btn btn-default">Đăng nhập  </a>
-                                            <a style={{marginLeft:"5px"}} id="btn-fblogin" href="#" className="btn btn-primary">Đăng nhập qua Facebook</a>
+                                            <div style={{textAlign:"center"}} className="col-sm-12 controls">
+                                            <a style={{width:"100%"}} id="btn-login" onClick={this.login.bind(this)} href="#" className="btn btn-default">Đăng nhập  </a>
+                                            <a  style={{marginTop:"5px",width:"100%"}} id="btn-fblogin" href="#" className="btn btn-primary"><i style ={{marginRight:"5px",color:"white"}} className="fa fa-facebook-official" aria-hidden="true"></i>
+Đăng nhập qua Facebook</a>
 
                                             </div>
                                         </div>

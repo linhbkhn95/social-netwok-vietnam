@@ -9,10 +9,19 @@ var bcrypt = require('bcrypt');
 module.exports = {
 
   attributes: {
-     phone:{
+     username:{
        type:'string'
      },
-     name:{
+     fullname:{
+       type:'string'
+     },
+     url_avartar:{
+       type:'string'
+     },
+     sex:{
+       type:'string'
+     },
+     url_profile:{
        type:'string'
      },
     //  adress:{

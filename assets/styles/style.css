@@ -139,3 +139,25 @@
   -moz-box-shadow: 0px 0px 5px 5px #0099E0;
   box-shadow: 0px 0px 5px 5px #0099E0;
 }
+
+.post-repcomment{
+  margin-top:20px;
+}
+.post-repcomment .input-repcomment{
+  border-radius: 50px;
+}
+.post-status{
+  padding-bottom: 20px;
+  border: 1px solid #e0e0d5;
+  padding-top: 20px;
+  /* margin-top: 20px; */
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+.title-post{
+  font-weight: bold;
+  background: #f5f5f5;
+  font-size: 14px;
+  padding: 5px;
+  border-radius: 29px;
+}
