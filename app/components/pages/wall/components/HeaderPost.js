@@ -1,8 +1,10 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
-
+import { ToastContainer, toast } from 'react-toastify';
+import Infinite  from 'react-infinite'
 import Toggle from 'react-toggle'
 import "react-toggle/style.css"
+
 
 import ModalPost from './components/ModalPost'
 class HeaderPost extends React.Component{
@@ -11,7 +13,8 @@ class HeaderPost extends React.Component{
         this.state={
               toggle:true,
               showModalPost:false,
-              onBlur:false
+              onBlur:false,
+             
         }
   }
   onChange(event){
@@ -40,10 +43,17 @@ class HeaderPost extends React.Component{
   }
   access(){
     this.setState({showModalPost:false})
-
+     console.log('ok');
+     toast.success( "Đăng bài thành công !", {
+        position: toast.POSITION.TOP_LEFT
+      });
+    //   this.props.addPost(postmodel)
   }
+
+
   render(){
-        
+ 
+
      return(
 
         <div className="col-md-12 post-wall " >
@@ -76,6 +86,8 @@ class HeaderPost extends React.Component{
                    </div>
 
               </div>
+
+     
               <ModalPost access={this.access.bind(this)} show={this.state.showModalPost} onHide={this.closeModal.bind(this)} />
         </div>
      )

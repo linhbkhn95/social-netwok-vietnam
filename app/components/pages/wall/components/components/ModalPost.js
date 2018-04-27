@@ -24,13 +24,13 @@ class ModalPost extends React.Component{
     }
     post(){
       io.socket.post('/post/postStatus',this.state.dataPost,function(resdata,jwres){
-          console.log(resdata)
+         
       })
-      this.props.access()
+       this.props.access()
     }
     render(){
       return (
-        <Modal {...this.props} bsSize="" aria-labelledby="contained-modal-title-lg">
+        <Modal {...this.props} aria-labelledby="contained-modal-title-lg">
           <Modal.Header closeButton>
             <Modal.Title id="contained-modal-title-lg">
             <div className="title-order">

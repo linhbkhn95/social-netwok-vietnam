@@ -4,6 +4,7 @@ import {NavDropdown,Navbar,NavItem,MenuItem,Nav} from 'react-bootstrap';
 var date = Date.now();
 var datedemo=151139964297
 import moment from 'moment'
+import { ToastContainer, toast } from 'react-toastify';
 
 class Post extends React.Component{
     constructor(props){
@@ -21,6 +22,17 @@ class Post extends React.Component{
     }
     share(){
         console.log('share')
+    }
+    deletePost(){
+        if(this.props.idPost){
+            io.socket.post('/post/deletePost',{idPost:this.props.idPost},function(resdata,jwres){
+                if(resdata.DT){
+                    toast.success( "Xóa bài thành công !", {
+                        position: toast.POSITION.TOP_LEFT
+                      });
+                }
+            })
+        }
     }
     render(){
         return(
@@ -58,7 +70,7 @@ class Post extends React.Component{
                          <div className="btn-more">
                        
                          <NavDropdown eventKey={3}  id="basic-nav-dropdown">
-                            <MenuItem eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bài đăng</MenuItem>
+                            <MenuItem  onClick={this.deletePost.bind(this)} eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bài đăng</MenuItem>
                             {/* <MenuItem eventKey={3.1}></MenuItem>
                             <MenuItem divider /> */}
                             <MenuItem eventKey={3.2}><i style={{marginRight:"10px"}}  className="fa fa-minus" aria-hidden="true"></i>

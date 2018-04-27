@@ -4,6 +4,8 @@ var Nav = require('./Nav.js');
 var Menu = require('./Menu.js');
 var React = require('react');
 var {connect} = require('react-redux');
+import { ToastContainer, toast } from 'react-toastify';
+
 class Layout extends React.Component{
        render(){
         
@@ -17,7 +19,8 @@ class Layout extends React.Component{
                         <div className="container jumbotron">
 		                     {this.props.children}
 		                       </div>
-		               
+                           <ToastContainer />
+
                </div>
 
          )
