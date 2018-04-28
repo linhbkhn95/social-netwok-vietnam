@@ -186,6 +186,7 @@
     border-bottom: 1px solid #f3eded;
     padding: 10px 0px 10px 0px;
     margin-bottom: 5px;
+    clear: both;
     /* margin-top: -15px; */
 }
 .text-rep .pull-right li{

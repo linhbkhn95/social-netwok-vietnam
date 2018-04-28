@@ -1,103 +1,45 @@
 import React from 'react';
 import {NavDropdown,Navbar,NavItem,MenuItem,Nav} from 'react-bootstrap';
-
+import {convertComment} from '../ConvertComment'
 var date = Date.now();
 var datedemo=151139964297
 import moment from 'moment'
 import { ToastContainer, toast } from 'react-toastify';
-function renderActive(data) {
-  
-    if (data.listRepComment&&data.listRepComment.length>0) {
-      // console.log("GroupMenu = " + data.GroupMenu)
-      let classMenu = ""
-      if(data.PRID){
-        classMenu="dropdown-submenu"
-      }
-      // console.log(data,language)
-      return (
-        
-       
-        
-        <div className="comment-item panel-body">
-           <img className="img-user" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" />
-           
-           <div className="col-md-11">
-               <div className="text-rep"><span style={{    color:" #b2b2bb"}} className="">
-                    Linhtd </span>{data.texRepComment}
-                    <div className="pull-right">
-                       
-                       <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
-                          <MenuItem  eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bài đăng</MenuItem>
-                          {/* <MenuItem eventKey={3.1}></MenuItem>
-                          <MenuItem divider /> */}
-                          <MenuItem eventKey={3.2}><i style={{marginRight:"10px"}}  className="fa fa-minus" aria-hidden="true"></i>
-Ẩn bài đăng</MenuItem>
-                        </NavDropdown>
-                         
-                       </div>
-               </div>
-               <div style={{marginTop:"5px"}} className="time">
-                   <p style={{  color: "#604a50"}}>Thích</p>
-                   <p style={{  color: "#604a50"}}>Trả lời</p>
-                   <p className="">{moment(data.time).lang('vi').fromNow()}</p>
-               </div>
-           </div>
-           <div className="col-md-12 ">
 
-                       {data.listRepComment.map(c =>  (renderActive(c)))}                     
-                    <div className="img-rep-rep"> <img src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" /> </div>
-            
-                    <div style={{paddingRight:"0px",paddingLeft:"6px"}} className="col-md-11">
-                        <form > <input placeholder="Viết bình luận ..." type="text" className="form-control input-repcomment" />
-                        </form>
-                        </div>
-                        
-                    </div>
-                                
-       </div>
-         
-            
-             
-      )
-    }
-    else {
-      return  (
-        <div>
-            <div className="img-rep-rep"> <img className="" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" /> </div>
-            
-            <div className="col-md-11">
-                <div className="text-rep"><span style={{    color:" #b2b2bb"}} className="">
-                Linhtd </span>{data.texRepComment}
-                <div className="pull-right">
-                       
-                       <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
-                          <MenuItem  eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bài đăng</MenuItem>
-                          {/* <MenuItem eventKey={3.1}></MenuItem>
-                          <MenuItem divider /> */}
-                          <MenuItem eventKey={3.2}><i style={{marginRight:"10px"}}  className="fa fa-minus" aria-hidden="true"></i>
-Ẩn bài đăng</MenuItem>
-                        </NavDropdown>
-                         
-                       </div>
-                </div>
-                <div style={{marginTop:"5px"}} className="time">
-                    <p style={{  color: "#604a50"}}>Thích</p>
-                    <p style={{  color: "#604a50"}}>Trả lời</p>
-                    <p className="">{moment(data.time).lang('vi').fromNow()}</p>
-                </div>
-            </div>
-            </div>
-      ) 
-         
-                  
-    }
-  }
 class Post extends React.Component{
+   
+    componentDidMount(){
+        let self = this
+        io.socket.post('/comment/getlist_WithPostId',{postId:this.props.idPost},((resdata,jwres)=>{
+            console.log('resdata,',resdata,this.props.idPost)
+            if(resdata.EC==0){
+              self.setState({listComment:resdata.DT})
+            }
+        }))
+    }
+    componentWillMount(){
+        let self = this
+        io.socket.on('comment', function (event) {
+          
+            if (event.verb === 'created') {
+                console.log(event)
+                if(event.data.postId==self.props.idPost){
+                    self.state.listComment.push(event.data)
+                    self.setState({ listComment: self.state.listComment });
+                }
+             
+            }
+        }); 
+    }
     constructor(props){
         super(props);
         this.state = {
             displayListComment:false,
             texRepComment:'',
+            displayInputRepComment:{},
+            listComment:[
+                   
+            ],
             listRepComment:[
                 // {
                 //     texRepComment:'kkkkk',
@@ -113,15 +55,36 @@ class Post extends React.Component{
                 {
                     texRepComment:'sss',
                     time:Date.now(),
+                    id:1,
                     listRepComment:[
                         {
                         texRepComment:'mmmaaaam',
                         time:Date.now(),
+                        id:2,
                         listRepComment:[
                             {texRepComment:'ssadfafafm',
                             time:Date.now(),
-                            listRepComment:[]}
+                            id:3,
+                            listRepComment:[
+                                {texRepComment:'ssadfafafm',
+                                    time:Date.now(),
+                                    id:4,
+                                    listRepComment:[]
+                                }
+                            ]}
                         ]
+                       },
+                       {
+                        texRepComment:'mmmaaaam',
+                        time:Date.now(),
+                        id:11,
+                        listRepComment:[]
+                       },
+                       {
+                        texRepComment:'mmmaaaam',
+                        time:Date.now(),
+                        id:12,
+                        listRepComment:[]
                        }
                     ]
                 },
@@ -161,21 +124,164 @@ class Post extends React.Component{
         e.preventDefault();
         console.log(this.state.texRepComment)
         let comment ={}
-        comment.listRepComment = []
-        comment.texRepComment = this.state.texRepComment
-        comment.time = Date.now()
-        this.state.listRepComment.push(comment)
-        this.setState({listRepComment:this.state.listRepComment,texRepComment:''})
+        comment.text = this.state.texRepComment;
+        comment.postId = this.props.idPost,
+        io.socket.post('/comment/create',comment,((resdata,jwres)=>{
+            console.log('comment',resdata)
+            if(resdata.EC==0){
+                this.state.listComment.push(resdata.DT)
+                this.setState({listComment:this.state.listComment,texRepComment:''})
+            }
+            else{
+
+            }
+
+        }))
+      
      
     }
-    repToRepComment(e){
+    repToRepComment(id,e){
 
+        e.preventDefault();
+        let comment ={}
+        comment.text = this.refs[id].value
+        // comment.time = Date.now()
+        comment.parentId = id
+        comment.postId = this.props.idPost
+        // comment.id = Math.floor(Math.random()*(1000)+1)
+        io.socket.post('/comment/create',comment,((resdata,jwres)=>{
+            console.log('comment',resdata)
+            if(resdata.EC==0){
+                this.state.listComment.push(resdata.DT)
+                this.setState({listComment:this.state.listComment})
+                this.refs[id].value =''
+            }
+            else{
+
+            }
+
+        }))
+      
+     
+       
     }
     onChangeTextRepComment(e){
         this.setState({texRepComment:e.target.value})
     }
+
+    showInputRep(id){
+        this.state.displayInputRepComment[id] = true;
+        this.setState({displayInputRepComment:this.state.displayInputRepComment})
+    }
+    renderActive(data) {
+        let self  = this ;
+        if (data.listRepComment&&data.listRepComment.length>0) {
+          // console.log("GroupMenu = " + data.GroupMenu)
+          let classMenu = ""
+          if(data.PRID){
+            classMenu="dropdown-submenu"
+          }
+          
+          // console.log(data,language)
+          return (
+            
+           
+            
+            <div key={data.id} className="comment-item panel-body">
+               <img className="img-user" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" />
+               
+               <div className="col-md-10">
+                   <div className="text-rep"><span style={{    color:" #b2b2bb"}} className="">
+                        Linhtd </span>{data.text}
+                        <div className="pull-right">
+                           
+                           <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
+                              <MenuItem  eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bài đăng</MenuItem>
+                              {/* <MenuItem eventKey={3.1}></MenuItem>
+                              <MenuItem divider /> */}
+                              <MenuItem eventKey={3.2}><i style={{marginRight:"10px"}}  className="fa fa-minus" aria-hidden="true"></i>
+    Ẩn bài đăng</MenuItem>
+                            </NavDropdown>
+                             
+                           </div>
+                   </div>
+                   <div style={{marginTop:"5px"}} className="time">
+                       <p style={{  color: "#604a50", cursor: "pointer"}}>Thích</p>
+                       <p style={{  color: "#604a50",    cursor: "pointer"}}>Trả lời</p>
+                       <p style={{float:"none"}} className="">{moment(data.time).lang('vi').fromNow()}</p>
+                   </div>
+               </div>
+               <div style={{paddingLeft:"45px"}} className="col-md-12 ">
+    
+                           {data.listRepComment.map(c =>  (self.renderActive(c)))}                     
+                        <div className="img-rep-rep"> <img src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" /> </div>
+                
+                        <div style={{paddingRight:"0px",paddingLeft:"6px"}} className="col-md-11">
+                            <form onSubmit={self.repToRepComment.bind(this,data.id)} > <input ref={data.id}  placeholder="Viết bình luận ..." type="text" className="form-control input-repcomment" />
+                            </form>
+                            </div>
+                            
+                        </div>
+                                    
+           </div>
+             
+                
+                 
+          )
+        }
+        else {
+            // console.log('data',data)
+          return  (
+            <div key={data.id}>
+                <div className="img-rep-rep"> <img className="" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" /> </div>
+                
+                <div className="col-md-11">
+                    <div className="text-rep"><span style={{    color:" #b2b2bb"}} className="">
+                    Linhtd </span>{data.text}
+                    <div className="pull-right">
+                           
+                           <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
+                              <MenuItem  eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bài đăng</MenuItem>
+                              {/* <MenuItem eventKey={3.1}></MenuItem>
+                              <MenuItem divider /> */}
+                              <MenuItem eventKey={3.2}><i style={{marginRight:"10px"}}  className="fa fa-minus" aria-hidden="true"></i>
+    Ẩn bài đăng</MenuItem>
+                            </NavDropdown>
+                             
+                           </div>
+                    </div>
+                    <div style={{marginTop:"5px"}} className="time">
+                        <p style={{  color: "#604a50", cursor: "pointer"}}>Thích</p>
+                        <p onClick={self.showInputRep.bind(this,data.id)} style={{  color: "#604a50", cursor: "pointer"}}>Trả lời</p>
+                        <p className="">{moment(data.time).lang('vi').fromNow()}</p>
+                    </div>
+                </div>
+                <div style={{display:self.state.displayInputRepComment[data.id]?"block":"none",paddingLeft:"45px"}}  className="col-md-12 ">
+    
+                           {/* {data.listRepComment.map(c =>  (self.renderActive(c)))}                      */}
+                        <div className="img-rep-rep"> <img src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" /> </div>
+                
+                        <div style={{paddingRight:"0px",paddingLeft:"6px"}} className="col-md-11">
+                            <form onSubmit={self.repToRepComment.bind(this,data.id)} > <input ref={data.id}  placeholder="Viết bình luận ..." type="text" className="form-control input-repcomment" />
+                            </form>
+                            </div>
+                            
+                        </div>
+                </div>
+          ) 
+             
+                      
+        }
+      }
     render(){
         let self = this;
+        var listComment =convertComment(this.state.listComment, {
+            idKey: 'id',
+            parentKey: 'parentId',
+            childrenKey: 'listRepComment'
+          });
+
+        // console.log('listComment',listComment)
         return(
             <div  className="col-md-12 post-status">
                 <article className="post"> 
@@ -212,7 +318,7 @@ class Post extends React.Component{
                          <div className="btn-more">
                        
                          <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
-                            <MenuItem  onClick={this.deletePost.bind(this)} eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bài đăng</MenuItem>
+                            <MenuItem  onClick={this.deletePost.bind(this,this.props.id)} eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bài đăng</MenuItem>
                             {/* <MenuItem eventKey={3.1}></MenuItem>
                             <MenuItem divider /> */}
                             <MenuItem eventKey={3.2}><i style={{marginRight:"10px"}}  className="fa fa-minus" aria-hidden="true"></i>
@@ -262,7 +368,7 @@ class Post extends React.Component{
                                 )
                             }):null}
                               */}
-                             {this.state.listRepComment.map(c => renderActive(c))}
+                             {listComment.map(c => self.renderActive(c))}
                           </div>
                           <div className="col-md-12 post-repcomment">
                       
