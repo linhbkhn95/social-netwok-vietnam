@@ -5,7 +5,7 @@ var date = Date.now();
 var datedemo=151139964297
 import moment from 'moment'
 import { ToastContainer, toast } from 'react-toastify';
-
+import {connect} from 'react-redux'
 class Post extends React.Component{
    
     componentDidMount(){
@@ -214,7 +214,7 @@ class Post extends React.Component{
                <div style={{paddingLeft:"45px"}} className="col-md-12 ">
     
                            {data.listRepComment.map(c =>  (self.renderActive(c)))}                     
-                        <div className="img-rep-rep"> <img src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" /> </div>
+                        <div className="img-rep-rep"> <img src={self.props.auth.user.url_avatar} /> </div>
                 
                         <div style={{paddingRight:"0px",paddingLeft:"6px"}} className="col-md-11">
                             <form onSubmit={self.repToRepComment.bind(this,data.id)} > <input ref={data.id}  placeholder="Viết bình luận ..." type="text" className="form-control input-repcomment" />
@@ -233,7 +233,7 @@ class Post extends React.Component{
             // console.log('data',data)
           return  (
             <div key={data.id}>
-                <div className="img-rep-rep"> <img className="" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" /> </div>
+                <div className="img-rep-rep"> <img className="" src={self.props.auth.user.url_avatar} /> </div>
                 
                 <div className="col-md-11">
                     <div className="text-rep"><span style={{    color:" #b2b2bb"}} className="">
@@ -259,7 +259,7 @@ class Post extends React.Component{
                 <div style={{display:self.state.displayInputRepComment[data.id]?"block":"none",paddingLeft:"45px"}}  className="col-md-12 ">
     
                            {/* {data.listRepComment.map(c =>  (self.renderActive(c)))}                      */}
-                        <div className="img-rep-rep"> <img src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" /> </div>
+                        <div className="img-rep-rep"> <img src={self.props.auth.user.url_avatar} /> </div>
                 
                         <div style={{paddingRight:"0px",paddingLeft:"6px"}} className="col-md-11">
                             <form onSubmit={self.repToRepComment.bind(this,data.id)} > <input ref={data.id}  placeholder="Viết bình luận ..." type="text" className="form-control input-repcomment" />
@@ -291,11 +291,12 @@ class Post extends React.Component{
                     </header>
                     <div className="user-answer">
                         <div className="user-avatar">
-                            <img className="img-user" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" />
+                            <img className="img-user" src={this.props.auth.user.url_avatar} />
                         </div>
                         <div className="user-detail">
                             <div className="user-name">
-                                Trịnh Đức Bảo Linh
+                            {this.props.auth.user.fullname?this.props.auth.user.fullname:this.props.auth.user.username}
+
                             </div>
                             <div className="time">
                                   <p className="">{moment(this.props.time).lang('vi').fromNow()}</p>
@@ -310,7 +311,7 @@ class Post extends React.Component{
                             15  <i  style={{marginRight:"3px"}} onClick={this.like.bind(this)} className="fa fa-heart-o" aria-hidden="true"></i> Thích
                          </div>
                          <div onClick={this.comment.bind(this)} className="btn-footer-post btn-comment">
-                           22 <i  style={{marginRight:"3px"}}  className="fa fa-comment-o" aria-hidden="true"></i>Bình luận
+                           {this.state.listComment.length} <i  style={{marginRight:"3px"}}  className="fa fa-comment-o" aria-hidden="true"></i>Bình luận
                          </div>
                          <div className="btn-footer-post btn-share">
                           5 <i style={{marginRight:"3px"}} onClick={this.share.bind(this)} className="fa fa-share" aria-hidden="true"></i>Chia sẻ
@@ -372,7 +373,7 @@ class Post extends React.Component{
                           </div>
                           <div className="col-md-12 post-repcomment">
                       
-                            <img className="img-user" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" />
+                            <img className="img-user" src={this.props.auth.user.url_avatar} />
                      
                           <div className="col-md-11">
                               <form onSubmit={this.repComment.bind(this)}> <input value={this.state.texRepComment} onChange={this.onChangeTextRepComment.bind(this)} placeholder="Viết bình luận ..." type="text" className="form-control input-repcomment" /></form></div>
@@ -386,4 +387,4 @@ class Post extends React.Component{
         )
     }
 }
-module.exports = Post
+module.exports = connect(function(state){return{auth:state.auth}})(Post)

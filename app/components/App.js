@@ -22,12 +22,12 @@ import setAuthorizationToken from 'app/utils/setAuthorizationToken.js';
 import {setCurrentUser} from 'app/action/authActions.js';
 
 import {logout}  from 'app/action/actionAuthenticate.js';
-if(localStorage.jwToken){
-  console.log('cssssssssssssssssssssssssssmm');
-  setAuthorizationToken(localStorage.jwToken);
-  store.dispatch(setCurrentUser(jwtDecode(localStorage.jwToken)));
+// if(localStorage.jwToken){
+//   console.log('cssssssssssssssssssssssssssmm');
+//   setAuthorizationToken(localStorage.jwToken);
+//   store.dispatch(setCurrentUser(jwtDecode(localStorage.jwToken)));
   
-}
+// }
 import {cyan500} from 'material-ui/styles/colors';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';

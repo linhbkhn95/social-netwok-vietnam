@@ -32,10 +32,13 @@ module.exports = {
               return res.send(OutputInterface.errServer('Mật khẩu không chính xác'))
 
             } else {
+              if(!user.url_avatar)
+                 user.url_avatar = '/images/user/me.png'
               req.session.user = user;
+
               return res.send(OutputInterface.success({
                 user: user,
-                token: jwToken.issue({id : user.id,username:user.fullname })
+                token: jwToken.issue({id : user.id,username:user.username,fullname:user.fullname,url_avatar:user.url_avatar })
               }))
             }
           });
@@ -57,7 +60,7 @@ module.exports = {
             let user = {...req.session.user}
             return res.send(OutputInterface.success({
               user: user,
-              token: jwToken.issue({id : user.id,username:user.fullname })
+              token: jwToken.issue({id : user.id,username:user.username,fullname:user.fullname,url_avatar:user.url_avatar })
             }))
           }
           else{

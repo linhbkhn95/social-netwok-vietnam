@@ -3,12 +3,42 @@ import {NavLink,Link} from 'react-router-dom';
 import React from 'react';
 import {NavDropdown,Navbar,NavItem,MenuItem,Nav} from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import setAuthorizationToken from 'app/utils/setAuthorizationToken.js';
+import {setCurrentUser} from 'app/action/authActions.js';
+import jwt from 'jsonwebtoken';
+import jwtDecode from 'jwt-decode';
+import axios from 'axios'
 import {connect} from 'react-redux'
   class NavContent extends React.Component {
-
+    componentDidMount(){
+      let self = this
+      let {dispatch } =this.props
+      axios.get('/auth/get_session')
+      .then((res)=>{
+         if(res.data.EC==0){
+          localStorage.setItem('jwToken',res.data.DT.token);
+          setAuthorizationToken(res.data.DT.token);
+          dispatch(setCurrentUser(jwtDecode(res.data.DT.token)));
+         }
+         else{
+          localStorage.removeItem('jwToken');
+           self.context.router.history.push('/login');
+  
+         }
+      })
+  
+  
+    //     let store = createStore(settings:{
+    //       backgroupNav:"#00bcd4",
+    //       backgroupSlideMenu:"White",
+    //       backgroupBody:"White",
+    //       colorNav:"white",
+    //       nameHeader:"WebAssitant"
+    //        }
+    //  );
+    }
   render() {
     
-
     return (
          
           <header className="header">
@@ -20,7 +50,8 @@ import {connect} from 'react-redux'
                         </Navbar.Brand>
                         <Navbar.Toggle />
                       </Navbar.Header>
-                      <Navbar.Collapse>
+                      {this.props.auth.isAuthenticated?    <Navbar.Collapse>
+                     
                         <Nav>
                           <NavItem eventKey={1} href="#">
                             Câu hỏi
@@ -37,11 +68,11 @@ import {connect} from 'react-redux'
                         <Nav pullRight>
                          <NavItem eventKey={2} href="#">
                          <div className="user-avatar">
-                            <img className="img-user" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" />
+                            <img className="img-user" src={this.props.auth.user.url_avatar} />
                         </div>
                         <div style={{float:"left"}} className="">
                             <div className="user-name">
-                                Linh td
+                                {this.props.auth.user.fullname?this.props.auth.user.fullname:this.props.auth.user.username}
                             </div>
                           
                         </div>
@@ -69,7 +100,7 @@ import {connect} from 'react-redux'
                           </NavDropdown>
                           
                         </Nav>
-                      </Navbar.Collapse>
+                      </Navbar.Collapse>:null}
                     </Navbar>;
                                 
           </header>
@@ -79,10 +110,11 @@ import {connect} from 'react-redux'
   }
 }
 
-
+NavContent.contextTypes = {
+  router: PropTypes.object.isRequired
+}
  module.exports =connect(function(state){
    return{
        auth:state.auth,
-       count :state.shoppingCart.count
    }})
   (NavContent);
