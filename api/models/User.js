@@ -52,7 +52,43 @@ module.exports = {
       })
     })
   },
+  beforeUpdate : function (values, next) {
+    if(values.password)
+      bcrypt.genSalt(10, function (err, salt) {
+        if(err) return next(err);
+        bcrypt.hash(values.password, salt, function (err, hash) {
+          if(err) return next(err);
+          values.encryptedPassword = hash;
+          next();
+        })
+      })
+    else{
+      next()
+    }
+  },
 
+  updatePassword:function(username,password,cb){
+      bcrypt.genSalt(10, function (err, salt) {
+        if(err) return cb(err);
+        bcrypt.hash(password, salt, function (err, hash) {
+          if(err) return cb(err);
+          console.log('passssnewwwwwư',hash,username)
+
+          User.update({username:username},{encryptedPassword:hash}).exec((errcode,userUpdate)=>{
+
+            if(errcode){
+             return cb(errcode)
+            }
+            console.log('useruaaapadte',userUpdate)
+
+            if(userUpdate[0]){
+              return cb(null,true)
+            }
+            return cb(errcode)
+          })
+        })
+      })
+  },
   comparePassword : function (password, user, cb) {
     bcrypt.compare(password, user.encryptedPassword, function (err, match) {
 

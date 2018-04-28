@@ -153,6 +153,7 @@
   /* margin-top: 20px; */
   margin-bottom: 20px;
   border-radius: 5px;
+  box-shadow: 0px 2px 2px 2px gainsboro
 }
 .title-post{
   font-weight: bold;
@@ -160,4 +161,33 @@
   font-size: 14px;
   padding: 5px;
   border-radius: 29px;
+}
+.img-rep-rep{
+  float: left;
+  clear: both;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* line-height: 45px; */
+    height: 33px;
+}
+.img-rep-rep img{
+  width: 25px;
+  border-radius: 50%;
+    float: left;
+    height: 25px;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+.comment-item{
+  width: 100%;
+    border-bottom: 1px solid #f3eded;
+    padding: 10px 0px 10px 0px;
+    margin-bottom: 5px;
+    /* margin-top: -15px; */
+}
+.text-rep .pull-right li{
+  list-style: none;
 }

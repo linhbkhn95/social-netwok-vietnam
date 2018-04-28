@@ -32,6 +32,7 @@ module.exports = {
               return res.send(OutputInterface.errServer('Mật khẩu không chính xác'))
 
             } else {
+              req.session.user = user;
               return res.send(OutputInterface.success({
                 user: user,
                 token: jwToken.issue({id : user.id,username:user.fullname })
@@ -39,6 +40,30 @@ module.exports = {
             }
           });
         })
+      },
+      logOut:function(req,res){
+        console.log('logout',req.session)
+          if(req.session.user){
+            delete req.session.user
+             res.send(OutputInterface.success('Đăng xuất thành công'))
+          }
+          else{
+            return res.send(OutputInterface.errServer('Chưa login'))
+          }
+      },
+       get_session :function(req,res){
+         console.log('session',req.session)
+          if(req.session.user){
+            let user = {...req.session.user}
+            return res.send(OutputInterface.success({
+              user: user,
+              token: jwToken.issue({id : user.id,username:user.fullname })
+            }))
+          }
+          else{
+           return  res.send(OutputInterface.errServer('Chưa login'))
+          }
+        
       }
 };
 

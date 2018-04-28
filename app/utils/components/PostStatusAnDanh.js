@@ -5,14 +5,135 @@ var date = Date.now();
 var datedemo=151139964297
 import moment from 'moment'
 import { ToastContainer, toast } from 'react-toastify';
+function renderActive(data) {
+  
+    if (data.listRepComment&&data.listRepComment.length>0) {
+      // console.log("GroupMenu = " + data.GroupMenu)
+      let classMenu = ""
+      if(data.PRID){
+        classMenu="dropdown-submenu"
+      }
+      // console.log(data,language)
+      return (
+        
+       
+        
+        <div className="comment-item panel-body">
+           <img className="img-user" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" />
+           
+           <div className="col-md-11">
+               <div className="text-rep"><span style={{    color:" #b2b2bb"}} className="">
+                    Linhtd </span>{data.texRepComment}
+                    <div className="pull-right">
+                       
+                       <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
+                          <MenuItem  eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bài đăng</MenuItem>
+                          {/* <MenuItem eventKey={3.1}></MenuItem>
+                          <MenuItem divider /> */}
+                          <MenuItem eventKey={3.2}><i style={{marginRight:"10px"}}  className="fa fa-minus" aria-hidden="true"></i>
+Ẩn bài đăng</MenuItem>
+                        </NavDropdown>
+                         
+                       </div>
+               </div>
+               <div style={{marginTop:"5px"}} className="time">
+                   <p style={{  color: "#604a50"}}>Thích</p>
+                   <p style={{  color: "#604a50"}}>Trả lời</p>
+                   <p className="">{moment(data.time).lang('vi').fromNow()}</p>
+               </div>
+           </div>
+           <div className="col-md-12 ">
 
+                       {data.listRepComment.map(c =>  (renderActive(c)))}                     
+                    <div className="img-rep-rep"> <img src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" /> </div>
+            
+                    <div style={{paddingRight:"0px",paddingLeft:"6px"}} className="col-md-11">
+                        <form > <input placeholder="Viết bình luận ..." type="text" className="form-control input-repcomment" />
+                        </form>
+                        </div>
+                        
+                    </div>
+                                
+       </div>
+         
+            
+             
+      )
+    }
+    else {
+      return  (
+        <div>
+            <div className="img-rep-rep"> <img className="" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" /> </div>
+            
+            <div className="col-md-11">
+                <div className="text-rep"><span style={{    color:" #b2b2bb"}} className="">
+                Linhtd </span>{data.texRepComment}
+                <div className="pull-right">
+                       
+                       <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
+                          <MenuItem  eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bài đăng</MenuItem>
+                          {/* <MenuItem eventKey={3.1}></MenuItem>
+                          <MenuItem divider /> */}
+                          <MenuItem eventKey={3.2}><i style={{marginRight:"10px"}}  className="fa fa-minus" aria-hidden="true"></i>
+Ẩn bài đăng</MenuItem>
+                        </NavDropdown>
+                         
+                       </div>
+                </div>
+                <div style={{marginTop:"5px"}} className="time">
+                    <p style={{  color: "#604a50"}}>Thích</p>
+                    <p style={{  color: "#604a50"}}>Trả lời</p>
+                    <p className="">{moment(data.time).lang('vi').fromNow()}</p>
+                </div>
+            </div>
+            </div>
+      ) 
+         
+                  
+    }
+  }
 class Post extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             displayListComment:false,
             texRepComment:'',
-            listRepComment:[]
+            listRepComment:[
+                // {
+                //     texRepComment:'kkkkk',
+                //     time:Date.now(),
+                //     listRepComment:[
+                //         {
+                //         texRepComment:'mmmm',
+                //         time:Date.now(),
+                //         listRepComment:[]
+                //        }
+                //     ]
+                // },
+                {
+                    texRepComment:'sss',
+                    time:Date.now(),
+                    listRepComment:[
+                        {
+                        texRepComment:'mmmaaaam',
+                        time:Date.now(),
+                        listRepComment:[
+                            {texRepComment:'ssadfafafm',
+                            time:Date.now(),
+                            listRepComment:[]}
+                        ]
+                       }
+                    ]
+                },
+                // {
+                //     texRepComment:'âssda',
+                //     time:Date.now(),
+                //     listRepComment:[
+                       
+                       
+                //     ]
+                // }
+            ]
         }
     }
     comment(){
@@ -40,16 +161,21 @@ class Post extends React.Component{
         e.preventDefault();
         console.log(this.state.texRepComment)
         let comment ={}
-        comment.text = this.state.texRepComment
+        comment.listRepComment = []
+        comment.texRepComment = this.state.texRepComment
         comment.time = Date.now()
         this.state.listRepComment.push(comment)
         this.setState({listRepComment:this.state.listRepComment,texRepComment:''})
      
     }
+    repToRepComment(e){
+
+    }
     onChangeTextRepComment(e){
         this.setState({texRepComment:e.target.value})
     }
     render(){
+        let self = this;
         return(
             <div  className="col-md-12 post-status">
                 <article className="post"> 
@@ -98,22 +224,45 @@ class Post extends React.Component{
                      <div style={{display:this.state.displayListComment?"block":"none"}} className="list-comment row">
                          
                           <div className="col-md-12 post-repcomment">
-                            {this.state.listRepComment.length>0?this.state.listRepComment.map((comment,index)=>{
+                            {/* {this.state.listRepComment.length>0?this.state.listRepComment.map((comment,index)=>{
                                 return(
                                   <div key={index}>
                                     <img className="img-user" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" />
                                     
                                     <div className="col-md-11">
                                          <div className="text-rep"><span style={{    color:" #b2b2bb"}} className="">Linhtd </span>{comment.text}</div>
-                                         <div className="time">
+                                         <div style={{marginTop:"5px"}} className="time">
+                                            <p style={{  color: "#604a50"}}>Thích</p>
+                                            <p style={{  color: "#604a50"}}>Trả lời</p>
                                             <p className="">{moment(comment.time).lang('vi').fromNow()}</p>
                                         </div>
                                     </div>
-                                 </div>
+                                    <div className="col-md-12 ">
+                                         <div key={index+6}>
+                                            <img className="img-user" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" />
+                                            
+                                            <div className="col-md-11">
+                                                <div className="text-rep"><span style={{    color:" #b2b2bb"}} className="">Linhtd </span>{comment.text}</div>
+                                                <div style={{marginTop:"5px"}} className="time">
+                                                    <p style={{  color: "#604a50"}}>Thích</p>
+                                                    <p style={{  color: "#604a50"}}>Trả lời</p>
+                                                    <p className="">{moment(comment.time).lang('vi').fromNow()}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                           <div className="img-rep-rep"> <img src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" /> </div>
+                                    
+                                            <div style={{paddingRight:"0px",paddingLeft:"6px"}} className="col-md-11">
+                                                <form onSubmit={this.repToRepComment.bind(this,index)}> <input value={this.state.texRepComment} onChange={this.onChangeTextRepComment.bind(this)} placeholder="Viết bình luận ..." type="text" className="form-control input-repcomment" />
+                                                </form>
+                                             </div>
+                                               
+                                            </div>
+                                   </div>
                                 )
                             }):null}
-                             
-                              
+                              */}
+                             {this.state.listRepComment.map(c => renderActive(c))}
                           </div>
                           <div className="col-md-12 post-repcomment">
                       
@@ -121,7 +270,7 @@ class Post extends React.Component{
                      
                           <div className="col-md-11">
                               <form onSubmit={this.repComment.bind(this)}> <input value={this.state.texRepComment} onChange={this.onChangeTextRepComment.bind(this)} placeholder="Viết bình luận ..." type="text" className="form-control input-repcomment" /></form></div>
-                        </div>
+                           </div>
                          <div>
                          </div>
                      </div>
