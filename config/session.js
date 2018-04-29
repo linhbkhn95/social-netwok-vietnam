@@ -11,7 +11,16 @@
  * For more information on configuring the session, check out:
  * http://sailsjs.org/#!/documentation/reference/sails.config/sails.config.session.html
  */
+var MySQLSessionStore = require('express-mysql-session');
 
+var store_options = {
+  host: 'localhost',
+  port: 3306,
+  user: 'root',
+  password: '1234',
+  database: 'webandanh'
+  }
+  
 module.exports.session = {
 
   /***************************************************************************
@@ -34,6 +43,7 @@ module.exports.session = {
   // cookie: {
   //   maxAge: 24 * 60 * 60 * 1000
   // },
+  store: new MySQLSessionStore(store_options)
 
   /***************************************************************************
   *                                                                          *

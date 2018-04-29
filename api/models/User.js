@@ -15,7 +15,7 @@ module.exports = {
      fullname:{
        type:'string'
      },
-     url_avartar:{
+     url_avatar:{
        type:'string'
      },
      sex:{

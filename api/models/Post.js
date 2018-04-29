@@ -13,6 +13,12 @@ module.exports = {
     },
     content:{
       type:"string"
+    },
+    SubjectId:{
+        type:"integer"
+    },
+    userId_post:{
+       type:"integer"
     }
     
   }

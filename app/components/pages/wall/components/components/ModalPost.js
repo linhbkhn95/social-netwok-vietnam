@@ -15,7 +15,8 @@ class ModalPost extends React.Component{
       }
     }
     onChange(type,event){
-      if(event.target)
+      console.log(type,event)
+      if(event&&event.target)
          this.state[type] = event.target.value
       else{
         this.state.dataPost[type] = event
@@ -52,7 +53,7 @@ class ModalPost extends React.Component{
                {/* </div> */}
                <div className="row">
                  <div>
-                 <h5 className="col-md-3"> Bạn muốn <i className="fa fa-info" aria-hidden="true"></i> </h5>
+                 <h5 className="col-md-3"> <i style={{marginRight:"10px"}} className="fa fa-info" aria-hidden="true"></i>Bạn muốn</h5>
                  <div className="col-md-4">
                   <select onChange={this.onChange.bind(this,"TYPEPOST")}  className="form-control">
                       <option value="TSAD">Tâm sự ẩn danh  </option>

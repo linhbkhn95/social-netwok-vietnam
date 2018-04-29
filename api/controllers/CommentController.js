@@ -24,19 +24,47 @@ module.exports = {
                if(err){
                     return res.send(OutputInterface.errServer(err))
                }
-               return res.send(OutputInterface.success(list))
+               Promise.all(list.map((item)=>{
+                  
+                    return new Promise(async(resolve,reject)=>{
+                        let userId = item.userId_comment
+                        let user
+                        user = await User.findOne({id : userId})
+                         if(user){
+                                item.user_comment = user;
+                         }
+                        
+                       
+                      
+                        else{
+                            item.user_comment = {
+                                  userId,
+                                  url_avatar:"/images/user/me.png",
+                                  fullname:"Người lạ",
+                                  
+                            }
+                        }
+                        resolve(item)
+                    })
+               }))
+               .then((response)=>{
+                return res.send(OutputInterface.success(response))
+               })
+               
            })
     },
     create:function(req,res){
-        let  PostId = 1
+        
         let data  = req.body ;
         data.time = Date.now();
         console.log(data)
-        Comment.create(req.body).exec((err,comment)=>{
+        Comment.create(req.body).exec( (err,comment)=>{
             if(err){
                 return res.send(OutputInterface.errServer(err))
            }
            if(comment){
+              comment.user_comment = req.session.user
+
               Comment.publishCreate(comment);
 
               return res.send(OutputInterface.success(comment))

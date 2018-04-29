@@ -8,7 +8,12 @@
 module.exports = {
 
   attributes: {
-
+      subjectname:{
+          type:'string'
+      },
+      description:{
+        type:'string'
+      }
   }
 };
 

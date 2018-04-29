@@ -43,11 +43,35 @@ module.exports = {
             //để  đăng kí sự kiện lăng nghe model Command thay đổi kích hoạt sự kiện on('command') bên phía client
             Post.watch(req);
         }
-        Post.find({where:{sort:"createdAt DESC"}}).exec(function(err,listPost){
+        Post.find({where:{sort:"createdAt DESC"}}).exec(function(err,list){
             if(err){
           
             }
-            res.send({DT:listPost})
+            Promise.all(list.map((item)=>{
+                  
+                return new Promise(async(resolve,reject)=>{
+                    let subjectId = item.subject
+                    let subject
+                    subject = await Subject.findOne({id : subjectId})
+                     if(subject){
+                            item.subject = subject;
+                     }
+                    
+                   
+                  
+                    else{
+                        item.subject = {
+                              subjectId,
+                              subjectname:"Chưa rõ"
+                        }
+                    }
+                    resolve(item)
+                })
+           }))
+           .then((response)=>{
+            return res.send(OutputInterface.success(response))
+           })
+            // res.send({DT:listPost})
         })
     }
 };

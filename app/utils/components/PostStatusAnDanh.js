@@ -126,6 +126,7 @@ class Post extends React.Component{
         let comment ={}
         comment.text = this.state.texRepComment;
         comment.postId = this.props.idPost,
+        comment.userId_comment = this.props.auth.user.id
         io.socket.post('/comment/create',comment,((resdata,jwres)=>{
             console.log('comment',resdata)
             if(resdata.EC==0){
@@ -146,7 +147,8 @@ class Post extends React.Component{
         let comment ={}
         comment.text = this.refs[id].value
         // comment.time = Date.now()
-        comment.parentId = id
+        comment.parentId = id,
+        comment.userId_comment = this.props.auth.user.id
         comment.postId = this.props.idPost
         // comment.id = Math.floor(Math.random()*(1000)+1)
         io.socket.post('/comment/create',comment,((resdata,jwres)=>{
@@ -188,11 +190,11 @@ class Post extends React.Component{
            
             
             <div key={data.id} className="comment-item panel-body">
-               <img className="img-user" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" />
+               <img className="img-user" src={data.user_comment.url_avatar} />
                
                <div className="col-md-10">
                    <div className="text-rep"><span style={{    color:" #b2b2bb"}} className="">
-                        Linhtd </span>{data.text}
+                   {data.user_comment.fullname} </span>{data.text}
                         <div className="pull-right">
                            
                            <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
@@ -233,11 +235,11 @@ class Post extends React.Component{
             // console.log('data',data)
           return  (
             <div key={data.id}>
-                <div className="img-rep-rep"> <img className="" src={self.props.auth.user.url_avatar} /> </div>
+                <div className="img-rep-rep"> <img className="" src={data.user_comment.url_avatar} /> </div>
                 
                 <div className="col-md-11">
                     <div className="text-rep"><span style={{    color:" #b2b2bb"}} className="">
-                    Linhtd </span>{data.text}
+                    {data.user_comment.fullname} </span>{data.text}
                     <div className="pull-right">
                            
                            <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
@@ -287,7 +289,7 @@ class Post extends React.Component{
                 <article className="post"> 
                     <header>
                       <div className="pull-left title-post"><i className="fa fa-header" aria-hidden="true"></i> {this.props.title} </div>
-                        <div>  <div className="pull-right title-post"><i style={{marginRight:"3px"}} className="fa fa-flag-o" aria-hidden="true"></i>Tình yêu</div></div>
+                        <div>  <div className="pull-right title-post"><i style={{marginRight:"3px"}} className="fa fa-flag-o" aria-hidden="true"></i>{this.props.subject.subjectname}</div></div>
                     </header>
                     <div className="user-answer">
                         <div className="user-avatar">
