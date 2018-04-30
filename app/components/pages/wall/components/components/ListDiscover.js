@@ -2,6 +2,7 @@ import React from 'react'
 import Post from 'app/utils/components/PostStatusAnDanh'
 import axios from 'axios'
 import 'react-select/dist/react-select.css'
+import { create } from 'domain';
 var Select = require('react-select');
 class ListDiscover extends React.Component{
     constructor(props){
@@ -14,35 +15,41 @@ class ListDiscover extends React.Component{
     }
     componentDidMount(){
         let self  = this
-        io.socket.get('/post/getListPost',function(resdata,jwres){
+        io.socket.post('/post/getListPost',function(resdata,jwres){
             console.log('listpost',resdata)
             if(resdata.EC==0)
                 self.setState({listStatus:resdata.DT})
         }) 
         io.socket.on('post', function (event) {
-          
-           if (event.verb === 'created') {
-
-               self.state.listStatus.unshift(event.data)
-               self.setState({ listStatus: self.state.listStatus });
-           }
+            console.log('event',event)
+            switch(event.verb){
+                case 'created' :{
+                    self.state.listStatus.unshift(event.data)
+                    self.setState({ listStatus: self.state.listStatus });
+                    break 
+                }
+               
+            }
+      
        }); 
     }
-    componentWillMount() {
-        // var that = this;
-      
-        // io.socket.on('post', function (event) {
-        //      console.log(event);
-        //     // console.log('thêm bản ghi');
-        //     if (event.verb === 'created') {
-
-        //         that.state.listStatus.unshift(event.data)
-        //         that.setState({ listStatus: that.state.listStatus });
-        //     }
-        // });
+    deletePost(data){
+        console.log('datadel',data)
+        for(var i=0;i<this.state.listStatus.length-1;i++){
+            if(this.state.listStatus[i].id==data.id){
+                 this.state.listStatus.splice(i,1);
+                 this.setState({listStatus:this.state.listStatus})
+                break;
+            }
+        }
+        
     }
     componentWillMount(){
         let self  = this
+        io.socket.get('/notification/follow', function gotResponse(data, jwRes) {
+            console.log('Server responded with status code ' + jwRes.statusCode + ' and data: ', data);
+          
+          });
         io.socket.get('/subject/getall',((resdata,jwres)=>{
              console.log('ress',resdata)
              self.setState({options:resdata})
@@ -56,22 +63,25 @@ class ListDiscover extends React.Component{
       
     }
     onChangeSelect(subject) {
-        let value= ''
-        if(subject)
-            value = subject.value
+       
         this.setState({ subject });
-        // this.props.onChange('subject',value)
+        let self  = this
+        io.socket.post('/post/getListPost',{listsubject:subject},((resdata,jwres)=>{
+            console.log('listpost',resdata)
+            if(resdata.EC==0)
+                self.setState({listStatus:resdata.DT})
+        }))
 	
     }
     render(){
         let ListStatus = this.state.listStatus.length>0?
          this.state.listStatus.map((status)=>{
-             return <Post subject = {status.subject} key={status.id} idPost = {status.id} title={status.title} content={status.content} time={status.createdAt} />
+             return <Post deletePost={this.deletePost.bind(this)} subject = {status.subject} key={status.id} idPost = {status.id} title={status.title} content={status.content} time={status.createdAt} />
          }):<div>Chưa có bài đăng nào</div>
         return(
             <div>
             <div style={{marginBottom:"20px"}} className="col-md-12">
-                 <h5 className="col-md-5 row" ><i className="fa fa-tags" aria-hidden="true"></i> Chủ đề  tâm sự
+                 <h5 className="title-subject" ><i className="fa fa-tags" aria-hidden="true"></i> Chủ đề  tâm sự <span className="count-subject"> {this.state.options.length}</span>
                 </h5>
                     <div className="" >
                     <Select.Async

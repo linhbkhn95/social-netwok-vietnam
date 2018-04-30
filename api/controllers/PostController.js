@@ -8,26 +8,34 @@
 module.exports = {
     postStatus:function(req,res){
         let data = req.body
-        Post.create(data).exec(function(err,post){
+        Post.create(data).exec(async function(err,post){
             if(err){
 
             }
-            Post.publishCreate(post);
+            if(post){
+                 let subject  = await Subject.findOne({id:data.subject})
+                 post.subject  = subject
+                 Post.publishCreate(post);
 
-            res.send(post)
+                 return res.send(OutputInterface.success(post))
+            }
         })
     },
     deletePost:function(req,res){
         let id = req.body.idPost;
-        Post.destroy({id:id}).exec((err,postdel)=>{
+        Post.destroy({id:id}).exec(async(err,postdel)=>{
             if(err){
-
+                return res.send(OutputInterface.errServer('Lỗi hệ thống'))
             }
-            console.log(postdel)
-            if(postdel)
-                res.send({DT:postdel})
-            else    
-                res.send({DT:null})
+            
+            await Comment.destroy({postId:id})
+            if(postdel.length>0){
+                    console.log('postdel',postdel)
+                    // Post.publishDestroy(postdel);
+                    return res.send(OutputInterface.success(postdel))
+            }
+
+            return res.send(OutputInterface.errServer('không có phần tử để  xóa '))
         });
     },
     getListPost:function(req,res){
@@ -43,36 +51,47 @@ module.exports = {
             //để  đăng kí sự kiện lăng nghe model Command thay đổi kích hoạt sự kiện on('command') bên phía client
             Post.watch(req);
         }
-        Post.find({where:{sort:"createdAt DESC"}}).exec(function(err,list){
-            if(err){
-          
-            }
-            Promise.all(list.map((item)=>{
-                  
-                return new Promise(async(resolve,reject)=>{
-                    let subjectId = item.subject
-                    let subject
-                    subject = await Subject.findOne({id : subjectId})
-                     if(subject){
-                            item.subject = subject;
-                     }
-                    
-                   
-                  
-                    else{
-                        item.subject = {
-                              subjectId,
-                              subjectname:"Chưa rõ"
-                        }
-                    }
-                    resolve(item)
-                })
-           }))
-           .then((response)=>{
-            return res.send(OutputInterface.success(response))
-           })
-            // res.send({DT:listPost})
+        let listsubject = req.body.listsubject||[]
+        let result  = listsubject.map((item)=>{
+            console.log(item,item.value)
+            return item.value
+            
         })
+        let dataQuery = {};
+        
+        if(listsubject.length>0)
+            dataQuery.subject=result
+        console.log('dataqery',dataQuery,listsubject)
+          Post.find({where:{sort:"createdAt DESC"}}).where(dataQuery).exec(function(err,list){
+                    if(err){
+                
+                    }
+                    Promise.all(list.map((item)=>{
+                        
+                        return new Promise(async(resolve,reject)=>{
+                            let subjectId = item.subject
+                            let subject
+                            subject = await Subject.findOne({id : subjectId})
+                            if(subject){
+                                    item.subject = subject;
+                            }
+                            
+                        
+                        
+                            else{
+                                item.subject = {
+                                    subjectId,
+                                    subjectname:"Chưa rõ"
+                                }
+                            }
+                            resolve(item)
+                        })
+                }))
+                .then((response)=>{
+                    return res.send(OutputInterface.success(response))
+                })
+                    // res.send({DT:listPost})
+                })
     }
 };
 

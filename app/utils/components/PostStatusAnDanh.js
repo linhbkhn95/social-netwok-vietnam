@@ -1,35 +1,55 @@
 import React from 'react';
 import {NavDropdown,Navbar,NavItem,MenuItem,Nav} from 'react-bootstrap';
 import {convertComment} from '../ConvertComment'
+import ModalConfirm from '../modal/Modalconfirm'
 var date = Date.now();
 var datedemo=151139964297
 import moment from 'moment'
 import { ToastContainer, toast } from 'react-toastify';
 import {connect} from 'react-redux'
-class Post extends React.Component{
+import ContentPostAnDanh from './ContentPostAnDanh'
+class PostStatus extends React.Component{
    
     componentDidMount(){
         let self = this
         io.socket.post('/comment/getlist_WithPostId',{postId:this.props.idPost},((resdata,jwres)=>{
-            console.log('resdata,',resdata,this.props.idPost)
             if(resdata.EC==0){
               self.setState({listComment:resdata.DT})
             }
         }))
+        
     }
     componentWillMount(){
         let self = this
-        io.socket.on('comment', function (event) {
+        // io.socket.on('comment', function (event) {
           
-            if (event.verb === 'created') {
-                console.log(event)
-                if(event.data.postId==self.props.idPost){
-                    self.state.listComment.push(event.data)
-                    self.setState({ listComment: self.state.listComment });
-                }
+        //     if (event.verb === 'created') {
+        //         console.log(event)
+        //         if(event.data.postId==self.props.idPost){
+        //             self.state.listComment.push(event.data)
+        //             self.setState({ listComment: self.state.listComment });
+        //         }
              
-            }
-        }); 
+        //     }
+        // }); 
+        io.socket.on(this.props.idPost, function (data) {
+          
+            switch(data.type){
+                case "comment" : self.acessSocket("listComment",data);
+                    
+
+            }    
+            console.log('Socket `' + data.id + '` joined the party!',data);
+       
+         })
+    }
+    acessSocket(type,data){
+        switch(data.verb){
+            case "add" :
+            this.state[type].push(data.data)
+            this.setState(this.state);
+
+        }    
     }
     constructor(props){
         super(props);
@@ -40,6 +60,8 @@ class Post extends React.Component{
             listComment:[
                    
             ],
+            showModalConfirm:false,
+            commentAccess:null,
             listRepComment:[
                 // {
                 //     texRepComment:'kkkkk',
@@ -99,7 +121,7 @@ class Post extends React.Component{
             ]
         }
     }
-    comment(){
+    displayListComment(){
         console.log('comment')
         this.setState({displayListComment:!this.state.displayListComment})
     }
@@ -127,19 +149,30 @@ class Post extends React.Component{
         comment.text = this.state.texRepComment;
         comment.postId = this.props.idPost,
         comment.userId_comment = this.props.auth.user.id
-        io.socket.post('/comment/create',comment,((resdata,jwres)=>{
+        this.postComment(comment)
+      
+     
+    }
+    postComment(data,id){
+        let self = this
+        io.socket.post('/comment/create',data,((resdata,jwres)=>{
             console.log('comment',resdata)
             if(resdata.EC==0){
-                this.state.listComment.push(resdata.DT)
-                this.setState({listComment:this.state.listComment,texRepComment:''})
+                self.state.listComment.push(resdata.DT)
+                self.setState({listComment:this.state.listComment})
+                if(id)
+                    this.refs[id].value =''
+                else
+                 self.setState({texRepComment:''})
             }
             else{
-
+                toast.error(resdata.EM, {
+                    position: toast.POSITION.TOP_LEFT
+                  });
             }
 
         }))
       
-     
     }
     repToRepComment(id,e){
 
@@ -151,19 +184,7 @@ class Post extends React.Component{
         comment.userId_comment = this.props.auth.user.id
         comment.postId = this.props.idPost
         // comment.id = Math.floor(Math.random()*(1000)+1)
-        io.socket.post('/comment/create',comment,((resdata,jwres)=>{
-            console.log('comment',resdata)
-            if(resdata.EC==0){
-                this.state.listComment.push(resdata.DT)
-                this.setState({listComment:this.state.listComment})
-                this.refs[id].value =''
-            }
-            else{
-
-            }
-
-        }))
-      
+        this.postComment(id,comment)
      
        
     }
@@ -174,6 +195,11 @@ class Post extends React.Component{
     showInputRep(id){
         this.state.displayInputRepComment[id] = true;
         this.setState({displayInputRepComment:this.state.displayInputRepComment})
+    }
+
+
+    deleteComment(data){
+        this.setState({showModalConfirm:true,commentAccess:data})
     }
     renderActive(data) {
         let self  = this ;
@@ -198,11 +224,11 @@ class Post extends React.Component{
                         <div className="pull-right">
                            
                            <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
-                              <MenuItem  eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bài đăng</MenuItem>
+                              <MenuItem onClick={self.deleteComment.bind(self,data)}   eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bình luật</MenuItem>
                               {/* <MenuItem eventKey={3.1}></MenuItem>
                               <MenuItem divider /> */}
                               <MenuItem eventKey={3.2}><i style={{marginRight:"10px"}}  className="fa fa-minus" aria-hidden="true"></i>
-    Ẩn bài đăng</MenuItem>
+    Ẩn bình luận</MenuItem>
                             </NavDropdown>
                              
                            </div>
@@ -225,14 +251,10 @@ class Post extends React.Component{
                             
                         </div>
                                     
-           </div>
-             
-                
-                 
+           </div>    
           )
         }
         else {
-            // console.log('data',data)
           return  (
             <div key={data.id}>
                 <div className="img-rep-rep"> <img className="" src={data.user_comment.url_avatar} /> </div>
@@ -243,11 +265,11 @@ class Post extends React.Component{
                     <div className="pull-right">
                            
                            <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
-                              <MenuItem  eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bài đăng</MenuItem>
+                              <MenuItem onClick={self.deleteComment.bind(self,data)}  eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bình luận </MenuItem>
                               {/* <MenuItem eventKey={3.1}></MenuItem>
                               <MenuItem divider /> */}
                               <MenuItem eventKey={3.2}><i style={{marginRight:"10px"}}  className="fa fa-minus" aria-hidden="true"></i>
-    Ẩn bài đăng</MenuItem>
+    Ẩn bình luận</MenuItem>
                             </NavDropdown>
                              
                            </div>
@@ -275,6 +297,19 @@ class Post extends React.Component{
                       
         }
       }
+      closeModalConfirm(){
+          this.setState({showModalConfirm:false})
+      }
+      access(){
+          console.log('commentAccess',this.state.commentAccess)
+          io.socket.post('/comment/delete',{data:this.state.commentAccess},((resdata,jwres)=>{
+              if(resdata.EC==0){
+                console.log('listDelete',resdata)
+ 
+              }
+          }))
+        this.setState({showModalConfirm:false})
+      }
     render(){
         let self = this;
         var listComment =convertComment(this.state.listComment, {
@@ -282,95 +317,15 @@ class Post extends React.Component{
             parentKey: 'parentId',
             childrenKey: 'listRepComment'
           });
-
-        // console.log('listComment',listComment)
         return(
             <div  className="col-md-12 post-status">
                 <article className="post"> 
-                    <header>
-                      <div className="pull-left title-post"><i className="fa fa-header" aria-hidden="true"></i> {this.props.title} </div>
-                        <div>  <div className="pull-right title-post"><i style={{marginRight:"3px"}} className="fa fa-flag-o" aria-hidden="true"></i>{this.props.subject.subjectname}</div></div>
-                    </header>
-                    <div className="user-answer">
-                        <div className="user-avatar">
-                            <img className="img-user" src={this.props.auth.user.url_avatar} />
-                        </div>
-                        <div className="user-detail">
-                            <div className="user-name">
-                            {this.props.auth.user.fullname?this.props.auth.user.fullname:this.props.auth.user.username}
-
-                            </div>
-                            <div className="time">
-                                  <p className="">{moment(this.props.time).lang('vi').fromNow()}</p>
-                            </div>
-                        </div>
-                    </div>
-                     <div className="content-asw">
-                            {this.props.content}
-                     </div>
-                     <div className="footer-post row">
-                         <div className="btn-footer-post btn-heart">
-                            15  <i  style={{marginRight:"3px"}} onClick={this.like.bind(this)} className="fa fa-heart-o" aria-hidden="true"></i> Thích
-                         </div>
-                         <div onClick={this.comment.bind(this)} className="btn-footer-post btn-comment">
-                           {this.state.listComment.length} <i  style={{marginRight:"3px"}}  className="fa fa-comment-o" aria-hidden="true"></i>Bình luận
-                         </div>
-                         <div className="btn-footer-post btn-share">
-                          5 <i style={{marginRight:"3px"}} onClick={this.share.bind(this)} className="fa fa-share" aria-hidden="true"></i>Chia sẻ
-                        </div>
-                         <div className="btn-more">
-                       
-                         <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
-                            <MenuItem  onClick={this.deletePost.bind(this,this.props.id)} eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bài đăng</MenuItem>
-                            {/* <MenuItem eventKey={3.1}></MenuItem>
-                            <MenuItem divider /> */}
-                            <MenuItem eventKey={3.2}><i style={{marginRight:"10px"}}  className="fa fa-minus" aria-hidden="true"></i>
-Ẩn bài đăng</MenuItem>
-                          </NavDropdown>
-                           <i >Xem thêm </i>
-                         </div>
-                     </div>
+                  
+                       <ContentPostAnDanh deletePost={this.props.deletePost} idPost={this.props.idPost} displayListComment={this.displayListComment.bind(this)} time={this.props.time} title={this.props.title} subject={this.props.subject} content={this.props.content} lengthComment ={this.state.listComment.length} />
                      <div style={{display:this.state.displayListComment?"block":"none"}} className="list-comment row">
                          
                           <div className="col-md-12 post-repcomment">
-                            {/* {this.state.listRepComment.length>0?this.state.listRepComment.map((comment,index)=>{
-                                return(
-                                  <div key={index}>
-                                    <img className="img-user" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" />
-                                    
-                                    <div className="col-md-11">
-                                         <div className="text-rep"><span style={{    color:" #b2b2bb"}} className="">Linhtd </span>{comment.text}</div>
-                                         <div style={{marginTop:"5px"}} className="time">
-                                            <p style={{  color: "#604a50"}}>Thích</p>
-                                            <p style={{  color: "#604a50"}}>Trả lời</p>
-                                            <p className="">{moment(comment.time).lang('vi').fromNow()}</p>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-12 ">
-                                         <div key={index+6}>
-                                            <img className="img-user" src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" />
-                                            
-                                            <div className="col-md-11">
-                                                <div className="text-rep"><span style={{    color:" #b2b2bb"}} className="">Linhtd </span>{comment.text}</div>
-                                                <div style={{marginTop:"5px"}} className="time">
-                                                    <p style={{  color: "#604a50"}}>Thích</p>
-                                                    <p style={{  color: "#604a50"}}>Trả lời</p>
-                                                    <p className="">{moment(comment.time).lang('vi').fromNow()}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                           <div className="img-rep-rep"> <img src="https://scontent.fhan5-1.fna.fbcdn.net/v/t1.0-1/c0.16.80.80/p80x80/28577300_2016525228560373_5392331788461853926_n.jpg?oh=821bf3b7ee04b7f7ffbd02e0cbc850bb&oe=5B037648" /> </div>
-                                    
-                                            <div style={{paddingRight:"0px",paddingLeft:"6px"}} className="col-md-11">
-                                                <form onSubmit={this.repToRepComment.bind(this,index)}> <input value={this.state.texRepComment} onChange={this.onChangeTextRepComment.bind(this)} placeholder="Viết bình luận ..." type="text" className="form-control input-repcomment" />
-                                                </form>
-                                             </div>
-                                               
-                                            </div>
-                                   </div>
-                                )
-                            }):null}
-                              */}
+                    
                              {listComment.map(c => self.renderActive(c))}
                           </div>
                           <div className="col-md-12 post-repcomment">
@@ -384,9 +339,10 @@ class Post extends React.Component{
                          </div>
                      </div>
                 </article>
+                <ModalConfirm show={this.state.showModalConfirm} access={this.access.bind(this)} close={this.closeModalConfirm.bind(this)} />
 
             </div>
         )
     }
 }
-module.exports = connect(function(state){return{auth:state.auth}})(Post)
+module.exports = connect(function(state){return{auth:state.auth}})(PostStatus)

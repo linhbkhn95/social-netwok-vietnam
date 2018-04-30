@@ -8,7 +8,15 @@
 module.exports = {
 
   attributes: {
-
+        userId:{
+          type:'integer'
+        },
+        postId:{
+          type:'integer'
+        },
+        time:{
+          type:'float'
+        }
   }
 };
 

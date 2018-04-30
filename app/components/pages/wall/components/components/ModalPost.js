@@ -14,6 +14,9 @@ class ModalPost extends React.Component{
 
       }
     }
+    componentWillReceiveProps(nextProps){
+        this.setState({err_msg:''})
+    }
     onChange(type,event){
       console.log(type,event)
       if(event&&event.target)
@@ -24,10 +27,16 @@ class ModalPost extends React.Component{
       this.setState(this.state)
     }
     post(){
+      let self = this
       io.socket.post('/post/postStatus',this.state.dataPost,function(resdata,jwres){
-         
+         if(resdata.EC==0){
+             self.props.access()
+
+         }
+         else{
+           self.setState({err_msg:resdata.EM})
+         }
       })
-       this.props.access()
     }
     render(){
       return (
@@ -62,46 +71,11 @@ class ModalPost extends React.Component{
                  </div>
                  </div>
                 </div>
-                  {/* <div className="" >
-                       
-                        <RadioGroup
-                                    name="radiogroup"
-                                    onChange={this.handleChange.bind(this)}
-                                     selectedValue={this.state.radiogroup}
-                                   >
-                                   <div className="col-md-12">
-                                     <label>
-                                      <Radio value="ISSSN" />Tâm sự cùng người lạ
-                                    </label>
-                                    </div>
-                                    <div className="col-md-12">
-                                    <label>
-                                      <Radio value="ISIRS" /> Hỏi câu hỏi đến bạn bè
-                                    </label>
-                                    </div>
-                                  
-                                   
-                         </RadioGroup>
-                        
-                   </div> */}
-               
-                {/* <div className="row">
-                    <h5 className="col-md-2" >Tiêu đê tâm sự <i className="fa fa-header" aria-hidden="true"></i></h5>
-                    <div className="col-md-4" >
-                        <input type="text" className="form-control" />
-                    </div>
-                    
-                </div>
-                <div className="row">
-                  <div className="col-md-12">
-                    <textarea className="form-control" placeholder="Bạn đang nghĩ gì.." rows="5" id="comment"></textarea>
-                  </div>
-                </div> */}
-                 {/* <ContentAnDanh /> */}
+                  
                 {this.state.TYPEPOST=="TSAD"?<ContentAnDanh onChange={this.onChange.bind(this)} />: <ContentQuestion />}
-                
+                <div className="col-md-12">{this.state.err_msg}</div>
               </div>
-
+                
           </Modal.Body>
           <Modal.Footer>
             <Button   bsStyle="success" onClick={this.post.bind(this)}>Đăng</Button>

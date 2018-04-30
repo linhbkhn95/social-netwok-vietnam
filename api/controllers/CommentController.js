@@ -53,24 +53,51 @@ module.exports = {
                
            })
     },
-    create:function(req,res){
-        
-        let data  = req.body ;
-        data.time = Date.now();
-        console.log(data)
-        Comment.create(req.body).exec( (err,comment)=>{
+    delete:function(req,res){
+        let data = req.body.data
+
+        let idComment = data.id;
+        console.log('data',data)
+        Comment.destroy({ or:[
+            {id:data.id},
+            {parentId:data.id}
+         ]}).exec((err,list)=>{
             if(err){
                 return res.send(OutputInterface.errServer(err))
-           }
-           if(comment){
-              comment.user_comment = req.session.user
+            }
+            return res.send(OutputInterface.success(list))
+         })
+       
+    },
+    create:async function(req,res){
+        
+        if (!req.isSocket) {
+            return res.badRequest();
+        }
+        let data  = req.body ;
+        console.log('data',data)
+        let postId = data.postId
+        let post = await Post.findOne({id:postId})
+        data.time = Date.now();
+        
+        if(post)
+            Comment.create(req.body).exec( (err,comment)=>{
+                  if(err){
+                    return res.send(OutputInterface.errServer(err))
+                     }
+                    if(comment){
+                        comment.user_comment = req.session.user
 
-              Comment.publishCreate(comment);
+                        Comment.publishCreate(comment);
+                        
+                        sails.sockets.broadcast('Subscribe_Status',data.postId,UtilsSocket.getData(comment,TypeSocket.comment,VerbSocket.add),req);
 
-              return res.send(OutputInterface.success(comment))
+                        return res.send(OutputInterface.success(comment))
 
-           }
-        })
+                    }
+            })
+        else
+             return res.send(OutputInterface.errServer("Bài viết không khả dụng"))
     }
 };
 

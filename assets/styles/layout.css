@@ -158,6 +158,7 @@ body{
     font-size: 16px;
     line-height: 21px;
     color: #4A4A50;
+    padding-top: 8px;
     /* margin-top: 10px; */
     padding-bottom: 10px;
 }
@@ -172,8 +173,12 @@ body{
 
 .footer-post{
     
-    padding: 10px 15px 10px 15px;
-    background: #f5f5f5;
+   
+    /* padding-left: 15px;
+    padding-right: 15px; */
+    /* padding: 10px 15px 10px 15px; */
+    /* background: #f5f5f5; */
+    border-top: 1px solid #f0f0f1;
 }
 .footer-post .btn-heart{
    float: left;
@@ -183,7 +188,14 @@ body{
     width: 25% ;
     cursor: pointer;
     font-size: 12px;
+    padding: 10px 15px 10px 15px;
     
+}
+.footer-post .btn-footer-post:hover{
+    background: #f5f5f5
+}
+.footer-post .btn-more :hover{
+    background: #f5f5f5
 }
 .footer-post .btn-footer-post i{
     font-size: 16px;
@@ -194,7 +206,9 @@ body{
 }
 .footer-post .btn-more{
     float: right;
+    cursor: pointer;
     font-size: 11px;
+    padding: 10px 15px 10px 15px;
 }
 .footer-post .btn-more .dropdown {
     list-style: none;
@@ -259,4 +273,7 @@ body, input, textarea {
 }
 .content-question .search input[type=text]:focus {
     width: 100%;
+}
+.text-rep .dropdown-menu>li>a {
+    font-size: 11px;
 }

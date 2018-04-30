@@ -14,7 +14,7 @@ module.exports = {
     content:{
       type:"string"
     },
-    SubjectId:{
+    subject:{
         type:"integer"
     },
     userId_post:{
