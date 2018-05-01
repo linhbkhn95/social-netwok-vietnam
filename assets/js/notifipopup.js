@@ -1,23 +1,26 @@
 
-$(document).ready(function()
-{
-$("#notificationLink").click(function()
-{
-$("#notificationContainer").fadeToggle(300);
-$("#notification_count").fadeOut("slow");
-return false;
-});
+// $(document).ready(function()
+// {
+// $("#notification_li").click(function()
+// {
+//     console.log('mauon')
+// $("#notificationContainer").fadeToggle(300);
+// $("#notification_count").fadeOut("slow");
+// return false;
+// });
 
 //Document Click hiding the popup 
-$(document).click(function()
-{
-$("#notificationContainer").hide();
-});
+// $(document).click(function()
+// {
+//     console.log('close')
 
-//Popup on click
-$("#notificationContainer").click(function()
-{
-return false;
-});
+// $("#notificationContainer").hide();
+// });
 
-});
+// //Popup on click
+// $("#notificationContainer").click(function()
+// {
+// return false;
+// });
+
+// });

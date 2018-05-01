@@ -37,6 +37,43 @@ class Post extends React.Component{
         
         }
     }
+    renderTooltip(){
+        
+        let {likeInfo} = this.state
+        let {listUserId,listUser} = likeInfo
+        let length  = listUserId.length
+        if(length<6){
+            return(
+
+                <Tooltip id="tooltip">
+                  {listUserId.map((userId)=>{
+                      console.log('fullname',listUser[userId].fullname)
+                      return(
+                        <div  key={userId}> <span style={{float:"left"}}>{listUser[userId].fullname}</span><br /> </div>
+                      )
+                  })}
+                
+              </Tooltip>
+            )
+        }
+        else{
+            let jsx = [];
+            
+            for(var i =0;i<6;i++){
+                jsx.push(
+                    <span style={{float:"left",clear:"both"}} >{listUser[listUserId[i]].fullname}</span>
+                )
+            }
+            let text ="và"+(length - 6) +" người khác..."
+            jsx.push(
+                <span style={{float:"left",clear:"both"}} >{text}</span>
+
+            )
+            return jsx
+        }
+
+      
+    }
     renderTextUserLike(){
         let likeInfo = this.state.likeInfo
         let textListUserLike = ''
@@ -209,14 +246,14 @@ class Post extends React.Component{
                      </div>
                     
                    
-               <div className="row">
+               {this.state.likeInfo.listUserId.length?<div  className="row">
                <div style={{marginRight:"-12px"}} className="col-md-1">
-                    <OverlayTrigger placement="top" overlay={tooltip}>
+                    <OverlayTrigger placement="top" overlay={this.renderTooltip()}>
                        <i  style={{marginRight:"2px",float:"left"}} className="fa fa-heart-o" aria-hidden="true"></i>
                      </OverlayTrigger>
                 </div>
                <div style={{  fontSize:"11px",color:"green"}}>{texListLike}</div>
-               </div>
+               </div>:null}
                  <ModalConfirm show={this.state.showModalConfirm} access={this.access.bind(this)} close={this.closeModalConfirm.bind(this)} />
 
              </div>

@@ -9,7 +9,7 @@ module.exports = {
       accessLike: async function(req,res){
           let {postId,userId} = req.body;
            
-          LikePost.findOne({postId,userId}).exec(async (err,likePost)=>{
+          Likepost.findOne({postId,userId}).exec(async (err,likePost)=>{
                 if(err){
                     return res.send(OutputInterface.errServer('Lỗi hệ thống'))
                 }
@@ -26,16 +26,16 @@ module.exports = {
               }
               
               if(likePost){
-                     if(likePost.like)
+                     if(likePost.status)
                         post.countLike -=1
                     else
                         post.countLike +=1
                      await post.save({})
 
-                    likePost.like = likePost.like?0:1
+                    likePost.status = !likePost.status
                     likePost.save(function(){
 
-                        sails.sockets.broadcast('Subscribe_Status',postId+TypeSocket.like,UtilsSocket.getData(userLike,TypeSocket.like,likePost.like?VerbSocket.like:VerbSocket.unlike),req);
+                        sails.sockets.broadcast('Subscribe_Status',postId+TypeSocket.like,UtilsSocket.getData(userLike,TypeSocket.like,likePost.status?VerbSocket.like:VerbSocket.unlike),req);
 
                       return res.send(OutputInterface.success({countLike:post.countLike,like:likePost.like}))
                     })
@@ -44,7 +44,7 @@ module.exports = {
 
                    post.countLike +=1
                     await post.save({})
-                   LikePost.create({postId,userId,like:1}).exec((err,result)=>{
+                   Likepost.create({postId,userId,status:true}).exec((err,result)=>{
                         sails.sockets.broadcast('Subscribe_Status',TypeSocket.like+postId,UtilsSocket.getData(userLike,TypeSocket.like,VerbSocket.like),req);
 
                          return res.send(OutputInterface.success({countLike:post.countLike,like:1}))
@@ -58,8 +58,8 @@ module.exports = {
       //lay danh sach user like post
       getlist_LikeFormatPost:function(req,res){
           let {postId} = req.body
-          let like = 1;
-          LikePost.find({postId,like}).exec((err,list)=>{
+          let status = true;
+          Likepost.find({postId,status}).exec((err,list)=>{
             
             if(err){
 

@@ -18,7 +18,6 @@ class ModalPost extends React.Component{
         this.setState({err_msg:''})
     }
     onChange(type,event){
-      console.log(type,event)
       if(event&&event.target)
          this.state[type] = event.target.value
       else{

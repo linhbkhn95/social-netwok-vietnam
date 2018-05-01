@@ -37,20 +37,20 @@ class PostStatus extends React.Component{
             switch(data.type){
                 case "comment" : self.acessSocket("listComment",data);
                     
-                case "like" : self.accessLike(data);
+                // case "like" : self.accessLike(data);
             }    
             console.log('Socket `' + data.id + '` joined the party!',data);
        
          })
     }
-    accessLike(data){
-        switch(data.verb){
-            case "add" :
-            this.state[type].push(data.data)
-            this.setState(this.state);
+    // accessLike(data){
+    //     switch(data.verb){
+    //         case "add" :
+    //         this.state[type].push(data.data)
+    //         this.setState(this.state);
 
-        }    
-    }
+    //     }    
+    // }
     acessSocket(type,data){
         switch(data.verb){
             case "add" :

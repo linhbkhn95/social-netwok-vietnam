@@ -94,7 +94,7 @@ class ListDiscover extends React.Component{
     accessLike(postId,verb){
         for(var i=0;i<this.state.listStatus.length;i++){
             if(this.state.listStatus[i].id==postId){
-                 this.state.listStatus[i].countLike = verb=="like" ? this.state.listStatus[i].countLike:this.state.listStatus[i].countLike-1
+                 this.state.listStatus[i].countLike = verb=="like" ? this.state.listStatus[i].countLike+1:this.state.listStatus[i].countLike-1
                  this.setState({listStatus:this.state.listStatus})
             }
         }
@@ -114,7 +114,12 @@ class ListDiscover extends React.Component{
         let ListStatus = this.state.listStatus.length>0?
          this.state.listStatus.map((status)=>{
              return <Post accessLike={this.accessLike.bind(this)} post = {status} like={this.like.bind(this)}  deletePost={this.deletePost.bind(this)}  key={status.id}  />
-         }):<div>Chưa có bài đăng nào</div>
+         }):<div style={{
+            textAlign: "center",
+            padding: "12px",
+            fontSize: "13px",
+            color: "#7a887a"
+         }}>Chưa có bài đăng nào</div>
         return(
             <div>
             <div style={{marginBottom:"20px"}} className="col-md-12">

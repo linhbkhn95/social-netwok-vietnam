@@ -9,7 +9,19 @@ import jwt from 'jsonwebtoken';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios'
 import {connect} from 'react-redux'
+import moment from 'moment';
+var date = Date.now();
+var datedemo=1511399642970;
   class NavContent extends React.Component {
+    constructor(props){
+      super(props);
+      this.state ={
+
+      }
+      this.setWrapperRef = this.setWrapperRef.bind(this);
+      this.handleClickOutside = this.handleClickOutside.bind(this);
+    }
+    
     componentDidMount(){
       let self = this
       let {dispatch } =this.props
@@ -26,16 +38,28 @@ import {connect} from 'react-redux'
   
          }
       })
+     
+      document.addEventListener('mousedown', this.handleClickOutside);
+
   
-  
-    //     let store = createStore(settings:{
-    //       backgroupNav:"#00bcd4",
-    //       backgroupSlideMenu:"White",
-    //       backgroupBody:"White",
-    //       colorNav:"white",
-    //       nameHeader:"WebAssitant"
-    //        }
-    //  );
+    }
+    componentWillUnmount() {
+      document.removeEventListener('mousedown', this.handleClickOutside);
+    }
+    showNotifi(){
+      console.log('shádasdasdasdad')
+      $("#notificationContainer").fadeToggle(300);
+$("#notification_count").fadeOut("slow");
+return false;
+    }
+    handleClickOutside(event) {
+      if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      $("#notificationContainer").hide();
+      }
+    }
+
+    setWrapperRef(node) {
+      this.wrapperRef = node;
     }
   render() {
     
@@ -44,6 +68,7 @@ import {connect} from 'react-redux'
           <header className="header">
              
                     <Navbar fixedTop={true} inverse collapseOnSelect>
+                    
                       <Navbar.Header>
                         <Navbar.Brand>
                           <a className="title-web" href="#brand">Tâm sự cùng người lạ</a>
@@ -89,9 +114,47 @@ import {connect} from 'react-redux'
                           <NavItem eventKey={2} href="#">
                               <i className="fa fa-users" aria-hidden="true"></i>
                           </NavItem>
-                          <NavItem eventKey={2} href="#">
-                              <i className="fa fa-bell-o" aria-hidden="true"></i>
-                          </NavItem>
+                              
+                          <li ref={this.setWrapperRef} onClick={this.showNotifi.bind(this)} id="notification_li">
+    <span id="notification_count">3</span>
+    <a href="#" ref="foo" id="notificationLink" data-tip="Thông báo"><i className="fa fa-bell-o" aria-hidden="true"></i> </a>
+
+    <div id="notificationContainer">
+          <div className="beeperNub"></div>
+        <div id="notificationTitle" >Thông báo</div>
+        <div className="">Mới</div>
+        <div id="notificationsBody" className="notifications">
+          
+            <div className="col-md-12 alert-message">
+                <div className="col-md-3 row"><img className="avatar-alert" src="/images/avatar.jpg" /></div>
+                <div className=" row">
+                      <strong>Nhỏ Ngọc</strong> đã phê duyệt công tác dự án <strong>Funsurv</strong>
+                      <br />
+                      <p className="time-alert">{moment(datedemo).lang('vi').fromNow()}</p>
+                </div>
+            </div>
+            <div className="col-md-12 alert-message">
+                <div className="col-md-3 row"><img className="avatar-alert" src="/images/avatar.jpg" /></div>
+                <div className=" row">
+                      <strong>Phương Anh</strong> dã ảnh hóa đơn cho công tác của dự án <strong>Funsurv</strong>
+                      <br />
+                      <p className="time-alert">{moment(datedemo).lang('vi').fromNow()}</p>
+                </div>
+            </div>
+            <div className="col-md-12 alert-message">
+                <div className="col-md-3 row"><img className="avatar-alert" src="/images/avatar.jpg" /></div>
+                <div className=" row">
+                      <strong>Linh Trịnh</strong> đã yêu cầu phê duyệt công tác dự án <strong>Funsurv</strong>
+                      <br />
+                      <p className="time-alert">{moment(datedemo).lang('vi').fromNow()}</p>
+                </div>
+            </div>
+        
+        </div>
+        <div id="notificationFooter"><a href="#">Xem tất cả</a></div>
+    </div>
+
+</li>
                            <NavDropdown eventKey={3}  id="basic-nav-dropdown">
                             <MenuItem eventKey={3.1}>Cài đặt</MenuItem>
                             {/* <MenuItem eventKey={3.1}></MenuItem>

@@ -80,9 +80,9 @@ module.exports = {
                             let userId = req.session.user?req.session.user.id:''
                             item.userLikePost = false
 
-                            let likePost = await LikePost.findOne({postId:item.id,userId});
+                            let likePost = await Likepost.findOne({postId:item.id,userId});
                             if(likePost)
-                               item.userLikePost = likePost.like?true:false
+                               item.userLikePost = likePost.status?true:false
                           
                             let subjectId = item.subject
                             let subject
