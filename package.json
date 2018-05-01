@@ -55,10 +55,12 @@
     "react-toastify": "^3.4.3",
     "react-toggle": "^4.0.2",
     "react-toolbox": "^2.0.0-beta.12",
+    "react-tooltip": "^3.5.0",
     "recharts": "^1.0.0-alpha.4",
     "redux": "^3.7.2",
     "sails": "~0.12.13",
     "sails-disk": "~0.10.9",
+    "sails-mysql": "^0.11.5",
     "slick-carousel": "^1.7.1",
     "utils-merge": "^1.0.0",
     "zeromq": "^4.5.0"

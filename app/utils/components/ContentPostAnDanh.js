@@ -1,5 +1,5 @@
 import React from 'react';
-import {NavDropdown,Navbar,NavItem,MenuItem,Nav} from 'react-bootstrap';
+import {NavDropdown,Navbar,NavItem,MenuItem,Nav,OverlayTrigger,Tooltip,Button} from 'react-bootstrap';
 import {convertComment} from '../ConvertComment'
 import ModalConfirm from '../modal/Modalconfirm'
 var date = Date.now();
@@ -7,6 +7,17 @@ var datedemo=151139964297
 import moment from 'moment'
 import { ToastContainer, toast } from 'react-toastify';
 import {connect} from 'react-redux'
+
+const tooltip = (
+    <Tooltip id="tooltip">
+      <span >Trịnh đức Bảo Linh</span>
+       <br />
+      <span>Xuân Nguyễn</span>
+      <br />
+      <span>Nhỏ ngọc</span>
+    </Tooltip>
+  );
+  
 class Post extends React.Component{
    
 
@@ -14,25 +25,109 @@ class Post extends React.Component{
         super(props);
         this.state = {
             displayListComment:false,
-            texRepComment:'',
-            displayInputRepComment:{},
-            listComment:[
-                   
-            ],
+            
             dataPostAccess:null,
             showModalConfirm:false,
    
       
-      
+            likeInfo:{
+                listUserId:[],
+                listUser:{}
+            }
         
         }
+    }
+    renderTextUserLike(){
+        let likeInfo = this.state.likeInfo
+        let textListUserLike = ''
+        let {listUser,listUserId} = likeInfo
+        if(listUserId.length>0){
+           
+            if(this.props.userLikePost){
+                textListUserLike +='Bạn,'
+               
+            }
+            let length  = listUserId.length
+            if(length>2){
+                for(var i=0;i<2;i++){
+                    if(listUserId[i]!=this.props.auth.user.id)
+                    textListUserLike +=' '+listUser[listUserId[i]].fullname+','
+                }
+                textListUserLike +=' và '+(length-3)+' người khác'
+            }
+            else{
+                for(var i=0;i<length;i++){
+                    if(listUserId[i]!=this.props.auth.user.id)
+                    textListUserLike +=' '+listUser[listUserId[i]].fullname+','
+                }
+            }
+
+            textListUserLike = textListUserLike.substring(0, textListUserLike.length - 1);
+
+            
+             
+          
+
+        }
+        console.log('texListLike',textListUserLike)
+        return textListUserLike
+
+    }
+    componentDidMount(){
+        let self = this
+        io.socket.on(this.props.idPost+"like", function (data) {
+            console.log('Socket like`' + data.id + '` joined the party!',data);
+
+            switch(data.type){
+                
+                case "like" : self.accessLike(data);
+            }    
+       
+         })
+    }
+    accessLike(data){
+        this.props.accessLike(this.props.idPost,data.verb)
+        switch(data.verb){
+            case "like" :{
+                var index = this.state.likeInfo.listUserId.indexOf(data.data.id);
+                console.log('index',index)
+                if (index == -1) {
+                    this.state.likeInfo.listUserId.push(data.data.id)
+                    this.state.likeInfo.listUser[data.data.id] = data.data;
+                    this.setState({likeInfo:this.state.likeInfo})
+                }
+                break
+            }
+            case "unlike":{
+                var index = this.state.likeInfo.listUserId.indexOf(data.data.id);
+                console.log('index',index)
+                if (index > -1) {
+                  this.state.likeInfo.listUserId.splice(index, 1);
+                  delete this.state.likeInfo.listUser[data.data.id]
+                }
+                this.setState({likeInfo:this.state.likeInfo})
+                break
+            }
+        }    
+    }
+    
+    async componentWillMount(){
+        let self  =this
+        io.socket.post('/likepost/getlist_LikeFormatPost',{postId:this.props.idPost},((resdata,jwres)=>{
+            console.log('re',resdata)
+            if(resdata.EC==0){
+                 self.state.likeInfo.listUser = resdata.DT.listUser;
+                 self.state.likeInfo.listUserId = resdata.DT.listUserId
+                 self.setState({likeInfo:self.state.likeInfo})
+            }
+        }))
     }
     comment(){
         console.log('comment')
         this.props.displayListComment()
     }
     like(){
-        console.log('like')
+        this.props.like(this.props.idPost)
     }
     share(){
         console.log('share')
@@ -65,11 +160,8 @@ class Post extends React.Component{
     }
     render(){
         let self = this;
-        var listComment =convertComment(this.state.listComment, {
-            idKey: 'id',
-            parentKey: 'parentId',
-            childrenKey: 'listRepComment'
-          });
+        let texListLike =''
+         texListLike = this.renderTextUserLike()
         return(
             
                 <div>
@@ -95,8 +187,8 @@ class Post extends React.Component{
                             {this.props.content}
                      </div>
                      <div style={{marginLeft:"0px",marginRight:"0px"}} className="footer-post row">
-                         <div className="btn-footer-post btn-heart">
-                            15  <i  style={{marginRight:"3px"}} onClick={this.like.bind(this)} className="fa fa-heart-o" aria-hidden="true"></i> Thích
+                         <div  onClick={this.like.bind(this)} className="btn-footer-post btn-heart">
+                          {this.props.countLike} <i style={{marginRight:"3px",fontWeight:this.props.userLikePost?"bold":"normal"}}  className="fa fa-heart-o" aria-hidden="true"></i> {this.props.userLikePost?"Bỏ thích":"Thích"}
                          </div>
                          <div onClick={this.comment.bind(this)} className="btn-footer-post btn-comment">
                            {this.props.lengthComment} <i  style={{marginRight:"3px"}}  className="fa fa-comment-o" aria-hidden="true"></i>Bình luận
@@ -116,7 +208,15 @@ class Post extends React.Component{
                          </div>
                      </div>
                     
-           
+                   
+               <div className="row">
+               <div style={{marginRight:"-12px"}} className="col-md-1">
+                    <OverlayTrigger placement="top" overlay={tooltip}>
+                       <i  style={{marginRight:"2px",float:"left"}} className="fa fa-heart-o" aria-hidden="true"></i>
+                     </OverlayTrigger>
+                </div>
+               <div style={{  fontSize:"11px",color:"green"}}>{texListLike}</div>
+               </div>
                  <ModalConfirm show={this.state.showModalConfirm} access={this.access.bind(this)} close={this.closeModalConfirm.bind(this)} />
 
              </div>

@@ -12,7 +12,7 @@ class PostStatus extends React.Component{
    
     componentDidMount(){
         let self = this
-        io.socket.post('/comment/getlist_WithPostId',{postId:this.props.idPost},((resdata,jwres)=>{
+        io.socket.post('/comment/getlist_WithPostId',{postId:this.props.post.id},((resdata,jwres)=>{
             if(resdata.EC==0){
               self.setState({listComment:resdata.DT})
             }
@@ -32,16 +32,24 @@ class PostStatus extends React.Component{
              
         //     }
         // }); 
-        io.socket.on(this.props.idPost, function (data) {
+        io.socket.on(this.props.post.id, function (data) {
           
             switch(data.type){
                 case "comment" : self.acessSocket("listComment",data);
                     
-
+                case "like" : self.accessLike(data);
             }    
             console.log('Socket `' + data.id + '` joined the party!',data);
        
          })
+    }
+    accessLike(data){
+        switch(data.verb){
+            case "add" :
+            this.state[type].push(data.data)
+            this.setState(this.state);
+
+        }    
     }
     acessSocket(type,data){
         switch(data.verb){
@@ -125,15 +133,13 @@ class PostStatus extends React.Component{
         console.log('comment')
         this.setState({displayListComment:!this.state.displayListComment})
     }
-    like(){
-        console.log('like')
-    }
+   
     share(){
         console.log('share')
     }
     deletePost(){
-        if(this.props.idPost){
-            io.socket.post('/post/deletePost',{idPost:this.props.idPost},function(resdata,jwres){
+        if(this.props.post.id){
+            io.socket.post('/post/deletePost',{idPost:this.props.post.id},function(resdata,jwres){
                 if(resdata.DT){
                     toast.success( "Xóa bài thành công !", {
                         position: toast.POSITION.TOP_LEFT
@@ -147,7 +153,7 @@ class PostStatus extends React.Component{
         console.log(this.state.texRepComment)
         let comment ={}
         comment.text = this.state.texRepComment;
-        comment.postId = this.props.idPost,
+        comment.postId = this.props.post.id,
         comment.userId_comment = this.props.auth.user.id
         this.postComment(comment)
       
@@ -182,7 +188,7 @@ class PostStatus extends React.Component{
         // comment.time = Date.now()
         comment.parentId = id,
         comment.userId_comment = this.props.auth.user.id
-        comment.postId = this.props.idPost
+        comment.postId = this.props.post.id
         // comment.id = Math.floor(Math.random()*(1000)+1)
         this.postComment(id,comment)
      
@@ -321,7 +327,7 @@ class PostStatus extends React.Component{
             <div  className="col-md-12 post-status">
                 <article className="post"> 
                   
-                       <ContentPostAnDanh deletePost={this.props.deletePost} idPost={this.props.idPost} displayListComment={this.displayListComment.bind(this)} time={this.props.time} title={this.props.title} subject={this.props.subject} content={this.props.content} lengthComment ={this.state.listComment.length} />
+                       <ContentPostAnDanh accessLike={this.props.accessLike} like={this.props.like} userLikePost={this.props.post.userLikePost} countLike ={this.props.post.countLike} deletePost={this.props.deletePost} idPost={this.props.post.id} displayListComment={this.displayListComment.bind(this)} time={this.props.post.createdAt} title={this.props.post.title} subject={this.props.post.subject} content={this.props.post.content} lengthComment ={this.state.listComment.length} />
                      <div style={{display:this.state.displayListComment?"block":"none"}} className="list-comment row">
                          
                           <div className="col-md-12 post-repcomment">

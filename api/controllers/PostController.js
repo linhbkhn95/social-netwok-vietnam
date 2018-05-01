@@ -14,7 +14,9 @@ module.exports = {
             }
             if(post){
                  let subject  = await Subject.findOne({id:data.subject})
-                 post.subject  = subject
+                 post.subject  = subject;
+                 post.userLikePost = false
+                
                  Post.publishCreate(post);
 
                  return res.send(OutputInterface.success(post))
@@ -25,6 +27,9 @@ module.exports = {
         let id = req.body.idPost;
         Post.destroy({id:id}).exec(async(err,postdel)=>{
             if(err){
+                return res.send(OutputInterface.errServer('Lỗi hệ thống'))
+            }
+             if(err){
                 return res.send(OutputInterface.errServer('Lỗi hệ thống'))
             }
             
@@ -66,9 +71,19 @@ module.exports = {
                     if(err){
                 
                     }
+                
                     Promise.all(list.map((item)=>{
                         
                         return new Promise(async(resolve,reject)=>{
+                       
+                            
+                            let userId = req.session.user?req.session.user.id:''
+                            item.userLikePost = false
+
+                            let likePost = await LikePost.findOne({postId:item.id,userId});
+                            if(likePost)
+                               item.userLikePost = likePost.like?true:false
+                          
                             let subjectId = item.subject
                             let subject
                             subject = await Subject.findOne({id : subjectId})
@@ -76,7 +91,6 @@ module.exports = {
                                     item.subject = subject;
                             }
                             
-                        
                         
                             else{
                                 item.subject = {

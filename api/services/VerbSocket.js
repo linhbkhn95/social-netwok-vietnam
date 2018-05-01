@@ -4,5 +4,7 @@ module.exports = {
   
     delete: "like",
     edit:"edit",
+    unlike:"unlike",
+    like:"like"
     
 }

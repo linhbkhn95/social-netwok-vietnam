@@ -4,6 +4,7 @@ import axios from 'axios'
 import 'react-select/dist/react-select.css'
 import { create } from 'domain';
 var Select = require('react-select');
+import {connect} from 'react-redux'
 class ListDiscover extends React.Component{
     constructor(props){
         super(props)
@@ -44,6 +45,34 @@ class ListDiscover extends React.Component{
         }
         
     }
+    likePost(postId){
+        for(var i=0;i<this.state.listStatus.length;i++){
+            console.log('i',i,this.state.listStatus[i].id,"==",postId,this.state.listStatus[i].id==postId)
+            if(this.state.listStatus[i].id==postId){
+                 this.state.listStatus[i].userLikePost = !this.state.listStatus[i].userLikePost
+                 this.setState({listStatus:this.state.listStatus})
+                 console.log('indexxx',i)
+                return i
+            }
+        }
+    }
+    like(postId){
+        console.log('like',postId)
+        let self = this
+        let index  = this.likePost(postId)
+        io.socket.post('/likepost/accessLike',{postId,userId:this.props.auth.user.id},((resdata,jwres)=>{
+            console.log('resdata',resdata)
+
+            if(resdata.EC==0){
+                console.log('post',index,postId,self.state.listStatus[index])
+                self.state.listStatus[index].countLike = resdata.DT.countLike
+                self.setState({listStatus:self.state.listStatus})
+            }
+            else{
+
+            }
+        }))
+    }
     componentWillMount(){
         let self  = this
         io.socket.get('/notification/follow', function gotResponse(data, jwRes) {
@@ -55,12 +84,20 @@ class ListDiscover extends React.Component{
              self.setState({options:resdata})
         }))
     }
-    onChan
+    
     async getlistSubject(input) {
        
        
         return {options:this.state.options}
       
+    }
+    accessLike(postId,verb){
+        for(var i=0;i<this.state.listStatus.length;i++){
+            if(this.state.listStatus[i].id==postId){
+                 this.state.listStatus[i].countLike = verb=="like" ? this.state.listStatus[i].countLike:this.state.listStatus[i].countLike-1
+                 this.setState({listStatus:this.state.listStatus})
+            }
+        }
     }
     onChangeSelect(subject) {
        
@@ -76,7 +113,7 @@ class ListDiscover extends React.Component{
     render(){
         let ListStatus = this.state.listStatus.length>0?
          this.state.listStatus.map((status)=>{
-             return <Post deletePost={this.deletePost.bind(this)} subject = {status.subject} key={status.id} idPost = {status.id} title={status.title} content={status.content} time={status.createdAt} />
+             return <Post accessLike={this.accessLike.bind(this)} post = {status} like={this.like.bind(this)}  deletePost={this.deletePost.bind(this)}  key={status.id}  />
          }):<div>Chưa có bài đăng nào</div>
         return(
             <div>
@@ -105,4 +142,4 @@ class ListDiscover extends React.Component{
         )
     }
 }
-module.exports = ListDiscover
+module.exports = connect(function(state){return{auth:state.auth}})(ListDiscover)

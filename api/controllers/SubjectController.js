@@ -7,7 +7,9 @@
 
 module.exports = {
     add:function(req,res){
+        console.log('suv')
         Subject.create(req.body).exec((err,subject)=>{
+            console.log('err',err,subject)
             res.send(subject)
         })
     },

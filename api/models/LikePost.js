@@ -14,6 +14,10 @@ module.exports = {
         postId:{
           type:'integer'
         },
+        like:{
+          type:"integer",
+          defaultsTo : 1
+        },
         time:{
           type:'float'
         }

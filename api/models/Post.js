@@ -19,6 +19,10 @@ module.exports = {
     },
     userId_post:{
        type:"integer"
+    },
+    countLike:{
+      type:"integer",
+      defaultsTo : 0
     }
     
   }
