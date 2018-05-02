@@ -12,7 +12,7 @@ class Wall extends React.Component{
      return(
        <div>
         <div style={{marginTop:"5px"}} className="col-md-3 col-xs-12">
-          <Info />
+          <Info username={this.props.username} />
 
 
 

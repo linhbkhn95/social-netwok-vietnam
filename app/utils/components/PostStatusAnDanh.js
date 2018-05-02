@@ -286,7 +286,7 @@ class PostStatus extends React.Component{
                         <p className="">{moment(data.time).lang('vi').fromNow()}</p>
                     </div>
                 </div>
-                <div style={{display:self.state.displayInputRepComment[data.id]?"block":"none",paddingLeft:"45px"}}  className="col-md-12 ">
+                <div style={{display:self.state.displayInputRepComment[data.id]?"block":"none",paddingLeft:"45px",marginBottom:"5px"}}  className="col-md-12 ">
     
                            {/* {data.listRepComment.map(c =>  (self.renderActive(c)))}                      */}
                         <div className="img-rep-rep"> <img src={self.props.auth.user.url_avatar} /> </div>

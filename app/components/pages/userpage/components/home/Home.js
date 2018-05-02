@@ -27,9 +27,9 @@ class Wall extends React.Component{
                 
       //   </div>
       // </div>
-        <LayoutHome>  
+        <LayoutHome username={this.props.username}>  
                               {/* <Route exact path="/userpage" component={ListPostNew} /> */}
-                              <ListDiscover />
+                              <ListDiscover username={this.props.username} />
           </LayoutHome>
      )
   }

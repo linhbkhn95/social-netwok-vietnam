@@ -20,7 +20,7 @@ import jwt from 'jsonwebtoken';
 import jwtDecode from 'jwt-decode';
 import setAuthorizationToken from 'app/utils/setAuthorizationToken.js';
 import {setCurrentUser} from 'app/action/authActions.js';
-
+import PostNotifi from './pages/post/Post'
 import {logout}  from 'app/action/actionAuthenticate.js';
 // if(localStorage.jwToken){
 //   console.log('cssssssssssssssssssssssssssmm');
@@ -64,7 +64,8 @@ const muiTheme = getMuiTheme({
                        
                       <Route  exact   path="/" component={UserManager}/>
                       <Route     path="/wall" component={Home}/>
-                      <Route  path="/userpage" component={UserPage} />
+                      <Route path = '/post.notifi.:postId' component ={PostNotifi} />
+                      <Route  path="/userpage.:username" component={UserPage} />
                       <Route  path="/login" component={Login} />
                        {/* <Route  exact   path="/wall" component={Home}/> */}
                       <Route render={function(){
@@ -72,6 +73,14 @@ const muiTheme = getMuiTheme({
                            }
                        } />
                  </Switch>
+                                       {/* <Route  path="/userpage.a" component={UserPage} /> */}
+
+                  {/* <Route   path="/userpage.a"  render={function () {
+                                    return <div><UserPage  /></div>
+                                }
+                                } />
+
+                        } /> */}
                 </div>
                </Layout>
              </Router>

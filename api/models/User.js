@@ -24,6 +24,12 @@ module.exports = {
      url_profile:{
        type:'string'
      },
+     url_cover:{
+       type:"string"
+     },
+     address:{
+       type:"string"
+     },
     //  adress:{
     //    type:'string'
     //  },

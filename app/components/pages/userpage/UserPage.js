@@ -16,9 +16,16 @@ class shopMK extends React.Component{
         this.state = {
           data:[
            
-          ]
+          ],
+          username:null
         };
       }
+    componentWillReceiveProps(nextProps){
+        
+    }
+    componentDidMount(){
+    
+    }
     login(){
         var {dispatch} = this.props;
         
@@ -27,6 +34,8 @@ class shopMK extends React.Component{
        this.props.history.push('/');
    }
     render(){
+        console.log('match',this.props.match.params)
+        let {username} = this.props.match.params
         return(
             //   <div className="container" style={{paddingTop:"10px"}}>
             //       <div className="fix-product">
@@ -57,11 +66,32 @@ class shopMK extends React.Component{
             //           </div>
             //       </div>
             //   </div>
-            <LayoutPage>
-                              <Route exact path="/userpage/" component={Wall} />
-                              <Route path="/userpage/friends" component={ListFriend} />
-                              <Route path="/userpage/follows" component={ListFollow} />
-                              <Route path="/userpage/images" component={ListImage} />
+            <LayoutPage username={username}>
+                  
+                              {/* <Route exact path={"/userpage."+username}  component={Wall} */}
+                              {/* /> */}
+                        <Route exact path={"/userpage."+username}  render={function () {
+                                    return <div><Wall username={username} /></div>
+                                }
+                                } />
+                      
+                              {/* <Route path={"/userpage."+username+"/friends"} component={ListFriend}/> */}
+                              <Route path={"/userpage."+username+"/friends"}  render={function () {
+                                    return <div><ListFriend username={username}  /></div>
+                                }
+                                } />
+                    
+                              <Route path={"/userpage."+username+"/follows"}  render={function () {
+                                    return <div><ListFollow username={username} /></div>
+                                }
+                                } />
+
+                              <Route path={"/userpage."+username+"/images"}  render={function () {
+                                    return <div><ListImage username={username}  /></div>
+                                }
+                                } />
+
+                        } />
 
             </LayoutPage>
         )

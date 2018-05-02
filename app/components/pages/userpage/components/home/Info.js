@@ -3,10 +3,31 @@ import {NavLink} from 'react-router-dom';
 
 import HeaderPost from './HeaderPost'
 import ListPost from './ListPost'
-
+import moment from 'moment'
+import axios from 'axios'
 class Info extends React.Component{
- 
+    constructor(props){
+        super(props);
+        this.state ={
+            info:{
+                user:{}
+            }
+        }
+    }
+    componentDidMount(){
+        let username = this.props.username
+        let sefl = this
+        if(username){
+            axios.post('/user/getInfo',{username})
+            .then((res)=>{
+                if(res.data.EC==0){
+                    sefl.setState({info:res.data.DT})
+                }
+            })
+        }
+    }
   render(){
+      let {info} = this.state
      return(
 
         <div className="fixMenu">
@@ -21,7 +42,7 @@ class Info extends React.Component{
                                                                     </td>
                                                                     <td>
                                                                         <span className="total_product">
-                                                                            2,099                                            </span>
+                                                                           {info.countPost}                                         </span>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -32,7 +53,7 @@ class Info extends React.Component{
                                                                     </td>
                                                                     <td>
                                                                         <span className="total_product">
-                                                                            15   </span>
+                                                                            {info.countFollow}   </span>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
@@ -40,15 +61,15 @@ class Info extends React.Component{
                                                                         <span className="color-title"><i className="fa fa-calendar"></i> Tham gia</span>
                                                                     </td>
                                                                     <td>
-                                                                        <span className="total_product">1 năm</span>
+                                                                        <span className="total_product">{moment(info.user.createdAt).lang('vi').fromNow()}</span>
                                                                     </td>
                                                                 </tr>
                                                                                                         <tr>
                                                                         <td>
-                                                                            <span className="color-title"><i className="fa fa-location-arrow"></i> Khu vực</span>
+                                                                            <span className="color-title"><i className="fa fa-location-arrow"></i>Quê quán</span>
                                                                         </td>
                                                                         <td>
-                                                                            <span className="total_product"> Hà Nội</span>
+                                                                            <span className="total_product"> {info.user.address}</span>
                                                                         </td>
                                                                     </tr>
                                                                                                     <tr>

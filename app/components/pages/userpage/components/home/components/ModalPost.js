@@ -3,6 +3,7 @@ import {Modal,Button, FormGroup,ControlLabel,FormControl,HelpBlock} from 'react-
 import {RadioGroup, Radio} from 'react-radio-group'
 import ContentAnDanh from './ContentAnDanh'
 import ContentQuestion from './ContentQuestion'
+import {connect} from 'react-redux'
 class ModalPost extends React.Component{
     constructor(props){
       super(props);
@@ -23,6 +24,8 @@ class ModalPost extends React.Component{
       this.setState(this.state)
     }
     post(){
+      let data  = {...this.state}
+      data.userId_post = this.props.auth.user.id
       io.socket.post('/post/postStatus',this.state.dataPost,function(resdata,jwres){
           console.log(resdata)
       })
@@ -111,4 +114,8 @@ class ModalPost extends React.Component{
     }
   };
   
-  module.exports = ModalPost;
+  module.exports =connect(function(state){
+    return{
+        auth:state.auth,
+    }})
+   (ModalPost);

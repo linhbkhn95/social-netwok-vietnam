@@ -189,13 +189,14 @@ section#user_main div.content-main .left-list table tr td {
     padding: 10px 0px;
 }
 section#user_main div.content-main .left-list table tr td span {
-    font-size: 14px;
+    font-size: 12px;
 }
 section#user_main div.content-main .left-list table tr td .color-title i {
-    padding-right: 7px;
+    /* padding-right: 7px; */
 }
 section#user_main div.content-main .left-list table tr td .total_product {
-    color: #f05077;
+    color: #4dab28;
+    float: right;
 }
 section#user_main div.content-main .left-list .text-box:after {
     position: absolute;
@@ -288,6 +289,9 @@ section#user_main div.content-main .head{
 }
 .name-user{
     font-weight: bold;
+    color: #19ab27;
+}
+.name-user a{
     color: #19ab27;
 }
 .info-user{
