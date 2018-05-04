@@ -10,6 +10,7 @@ import jwtDecode from 'jwt-decode';
 import axios from 'axios'
 import {connect} from 'react-redux'
 import ListNotifi from './ListNotification'
+import {addNotification} from 'app/action/actionNotification'
   class NavContent extends React.Component {
    
     
@@ -33,7 +34,20 @@ import ListNotifi from './ListNotification'
 
   
     }
-   
+   componentWillMount(){
+     let self = this;
+    io.socket.get('/notification/user', function gotResponse(data, jwRes) {
+     ; console.log('Server responded with status code ' + jwRes.statusCode + ' and data: ', data)
+      io.socket.on('notifi_user'+self.props.auth.user.id, function (data) {
+            
+         
+         self.props.dispatch(addNotification(data))
+        console.log('Socket `' + data.id + '` joined the party!',data);
+  
+       })
+    
+    });
+   }
   render() {
     
     return (
@@ -83,7 +97,7 @@ import ListNotifi from './ListNotification'
                                  <i className="fa fa-user-plus" aria-hidden="true"></i>                   
                          </NavItem>
                          <NavItem eventKey={1} href="#">
-                           <i className="fa fa-home" aria-hidden="true"></i>
+                         <NavLink to="/wall">   <i className="fa fa-home" aria-hidden="true"></i></NavLink>
                           </NavItem>
                      
                           <NavItem eventKey={2} href="#">

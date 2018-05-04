@@ -185,7 +185,7 @@ body{
 }
 .footer-post .btn-footer-post {
     float: left;
-    width: 25% ;
+    /* width: 25% ; */
     cursor: pointer;
     font-size: 14px;
     padding: 10px 15px 10px 15px;

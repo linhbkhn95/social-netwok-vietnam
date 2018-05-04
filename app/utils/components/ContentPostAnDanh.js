@@ -90,7 +90,7 @@ class Post extends React.Component{
                     if(listUserId[i]!=this.props.auth.user.id)
                     textListUserLike +=' '+listUser[listUserId[i]].fullname+','
                 }
-                textListUserLike +=' và '+(length-3)+' người khác'
+                textListUserLike +=' và '+(length-2)+' người khác,'
             }
             else{
                 for(var i=0;i<length;i++){

@@ -161,6 +161,7 @@ class PostStatus extends React.Component{
     }
     postComment(data,id){
         let self = this
+        console.log('daaconenene',data)
         io.socket.post('/comment/create',data,((resdata,jwres)=>{
             console.log('comment',resdata)
             if(resdata.EC==0){
@@ -190,7 +191,7 @@ class PostStatus extends React.Component{
         comment.userId_comment = this.props.auth.user.id
         comment.postId = this.props.post.id
         // comment.id = Math.floor(Math.random()*(1000)+1)
-        this.postComment(id,comment)
+        this.postComment(comment,id)
      
        
     }

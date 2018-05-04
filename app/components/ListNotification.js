@@ -3,19 +3,32 @@ var React = require('react');
 var {connect} = require('react-redux');
 import { ToastContainer, toast } from 'react-toastify';
 import moment from 'moment';
+import {addList} from 'app/action/actionNotification'
+
+import {NavLink} from 'react-router-dom'
 var date = Date.now();
 var datedemo=1511399642970;
 class ListNotification extends React.Component{
     constructor(props){
         super(props);
         this.state ={
-  
+            listnotifi:[]
         }
         this.setWrapperRef = this.setWrapperRef.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
       }
     componentDidMount(){
         document.addEventListener('mousedown', this.handleClickOutside);
+        let self = this
+        io.socket.post('/notification/getlist',((resdata,jwres)=>{
+            console.log('listnotifi',resdata)
+            if(resdata.EC==0){
+                self.props.dispatch(addList(resdata.DT))
+            }
+        }))
+
+    }
+    componentWillReceiveProps(nextProps){
 
     }
     componentWillUnmount() {
@@ -37,10 +50,10 @@ class ListNotification extends React.Component{
         this.wrapperRef = node;
       }
        render(){
-        
+         let {data} = this.props.notification 
          return(
             <li ref={this.setWrapperRef} onClick={this.showNotifi.bind(this)} id="notification_li">
-            <span id="notification_count">3</span>
+            <span id="notification_count">{this.props.notification.number_notifi}</span>
             <a href="#" ref="foo" id="notificationLink" data-tip="Thông báo"><i className="fa fa-bell-o" aria-hidden="true"></i> </a>
         
             <div id="notificationContainer">
@@ -49,30 +62,21 @@ class ListNotification extends React.Component{
                 <div className="">Mới</div>
                 <div id="notificationsBody" className="notifications">
                   
-                    <div className="col-md-12 alert-message">
-                        <div className="col-md-3 row"><img className="avatar-alert" src="/images/user/xuan.jpg" /></div>
-                        <div className=" row">
-                              <strong>Xuân Nguyễn</strong> đã bình luận bài đăng của bạn <strong>Tình yêu</strong>
-                              <br />
-                              <p className="time-alert">{moment(datedemo).lang('vi').fromNow()}</p>
-                        </div>
-                    </div>
-                    <div className="col-md-12 alert-message">
-                        <div className="col-md-3 row"><img className="avatar-alert" src="/images/user/duong.jpg" /></div>
-                        <div className=" row">
-                              <strong>Đăng Dương</strong> đã thích bài đăng của bạn 
-                              <br />
-                              <p className="time-alert">{moment(datedemo).lang('vi').fromNow()}</p>
-                        </div>
-                    </div>
-                    <div className="col-md-12 alert-message">
-                        <div className="col-md-3 row"><img className="avatar-alert" src="/images/user/duong.jpg" /></div>
-                        <div className=" row">
-                              <strong>Đăng Dương</strong> đã thích bài đăng của bạn 
-                              <br />
-                              <p className="time-alert">{moment(datedemo).lang('vi').fromNow()}</p>
-                        </div>
-                    </div>
+                   {data.length>0?data.map((notifi,index)=>{
+                    //    let text = notifi.type=="comment"?" đã bình luận về bài"
+                       return(
+                        <div className="col-md-12 alert-message">
+                      <NavLink to={notifi.url_ref} > <div className="col-md-3 row"><NavLink to={"/userpage."+notifi.user_notifi.username} ><img className="avatar-alert" src={notifi.user_notifi.url_avatar} /></NavLink></div>
+                                <div className="col-md-10 row">
+                                <NavLink to={"/userpage."+notifi.user_notifi.username} >  <strong>{notifi.user_notifi.fullname}</strong></NavLink> {notifi.text +" bạn"}
+                                    <br />
+                                    <p className="time-alert">{moment(notifi.time).lang('vi').fromNow()}</p>
+                                </div>
+                                </NavLink>
+                       </div>
+                       )
+                   }):<div style={{textAlign:"center"}}>Chưa có thông báo nào</div>}
+                   
                 </div>
                 <div id="notificationFooter"><a href="#">Xem tất cả</a></div>
             </div>
@@ -85,5 +89,6 @@ class ListNotification extends React.Component{
 module.exports =connect(function(state){
     return{
         auth:state.auth,
+        notification:state.notification
     }})
    (ListNotification);

@@ -8,6 +8,7 @@
 module.exports = {
     postStatus:function(req,res){
         let data = req.body
+        data.userId_post = req.session.user.id;
         Post.create(data).exec(async function(err,post){
             if(err){
 

@@ -1,3 +1,4 @@
+
 /**
  * Notification.js
  *
@@ -9,7 +10,24 @@ module.exports = {
   autoCreatedAt: false,
   autoUpdatedAt: false,
   attributes: {
-
+      type:{
+        type:"string"
+      },
+      url_ref:{
+        type:'string'
+      },
+      text:{
+        type:'text'
+      },
+      userId:{
+        type:'integer'
+      },
+      data:{
+        type:'json'
+      },
+      time:{
+        type:'float'
+      }
   }
 };
 

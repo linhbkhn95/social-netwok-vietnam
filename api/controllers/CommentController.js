@@ -78,19 +78,24 @@ module.exports = {
         console.log('data',data)
         let postId = data.postId
         let post = await Post.findOne({id:postId})
-        data.time = Date.now();
+        let time  = Date.now()
+        data.time = time;
         
         if(post)
-            Comment.create(req.body).exec( (err,comment)=>{
+            Comment.create(req.body).exec( async (err,comment)=>{
                   if(err){
                     return res.send(OutputInterface.errServer(err))
                      }
                     if(comment){
+                        
                         comment.user_comment = req.session.user
 
-                        Comment.publishCreate(comment);
+                       
                         
+                        // notifi.user = req.session.user;
+                        NotificationUtils.notifiPostUser_Comment(postId,comment,req);
                         sails.sockets.broadcast('Subscribe_Status',data.postId,UtilsSocket.getData(comment,TypeSocket.comment,VerbSocket.add),req);
+                        sails.sockets.broadcast('NotificationUser',"notifi_user"+2,UtilsSocket.getData(comment,TypeSocket.comment,VerbSocket.add),req);
 
                         return res.send(OutputInterface.success(comment))
 

@@ -101,7 +101,7 @@ class Info extends React.Component{
                                                                 </tr>
                                                             </tbody></table>
                                                         </div>
-                                                        <div className="left-list">
+                                                        {/* <div className="left-list">
                                                             <h3 className="text-box">Bình luận gần đây</h3>
                                                             <aside>
                                                                 <div className="comment">
@@ -117,7 +117,7 @@ class Info extends React.Component{
                                                                 </div>
                                                                 </div>
                                                             </aside>
-                                                        </div>
+                                                        </div> */}
                                                   </div>           
      )
   }

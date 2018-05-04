@@ -47,6 +47,47 @@ module.exports = {
         });
     
       },
+      user: function(req, res) {
+
+        // Make sure this is a socket request (not traditional HTTP)
+        if (!req.isSocket) {
+          return res.badRequest();
+        }
+    
+        // Have the socket which made the request join the "funSockets" room.
+        sails.sockets.join(req, 'NotificationUser');
+    
+        // Broadcast a notification to all the sockets who have joined
+        // the "funSockets" room, excluding our newly added socket:
+        // sails.sockets.broadcast('funSockets', 'follow', {id:req.socketid, howdy: 'hi there!'}, req);
+        // sails.sockets.broadcast('funSockets', 'add', {id:req.socketid, howdy: 'hi there!'}, req);
+
+        // ^^^
+        // At this point, we've blasted out a socket message to all sockets who have
+        // joined the "funSockets" room.  But that doesn't necessarily mean they
+        // are _listening_.  In other words, to actually handle the socket message,
+        // connected sockets need to be listening for this particular event (in this
+        // case, we broadcasted our message with an event name of "hello").  The
+        // client-side you'd need to write looks like this:
+        // ```
+        // io.socket.on('hello', function (broadcastedData){
+        //   console.log(data.howdy);
+        //   // => 'hi there!'
+        // }
+        // ```
+    
+        // Now that we've broadcasted our socket message, we still have to continue on
+        // with any other logic we need to take care of in our action, and then send a
+        // response.  In this case, we're just about wrapped up, so we'll continue on
+    
+        // Respond to the request with a 200 OK.
+        // The data returned here is what we received back on the client as `data` in:
+        // `io.socket.get('/say/hello', function gotResponse(data, jwRes) { /* ... */ });`
+        return res.json({
+          data: 'Nhận thông báo user'
+        });
+    
+      },
       add: function(req,res) {
 
         // Make sure this is a socket request (not traditional HTTP)
@@ -88,6 +129,7 @@ module.exports = {
         });
     
       },
+
       getlist:async function(req,res){
         console.log('getlist notify')
         let pagesize = req.body.pagesize||10
@@ -98,16 +140,25 @@ module.exports = {
           return res.badRequest();
         }
           let username = req.session.user.username
-          let list_room = await  Subscribe_tree.find({username:username,select: ['room_id']});
+          let listIdNotifi = await  Ref_notification_user.find({userId:req.session.user.id,status:true});
 
-            let result = await Promise.all(list_room.map((item) => {
+            let result = await Promise.all(listIdNotifi.map((item) => {
               return new Promise((resolve, reject) => {
-                  resolve(item.room_id)
+                  resolve(item.notificationId)
               })
            }))
           //  let response = await Tree.find(keySearch).paginate({ limit: pagesize, page: req.body.page })
-           let response = await Notifi_tree.find({}).where({ room_id: result }).sort('time DESC').paginate({ limit: pagesize, page: page });
-           return res.send(OutputInterface.success(response));
+           let response = await Notification.find({}).where({ id: result }).sort('time DESC').paginate({ limit: pagesize, page: page });
+           Promise.all(response.map((notifi) => {
+            return new Promise(async (resolve, reject) => {
+                let user = await User.findOne({id:notifi.userId});
+                notifi.user_notifi = user
+                resolve(notifi)
+            })
+         })).then((rp)=>{
+          return res.send(OutputInterface.success(rp));
+         })
+          
 
       },
       get_number_notifi:function(req,res){
