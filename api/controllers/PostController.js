@@ -17,7 +17,8 @@ module.exports = {
                  let subject  = await Subject.findOne({id:data.subject})
                  post.subject  = subject;
                  post.userLikePost = false
-                
+                 let userPost = await User.findOne({id:post.userId_post,select:['fullname','username','url_avatar']});
+                 post.userPost = userPost
                  Post.publishCreate(post);
 
                  return res.send(OutputInterface.success(post))
@@ -143,7 +144,11 @@ module.exports = {
                             let likePost = await Likepost.findOne({postId:item.id,userId});
                             if(likePost)
                                item.userLikePost = likePost.status?true:false
-                          
+                           
+                            let userPost = await User.findOne({id:item.userId_post,select:['fullname','username','url_avatar']})
+                            item.userPost = userPost
+
+
                             let subjectId = item.subject
                             let subject
                             subject = await Subject.findOne({id : subjectId})
@@ -203,6 +208,11 @@ module.exports = {
                             if(likePost)
                                item.userLikePost = likePost.status?true:false
                           
+
+                            let userPost = await User.findOne({id:item.userId_post,select:['fullname','username','url_avatar']});
+                            item.userPost = userPost
+
+
                             let subjectId = item.subject
                             let subject
                             subject = await Subject.findOne({id : subjectId})

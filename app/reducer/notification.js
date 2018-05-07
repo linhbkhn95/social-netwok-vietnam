@@ -2,6 +2,7 @@ let datanotifi ={
      data:[],
      number_notifi:0
 }
+import {shownotifi} from 'app/utils/notifi/notifiUtils'
 var notification = (state = datanotifi, action) => {
     switch (action.type) {
       
@@ -18,10 +19,11 @@ var notification = (state = datanotifi, action) => {
         let data = {...state};
          data.data.unshift(action.data)
          data.number_notifi +=1 
+         
         return data;
          break
       case 'RESET_NOTIFICATION':
-        return datanotifi;
+        return {...state,number_notifi:0};
         break
       default:
         return state;

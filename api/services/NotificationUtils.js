@@ -17,13 +17,22 @@ datanotifi
          notifi.user_notifi = req.session.user;
          let listUserComment= await Comment.find({postId,groupBy:'userId_comment',userId_comment:{'!':[req.session.user.id,post.userId_post]}}).sum();
          console.log('listusser',listUserComment)
-         Ref_notification_user.create({notificationId:notifi.id,userId:post.userId_post,readNotifi:false,status:true}).exec({})
+         if(post.userId_post!=req.session.user.id)
+             listUserComment.push({userId_comment:post.userId_post})
 
-         sails.sockets.broadcast('NotificationUser',"notifi_user"+post.userId_post,notifi,req);
-
-         listUserComment.forEach(user => {
+          listUserComment.forEach(user => {
+            //tăng sô thông báo tưng user
+            User.findOne({id:user.userId_comment}).exec((err,user)=>{
+                if(!user.number_notifi)
+                    user.number_notifi = 1;
+               else
+                   user.number_notifi +=1;
+                user.save({});
+            })
+            //tạo thông báo
             Ref_notification_user.create({notificationId:notifi.id,userId:user.userId_comment,readNotifi:false,status:true}).exec({})
 
+            //đồng bộ thông báo điến các user
             sails.sockets.broadcast('NotificationUser',"notifi_user"+user.userId_comment,notifi,req);
 
          });

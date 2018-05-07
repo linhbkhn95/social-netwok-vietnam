@@ -95,7 +95,7 @@ module.exports = {
                         // notifi.user = req.session.user;
                         NotificationUtils.notifiPostUser_Comment(postId,comment,req);
                         sails.sockets.broadcast('Subscribe_Status',data.postId,UtilsSocket.getData(comment,TypeSocket.comment,VerbSocket.add),req);
-                        sails.sockets.broadcast('NotificationUser',"notifi_user"+2,UtilsSocket.getData(comment,TypeSocket.comment,VerbSocket.add),req);
+                        // sails.sockets.broadcast('NotificationUser',"notifi_user"+2,UtilsSocket.getData(comment,TypeSocket.comment,VerbSocket.add),req);
 
                         return res.send(OutputInterface.success(comment))
 

@@ -140,6 +140,7 @@ module.exports = {
           return res.badRequest();
         }
           let username = req.session.user.username
+          this.reset_number_notifi(username)
           let listIdNotifi = await  Ref_notification_user.find({userId:req.session.user.id,status:true});
 
             let result = await Promise.all(listIdNotifi.map((item) => {
@@ -152,7 +153,13 @@ module.exports = {
            Promise.all(response.map((notifi) => {
             return new Promise(async (resolve, reject) => {
                 let user = await User.findOne({id:notifi.userId});
+                let  ref_notifi = listIdNotifi.find(function(element) {
+                  return element.notificationId === notifi.id;
+                });
+                console.log('ref',ref_notifi)
                 notifi.user_notifi = user
+                if(ref_notifi)
+                   notifi.readNotifi = ref_notifi.readNotifi
                 resolve(notifi)
             })
          })).then((rp)=>{
@@ -164,7 +171,7 @@ module.exports = {
       get_number_notifi:function(req,res){
         let username = req.body.username||req.session.user&&req.session.user.username||null
         if(username){
-        this.reset_number_notifi(username);
+        // this.reset_number_notifi(username);
 
         User.findOne({username}).exec((err,user)=>{
             if(err){

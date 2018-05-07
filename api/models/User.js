@@ -24,6 +24,10 @@ module.exports = {
      url_profile:{
        type:'string'
      },
+     number_notifi:{
+        type:'integer',
+        defaultsTo : 0
+     },
      url_cover:{
        type:"string"
      },

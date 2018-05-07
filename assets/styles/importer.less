@@ -61,7 +61,7 @@
 {
 position:relative
 }
-#notificationContainer 
+#notificationContainer ,#listRequesFriends
 {
   background-color: #fff;
   border: 1px solid rgba(100, 100, 100, 0.4);
@@ -100,9 +100,10 @@ border-bottom: 1px solid #dddddd;
 }
 #notificationsBody
 {
-padding:10px 0px 0px 0px !important;
-min-height:300px;
-font-size: 12px;
+  padding: 10px 0px 0px 0px !important;
+  max-height: 454px;
+  font-size: 12px;
+  overflow-y: auto;
 }
 #notificationFooter
 {
@@ -170,10 +171,20 @@ font-size: 11px;
 }
 
 
+#listRequesFriends .btn{
+  font-size: 12px;
+  padding: 4px 12px;
+}
 
 
-
-
+#listRequesFriends .user-request{
+  display: flex;
+    height: 48px;
+    /* justify-content: center; */
+    align-items: center;
+    justify-items: center;
+    background-color: white;
+}
 
 
 

@@ -3,7 +3,7 @@ var React = require('react');
 var {connect} = require('react-redux');
 import { ToastContainer, toast } from 'react-toastify';
 import moment from 'moment';
-import {addList} from 'app/action/actionNotification'
+import {addList,addNotification,setNotification,resetNotification} from 'app/action/actionNotification'
 
 import {NavLink} from 'react-router-dom'
 var date = Date.now();
@@ -20,12 +20,12 @@ class ListNotification extends React.Component{
     componentDidMount(){
         document.addEventListener('mousedown', this.handleClickOutside);
         let self = this
-        io.socket.post('/notification/getlist',((resdata,jwres)=>{
-            console.log('listnotifi',resdata)
-            if(resdata.EC==0){
-                self.props.dispatch(addList(resdata.DT))
+        io.socket.post('/notification/get_number_notifi',{username:this.props.auth.user.username},function(res,jwRes){
+            if(res.EC==0){
+              self.props.dispatch(setNotification(res.DT))
             }
-        }))
+        })
+      
 
     }
     componentWillReceiveProps(nextProps){
@@ -35,10 +35,18 @@ class ListNotification extends React.Component{
         document.removeEventListener('mousedown', this.handleClickOutside);
       }
       showNotifi(){
-        console.log('shádasdasdasdad')
-        $("#notificationContainer").fadeToggle(500);
-        $("#notification_count").fadeOut("slow");
-  return false;
+        $("#notificationContainer").fadeToggle(300);
+        let self = this
+        io.socket.post('/notification/getlist',((resdata,jwres)=>{
+            console.log('listnotifi',resdata)
+            if(resdata.EC==0){
+                self.props.dispatch(addList(resdata.DT))
+                self.props.dispatch(resetNotification())
+            }
+        }))
+      
+        // $("#notification_count").fadeOut("slow");
+        return false;
       }
       handleClickOutside(event) {
         if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
@@ -50,10 +58,10 @@ class ListNotification extends React.Component{
         this.wrapperRef = node;
       }
        render(){
-         let {data} = this.props.notification 
+         let {data,number_notifi} = this.props.notification 
          return(
             <li ref={this.setWrapperRef} onClick={this.showNotifi.bind(this)} id="notification_li">
-            <span id="notification_count">{this.props.notification.number_notifi}</span>
+           {number_notifi? <span id="notification_count">{number_notifi}</span>:null}
             <a href="#" ref="foo" id="notificationLink" data-tip="Thông báo"><i className="fa fa-bell-o" aria-hidden="true"></i> </a>
         
             <div id="notificationContainer">
@@ -65,7 +73,7 @@ class ListNotification extends React.Component{
                    {data.length>0?data.map((notifi,index)=>{
                     //    let text = notifi.type=="comment"?" đã bình luận về bài"
                        return(
-                        <div className="col-md-12 alert-message">
+                        <div key={index} style={{background:notifi.readNotifi?"white":"#ebf4e7"}} className="col-md-12 alert-message">
                       <NavLink to={notifi.url_ref} > <div className="col-md-3 row"><NavLink to={"/userpage."+notifi.user_notifi.username} ><img className="avatar-alert" src={notifi.user_notifi.url_avatar} /></NavLink></div>
                                 <div className="col-md-10 row">
                                 <NavLink to={"/userpage."+notifi.user_notifi.username} >  <strong>{notifi.user_notifi.fullname}</strong></NavLink> {notifi.text +" bạn"}

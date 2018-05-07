@@ -10,7 +10,37 @@ import jwtDecode from 'jwt-decode';
 import axios from 'axios'
 import {connect} from 'react-redux'
 import ListNotifi from './ListNotification'
+import ListRequestFrienfs from './ListRequestFriends'
+
 import {addNotification} from 'app/action/actionNotification'
+import { ToastContainer, toast } from 'react-toastify';
+import { isMoment } from 'moment';
+import ToastNotifiComponent from 'app/utils/notifi/ToastNotifiComponent'
+import moment from 'moment'
+const Msg = ({ closeToast }) => (
+  <div>
+    Lorem ipsum dolor
+    <button>Retry</button>
+    <button onClick={closeToast}>Close</button>
+  </div>
+)
+class ToastNotifi extends React.Component{
+  render(){
+      let notifi = this.props.notifi
+      return(
+
+          <div style={{borderBottom:"none"}} className=" alert-message">
+                    <NavLink to={notifi.url_ref} > <div className="col-md-3 "><NavLink to={"/userpage."+notifi.user_notifi.username} ><img className="avatar-alert"  src={notifi.user_notifi.url_avatar} /></NavLink></div>
+                              <div className="col-md-10 row">
+                              <NavLink to={"/userpage."+notifi.user_notifi.username} >  <strong>{notifi.user_notifi.fullname}</strong></NavLink> {notifi.text +" bạn"}
+                                  <br />
+                                  <p className="time-alert">{moment(notifi.time).lang('vi').fromNow()}</p>
+                              </div>
+                              </NavLink>
+                     </div>
+      )
+  }
+}
   class NavContent extends React.Component {
    
     
@@ -30,23 +60,24 @@ import {addNotification} from 'app/action/actionNotification'
   
          }
       })
-     
-
+      io.socket.get('/friends/getlist',((resdata,jwres)=>{
+        console.log('listfriends',resdata)
+      }))
+      io.socket.get('/notification/user', function gotResponse(data, jwRes) {
+        console.log('Server responded with status code ' + jwRes.statusCode + ' and data: ', data)
+        io.socket.on('notifi_user'+self.props.auth.user.id, function (data) {
+              console.log('addnotifi',data)
+        
+          toast(<ToastNotifi notifi={data}/>, {autoClose: 500000})
+          self.props.dispatch(addNotification(data))
+    
+         })
+      
+      });
   
     }
    componentWillMount(){
-     let self = this;
-    io.socket.get('/notification/user', function gotResponse(data, jwRes) {
-     ; console.log('Server responded with status code ' + jwRes.statusCode + ' and data: ', data)
-      io.socket.on('notifi_user'+self.props.auth.user.id, function (data) {
-            
-         
-         self.props.dispatch(addNotification(data))
-        console.log('Socket `' + data.id + '` joined the party!',data);
-  
-       })
-    
-    });
+   
    }
   render() {
     
@@ -92,10 +123,10 @@ import {addNotification} from 'app/action/actionNotification'
                         </NavLink>
                          {/* <i className="fa fa-user" aria-hidden="true"></i> */}
                           </NavItem>
-                        
-                          <NavItem style={{clear:""}} eventKey={2} href="#">
+                         <ListRequestFrienfs />
+                          {/* <NavItem style={{clear:""}} eventKey={2} href="#">
                                  <i className="fa fa-user-plus" aria-hidden="true"></i>                   
-                         </NavItem>
+                         </NavItem> */}
                          <NavItem eventKey={1} href="#">
                          <NavLink to="/wall">   <i className="fa fa-home" aria-hidden="true"></i></NavLink>
                           </NavItem>

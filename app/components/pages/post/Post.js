@@ -24,7 +24,15 @@ class PostNotifi extends React.Component{
         }) 
        
     }
-    
+    componentWillReceiveProps(nextProps){
+        let self  = this
+        let {postId} =  nextProps.match.params
+        io.socket.post('/post/getDetail',{postId},function(resdata,jwres){
+            if(resdata.EC==0)
+                self.setState({status:resdata.DT})
+        }) 
+       
+    }
     likePost(){
         
                  this.state.status.userLikePost = !this.state.status.userLikePost

@@ -2,12 +2,26 @@ import React from 'react';
 import {NavDropdown,Navbar,NavItem,MenuItem,Nav,OverlayTrigger,Tooltip,Button} from 'react-bootstrap';
 import {convertComment} from '../ConvertComment'
 import ModalConfirm from '../modal/Modalconfirm'
+
 var date = Date.now();
 var datedemo=151139964297
 import moment from 'moment'
 import { ToastContainer, toast } from 'react-toastify';
 import {connect} from 'react-redux'
+import {NavLink} from 'react-router-dom'
 
+ 
+const Msg = ({ closeToast }) => (
+    <div style={{borderBottom:"none"}} className=" alert-message">
+                      <NavLink to={'/'} > <div className="col-md-3 "><NavLink to={"/userpage.5"} ><img className="avatar-alert" src="/images/user/linh.jpg" /></NavLink></div>
+                                <div className="col-md-10 row">
+                                <NavLink to={"/userpage."+"1"} >  <strong>Trịnh linh</strong></NavLink> đã cmnt bai viet cua ban
+                                    <br />
+                                    <p className="time-alert">{moment(datedemo).lang('vi').fromNow()}</p>
+                                </div>
+                                </NavLink>
+                       </div>
+  )
 const tooltip = (
     <Tooltip id="tooltip">
       <span >Trịnh đức Bảo Linh</span>
@@ -202,17 +216,19 @@ class Post extends React.Component{
         return(
             
                 <div>
+                   
+                    
                     <header>
                       <div className="pull-left title-post"><i className="fa fa-header" aria-hidden="true"></i> {this.props.title} </div>
                         <div>  <div className="pull-right title-post"><i style={{marginRight:"3px"}} className="fa fa-flag-o" aria-hidden="true"></i>{this.props.subject.subjectname}</div></div>
                     </header>
                     <div className="user-answer">
                         <div className="user-avatar">
-                            <img className="img-user" src={this.props.auth.user.url_avatar} />
+                            <img className="img-user" src={this.props.userPost.url_avatar} />
                         </div>
                         <div className="user-detail">
                             <div className="user-name">
-                            {this.props.auth.user.fullname?this.props.auth.user.fullname:this.props.auth.user.username}
+                            {this.props.userPost.fullname?this.props.userPost.fullname:this.props.userPost.username}
 
                             </div>
                             <div className="time">
@@ -233,7 +249,8 @@ class Post extends React.Component{
                          <div className="btn-footer-post btn-share">
                           5 <i style={{marginRight:"3px"}} onClick={this.share.bind(this)} className="fa fa-share" aria-hidden="true"></i>Chia sẻ
                         </div>
-                         <div className="btn-more">
+                        {/* <div className="fb-share-button" data-href="http://localhost:1337/wall/discover" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A1337%2Fwall%2Fdiscover&amp;src=sdkpreparse" className="fb-xfbml-parse-ignore">Chia sẻ</a></div>                        */}
+                          <div className="btn-more">
                        
                          <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
                             <MenuItem  onClick={this.showModalConfirm.bind(this,this.props.id)} eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bài đăng</MenuItem>
