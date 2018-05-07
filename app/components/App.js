@@ -32,6 +32,7 @@ import {cyan500} from 'material-ui/styles/colors';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
+import requrieFriend from 'app/utils/friend/requrieFriend'
 const muiTheme = getMuiTheme({
   palette: {
     textColor: cyan500,
@@ -65,7 +66,7 @@ const muiTheme = getMuiTheme({
                       <Route  exact   path="/" component={UserManager}/>
                       <Route     path="/wall" component={Home}/>
                       <Route path = '/post.notifi.:postId' component ={PostNotifi} />
-                      <Route  path="/userpage.:username" component={UserPage} />
+                      <Route  path="/userpage.:username" component={requrieFriend(UserPage)} />
                       <Route  path="/login" component={Login} />
                        {/* <Route  exact   path="/wall" component={Home}/> */}
                       <Route render={function(){
