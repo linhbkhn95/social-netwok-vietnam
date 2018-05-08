@@ -13,6 +13,8 @@ import ListNotifi from './ListNotification'
 import ListRequestFrienfs from './ListRequestFriends'
 
 import {addNotification} from 'app/action/actionNotification'
+import {removeReqFriend,addReqFriend} from 'app/action/actionReqFriend'
+
 import { ToastContainer, toast } from 'react-toastify';
 import { isMoment } from 'moment';
 import ToastNotifiComponent from 'app/utils/notifi/ToastNotifiComponent'
@@ -60,9 +62,7 @@ class ToastNotifi extends React.Component{
   
          }
       })
-      io.socket.get('/friends/getlist',((resdata,jwres)=>{
-        console.log('listfriends',resdata)
-      }))
+  
       io.socket.get('/notification/user', function gotResponse(data, jwRes) {
         console.log('Server responded with status code ' + jwRes.statusCode + ' and data: ', data)
         io.socket.on('notifi_user'+self.props.auth.user.id, function (data) {
@@ -72,6 +72,18 @@ class ToastNotifi extends React.Component{
           self.props.dispatch(addNotification(data))
     
          })
+
+         io.socket.on('notifi_user_requestFriend'+self.props.auth.user.id, function (data) {
+          console.log('addnotifi',data)
+    
+      // toast(<ToastNotifi notifi={data}/>, {autoClose: 500000})
+          if(data.friend.status == 0)
+            self.props.dispatch(addReqFriend(data.user))
+          else
+            self.props.dispatch(removeReqFriend(data.user))
+
+
+       })
       
       });
   

@@ -40,7 +40,30 @@ datanotifi
     notifiPostUser_Like:function(postId,req){
 
     },
-   
+    notifiAccessFriend:async function(userFriend,req){
+        // let post = await Post.findOne({id:postId});
+        let datanotifi ={
+            userId:req.session.user.id,
+            url_ref:'',
+            text:' đã yêu gửi yêu cầu kết bạn đến ',
+            type:'friend',
+            time:Date.now(),
+            data:userFriend
+             }
+        let notifi = await Notification.create(datanotifi)
+         notifi.user_notifi = req.session.user;
+         User.findOne({id:userFriend.id}).exec((err,user)=>{
+            if(!user.number_notifi)
+                user.number_notifi = 1;
+           else
+               user.number_notifi +=1;
+            user.save({});
+            });
+
+            Ref_notification_user.create({notificationId:notifi.id,userId:userFriend.id,readNotifi:false,status:true}).exec({})
+            sails.sockets.broadcast('NotificationUser',"notifi_user"+userFriend.id,notifi,req);
+
+    },
     like: "like"
 
 }

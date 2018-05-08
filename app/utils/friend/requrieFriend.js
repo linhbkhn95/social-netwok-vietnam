@@ -10,7 +10,8 @@ export default function(ComposedComponent) {
       // Redux, MobX, RxJS, Backbone...
       this.state = {
        isFriend:false,
-       callDB:false
+       callDB:false,
+       userPatner:null
       }
     }
     componentWillReceiveProps(nextProps) {
@@ -25,13 +26,29 @@ export default function(ComposedComponent) {
 
           }
           else{
-            self.setState({isFriend:false,callDB:true})
+            console.log('userpartẻe',resdata.EM)
+
+            self.setState({isFriend:false,callDB:true,userPatner:resdata.EM})
 
           }
         }))
      
 
     
+    }
+    accessFriend(){
+       let friend = this.state.userPatner.friend
+       let {username} = this.props.match.params
+       let self = this
+       io.socket.post('/friends/accessFriend/',{friend,username},((resdata,jwres)=>{
+        console.log('resdataaa',resdata)
+
+          if(resdata.EC==0){
+              self.state.userPatner.friend = resdata.DT.status
+              self.setState({userPatner:self.state.userPatner})
+          }
+
+       }))
     }
     componentWillMount() {
       let self  =this
@@ -45,8 +62,9 @@ export default function(ComposedComponent) {
 
          }
          else{
-          self.setState({isFriend:false,callDB:true})
+          console.log('userpartẻe',resdata.EM)
 
+          self.setState({isFriend:false,callDB:true,userPatner:resdata.EM})
          }
       }))
      
@@ -58,16 +76,45 @@ export default function(ComposedComponent) {
      
     }
 
+    getTextButton(friend){
+        let text = "Kết bạn"
+        if(friend==0)
+            text = "Hủy yêu cầu kết bạn"
+        
+        
+    }
     render() {
-
+     
        
        if(this.state.callDB) return (
 
           this.state.isFriend?<ComposedComponent {...this.props} />: <div className="row">
-          <div className="col-md-4 col-md-offset-3">
+          <div  style={{background:"white",padding:"20px"}} className="col-md-6 col-md-offset-3">
            <div className="alert alert-danger">
                <strong>!</strong> Bạn không có quyền truy nhập trang này, hãy là bạn bè của nhau để  có thể  truy cập
           </div>
+          <div style={{}} className="col-md-12 alert-message">
+                              <div className=""><img style={{float:"left",marginRight:"2px"}} className="avatar-alert" src={this.state.userPatner.url_avatar} /></div>
+                                <div style={{
+
+display: "flex",
+justifyContent: "center",
+alignItems: "center",
+justifyItems: "center",
+height: "48px"
+                                }} className="user-request">
+                                    <div style={{float:"left",width:"75%"}}> <strong>{this.state.userPatner.fullname}</strong>
+                                    <br />
+                                    
+                                    </div>
+                                    <div className="pull-right">
+                                        <button onClick={this.accessFriend.bind(this)} className="btn btn-success">{this.state.userPatner.friend==-1?"Kết bạn":"Huỷ yêu câu kết bạn" }</button>
+                                       
+
+                                    </div>
+                                </div>
+                               
+                       </div>
           </div>
           </div>
         );

@@ -89,7 +89,8 @@ module.exports = {
                             
                             let userId = req.session.user?req.session.user.id:''
                             item.userLikePost = false
-
+                            let userPost = await User.findOne({id:item.userId_post,select:['fullname','username','url_avatar']});
+                            item.userPost = userPost
                             let likePost = await Likepost.findOne({postId:item.id,userId});
                             if(likePost)
                                item.userLikePost = likePost.status?true:false

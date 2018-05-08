@@ -47,7 +47,7 @@ class ListFriend extends React.Component{
     let username = this.props.username
     let sefl = this
     if(username){
-        axios.post('/user/getlistFriends',{username})
+        axios.post('/user/getlistFollows',{username})
         .then((res)=>{
             if(res.data.EC==0){
                 sefl.setState({listFollows:res.data.DT})
@@ -82,7 +82,7 @@ class ListFriend extends React.Component{
                                         <NavLink to={"/userpage."+follow.user.username} >    {follow.user.fullname} </NavLink>
                                         </div>
                                         <div className="number-friend-middle">
-                                            {follow.countFollow} bạn bè
+                                            {follow.countFriend} bạn bè
                                         </div>
                                     </div>
                                     <div className="col-md-3 col-xs-3">

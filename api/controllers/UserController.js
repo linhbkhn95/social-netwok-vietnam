@@ -54,21 +54,22 @@ module.exports = {
           })
       },
       getListFollows:async function(req,res){
-          let username = re.body.username
-
+          let username = req.body.username
           if(username){
-             let userId = await User.findOne({username})
-             Follows.find({userId,status:1}).exec((err,list)=>{
+             let user= await User.findOne({username})
+             Follows.find({userId:user.id,status:1}).exec((err,list)=>{
               if(err){
-                
+                return res.send(OutputInterface.errServer(err))
               }
-          
+
+              console.log('follow',username,list)
+
               Promise.all(list.map((item)=>{
                   
                   return new Promise(async(resolve,reject)=>{
                  
                       
-                      let user = await User.findOne({id:item.userId_follow}).select(['fullname,username,url_avatar']);
+                      let user = await User.findOne({id:item.userId_follow,select:['fullname','username','url_avatar']});
                       let countFriend = await Friends.count({
                         or:[
                           {userId_one:item.userId_follow,status:1},

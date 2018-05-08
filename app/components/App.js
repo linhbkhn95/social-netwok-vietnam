@@ -33,6 +33,8 @@ import {cyan500} from 'material-ui/styles/colors';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import requrieFriend from 'app/utils/friend/requrieFriend'
+
+import Notfound from './Notfound'
 const muiTheme = getMuiTheme({
   palette: {
     textColor: cyan500,
@@ -41,6 +43,7 @@ const muiTheme = getMuiTheme({
     height: 50,
   },
 });
+
  class App extends React.Component{
  
 // require('style-loader!css-loader!foundation-sites/dist/css/foundation.min.css');
@@ -70,7 +73,7 @@ const muiTheme = getMuiTheme({
                       <Route  path="/login" component={Login} />
                        {/* <Route  exact   path="/wall" component={Home}/> */}
                       <Route render={function(){
-                          return <p> not found</p>
+                        return       <Notfound />
                            }
                        } />
                  </Switch>
