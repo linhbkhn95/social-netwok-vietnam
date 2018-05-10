@@ -96,7 +96,11 @@ module.exports = {
                         
                         return new Promise(async(resolve,reject)=>{
                        
-                            
+                            if(item.userId_wall){
+                                let userWall = await User.findOne({id:item.userId_wall,select:['fullname','username','url_avatar']});
+                                item.userWall = userWall
+
+                            }
                             let userId = req.session.user?req.session.user.id:''
                             item.userLikePost = false
                             let userPost = await User.findOne({id:item.userId_post,select:['fullname','username','url_avatar']});
@@ -148,7 +152,11 @@ module.exports = {
                 
                     }
                 
-                  
+                            if(item.userId_wall){
+                                let userWall = await User.findOne({id:item.userId_wall,select:['fullname','username','url_avatar']});
+                                item.userWall = userWall
+
+                            }
                             let userId = req.session.user?req.session.user.id:''
                             item.userLikePost = false
 
@@ -223,7 +231,11 @@ module.exports = {
                         
                         return new Promise(async(resolve,reject)=>{
                        
-                            
+                            if(item.userId_wall){
+                                let userWall = await User.findOne({id:item.userId_wall,select:['fullname','username','url_avatar']});
+                                item.userWall = userWall
+
+                            }
                             let userId = req.session.user?req.session.user.id:''
                             item.userLikePost = false
                             let userPost = await User.findOne({id:item.userId_post,select:['fullname','username','url_avatar']});

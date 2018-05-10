@@ -259,7 +259,7 @@ class Post extends React.Component{
                             <MenuItem eventKey={3.2}><i style={{marginRight:"10px"}}  className="fa fa-minus" aria-hidden="true"></i>
                                 Ẩn bài đăng</MenuItem>
                           </NavDropdown>
-                           <i >Xem thêm </i>
+                           <i > </i>
                          </div>
                      </div>
                     

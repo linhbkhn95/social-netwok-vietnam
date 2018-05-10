@@ -12,15 +12,18 @@ module.exports = {
             data:data,
             incognito:req.session.user.incognito
              }
-        let notifi = await Notification.create(
-datanotifi
-     )
+        let notifi = await Notification.create(datanotifi);
          notifi.user_notifi = req.session.user;
-         let listUserComment= await Comment.find({postId,groupBy:'userId_comment',userId_comment:{'!':[req.session.user.id,post.userId_post]}}).sum();
-         console.log('listusser',listUserComment)
+
+         let listIdPostRef = []
+         listIdPostRef[0] = req.session.user.id;
+         if(post.userId_wall)
+             listIdPostRef[1] = post.userId_wall;
+         let listUserComment= await Comment.find({postId,groupBy:'userId_comment',userId_comment:{'!':listIdPostRef}}).sum();
          if(post.userId_post!=req.session.user.id)
              listUserComment.push({userId_comment:post.userId_post})
-
+         if(post.userId_wall)
+              listUserComment.push({userId_comment:post.userId_wall});
           listUserComment.forEach(user => {
             //tăng sô thông báo tưng user
             User.findOne({id:user.userId_comment}).exec((err,user)=>{
@@ -46,7 +49,7 @@ datanotifi
         if(post.userWall){
             let datanotifi ={
                 userId:req.session.user.id,
-                url_ref:'',
+                url_ref:'/post.notifi.'+post.id,
                 text: 'Đã đăng lên tường của bạn',
                 type:'friend',
                 time:Date.now(),
@@ -61,7 +64,7 @@ datanotifi
                        user.number_notifi +=1;
                     user.save({});
                 })
-                Ref_notification_user.create({notificationId:notifi.id,userId:post.userPost.id,readNotifi:false,status:true}).exec({})
+                Ref_notification_user.create({notificationId:notifi.id,userId:post.userWall.id,readNotifi:false,status:true}).exec({})
                 sails.sockets.broadcast('NotificationUser',"notifi_user"+post.userWall.id,notifi,req);
 
 
@@ -70,7 +73,6 @@ datanotifi
         for(var i = 0;i<listfriend.length;i++){
              
             let userIdPatner = listfriend[i].userId_one==req.session.user.id?listfriend[i].userId_two:listfriend[i].userId_one
-            console.log('useridpatner',userIdPatner)
 
             
             sails.sockets.broadcast('Subscribe_Status',"post"+userIdPatner,post,req);
