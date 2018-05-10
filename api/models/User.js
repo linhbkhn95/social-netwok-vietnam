@@ -31,6 +31,10 @@ module.exports = {
      url_cover:{
        type:"string"
      },
+     incognito:{
+       type:'boolean',
+       defaultsTo:false
+     },
      address:{
        type:"string"
      },

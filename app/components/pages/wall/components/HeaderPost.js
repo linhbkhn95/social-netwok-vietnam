@@ -4,35 +4,39 @@ import { ToastContainer, toast } from 'react-toastify';
 import Infinite  from 'react-infinite'
 import Toggle from 'react-toggle'
 import "react-toggle/style.css"
-
-
+import {connect} from 'react-redux'
+import {setCurrentUser} from 'app/action/authActions.js';
+import ModalSubject from './components/ModalSubject'
 import ModalPost from './components/ModalPost'
 class HeaderPost extends React.Component{
   constructor(props){
         super(props)
         this.state={
-              toggle:true,
+              toggle:false,
               showModalPost:false,
+              showModalSubject:false,
               onBlur:false,
              
         }
   }
-  onChange(event){
-      if(event.target.checked){
-            this.setState({toggle:true})
-      }
-      else
-             this.setState({toggle:false})
-  }
+  
+  
   showModalPost(){
    
              this.setState({showModalPost:true})
       
   }
+  showModalSubject(){
+    this.setState({showModalSubject:true})
+  }
   closeModal(){
        this.setState({showModalPost:false})
 
   }
+  closeModalSubject(){
+    this.setState({showModalSubject:false})
+
+    }
   onFocus(){
       this.setState({showModalPost:true})
   }
@@ -49,6 +53,12 @@ class HeaderPost extends React.Component{
       });
     //   this.props.addPost(postmodel)
   }
+  accessSubject(){
+    this.setState({showModalSubject:false})
+    toast.success( "Thêm chủ đề  thành công!", {
+       position: toast.POSITION.TOP_LEFT
+     });
+  }
 
 
   render(){
@@ -57,7 +67,7 @@ class HeaderPost extends React.Component{
      return(
 
         <div className="col-md-12 post-wall " >
-             <div className="col-md-8 hearder-post" >
+             <div className="" >
                      <div className="question" >
                          <i className="fa fa-question" aria-hidden="true"></i> Câu hỏi
 
@@ -70,27 +80,29 @@ class HeaderPost extends React.Component{
               </div>
 
               <div className="col-md-12 input-post">
-                   <input  placeholder="Bạn đang nghĩ gì ?"   className="form-control" type="text" />
+              <textarea className="form-control" placeholder="Bạn đang nghĩ gì.." rows="3" id="comment"></textarea>
               </div>     
               
-              <div className="col-md-12">
-                   <div className="post-toggle" >
-                     <Toggle
-                        defaultChecked={this.state.toggle}
-                        
-                        onChange={this.onChange.bind(this)} /> 
-                        < i className="text-toggle">Tâm sự ẩn danh</i>
-                   </div>
-                   <div onClick={this.showModalPost.bind(this)} className="btn-post">
-                           <i  className="fa fa-paper-plane" aria-hidden="true"></i> Đăng
-                   </div>
-
+              <div style={{paddingTop:"6px",paddingBottom:"2px"}} className="col-md-12">
+                  
+                   <button  style={{float:"right",fontSize:"12px",padding:"3px 8px"}} onClick={this.showModalPost.bind(this)} className="btn btn-success">
+                           <i style={{color:"white"}} className="fa fa-paper-plane" aria-hidden="true"></i> Đăng
+                   </button>
+                   <button  style={{float:"left",fontSize:"12px",padding:"3px 8px"}} onClick={this.showModalSubject.bind(this)} className="btn btn-success">
+                           <i style={{color:"white"}} className="fa fa-plus" aria-hidden="true"></i> Thêm chủ đề  tâm sự
+                   </button>
               </div>
 
-     
+                          <ModalSubject access={this.accessSubject.bind(this)} show={this.state.showModalSubject} onHide={this.closeModalSubject.bind(this)} />
+
               <ModalPost access={this.access.bind(this)} show={this.state.showModalPost} onHide={this.closeModal.bind(this)} />
         </div>
      )
   }
 }
-module.exports =  HeaderPost;
+module.exports =connect(function(state){
+  return{
+      auth:state.auth,
+     
+  }})
+ (HeaderPost);

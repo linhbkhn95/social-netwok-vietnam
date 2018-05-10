@@ -9,7 +9,8 @@ module.exports = {
             text:' đã bình luận bài đăng '+post.title+ ' của',
             type:'comment',
             time:Date.now(),
-            data:data
+            data:data,
+            incognito:req.session.user.incognito
              }
         let notifi = await Notification.create(
 datanotifi
@@ -40,12 +41,48 @@ datanotifi
     notifiPostUser_Like:function(postId,req){
 
     },
-    notifiAccessFriend:async function(userFriend,req){
+    postToFriend: async function(post,req){
+        let listfriend = await Friends.find({ or:[ {userId_one:req.session.user.id,status:1},{userId_two:req.session.user.id,status:1}   ]});
+        if(post.userWall){
+            let datanotifi ={
+                userId:req.session.user.id,
+                url_ref:'',
+                text: 'Đã đăng lên tường của bạn',
+                type:'friend',
+                time:Date.now(),
+                data:post
+                 }
+                 let notifi = await Notification.create( datanotifi)
+                 notifi.user_notifi = req.session.user;
+                 User.findOne({id:post.userWall.id}).exec((err,user)=>{
+                    if(!user.number_notifi)
+                        user.number_notifi = 1;
+                   else
+                       user.number_notifi +=1;
+                    user.save({});
+                })
+                Ref_notification_user.create({notificationId:notifi.id,userId:post.userPost.id,readNotifi:false,status:true}).exec({})
+                sails.sockets.broadcast('NotificationUser',"notifi_user"+post.userWall.id,notifi,req);
+
+
+                
+        }
+        for(var i = 0;i<listfriend.length;i++){
+             
+            let userIdPatner = listfriend[i].userId_one==req.session.user.id?listfriend[i].userId_two:listfriend[i].userId_one
+            console.log('useridpatner',userIdPatner)
+
+            
+            sails.sockets.broadcast('Subscribe_Status',"post"+userIdPatner,post,req);
+
+       }
+    },
+    notifiAccessFriend:async function(statusFriend,userFriend,req){
         // let post = await Post.findOne({id:postId});
         let datanotifi ={
             userId:req.session.user.id,
             url_ref:'',
-            text:' đã yêu gửi yêu cầu kết bạn đến ',
+            text: statusFriend==0?' đã yêu gửi yêu cầu kết bạn đến ':" đã đồng ý kết bạn với ",
             type:'friend',
             time:Date.now(),
             data:userFriend

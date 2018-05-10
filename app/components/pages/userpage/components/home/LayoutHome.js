@@ -22,7 +22,7 @@ class Wall extends React.Component{
         </div> 
         <div style={{paddingLeft:"0px"}} className="col-md-9 col-xs-12">
           
-                    <HeaderPost />
+                    <HeaderPost username={this.props.username} />
                     <div className="col-md-12 list-post " >
                     <div className="">
                         {/* <HeaderListPost /> */}

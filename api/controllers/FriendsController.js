@@ -13,7 +13,6 @@ module.exports = {
             {userId_one:req.session.user.id,status:0},
             {userId_two:req.session.user.id,status:0}
          ]}).where({action_userId:{'!':[req.session.user.id]}}).exec((err,list)=>{
-             console.log('listreq',list)
              Promise.all(list.map((item)=>{
                  return new Promise(async(resolve,reject)=>{
                      let userPatnerId = item.userId_one == req.session.user.id ?item.userId_two:item.userId_one
@@ -22,7 +21,6 @@ module.exports = {
                      resolve(userPatner)
                  })
              })).then((response)=>{
-                 console.log('response',response)
                 res.send(OutputInterface.success(response));
              })
             
@@ -43,6 +41,8 @@ module.exports = {
         let userId_two = req.session.user.id>userPatner.id?req.session.user.id:userPatner.id
         let friend = await Friends.findOne({userId_one,userId_two});
         friend.status  = 1;
+        NotificationUtils.notifiAccessFriend(friend.status,userPatner,req);
+
         friend.action_userId = req.session.user.id
         friend.save({})
         return res.send(OutputInterface.success(userPatner));
@@ -83,7 +83,7 @@ module.exports = {
                     dataSocket.friend = friend
                     friend.save({})
                     if(friend.status==0)
-                          NotificationUtils.notifiAccessFriend(user,req);
+                          NotificationUtils.notifiAccessFriend(friend.status,user,req);
 
                     sails.sockets.broadcast('NotificationUser',"notifi_user_requestFriend"+user.id,dataSocket,req);
 
@@ -91,7 +91,7 @@ module.exports = {
 
                 }
                 else{
-                    friend.create({userId_one,userId_one,status:0,action_userId:req.session.user.id}).exec((err,result)=>{
+                    Friends.create({userId_one,userId_two,status:0,action_userId:req.session.user.id}).exec((err,result)=>{
                         if(err){
                             return res.send(OutputInterface.errServer(err));
 
@@ -101,8 +101,52 @@ module.exports = {
                     })
                 }
              }
+            else
              return res.send(OutputInterface.errServer('no user'));
          })
+    },
+    getCanFriend:async function(req,res){
+           let userId = req.session.user.id
+           Friends.find({ or:[ {userId_one:userId,status:1},{userId_two:userId,status:1}   ]}).exec(async (err,list)=>{
+            if(err){
+              
+            }
+            let listUserId = list.map((friend)=>{
+                return(friend.userId_one==userId?friend.userId_two:friend.userId_one)
+            })
+            let listUser 
+            console.log('listfreined',listUserId)
+            listUserId[listUserId.length]=req.session.user.id
+              listUser = await User.find({select:['fullname','username','url_avatar','id']}).where({id:{'!':listUserId}});
+            
+              console.log('listuser',listUser)
+
+        
+            Promise.all(listUser.map((user)=>{
+                
+                return new Promise(async(resolve,reject)=>{
+                  
+                    let countFriend = await Friends.count({
+                      or:[
+                        {userId_one:user.id,status:1},
+                        {userId_two:user.id,status:1}
+                     ]
+                    
+                    })
+                    let data = {
+                       user,
+                       countFriend,
+                    }
+                    resolve(data)
+                })
+        }))
+        .then((response)=>{
+            return res.send(OutputInterface.success(response))
+        })
+            // res.send({DT:listPost})
+      
+           })
+        
     },
      checkFriend:async function(req,res){
          let username  = req.body.username

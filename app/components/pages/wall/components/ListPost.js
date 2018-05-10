@@ -19,14 +19,18 @@ class ListPost extends React.Component{
              this.setState({toggle:false})
   }
   render(){
+        console.log('this.props',this.props)
      return(
-
+       
         <div className="col-md-12 list-post " >
              <Layout>
                             {/* <Route exact path="/user_shop/manager" render={() => (
                                     <h3>Please select a topic.</h3>
                                     )}/> */}
-                              <Route exact path="/wall/newpost" component={ListPostNew} />
+                              <Route exact path="/wall/" render={() => (
+                                    <ListDiscover active={true} />
+                                    )}/> 
+                              <Route  path="/wall/newpost" component={ListPostNew} />
                               <Route path="/wall/discover" component={ListDiscover} />
                             
                                  

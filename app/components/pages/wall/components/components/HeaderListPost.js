@@ -1,10 +1,12 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom'
 class HeaderListPost extends React.Component{
+    
     render(){
+        console.log('props',this.props)
         return(
            
-             <section className="header-listpost">
+             <section style={{marginBottom:"30px"}} className="header-listpost  row">
                    <div className="">
                         <ul className="tab-header-list-post  ">
                           

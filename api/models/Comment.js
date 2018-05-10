@@ -22,6 +22,10 @@ module.exports = {
       },
       userId_comment:{
         type:'integer'
+      },
+      incognito:{
+        type:"boolean",
+        defaultsTo:false
       }
   }
 };

@@ -57,7 +57,7 @@ section#user_main div.home-user .group-head .bt-info .img-left .avatar-user {
     display: inline-block;
     max-width: 100%;
     
-    padding: 4px;
+    padding: 0px;
     line-height: 1.42857143;
     background-color: #fff;
     border: 1px solid #ddd;
@@ -65,6 +65,26 @@ section#user_main div.home-user .group-head .bt-info .img-left .avatar-user {
     -webkit-transition: all .2s ease-in-out;
     -o-transition: all .2s ease-in-out;
     transition: all .2s ease-in-out;
+}
+ .itemImage .image-avatar{
+     display: none;
+ }
+.itemImage:hover .image-avatar{
+    display: block !important;
+}
+.image-cover{
+    display: none;
+    position: absolute;
+    /* float: right; */
+    top: 13px;
+    right: 27px;
+    background: black;
+    border-radius: 3px;
+    padding: 2px;
+    color:white
+}
+.background-cover:hover .image-cover{
+    display: block
 }
 section#user_main div.home-user .group-head .bt-info .name-user {
     width: auto;
@@ -75,6 +95,12 @@ section#user_main div.home-user .group-head .bt-info .name-user {
     color: #fff;
     font-weight: bold;
     /* text-shadow: 1px 1px #f1f; */
+}
+.input-post{
+    padding-top: 15px;
+    padding-bottom: 15px;
+    border-bottom:1px solid #dfdfe8;
+    border-top: 1px solid #dfdfe8;
 }
 section#user_main div.home-user .group-head .box-title {
     float: left;
@@ -108,29 +134,29 @@ section#user_main div.home-user .group-head .box-title .content-right ul {
     padding: 0;
     margin: 0;
 }
-section#user_main div.home-user .group-head .box-title .content-right ul li {
+section#user_main div.home-user .group-head .box-title .content-right ul .li-layout {
     float: left;
     padding: 10px 10px 10px 10px;
     border-right: 1px solid #ebe8e8;
 
 
 }
-section#user_main div.home-user .group-head .box-title .content-right ul li p {
+section#user_main div.home-user .group-head .box-title .content-right ul .li-layout p {
     padding: 10px 39px;
     margin: 0;
 }
-section#user_main div.home-user .group-head .box-title .content-right ul li p span.color-title {
+section#user_main div.home-user .group-head .box-title .content-right ul .li-layout p span.color-title {
     font-weight: bold;
 }
-section#user_main div.home-user .group-head .box-title .content-right ul li p span.total_product {
+section#user_main div.home-user .group-head .box-title .content-right ul .li-layout p span.total_product {
     color: #b0aeae;
     font-size: 12px;
     padding-left: 1px;
 }
-section#user_main div.home-user .group-head .box-title .content-right ul li div.link-share {
+section#user_main div.home-user .group-head .box-title .content-right ul .li-layout div.link-share {
     float: right;
 }
-section#user_main div.home-user .group-head .box-title .content-right ul li div.link-share a {
+section#user_main div.home-user .group-head .box-title .content-right ul .li-layout div.link-share a {
     color: #676767;
     margin: 5px;
 }
@@ -142,7 +168,7 @@ section#user_main div.home-user .group-head .box-title .content-right ul li div.
     border-radius: 50%;
 } */
 
-section#user_main div.home-user .group-head .box-title .content-right ul li div.link-share .fa {
+section#user_main div.home-user .group-head .box-title .content-right ul .li-layout div.link-share .fa {
     padding: 9px !important;
     /* font-size: 9px !important; */
     width: 30px !important;
@@ -293,6 +319,7 @@ section#user_main div.content-main .head{
 }
 .name-user a{
     color: #19ab27;
+    font-size:12px
 }
 .info-user{
     padding: 32px 0px 21px 8px;
@@ -314,4 +341,27 @@ section#user_main div.content-main .head{
 }
 .info-user .dropdown-menu .divider{
     margin: 6px 0px;
+}
+.btn-file {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+.btn-file input[type=file] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    min-width: 100%;
+    min-height: 100%;
+    font-size: 100px;
+    text-align: right;
+    filter: alpha(opacity=0);
+    opacity: 0;
+    outline: none;
+    background: white;
+    cursor: inherit;
+    display: block;
+}
+.user-name a{
+    color :#4dab28;
 }

@@ -4,7 +4,6 @@ import React from 'react';
 import {NavDropdown,Navbar,NavItem,MenuItem,Nav} from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import setAuthorizationToken from 'app/utils/setAuthorizationToken.js';
-import {setCurrentUser} from 'app/action/authActions.js';
 import jwt from 'jsonwebtoken';
 import jwtDecode from 'jwt-decode';
 import axios from 'axios'
@@ -19,32 +18,38 @@ import { ToastContainer, toast } from 'react-toastify';
 import { isMoment } from 'moment';
 import ToastNotifiComponent from 'app/utils/notifi/ToastNotifiComponent'
 import moment from 'moment'
-const Msg = ({ closeToast }) => (
-  <div>
-    Lorem ipsum dolor
-    <button>Retry</button>
-    <button onClick={closeToast}>Close</button>
-  </div>
-)
+import Toggle from 'react-toggle'
+import "react-toggle/style.css"
+
+import {setCurrentUser} from 'app/action/authActions.js';
+
 class ToastNotifi extends React.Component{
   render(){
       let notifi = this.props.notifi
+      console.log('notifi',notifi)
       return(
 
           <div style={{borderBottom:"none"}} className=" alert-message">
-                    <NavLink to={notifi.url_ref} > <div className="col-md-3 "><NavLink to={"/userpage."+notifi.user_notifi.username} ><img className="avatar-alert"  src={notifi.user_notifi.url_avatar} /></NavLink></div>
-                              <div className="col-md-10 row">
-                              <NavLink to={"/userpage."+notifi.user_notifi.username} >  <strong>{notifi.user_notifi.fullname}</strong></NavLink> {notifi.text +" bạn"}
-                                  <br />
-                                  <p className="time-alert">{moment(notifi.time).lang('vi').fromNow()}</p>
-                              </div>
-                              </NavLink>
+                    <NavLink to={notifi.url_ref} > <div className="col-md-3 row">{notifi.incognito?<img className="avatar-alert" src="/images/user/robot.png" />:<NavLink to={"/userpage."+notifi.user_notifi.username} ><img className="avatar-alert" src={notifi.user_notifi.url_avatar} /></NavLink>}</div>
+                                <div className="col-md-10 row">
+                       {notifi.incognito? <strong>"Người lạ nào đó</strong>:<NavLink to={"/userpage."+notifi.user_notifi.username} >  <strong>{notifi.user_notifi.fullname}</strong></NavLink>} {notifi.text +" bạn"}
+                                    <br />
+                                    <p className="time-alert">{moment(notifi.time).lang('vi').fromNow()}</p>
+                                </div>
+                                </NavLink>
                      </div>
       )
   }
 }
   class NavContent extends React.Component {
-   
+    constructor(props){
+      super(props)
+      this.state={
+            toggle:false,
+           
+           
+      }
+}
     
     componentDidMount(){
       let self = this
@@ -88,9 +93,43 @@ class ToastNotifi extends React.Component{
       });
   
     }
-   componentWillMount(){
-   
+    logOut(){
+      let self = this
+      io.socket.post('/auth/logout',((resdata,jwres)=>{
+         if(resdata.EC==0){
+            self.props.dispatch(setCurrentUser({}));
+            self.context.router.history.push('/login');
+          }
+      }))
+    }
+    componentWillMount(){
+      let self = this
+  
+     io.socket.get('/user/getIncognito',((resdata,jwres)=>{
+       console.log('dâdadadadad',resdata)
+         if(resdata.EC==0)
+            self.setState({toggle:resdata.DT})
+     
+        
+      }))
+    
    }
+    onChange(event){
+       let self = this
+       console.log('change',event)
+  
+        io.socket.post('/user/accessBehide',{},((resdata,jwres)=>{
+            if(resdata.EC==0){
+              self.props.dispatch(setCurrentUser(resdata.DT))
+            }
+        }))
+        if(event.target.checked){
+              this.setState({toggle:true})
+        }
+        else
+               this.setState({toggle:false})
+    }
+
   render() {
     
     return (
@@ -108,11 +147,19 @@ class ToastNotifi extends React.Component{
                       {this.props.auth.isAuthenticated?    <Navbar.Collapse>
                      
                         <Nav>
-                          <NavItem eventKey={1} href="#">
+                      
+                          {/* <NavItem eventKey={1} href="#">
                             Câu hỏi
-                          </NavItem>
+                          </NavItem> */}
                           <NavItem eventKey={2} href="#">
-                            Tag
+                          <div style={{padding:"0px"}} className="post-toggle" >
+                      <Toggle
+                        // defaultChecked={this.state.toggle}
+                        checked={this.state.toggle}
+                        onChange={this.onChange.bind(this)} /> 
+                        < i style={{fontSize:" 11px",fontFamily:"inherit",
+    color: "#f3a023"}} className="text-toggle">Tâm sự ẩn danh</i>
+                   </div>
                           </NavItem>
                           {/* <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
                             <MenuItem eventKey={3.1}>Câu hỏi</MenuItem>
@@ -152,7 +199,7 @@ class ToastNotifi extends React.Component{
                             <MenuItem eventKey={3.1}>Cài đặt</MenuItem>
                             {/* <MenuItem eventKey={3.1}></MenuItem>
                             <MenuItem divider /> */}
-                            <MenuItem eventKey={3.2}>Đăng xuất</MenuItem>
+                            <MenuItem onClick={this.logOut.bind(this)} eventKey={3.2}>Đăng xuất</MenuItem>
                           </NavDropdown>
                           
                         </Nav>

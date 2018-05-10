@@ -6,11 +6,16 @@
  */
 
 module.exports = {
-    add:function(req,res){
-        console.log('suv')
+    add:async function(req,res){
+        let data = req.body;
+        let subjectExits = await Subject.findOne({subjectname:data.subjectname});
+        if(subjectExits){
+            return res.send(OutputInterface.errServer('Chủ đề  đã tồn tại'))
+
+        }
         Subject.create(req.body).exec((err,subject)=>{
-            console.log('err',err,subject)
-            res.send(subject)
+            
+             return res.send(OutputInterface.success(subject))
         })
     },
     getall:function(req,res){

@@ -106,7 +106,7 @@ class Login extends React.Component{
 
                                             <div style={{textAlign:"center"}} className="col-sm-12 controls">
                                             <a style={{width:"100%"}} id="btn-login" onClick={this.login.bind(this)} href="#" className="btn btn-default">Đăng nhập  </a>
-                                            <a  style={{marginTop:"5px",width:"100%"}} id="btn-fblogin" href="#" className="btn btn-primary"><i style ={{marginRight:"5px",color:"white"}} className="fa fa-facebook-official" aria-hidden="true"></i>
+                                            <a  style={{marginTop:"5px",width:"100%"}} id="btn-fblogin" href="/auth/facebook" className="btn btn-primary"><i style ={{marginRight:"5px",color:"white"}} className="fa fa-facebook-official" aria-hidden="true"></i>
 Đăng nhập qua Facebook</a>
 
                                             </div>

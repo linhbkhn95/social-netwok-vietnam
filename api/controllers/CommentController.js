@@ -75,12 +75,11 @@ module.exports = {
             return res.badRequest();
         }
         let data  = req.body ;
-        console.log('data',data)
         let postId = data.postId
         let post = await Post.findOne({id:postId})
         let time  = Date.now()
         data.time = time;
-        
+        data.incognito = req.session.user.incognito
         if(post)
             Comment.create(req.body).exec( async (err,comment)=>{
                   if(err){
@@ -89,7 +88,7 @@ module.exports = {
                     if(comment){
                         
                         comment.user_comment = req.session.user
-
+                        
                        
                         
                         // notifi.user = req.session.user;

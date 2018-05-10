@@ -25,7 +25,13 @@ class ListNotification extends React.Component{
               self.props.dispatch(setNotification(res.DT))
             }
         })
-      
+        io.socket.post('/notification/getlist',((resdata,jwres)=>{
+            console.log('listnotifi',resdata)
+            if(resdata.EC==0){
+                self.props.dispatch(addList(resdata.DT))
+             
+            }
+        }))
 
     }
     componentWillReceiveProps(nextProps){
@@ -37,13 +43,7 @@ class ListNotification extends React.Component{
       showNotifi(){
         $("#notificationContainer").fadeToggle(300);
         let self = this
-        io.socket.post('/notification/getlist',((resdata,jwres)=>{
-            console.log('listnotifi',resdata)
-            if(resdata.EC==0){
-                self.props.dispatch(addList(resdata.DT))
-                self.props.dispatch(resetNotification())
-            }
-        }))
+        self.props.dispatch(resetNotification())
       
         // $("#notification_count").fadeOut("slow");
         return false;
@@ -74,9 +74,10 @@ class ListNotification extends React.Component{
                     //    let text = notifi.type=="comment"?" đã bình luận về bài"
                        return(
                         <div key={index} style={{background:notifi.readNotifi?"white":"#ebf4e7"}} className="col-md-12 alert-message">
-                      <NavLink to={notifi.url_ref} > <div className="col-md-3 row"><NavLink to={"/userpage."+notifi.user_notifi.username} ><img className="avatar-alert" src={notifi.user_notifi.url_avatar} /></NavLink></div>
+                        
+                         <NavLink to={notifi.url_ref} > <div className="col-md-3 row">{notifi.incognito?<img className="avatar-alert" src="/images/user/robot.png" />:<NavLink to={"/userpage."+notifi.user_notifi.username} ><img className="avatar-alert" src={notifi.user_notifi.url_avatar} /></NavLink>}</div>
                                 <div className="col-md-10 row">
-                                <NavLink to={"/userpage."+notifi.user_notifi.username} >  <strong>{notifi.user_notifi.fullname}</strong></NavLink> {notifi.text +" bạn"}
+                       {notifi.incognito? <strong>"Người lạ nào đó</strong>:<NavLink to={"/userpage."+notifi.user_notifi.username} >  <strong>{notifi.user_notifi.fullname}</strong></NavLink>} {notifi.text +" bạn"}
                                     <br />
                                     <p className="time-alert">{moment(notifi.time).lang('vi').fromNow()}</p>
                                 </div>

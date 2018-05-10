@@ -3,16 +3,19 @@ import {NavLink} from 'react-router-dom';
 
 import HeaderPost from './components/HeaderPost'
 import ListPost from './components/ListPost'
-
+import ListCanFriend from './components/ListCanFriend'
 class Wall extends React.Component{
  
   render(){
      return(
 
-        <div className="col-md-12" >
-             <div className="col-md-8" >
+        <div className="col-md-12 row" >
+             <div className="col-md-7 row" >
                  <HeaderPost />
-                 <ListPost />
+                 <ListPost  />
+              </div>
+              <div className="col-md-5 row">
+                <ListCanFriend />
               </div>
         </div>
      )

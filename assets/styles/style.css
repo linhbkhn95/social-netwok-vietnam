@@ -206,3 +206,10 @@
   /* margin-right: 0px; */
   margin-left: 11px;
 }
+.btn-friend .btn{
+  font-size: 12px;
+  padding: 3px 11px
+}
+.btn-friend ul{
+  font-size: 12px;
+}

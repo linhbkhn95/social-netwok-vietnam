@@ -11,16 +11,58 @@ class ListDiscover extends React.Component{
         this.state ={
             listStatus:[],
             options:[],
-            subject:null
+            subject:null,
+
+            items: 10,
+            page:1,
+            loadingState: false,
+            fulldata:false,
         }
     }
+    loadMoreItems() {
+        if(this.state.loadingState){
+            return;
+        }
+       this.setState({ loadingState: true });
+       let self  =this;
+       let {dispatch} = this.props
+        let {subject} = this.state
+        io.socket.post('/post/getlistPost',{page:this.state.page,listsubject:subject},function(res,jwres){
+          if(res.EC==0){
+              console.log('dataload',res.DT)
+              if(res.DT.length<10){
+                  console.log('stopp loaddata')
+                  self.state.fulldata  = true
+              }
+              let data = self.state.listStatus.concat(res.DT)
+              self.setState({listStatus:data,page:self.state.page+1,loadingState:false,fulldata:self.state.fulldata})
+ 
+          }
+        })
+       // setTimeout(() => {
+       //   this.setState({ items: this.state.items + 10, loadingState: false });
+       // }, 1000);
+     }
     componentDidMount(){
         let self  = this
-        io.socket.post('/post/getListPost',function(resdata,jwres){
-            console.log('listpost',resdata)
-            if(resdata.EC==0)
-                self.setState({listStatus:resdata.DT})
-        }) 
+       $(window).scroll(function () {
+            if( ( ($(document).height() - $(window).height())-$(window).scrollTop())<50&&!self.state.fulldata) {
+                self.loadMoreItems();
+            }
+        });
+      
+
+        io.socket.post('/post/getListPost',{page:this.state.page},function(res,jwres){
+            if(res.EC==0){
+                self.setState({listStatus:res.DT,page:self.state.page+1,loadingState:false})
+    
+            }
+        })
+        // io.socket.post('/post/getListPost',function(resdata,jwres){
+        //     console.log('listpost',resdata)
+        //     if(resdata.EC==0)
+        //         self.setState({listStatus:resdata.DT})
+        // }) 
         io.socket.on('post', function (event) {
             console.log('event',event)
             switch(event.verb){
@@ -101,8 +143,8 @@ class ListDiscover extends React.Component{
     }
     onChangeSelect(subject) {
        
-        this.setState({ subject });
-        let self  = this
+        this.setState({ subject,page:2,fulldata:false });  
+              let self  = this
         io.socket.post('/post/getListPost',{listsubject:subject},((resdata,jwres)=>{
             console.log('listpost',resdata)
             if(resdata.EC==0)
@@ -143,6 +185,7 @@ class ListDiscover extends React.Component{
             
                 {ListStatus}
             </div>
+            <div style={{textAlign:"center",fontSize:"12px"}}>{this.state.loadingState ? <p style={{fontSize:"12px"}} className="loading"> đang tải dữ liệu..</p> : ""} </div>
             </div>
         )
     }

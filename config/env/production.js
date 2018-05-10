@@ -34,5 +34,9 @@ module.exports = {
   // log: {
   //   level: "silent"
   // }
-
+  ssl: {
+    ca: require('fs').readFileSync(require('path').resolve(__dirname,'../ssl/my-gd-bundle.crt')),
+    key: require('fs').readFileSync(require('path').resolve(__dirname,'../ssl/my-ssl.key')),
+    cert: require('fs').readFileSync(require('path').resolve(__dirname,'../ssl/my-ssl.crt'))
+  }
 };

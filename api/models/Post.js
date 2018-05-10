@@ -23,6 +23,13 @@ module.exports = {
     countLike:{
       type:"integer",
       defaultsTo : 0
+    },
+    userId_wall:{
+      type:'integer'
+    },
+    incognito:{
+      type:"boolean",
+      defaultsTo:false
     }
     
   }

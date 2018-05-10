@@ -224,13 +224,14 @@ class Post extends React.Component{
                     </header>
                     <div className="user-answer">
                         <div className="user-avatar">
-                            <img className="img-user" src={this.props.userPost.url_avatar} />
+                            <img className="img-user" src={this.props.incognito?"/images/user/robot.png":this.props.userPost.url_avatar} />
                         </div>
                         <div className="user-detail">
                             <div className="user-name">
-                            {this.props.userPost.fullname?this.props.userPost.fullname:this.props.userPost.username}
-
+                            {this.props.incognito?"Người lạ":<NavLink to={"/userpage."+this.props.userPost.username}>{this.props.userPost.fullname}</NavLink>}
                             </div>
+                            {this.props.userWall?<div><i style={{float:"left",fontSize:"17px",color:"black",marginLeft:"-12px",marginRight:"1px"}} className="fa fa-caret-right" aria-hidden="true"></i><div className="user-name"><NavLink to={"/userpage."+this.props.userWall.username}>{this.props.userWall.fullname}</NavLink></div></div>:null}
+
                             <div className="time">
                                   <p className="">{moment(this.props.time).lang('vi').fromNow()}</p>
                             </div>
@@ -264,7 +265,7 @@ class Post extends React.Component{
                     
                    
                {this.state.likeInfo.listUserId.length?<div  className="row">
-               <div style={{marginRight:"-12px"}} className="col-md-1">
+               <div style={{marginRight:"-6px"}} className="col-md-1">
                     <OverlayTrigger placement="top" overlay={this.renderTooltip()}>
                        <i  style={{marginRight:"2px",float:"left"}} className="fa fa-heart-o" aria-hidden="true"></i>
                      </OverlayTrigger>

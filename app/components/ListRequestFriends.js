@@ -17,18 +17,18 @@ class listRequesFriends extends React.Component{
         this.setWrapperRef = this.setWrapperRef.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
       }
-    // componentDidMount(){
-    //     document.addEventListener('mousedown', this.handleClickOutside);
-    //     let self = this
-    //     io.socket.get('/friends/getlistRequestFriend',function(res,jwRes){
-    //         if(res.EC==0){
-    //             self.setState({listRequesFriends:resdata.DT})
-    //         //   self.props.dispatch(setNotification(res.DT))
-    //         }
-    //     })
+    componentDidMount(){
+        document.addEventListener('mousedown', this.handleClickOutside);
+        // let self = this
+        // io.socket.get('/friends/getlistRequestFriend',function(res,jwRes){
+        //     if(res.EC==0){
+        //         self.setState({listRequesFriends:resdata.DT})
+        //     //   self.props.dispatch(setNotification(res.DT))
+        //     }
+        // })
       
 
-    // }
+    }
     accept(username){
         let self = this
         io.socket.post('/friends/accept',{username},((resdata,jwres)=>{
@@ -57,6 +57,13 @@ class listRequesFriends extends React.Component{
         // self.props.dispatch(addReq(data))
   
        })
+       let self = this
+       io.socket.post('/friends/getlistRequestFriend',((resdata,jwres)=>{
+           console.log('listreqfriend',resdata)
+           if(resdata.EC==0){
+               self.props.dispatch(addList(resdata.DT))
+           }
+       }))
     }
     componentWillUnmount() {
         document.removeEventListener('mousedown', this.handleClickOutside);
@@ -64,20 +71,16 @@ class listRequesFriends extends React.Component{
       }
       showNotifi(){
         $("#listRequesFriends").fadeToggle(300);
-        let self = this
-        io.socket.post('/friends/getlistRequestFriend',((resdata,jwres)=>{
-            console.log('listreqfriend',resdata)
-            if(resdata.EC==0){
-                self.props.dispatch(addList(resdata.DT))
-                self.props.dispatch(resetReqFriend())
-            }
-        }))
+        this.props.dispatch(resetReqFriend())
+
        
         // $("#notification_count").fadeOut("slow");
         return false;
       }
       handleClickOutside(event) {
+        console.log('outsiedja')
         if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+          
         $("#listRequesFriends").hide();
         }
       }

@@ -131,10 +131,8 @@ module.exports = {
       },
 
       getlist:async function(req,res){
-        console.log('getlist notify')
         let pagesize = req.body.pagesize||10
         let page = req.body.page||1
-        console.log('getlist notify',page,pagesize)
 
         if (!req.isSocket) {
           return res.badRequest();
@@ -156,7 +154,6 @@ module.exports = {
                 let  ref_notifi = listIdNotifi.find(function(element) {
                   return element.notificationId === notifi.id;
                 });
-                console.log('ref',ref_notifi)
                 notifi.user_notifi = user
                 if(ref_notifi)
                    notifi.readNotifi = ref_notifi.readNotifi

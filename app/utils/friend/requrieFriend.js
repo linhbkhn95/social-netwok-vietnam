@@ -17,8 +17,9 @@ export default function(ComposedComponent) {
     componentWillReceiveProps(nextProps) {
       let self  =this
       let {username} = nextProps.match.params
+      // self.setState({isFriend:false,callDB:false,userPatner:resdata.EM})
 
-      if(username !=this.props.match.params.username)
+      // if(username !=this.props.match.params.username)
         io.socket.post('/friends/checkfriend',{username},((resdata,jwres)=>{
           if(resdata.EC==0){
               self.setState({isFriend:true,callDB:true})

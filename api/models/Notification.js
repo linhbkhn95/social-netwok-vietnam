@@ -16,6 +16,10 @@ module.exports = {
       url_ref:{
         type:'string'
       },
+      incognito:{
+        type:"boolean",
+        defaultsTo:false
+      },
       text:{
         type:'text'
       },

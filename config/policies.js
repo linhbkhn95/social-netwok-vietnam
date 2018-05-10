@@ -34,7 +34,10 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 	// RabbitController: {
-
+    '*': 'sessionAuth',
+    'AuthController': {
+      '*': true // We dont need authorization here, allowing public access
+    }
 		// Apply the `false` policy as the default for all of RabbitController's actions
 		// (`false` prevents all access, which ensures that nothing bad happens to our rabbits)
 		// '*': false,

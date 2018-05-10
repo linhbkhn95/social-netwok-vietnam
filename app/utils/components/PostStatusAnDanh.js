@@ -39,7 +39,7 @@ class PostStatus extends React.Component{
                     
                 // case "like" : self.accessLike(data);
             }    
-            console.log('Socket `' + data.id + '` joined the party!',data);
+            // console.log('Socket `' + data.id + '` joined the party!',data);
        
          })
     }
@@ -223,11 +223,13 @@ class PostStatus extends React.Component{
            
             
             <div key={data.id} className="comment-item panel-body">
-               <img className="img-user" src={data.user_comment.url_avatar} />
+               <img style={{width:"25px"}} className="img-user" src={data.incognito?"/images/user/robot.png":data.user_comment.url_avatar} />
                
                <div className="col-md-10">
-                   <div className="text-rep"><span style={{    color:" #b2b2bb"}} className="">
-                   {data.user_comment.fullname} </span>{data.text}
+                   <div className="text-rep"><span style={{color: "rgb(21, 165, 65)",
+    fontSize: "12px",
+    fontWeight:" bold"}} className="">
+                   {data.incognito?"Người lạ " +data.user_comment.id:data.user_comment.fullname} </span>{data.text}
                         <div className="pull-right">
                            
                            <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
@@ -264,11 +266,13 @@ class PostStatus extends React.Component{
         else {
           return  (
             <div key={data.id}>
-                <div className="img-rep-rep"> <img className="" src={data.user_comment.url_avatar} /> </div>
+                <div className="img-rep-rep">  <img className="" src={data.incognito?"/images/user/robot.png":data.user_comment.url_avatar} /></div>
                 
                 <div className="col-md-11">
-                    <div className="text-rep"><span style={{    color:" #b2b2bb"}} className="">
-                    {data.user_comment.fullname} </span>{data.text}
+                    <div className="text-rep"><span style={{color: "rgb(21, 165, 65)",
+    fontSize: "12px",
+    fontWeight:" bold"}} className="">
+                    {data.incognito?"Người lạ " +data.user_comment.id:data.user_comment.fullname} </span>{data.text}
                     <div className="pull-right">
                            
                            <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
@@ -328,7 +332,7 @@ class PostStatus extends React.Component{
             <div  className="col-md-12 post-status">
                 <article className="post"> 
                   
-                       <ContentPostAnDanh userPost = {this.props.post.userPost} accessLike={this.props.accessLike} like={this.props.like} userLikePost={this.props.post.userLikePost} countLike ={this.props.post.countLike} deletePost={this.props.deletePost} idPost={this.props.post.id} displayListComment={this.displayListComment.bind(this)} time={this.props.post.createdAt} title={this.props.post.title} subject={this.props.post.subject} content={this.props.post.content} lengthComment ={this.state.listComment.length} />
+                       <ContentPostAnDanh userWall={this.props.post.userWall} userPost = {this.props.post.userPost} accessLike={this.props.accessLike} like={this.props.like} userLikePost={this.props.post.userLikePost} countLike ={this.props.post.countLike} deletePost={this.props.deletePost} idPost={this.props.post.id} displayListComment={this.displayListComment.bind(this)} time={this.props.post.createdAt} title={this.props.post.title} subject={this.props.post.subject} content={this.props.post.content} incognito={this.props.post.incognito} lengthComment ={this.state.listComment.length} />
                      <div style={{display:this.state.displayListComment?"block":"none"}} className="list-comment row">
                          
                           <div className="col-md-12 post-repcomment">

@@ -77,13 +77,11 @@ module.exports = {
                             username:user.username,
                             url_avatar:user.url_avatar
                         }
-                        console.log('item',item)
                         listUser[user.id] = userLike
                         resolve(user.id)
                     })
             }))
             .then((response)=>{
-                console.log('response',postId,response)
                 return res.send(OutputInterface.success({listUserId:response,listUser}))
                  })
           })
