@@ -4,7 +4,7 @@ import axios from 'axios'
 import {ButtonToolbar,Popover,OverlayTrigger,Button ,Dropdown,MenuItem,Glyphicon } from 'react-bootstrap'
 import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
-
+import {connect} from 'react-redux'
 class Layout extends React.Component{
     constructor(props){
         super(props);
@@ -133,10 +133,10 @@ class Layout extends React.Component{
                                       <div className="home-user">
                                         <div className="banner" style={{background:"url('"+info.user.url_cover+"')", backgroundSize: "cover"}}>
                                                 <div className="background-cover">
-                                                <div className="image-cover" >     <span style={{display:"flex",justifyContent:"center",padding:"3px 7px",fontSize:"11px",float:'right'}} className=" btn-file">
+                                                <div className="image-cover" >   {this.props.auth.user.username == this.props.username?  <span style={{display:"flex",justifyContent:"center",padding:"3px 7px",fontSize:"11px",float:'right'}} className=" btn-file">
                                                 <i style={{marginRight:"2px"}} className="fa fa-camera" aria-hidden="true"></i>
   Thay ảnh bìa <input onChange={this._handleChangeCover.bind(this)} type="file" />
-</span> </div>
+</span>:null} </div>
                                                 </div>
                                                 <div className="link-share visible-xs">
                                                     <a href="http://www.facebook.com/share.php?u=https://moki.vn/shop/MK.Shop.5389" >
@@ -160,9 +160,9 @@ class Layout extends React.Component{
                                                
                                                                             <div className="img-thumbnail itemImage" style={{backgroundImage: "url("+info.user.url_avatar+")"}}>
                                                                        <div className="image-avatar" style={{width:"100%",display:"",background:"black",color:"white"}}>
-    <span style={{display:"flex",justifyContent:"center",padding:"3px 7px",fontSize:"11px"}} className=" btn-file">
+                                                                       {this.props.auth.user.username == this.props.username?  <span style={{display:"flex",justifyContent:"center",padding:"3px 7px",fontSize:"11px"}} className=" btn-file">
     <i style={{marginRight:"2px"}} className="fa fa-camera" aria-hidden="true"></i> Thay ảnh đại diện <input onChange={this._handleChange.bind(this)} type="file" />
-</span> </div>
+</span>:null} </div>
 
                                                                             </div>
                                                                     </div>
@@ -266,4 +266,4 @@ Nhận thông báo</MenuItem>
 Layout.contextTypes = {
     router: PropTypes.object.isRequired
   }
-module.exports = Layout
+  module.exports = connect(function(state){return{auth:state.auth}})(Layout);

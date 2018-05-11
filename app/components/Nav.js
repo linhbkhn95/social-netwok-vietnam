@@ -13,7 +13,6 @@ import ListRequestFrienfs from './ListRequestFriends'
 
 import {addNotification} from 'app/action/actionNotification'
 import {removeReqFriend,addReqFriend} from 'app/action/actionReqFriend'
-
 import { ToastContainer, toast } from 'react-toastify';
 import { isMoment } from 'moment';
 import ToastNotifiComponent from 'app/utils/notifi/ToastNotifiComponent'
@@ -34,10 +33,11 @@ class ToastNotifi extends React.Component{
                                 <div className="col-md-10 row">
                        {notifi.incognito? <strong>"Người lạ nào đó</strong>:<NavLink to={"/userpage."+notifi.user_notifi.username} >  <strong>{notifi.user_notifi.fullname}</strong></NavLink>} {notifi.text +" bạn"}
                                     <br />
-                                    <p className="time-alert">{moment(notifi.time).lang('vi').fromNow()}</p>
+                                   <div> <i style={{marginRight:"3px",fontSize:"12px"}}  className={notifi.type=="like"?"fa fa-heart-o":"fa fa-comment-o"} aria-hidden="true"></i>  <p style={{float:"right"}} className="time-alert">{moment(notifi.time).lang('vi').fromNow()}</p> </div>
                                 </div>
                                 </NavLink>
                      </div>
+
       )
   }
 }
@@ -171,7 +171,7 @@ class ToastNotifi extends React.Component{
                          <NavItem eventKey={2} href="#">
                          <NavLink to={"/userpage."+this.props.auth.user.username}> 
                          <div className="user-avatar">
-                            <img className="img-user" src={this.props.auth.user.url_avatar} />
+                            <img style={{width:"31px",height:"31px"}} className="img-user" src={this.props.auth.user.url_avatar} />
                         </div>
                         <div style={{float:"left"}} className="">
                             <div className="user-name">
@@ -204,7 +204,7 @@ class ToastNotifi extends React.Component{
                           
                         </Nav>
                       </Navbar.Collapse>:null}
-                    </Navbar>;
+                    </Navbar>
                                 
           </header>
      

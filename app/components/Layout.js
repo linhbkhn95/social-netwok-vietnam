@@ -4,6 +4,7 @@ var Nav = require('./Nav.js');
 var Menu = require('./Menu.js');
 var React = require('react');
 var {connect} = require('react-redux');
+import ListFriend from './ListFriend'
 import { ToastContainer, toast } from 'react-toastify';
 
 class Layout extends React.Component{
@@ -17,6 +18,10 @@ class Layout extends React.Component{
                         </div>
                         <div className="clearfix"></div>
                         <div className="container jumbotron">
+                        <div className="list-friend">
+                          <ListFriend />
+                        </div>
+
 		                     {this.props.children}
 		                       </div>
                            <ToastContainer />

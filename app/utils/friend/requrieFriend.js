@@ -101,8 +101,7 @@ export default function(ComposedComponent) {
 display: "flex",
 justifyContent: "center",
 alignItems: "center",
-justifyItems: "center",
-height: "48px"
+height: "33px"
                                 }} className="user-request">
                                     <div style={{float:"left",width:"75%"}}> <strong>{this.state.userPatner.fullname}</strong>
                                     <br />

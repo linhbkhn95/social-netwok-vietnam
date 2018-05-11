@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 
 import Toggle from 'react-toggle'
 import "react-toggle/style.css"
-
+import {connect} from 'react-redux'
 import ModalPost from './components/ModalPost'
 class HeaderPost extends React.Component{
   constructor(props){
@@ -58,7 +58,7 @@ class HeaderPost extends React.Component{
          </div>
 
          <div className="col-md-12 input-post">
-         <textarea className="form-control" placeholder="Bạn đang nghĩ gì.." rows="3" id="comment"></textarea>
+         <textarea className="form-control" placeholder={ this.props.user.username == this.props.username?"Bạn đang nghĩ gì..":"Viết gì đó cho đối phương"} rows="3" id="comment"></textarea>
          </div>     
          
          <div style={{paddingTop:"6px",paddingBottom:"2px"}} className="col-md-12">
@@ -74,4 +74,4 @@ class HeaderPost extends React.Component{
      )
   }
 }
-module.exports =  HeaderPost;
+module.exports = connect(function(state){return{user:state.auth.user}})(HeaderPost);

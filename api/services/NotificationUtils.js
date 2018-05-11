@@ -17,15 +17,20 @@ module.exports = {
 
          let listIdPostRef = []
          listIdPostRef[0] = req.session.user.id;
+         listIdPostRef[1] = post.userId_post;
          if(post.userId_wall)
-             listIdPostRef[1] = post.userId_wall;
+             listIdPostRef[2] = post.userId_wall;
+
          let listUserComment= await Comment.find({postId,groupBy:'userId_comment',userId_comment:{'!':listIdPostRef}}).sum();
+         console.log('lisst',listUserComment)
          if(post.userId_post!=req.session.user.id)
              listUserComment.push({userId_comment:post.userId_post})
          if(post.userId_wall)
               listUserComment.push({userId_comment:post.userId_wall});
+              console.log('list',listUserComment)
           listUserComment.forEach(user => {
             //tăng sô thông báo tưng user
+            
             User.findOne({id:user.userId_comment}).exec((err,user)=>{
                 if(!user.number_notifi)
                     user.number_notifi = 1;
@@ -41,7 +46,22 @@ module.exports = {
 
          });
     },
-    notifiPostUser_Like:function(postId,req){
+    notifiPostUser_Like: async function(post,req){
+        let datanotifi ={
+            userId:req.session.user.id,
+            url_ref:'/post.notifi.'+post.id,
+            text:' đã thích bài đăng '+post.title+ ' của',
+            type:'like',
+            time:Date.now(),
+            data:post,
+            incognito:req.session.user.incognito
+             }
+        let notifi = await Notification.create(datanotifi);
+         notifi.user_notifi = req.session.user;
+         Ref_notification_user.create({notificationId:notifi.id,userId:post.userId_post,readNotifi:false,status:true}).exec({})
+         sails.sockets.broadcast('NotificationUser',"notifi_user"+post.userId_post,notifi,req);
+         
+
 
     },
     postToFriend: async function(post,req){

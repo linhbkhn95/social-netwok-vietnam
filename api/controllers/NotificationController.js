@@ -43,7 +43,7 @@ module.exports = {
         // The data returned here is what we received back on the client as `data` in:
         // `io.socket.get('/say/hello', function gotResponse(data, jwRes) { /* ... */ });`
         return res.json({
-          data: 'Nhận thông báo'
+          data: 'Nhận thông báo Status'
         });
     
       },

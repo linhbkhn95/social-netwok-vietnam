@@ -89,7 +89,7 @@ class ListDiscover extends React.Component{
     }
     likePost(postId){
         for(var i=0;i<this.state.listStatus.length;i++){
-            console.log('i',i,this.state.listStatus[i].id,"==",postId,this.state.listStatus[i].id==postId)
+            // console.log('i',i,this.state.listStatus[i].id,"==",postId,this.state.listStatus[i].id==postId)
             if(this.state.listStatus[i].id==postId){
                  this.state.listStatus[i].userLikePost = !this.state.listStatus[i].userLikePost
                  this.setState({listStatus:this.state.listStatus})

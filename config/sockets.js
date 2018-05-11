@@ -113,7 +113,29 @@ module.exports.sockets = {
   //   // (`false` would reject the connection)
   // },
 
+  onConnect: function(session, socket) {
 
+    // If a user is logged in, subscribe to them
+    if (session.user) {
+      console.log('connect',session.user)
+      User.subscribe(socket, session.user);
+    }
+  
+  },
+  
+  onDisconnect: function(session, socket) {
+  
+    // If a user is logged in, unsubscribe from them
+    if (session.user) {
+      User.unsubscribe(socket, session.user);
+      // If the user has no more subscribers, they're offline
+      if (User.subscribers(session.user.id).length == 0) {
+        console.log("User "+session.user.id+" is gone!");
+        // Do something!
+      }
+    }
+  
+  }
   /***************************************************************************
   *                                                                          *
   * `afterDisconnect`                                                        *

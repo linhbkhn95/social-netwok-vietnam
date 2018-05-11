@@ -141,13 +141,15 @@
 }
 
 .post-repcomment{
-  margin-top:20px;
+  padding-bottom:20px;
+  background: #f2f3f5;
+  padding-top: 20px
 }
 .post-repcomment .input-repcomment{
   border-radius: 50px;
 }
 .post-status{
-  padding-bottom: 20px;
+  /* padding-bottom: 20px; */
   border: 1px solid #e0e0d5;
   padding-top: 20px;
   /* margin-top: 20px; */
@@ -161,6 +163,14 @@
   font-size: 14px;
   padding: 5px;
   border-radius: 29px;
+}
+.content-like-post{
+  padding: 6px;
+    background: #f2f3f5;
+    border-bottom: 1px solid #e2e6e4;
+    border-top: 1px solid #e2e6e4;
+    padding-bottom: 9px;
+    padding-top: 9px;
 }
 .img-rep-rep{
   float: left;
@@ -212,4 +222,43 @@
 }
 .btn-friend ul{
   font-size: 12px;
+}
+.list-friend{
+  background-clip: padding-box;
+  background-color: #eeeeef;
+  border-left: 1px solid rgba(175, 169, 169, 0.4);
+  /* box-shadow: inset 2px 0 2px -2px #b2b9c9; */
+  display: block;
+  font-size: 12px;
+  height: 100%;
+  line-height: 16px;
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 236px;
+  z-index: 300;
+}
+.list-friend .friend{
+clear: both;
+}
+.list-friend .friend:hover{
+  background-color: #dddfe2;
+  box-shadow: 1px 0 0 #eaebed inset;
+  text-decoration: none;
+  cursor: pointer;
+} 
+.status-user{
+  display: flex;
+  height: 33px;
+  float: right;
+  /* justify-content: center; */
+  align-items: center;
+}
+.status-online{
+  background: rgb(66, 183, 42);
+    border-radius: 50%;
+    display: inline-block;
+    height: 5px;
+    margin-left: 4px;
+    width: 5px;
 }

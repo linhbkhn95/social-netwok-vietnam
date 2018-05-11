@@ -314,7 +314,7 @@ section#user_main div.content-main .head{
     color: #90949c;
 }
 .name-user{
-    font-weight: bold;
+    /* font-weight: bold; */
     color: #19ab27;
 }
 .name-user a{
@@ -364,4 +364,23 @@ section#user_main div.content-main .head{
 }
 .user-name a{
     color :#4dab28;
+}
+.text-rep a{
+    color :#4dab28;
+
+}
+.list-friend .name-user{
+
+    display:  flex;
+    align-items:  center;
+    height: 33px;
+    padding-left: 7px;
+}
+.text-rep{
+    background: white;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-right: 5px;
+    padding-left: 5px;
+    border-radius: 11px;
 }

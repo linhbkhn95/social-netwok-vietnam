@@ -8,6 +8,7 @@ import moment from 'moment'
 import { ToastContainer, toast } from 'react-toastify';
 import {connect} from 'react-redux'
 import ContentPostAnDanh from './ContentPostAnDanh'
+import {NavLink} from 'react-router-dom'
 class PostStatus extends React.Component{
    
     componentDidMount(){
@@ -223,13 +224,13 @@ class PostStatus extends React.Component{
            
             
             <div key={data.id} className="comment-item panel-body">
-               <img style={{width:"25px"}} className="img-user" src={data.incognito?"/images/user/robot.png":data.user_comment.url_avatar} />
-               
+               {/* <img style={{width:"25px"}} className="img-user" src={data.incognito?"/images/user/robot.png":data.user_comment.url_avatar} /> */}
+               {data.incognito?  <img className="img-user" src="/images/user/robot.png" />:<NavLink to={"/userpage."+data.user_comment.username}><img className="img-user" src={data.user_comment.url_avatar} /></NavLink>}
                <div className="col-md-10">
                    <div className="text-rep"><span style={{color: "rgb(21, 165, 65)",
     fontSize: "12px",
     fontWeight:" bold"}} className="">
-                   {data.incognito?"Người lạ " +data.user_comment.id:data.user_comment.fullname} </span>{data.text}
+                   {data.incognito?"Người lạ " +data.user_comment.id:<NavLink to={"/userpage."+data.user_comment.username}>{data.user_comment.fullname}</NavLink>} </span>{data.text}
                         <div className="pull-right">
                            
                            <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
@@ -266,13 +267,13 @@ class PostStatus extends React.Component{
         else {
           return  (
             <div key={data.id}>
-                <div className="img-rep-rep">  <img className="" src={data.incognito?"/images/user/robot.png":data.user_comment.url_avatar} /></div>
+                <div className="img-rep-rep">{data.incognito?  <img className="" src="/images/user/robot.png" />:<NavLink to={"/userpage."+data.user_comment.username}><img src={data.user_comment.url_avatar} /></NavLink>}</div>
                 
                 <div className="col-md-11">
                     <div className="text-rep"><span style={{color: "rgb(21, 165, 65)",
     fontSize: "12px",
     fontWeight:" bold"}} className="">
-                    {data.incognito?"Người lạ " +data.user_comment.id:data.user_comment.fullname} </span>{data.text}
+                    {data.incognito?"Người lạ " +data.user_comment.id:<NavLink to={"/userpage."+data.user_comment.username}>{data.user_comment.fullname}</NavLink>} </span>{data.text}
                     <div className="pull-right">
                            
                            <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
@@ -335,11 +336,11 @@ class PostStatus extends React.Component{
                        <ContentPostAnDanh userWall={this.props.post.userWall} userPost = {this.props.post.userPost} accessLike={this.props.accessLike} like={this.props.like} userLikePost={this.props.post.userLikePost} countLike ={this.props.post.countLike} deletePost={this.props.deletePost} idPost={this.props.post.id} displayListComment={this.displayListComment.bind(this)} time={this.props.post.createdAt} title={this.props.post.title} subject={this.props.post.subject} content={this.props.post.content} incognito={this.props.post.incognito} lengthComment ={this.state.listComment.length} />
                      <div style={{display:this.state.displayListComment?"block":"none"}} className="list-comment row">
                          
-                          <div className="col-md-12 post-repcomment">
+                          <div  className="col-md-12 post-repcomment">
                     
                              {listComment.map(c => self.renderActive(c))}
                           </div>
-                          <div className="col-md-12 post-repcomment">
+                          <div style={{paddingTop:"0px"}} className="col-md-12 post-repcomment">
                       
                             <img className="img-user" src={this.props.auth.user.url_avatar} />
                      

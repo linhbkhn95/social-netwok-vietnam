@@ -34,6 +34,8 @@ module.exports = {
 
                     likePost.status = !likePost.status
                     likePost.save(function(){
+                        if(likePost.status)
+                             NotificationUtils.notifiPostUser_Like(post,req)
 
                         sails.sockets.broadcast('Subscribe_Status',postId+TypeSocket.like,UtilsSocket.getData(userLike,TypeSocket.like,likePost.status?VerbSocket.like:VerbSocket.unlike),req);
 
@@ -45,8 +47,9 @@ module.exports = {
                    post.countLike +=1
                     await post.save({})
                    Likepost.create({postId,userId,status:true}).exec((err,result)=>{
-                        sails.sockets.broadcast('Subscribe_Status',TypeSocket.like+postId,UtilsSocket.getData(userLike,TypeSocket.like,VerbSocket.like),req);
 
+                        sails.sockets.broadcast('Subscribe_Status',postId+TypeSocket.like,UtilsSocket.getData(userLike,TypeSocket.like,VerbSocket.like),req);
+                        NotificationUtils.notifiPostUser_Like(post,req)
                          return res.send(OutputInterface.success({countLike:post.countLike,like:1}))
                   })
               }

@@ -79,7 +79,7 @@ class ListNotification extends React.Component{
                                 <div className="col-md-10 row">
                        {notifi.incognito? <strong>"Người lạ nào đó</strong>:<NavLink to={"/userpage."+notifi.user_notifi.username} >  <strong>{notifi.user_notifi.fullname}</strong></NavLink>} {notifi.text +" bạn"}
                                     <br />
-                                    <p className="time-alert">{moment(notifi.time).lang('vi').fromNow()}</p>
+                                    <div> <i style={{marginRight:"3px",fontSize:"12px",float:"left"}}  className={notifi.type=="like"?"fa fa-heart-o":"fa fa-comment-o"} aria-hidden="true"></i>  <p style={{float:""}} className="time-alert">{moment(notifi.time).lang('vi').fromNow()}</p> </div>
                                 </div>
                                 </NavLink>
                        </div>

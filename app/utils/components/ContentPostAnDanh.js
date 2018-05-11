@@ -120,12 +120,14 @@ class Post extends React.Component{
           
 
         }
-        console.log('texListLike',textListUserLike)
+        // console.log('texListLike',textListUserLike)
         return textListUserLike
 
     }
     componentDidMount(){
         let self = this
+        console.log('socket like,'+this.props.idPost+"like")
+        
         io.socket.on(this.props.idPost+"like", function (data) {
             console.log('Socket like`' + data.id + '` joined the party!',data);
 
@@ -177,7 +179,32 @@ class Post extends React.Component{
         console.log('comment')
         this.props.displayListComment()
     }
+    accessLikeUser(){
+        switch(this.props.userLikePost){
+            case false :{
+                var index = this.state.likeInfo.listUserId.indexOf(this.props.auth.user.id);
+                console.log('index',index)
+                if (index == -1) {
+                    this.state.likeInfo.listUserId.push(this.props.auth.user.id)
+                    this.state.likeInfo.listUser[this.props.auth.user.id] = this.props.auth.user;
+                    this.setState({likeInfo:this.state.likeInfo})
+                }
+                break
+            }
+            case true:{
+                var index = this.state.likeInfo.listUserId.indexOf(this.props.auth.user.id);
+                console.log('index',index)
+                if (index > -1) {
+                  this.state.likeInfo.listUserId.splice(index, 1);
+                  delete this.state.likeInfo.listUser[this.props.auth.user.id]
+                }
+                this.setState({likeInfo:this.state.likeInfo})
+                break
+            }
+        }    
+    }
     like(){
+        this.accessLikeUser();
         this.props.like(this.props.idPost)
     }
     share(){
@@ -224,7 +251,9 @@ class Post extends React.Component{
                     </header>
                     <div className="user-answer">
                         <div className="user-avatar">
-                            <img className="img-user" src={this.props.incognito?"/images/user/robot.png":this.props.userPost.url_avatar} />
+                        {this.props.incognito?  <img className="img-user" src="/images/user/robot.png" />:<NavLink to={"/userpage."+this.props.userPost.username}><img className="img-user" src={this.props.userPost.url_avatar} /></NavLink>}
+
+                            {/* <img className="img-user" src={this.props.incognito?"/images/user/robot.png":this.props.userPost.url_avatar} /> */}
                         </div>
                         <div className="user-detail">
                             <div className="user-name">
@@ -264,7 +293,7 @@ class Post extends React.Component{
                      </div>
                     
                    
-               {this.state.likeInfo.listUserId.length?<div  className="row">
+               {this.state.likeInfo.listUserId.length?<div  className="row content-like-post">
                <div style={{marginRight:"-6px"}} className="col-md-1">
                     <OverlayTrigger placement="top" overlay={this.renderTooltip()}>
                        <i  style={{marginRight:"2px",float:"left"}} className="fa fa-heart-o" aria-hidden="true"></i>

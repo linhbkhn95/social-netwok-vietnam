@@ -228,7 +228,48 @@ module.exports = {
       
            })
         }
-    }
+    },
+    getListFriends_User: async function(req,res){
+      let username = req.session.user.username
+
+      if(username){
+         let userpage = await User.findOne({username})
+         console.log('userpag',userpage,req.body)
+         let userId = userpage.id
+         Friends.find({ or:[ {userId_one:userId,status:1},{userId_two:userId,status:1}   ]}).exec((err,list)=>{
+          if(err){
+            
+          }
+          console.log('list',list,err)
+          Promise.all(list.map((item)=>{
+              
+              return new Promise(async(resolve,reject)=>{
+                
+                  let userIdFriend = item.userId_one==userId?item.userId_two:item.userId_one
+                  let user = await User.findOne({id:userIdFriend,select:['fullname','username','url_avatar']})
+                  let countFriend = await Friends.count({
+                    or:[
+                      {userId_one:userIdFriend,status:1},
+                      {userId_two:userIdFriend,status:1}
+                   ]
+                  
+                  })
+                  let data = {
+                     user,
+                     countFriend,
+                  }
+                  resolve(data)
+              })
+      }))
+      .then((response)=>{
+          return res.send(OutputInterface.success(response))
+      })
+          // res.send({DT:listPost})
+    
+         })
+      }
+  }
+    
 
 };
 
