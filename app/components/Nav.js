@@ -70,7 +70,7 @@ class ToastNotifi extends React.Component{
   
       io.socket.get('/notification/user', function gotResponse(data, jwRes) {
         console.log('Server responded with status code ' + jwRes.statusCode + ' and data: ', data)
-        io.socket.on('notifi_user'+self.props.auth.user.id, function (data) {
+        io.socket.on('notifi_user'+data.userId, function (data) {
               console.log('addnotifi',data)
         
           toast(<ToastNotifi notifi={data}/>, {autoClose: 500000})
@@ -78,7 +78,7 @@ class ToastNotifi extends React.Component{
     
          })
 
-         io.socket.on('notifi_user_requestFriend'+self.props.auth.user.id, function (data) {
+         io.socket.on('notifi_user_requestFriend'+data.userId, function (data) {
           console.log('addnotifi',data)
     
       // toast(<ToastNotifi notifi={data}/>, {autoClose: 500000})
@@ -91,6 +91,10 @@ class ToastNotifi extends React.Component{
        })
       
       });
+
+
+
+     
   
     }
     logOut(){

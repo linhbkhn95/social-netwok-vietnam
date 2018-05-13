@@ -1,6 +1,8 @@
 import React from  'react'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {addMessageSubmit,openChatbox} from 'app/action/actionChatbox'
+
 class ChatBox extends React.Component{
     // closeChatBox(e){
     //
@@ -21,58 +23,82 @@ class ChatBox extends React.Component{
     onMessageSubmit(data){
             // data.socketid = this.props.socketid;
     }
-    componentDidMount(){
-        let self = this
-        io.socket.post('/chat/getlist_user',{userId_patner:2},((resdata,jwres)=>{
-            console.log('rss',resdata)
-            if(resdata.EC==0){
-                self.setState({listMessage:resdata.DT})
+    // componentDidMount(){
+    //     let self = this
+    //     io.socket.post('/chat/getlist_user',{userId_patner:this.props.chatbox.id},((resdata,jwres)=>{
+    //         console.log('/chat/getlist_user',this.props.chatbox.id,resdata)
+    //         if(resdata.EC==0){
+    //             self.setState({listMessage:resdata.DT})
             
-            //   this.refs.textchat.value = ''
-            }
-            else{
+    //         //   this.refs.textchat.value = ''
+    //         }
+    //         else{
 
-            }
-        }))
-    }
+    //         }
+    //     }))
+    // }
     handleSubmit(){
         let text = this.refs.textchat.value;
         console.log('text',text);
         this.refs.textchat.value = ''
+    }
+    componentWillReceiveProps(nextProps){
+        this.setState({listMessage:nextProps.listchat[this.props.chatbox.id]})
+    }
+    componentDidMount(){
+        $('#bodychat').stop().animate({
+            scrollTop: $('#bodychat')[0].scrollHeight
+        }, 500);
+          
+        
+        
+        
     }
     onEnterPress = (e) => {
         if(e.keyCode == 13 && e.shiftKey == false) {
           e.preventDefault();
           let text = this.refs.textchat.value;
           let data = {}
-          data.userId_rec = 2;
+          data.userId_rec = this.props.chatbox.id;
           data.text = text
           console.log('text',text);
-          let self = this
-          io.socket.post('/chat/add',data,((resdata,jwres)=>{
-              console.log('rss',resdata)
-              if(resdata.EC==0){
-                self.state.listMessage.push(resdata.DT);
-                self.setState({listMessage:self.state.listMessage})
-                self.refs.textchat.value = ''
-              }
-              else{
+         
+          this.props.dispatch(addMessageSubmit(data));
+        //   var elem = document.getElementById('bodychat');
+        //   elem.scrollTop = elem.scrollHeight;
+          
+        $('#bodychat').stop().animate({
+            scrollTop: $('#bodychat')[0].scrollHeight
+        }, 500);
+          
+          this.refs.textchat.value = ''
 
-              }
-          }))
         
-        //   this.myFormRef.submit();
         }
       }
+   
+    componentWillReceiveProps(nextProps){
+        console.log('nextProps',nextProps)
+        $('#bodychat').stop().animate({
+            scrollTop: $('#bodychat')[0].scrollHeight
+        }, 500);
+          
+         
+
+        
+        
+    }
     render(){
             var styles ={
                         right :"243px",
                         display: "block"
             };
-            let {listMessage} =  this.state
+            let listMessage =  this.props.listchat
+            console.log('listmessage',listMessage)
+            let self = this
             let user = this.props.auth.user
             return(
-                 <div style={styles} className="row chat-window col-xs-4 col-md-2"  >
+                 <div style={{right:this.props.right+"px"}} className="row chat-window col-xs-4 col-md-2"  >
                      <div className="col-xs-12 col-md-12">
                          <div className="panel panel-default">
                             {/* <HeaderChatBox socketid = {this.props.socketid} closeChatBox = {this.props.closeChatBox} username={this.props.username} /> */}
@@ -81,7 +107,7 @@ class ChatBox extends React.Component{
 
 
 							<div style={{fontSize:"11px",}}><span style={{    left: "3px",
-    fontSize: "10px",marginRight:"2px" ,fontWeight:"normal"}} className="glyphicon glyphicon-comment"></span> Nguyễn Xuân </div>
+    fontSize: "10px",marginRight:"2px" ,fontWeight:"normal"}} className="glyphicon glyphicon-comment"></span> {this.props.chatbox.fullname} </div>
 							 </div>
 							 <div className="pull-right" >
 									 <a href="#"><span style={{   
@@ -93,7 +119,7 @@ class ChatBox extends React.Component{
 
 
 
-                        	<div className="panel-body col-md-12 msg_container_base">
+                        	<div id="bodychat" className="panel-body col-md-12 msg_container_base">
                             
 
 					        {/* <div className="message-box">
@@ -107,9 +133,15 @@ class ChatBox extends React.Component{
                                </div> */}
                                {listMessage.length>0?
                                 listMessage.map((message,index)=>{
+                                    let show = true;
+                                    let style= {}
+                                     if(index>1&&message.userId_sent!=user.id&&listMessage[index].userId_sent== listMessage[index-1].userId_sent ){
+                                        show = false,
+                                        style={paddingLeft:"16%",width:"100%"}
+                                     }
                                     if(message.userId_sent==user.id)
                                         return(
-                                            <div key={index} >
+                                            <div  key={index} >
                                             <div  className="pull-right">
     
                                                 {/* <NavLink to={"/userpage.linhtd"}><img style={{marginRight:"3px"}} className="img-user" src={"/images/user/xuan.jpg"} /></NavLink> */}
@@ -121,15 +153,13 @@ class ChatBox extends React.Component{
                                         )
                                     else{
                                         return (
-                                            <div key={index}>
-                                            <div  className="pull-left">
+                                            <div className="message-rec" key={index}>
     
-                                                <NavLink to={"/userpage.linhtd"}><img style={{marginRight:"3px"}} className="img-user" src={"/images/user/xuan.jpg"} /></NavLink>
-                                            </div>
-                                                <div className=" message-chatbox-rc" > <div>{message.text}</div>
-                                        </div>
-    
-                                   </div>
+                                              <div className="img-chatbox"> {show? <NavLink to={"/userpage"+self.props.chatbox.username}><img style={{marginRight:"3px"}} className="img-user" src={self.props.chatbox.url_avatar} /></NavLink>:<div className="img-user"></div>} </div>
+                                           
+                                             <div style={style}  className="content-text"> <div className=" message-chatbox-rc" ><div>{message.text}</div></div></div>
+                                           
+                                           </div>
     
                                         )
                                     }
@@ -164,4 +194,5 @@ class ChatBox extends React.Component{
             );
     }
 }
-module.exports = connect(function(state){return{auth:state.auth}})(ChatBox)
+module.exports = 
+(ChatBox)

@@ -7,11 +7,24 @@
 
 module.exports = {
 	add:function(req,res){
-        let data = req.body;
-        data.userId_sent = req.session.user.id;
-        data.time = Date.now();
-        Chat.create(data).exec((err,chat)=>{
-            return res.send(OutputInterface.success(chat))
+        let body = req.body;
+        body.userId_sent = req.session.user.id;
+        body.time = Date.now();
+        Chat.create(body).exec((err,chat)=>{
+            if(err){
+                return res.send(OutputInterface.errServer(err))
+            }
+            if(chat){
+                let message ={
+                    data:chat,
+                    user:req.session.user
+                }
+
+                sails.sockets.broadcast('ChatUser',"chatuser"+chat.userId_rec,message,req);
+
+                return res.send(OutputInterface.success(chat))
+            }
+            return   res.send(OutputInterface.errServer('no tao dc message'))
         })
     },
     getlist_user:function(req,res){
@@ -26,8 +39,11 @@ module.exports = {
             userId_sent: userId_patner
             }
         ]
-        }).exec((err,list)=>{
-            return res.send(OutputInterface.success(list))
+        }).exec((err,listchat)=>{
+
+            let id = userId_patner>req.session.user.id?(userId_patner+'_'+req.session.user.id):(req.session.user.id+'_'+userId_patner)
+           
+            return res.send(OutputInterface.success({listchat,id}))
         })
     }
 };

@@ -19,7 +19,7 @@ module.exports = {
         type:'float'
       },
       text:{
-        type:'text'
+        type:'string'
       },
   }
 };

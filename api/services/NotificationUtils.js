@@ -43,7 +43,7 @@ module.exports = {
 
             //đồng bộ thông báo điến các user
             sails.sockets.broadcast('NotificationUser',"notifi_user"+user.userId_comment,notifi,req);
-
+           
          });
     },
     notifiPostUser_Like: async function(post,req){

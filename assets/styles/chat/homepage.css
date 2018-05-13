@@ -8,7 +8,7 @@ body{
   padding: 6px;
   z-index: 9999;
 }
-.panel-body{
+.chat-window .panel-body{
 
   min-height: 416px;
   overflow-y: scroll;
@@ -37,7 +37,7 @@ body{
     box-shadow: 12px 9px 10px #7c8c82;
 }
 /* ghi de bootstrap*/
-.panel-body{
+ .chat-window.panel-body{
   height: 416px;
 }
 .facebook{
@@ -50,7 +50,7 @@ body{
     clear: both;
     margin-top: -5px;
   }
-.panel-heading{
+ .chat-window .panel-heading{
   font-size: 21px;
   font-weight: bold;
 }

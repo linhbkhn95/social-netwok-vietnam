@@ -6,7 +6,7 @@ var React = require('react');
 var {connect} = require('react-redux');
 import ListFriend from './ListFriend'
 import { ToastContainer, toast } from 'react-toastify';
-import ChatBox from 'app/utils/chat/Chatbox'
+import ListChatBox from 'app/utils/chat/ListChatbox'
 class Layout extends React.Component{
        render(){
         
@@ -20,7 +20,7 @@ class Layout extends React.Component{
                         <div className="container jumbotron">
                         
                           <ListFriend />
-   <ChatBox />
+   <ListChatBox />
 		                     {this.props.children}
 		                       </div>
                            <ToastContainer />

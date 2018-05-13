@@ -2,6 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import moment from 'moment'
+import {addChatbox,openChatbox} from 'app/action/actionChatbox'
 class List extends React.Component{
     constructor(props){
         super(props);
@@ -21,6 +22,9 @@ class List extends React.Component{
     }
     
     self.setState({listfriend})
+  }
+  addChatbox(user){
+        this.props.dispatch(openChatbox(user))
   }
   accessFriend(username){
     let self = this
@@ -72,26 +76,27 @@ class List extends React.Component{
                                       <div style={{paddingTop:"20px"}} className="">
                                         {listfriend.map((friend,index)=>{
                                             return(
-                                                <NavLink key={index} to={"/userpage."+friend.user.username} ><div style={{paddingTop:"3px",paddingBottom:"3px"}} className="friend col-md-12 ">
-                                              <div >
-                                                 <NavLink to={"/userpage."+friend.user.username} ><img style={{width:"33px",height:"33px"}} className="img-user"  src={friend.user.url_avatar} /> </NavLink>
-                                                  <div style={{float:"left"}} className="name-user" >
-                                                  <NavLink to={"/userpage."+friend.user.username} >    {friend.user.fullname} </NavLink>
-                                                  
-                                                 
-                                              
-                                              </div>
-                                              <div className="status-user">
-                                                  {friend.user.is_online? 
-                                                     <span className="status-online"></span>:
-                                                     <div className="time">
-                                                     {moment(friend.user.time_offline?friend.user.time_offline:Date.now()).lang('vi').fromNow()}
-                                               </div>}
-                                                </div>
-                                            </div>
-                                              
-                                         </div>
-                                         </NavLink>
+                                                // <NavLink key={index} to={"/userpage."+friend.user.username} >
+                                                <div onClick={this.addChatbox.bind(this,friend.user)} style={{paddingTop:"3px",paddingBottom:"3px"}} className="friend col-md-12 ">
+                                                        <div >
+                                                            <NavLink to={"/userpage."+friend.user.username} ><img style={{width:"33px",height:"33px"}} className="img-user"  src={friend.user.url_avatar} /> </NavLink>
+                                                            <div style={{float:"left"}} className="name-user" >
+                                                            <NavLink to={"/userpage."+friend.user.username} >    {friend.user.fullname} </NavLink>
+                                                            
+                                                            
+                                                        
+                                                        </div>
+                                                        <div className="status-user">
+                                                            {friend.user.is_online? 
+                                                                <span className="status-online"></span>:
+                                                                <div className="time">
+                                                                {moment(friend.user.time_offline?friend.user.time_offline:Date.now()).lang('vi').fromNow()}
+                                                        </div>}
+                                                            </div>
+                                                        </div>
+                                                        
+                                                 </div>
+                                        //  </NavLink>
                                             )
                                         })}
                                     

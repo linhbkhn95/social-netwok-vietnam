@@ -246,7 +246,7 @@ module.exports = {
               return new Promise(async(resolve,reject)=>{
                 
                   let userIdFriend = item.userId_one==userId?item.userId_two:item.userId_one
-                  let user = await User.findOne({id:userIdFriend,select:['fullname','username','url_avatar','is_online','time_offline']})
+                  let user = await User.findOne({id:userIdFriend,select:['fullname','id','username','url_avatar','is_online','time_offline']})
                   let countFriend = await Friends.count({
                     or:[
                       {userId_one:userIdFriend,status:1},
