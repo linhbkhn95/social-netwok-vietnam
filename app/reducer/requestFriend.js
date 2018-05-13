@@ -7,6 +7,7 @@ var requestFriend = (state = datareq, action) => {
      
      case "ADD_LIST_REQ" :
          let reqfriend  = {...state}
+         
          reqfriend.data = reqfriend.data.concat(action.data)
          return reqfriend;
          break

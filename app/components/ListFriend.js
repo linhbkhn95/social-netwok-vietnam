@@ -1,6 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
+import moment from 'moment'
 class List extends React.Component{
     constructor(props){
         super(props);
@@ -57,7 +58,7 @@ class List extends React.Component{
             let self =this
              let {listfriend} = this.state
                return(
-          
+                <div style={{display:this.props.auth.isAuthenticated?"block":"none"}} className="list-friend">
                       <div style={{marginTop:"50px"}} className="c">
                                <div style={{   }} className="">
                                       <div style={{paddingTop:"10px",paddingBottom:"10px"}} className="col-md-12 ">
@@ -80,8 +81,12 @@ class List extends React.Component{
                                                  
                                               
                                               </div>
-                                              <div className="status-user"> 
-                                                     <span className="status-online"></span>
+                                              <div className="status-user">
+                                                  {friend.user.is_online? 
+                                                     <span className="status-online"></span>:
+                                                     <div className="time">
+                                                     {moment(friend.user.time_offline?friend.user.time_offline:Date.now()).lang('vi').fromNow()}
+                                               </div>}
                                                 </div>
                                             </div>
                                               
@@ -92,6 +97,7 @@ class List extends React.Component{
                                     
                                       </div>
                                </div>
+                      </div>
                       </div>
                )
     

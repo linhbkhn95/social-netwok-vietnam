@@ -1,0 +1,125 @@
+body{
+  background-color: #e7e8e4;
+}
+#wrapper{
+  width: 1345px;
+  background-color: white;
+
+  padding: 6px;
+  z-index: 9999;
+}
+.panel-body{
+
+  min-height: 416px;
+  overflow-y: scroll;
+}
+/* .number{
+  float: right;
+    margin-left: 15px;
+    font-size: 44px;
+    font-style: italic;
+    margin-right: 39px;
+    font-family: cursive;
+    color: #a167d8
+} */
+#number-online{
+    float: right ;
+    font-size: 23px;
+    color: #0e6784;
+    line-height: 77px;
+    margin-right: 58px;
+
+    /* padding: 1px; */
+    /* height: 79px; */
+    border-radius: 11px;
+    padding-left: 3p;
+    margin-bottom: 5px;
+    box-shadow: 12px 9px 10px #7c8c82;
+}
+/* ghi de bootstrap*/
+.panel-body{
+  height: 416px;
+}
+.facebook{
+  font-size: 19px;
+}
+.alert{
+    padding: 3px !important;
+    margin-bottom: 16px !important;
+    float: left;
+    clear: both;
+    margin-top: -5px;
+  }
+.panel-heading{
+  font-size: 21px;
+  font-weight: bold;
+}
+
+
+
+
+#main{
+  width: 823px;
+  float: left;
+  max-height: 600px;
+  padding-left: 5px;
+}
+#header{
+  width: 100%;
+      background-color: #f0f5f0;
+      float: left;
+      z-index: 99999;
+      border-radius: 18px;
+      font-style: normal;
+      text-align: center;
+      font-weight: initial;
+      color: #1bad0b;
+      height: 125px;
+}
+#title{
+  height: 81px;
+    font-weight: bolder;
+    font-size: -webkit-xxx-large;
+    font-family: cursive,fantasy,serif;
+    /* border: 1px #cc2215; */
+    padding: 0px;
+    margin-right: 17px;
+    border-radius: 25px;
+    box-shadow: 10px 10px 5px #b6c3b7;
+}
+#content{
+  width: 100%;
+  float: left;
+  padding-top: 5px;
+  background-color: white;
+}
+#left{
+  width: 252px;
+  float: left;
+  border-radius: 5px;
+  max-height: 600px;
+  overflow-y:hidden;;
+}
+#right{
+  width: 252px;
+  float: right;
+  border-radius: 5px;
+  max-height: 600px;
+  overflow-y:hidden;;
+}
+/* Message componet ***********/
+.timemsg{
+  float: right;
+    margin-top: 12px;
+    margin-left: 10px;
+    font-size: 10px;
+    font-weight: inherit;
+  color: rgb(212, 103, 24);
+}
+#list-popup{
+
+    height: 50px;
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+}

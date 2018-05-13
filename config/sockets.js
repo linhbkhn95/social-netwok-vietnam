@@ -118,6 +118,10 @@ module.exports.sockets = {
     // If a user is logged in, subscribe to them
     if (session.user) {
       console.log('connect',session.user)
+      User.update({id:session.user.id},{is_online:true}).exec((err,userupdate)=>{
+
+
+      });
       User.subscribe(socket, session.user);
     }
   
@@ -132,6 +136,10 @@ module.exports.sockets = {
       if (User.subscribers(session.user.id).length == 0) {
         console.log("User "+session.user.id+" is gone!");
         // Do something!
+        User.update({id:session.user.id},{is_online:false,time_offline:Date.now()}).exec((err,userupdate)=>{
+
+          
+        });
       }
     }
   

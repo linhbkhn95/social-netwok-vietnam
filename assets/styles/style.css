@@ -225,7 +225,7 @@
 }
 .list-friend{
   background-clip: padding-box;
-  background-color: #eeeeef;
+  background-color: #e9ebef;
   border-left: 1px solid rgba(175, 169, 169, 0.4);
   /* box-shadow: inset 2px 0 2px -2px #b2b9c9; */
   display: block;
@@ -253,6 +253,11 @@ clear: both;
   float: right;
   /* justify-content: center; */
   align-items: center;
+}
+.status-user .time{
+  color: #b2b2bb;
+  font-size:9px;
+ 
 }
 .status-online{
   background: rgb(66, 183, 42);

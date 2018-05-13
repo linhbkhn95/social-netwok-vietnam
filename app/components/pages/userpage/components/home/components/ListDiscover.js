@@ -124,7 +124,22 @@ class ListDiscover extends React.Component{
              self.setState({options:resdata})
         }))
     }
-    
+    componentWillReceiveProps(nextProps){
+        let {username} = nextProps;
+        let self = this
+        if(username != this.props.username){
+            io.socket.post('/post/getListPost_username',{page:1,username},function(res,jwres){
+                if(res.EC==0){
+                    self.state.fulldata = false;
+                    if(res.DT.length<10)
+                        self.state.fulldata = true
+
+                    self.setState({listStatus:res.DT,page:2,loadingState:false,fulldata:self.state.fulldata})
+
+                }
+            })
+        }
+    }
     async getlistSubject(input) {
        
        

@@ -38,6 +38,13 @@ module.exports = {
      address:{
        type:"string"
      },
+     is_online:{
+       type:"boolean",
+       defaultsTo:"false"
+     },
+     time_offline:{
+      type:"float"
+     },
     //  adress:{
     //    type:'string'
     //  },
