@@ -116,6 +116,23 @@ module.exports = {
              })
           }
       },
+      updateProfile:function(req,res){
+          let data = req.body;
+          User.update({username:data.username},data).exec((err,listupdate)=>{
+            if(err){
+              return res.send(OutputInterface.errServer(err))
+              
+            }
+            if(listupdate.length>0){
+              req.session.user = listupdate[0]
+              return res.send(OutputInterface.success(listupdate[0]))
+            }
+            else{
+              return res.send(OutputInterface.errServer('not update'))
+
+            }
+          })
+      },
       updateCover:async  function (req, res) {
         
         sails.log.info('req.headers', req.headers);
@@ -228,6 +245,12 @@ module.exports = {
       
            })
         }
+    },
+    getProfile:function(req,res){
+        User.findOne({id:req.session.user.id}).exec((err,user)=>{
+          return res.send(OutputInterface.success(user))
+
+        })
     },
     getListFriends_User: async function(req,res){
       let username = req.session.user.username

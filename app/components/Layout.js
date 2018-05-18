@@ -19,8 +19,8 @@ class Layout extends React.Component{
                         <div className="clearfix"></div>
                         <div className="container jumbotron">
                         
-                          <ListFriend />
-   <ListChatBox />
+                        
+                          <ListChatBox />
 		                     {this.props.children}
 		                       </div>
                            <ToastContainer />

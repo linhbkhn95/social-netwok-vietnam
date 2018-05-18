@@ -21,6 +21,10 @@ module.exports = {
       text:{
         type:'string'
       },
+      read_message:{
+        type:'boolean',
+        defaultsTo:false
+      }
   }
 };
 

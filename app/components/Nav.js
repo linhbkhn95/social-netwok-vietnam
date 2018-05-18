@@ -10,7 +10,8 @@ import axios from 'axios'
 import {connect} from 'react-redux'
 import ListNotifi from './ListNotification'
 import ListRequestFrienfs from './ListRequestFriends'
-
+import ListFriend from './ListFriend'
+import ListChat from './ListChat'
 import {addNotification} from 'app/action/actionNotification'
 import {removeReqFriend,addReqFriend} from 'app/action/actionReqFriend'
 import { ToastContainer, toast } from 'react-toastify';
@@ -194,9 +195,10 @@ class ToastNotifi extends React.Component{
                          <NavLink to="/wall">   <i className="fa fa-home" aria-hidden="true"></i></NavLink>
                           </NavItem>
                      
-                          <NavItem eventKey={2} href="#">
-                              <i className="fa fa-users" aria-hidden="true"></i>
-                          </NavItem>
+                          {/* <NavItem eventKey={2} href="#">
+                              <i style={{color: "#5cb85c"}} className="glyphicon glyphicon-comment" aria-hidden="true"></i>
+                          </NavItem> */}
+                          <ListChat />
                           <ListNotifi /> 
                           
                            <NavDropdown eventKey={3}  id="basic-nav-dropdown">
@@ -209,7 +211,7 @@ class ToastNotifi extends React.Component{
                         </Nav>
                       </Navbar.Collapse>:null}
                     </Navbar>
-                                
+                        {this.props.auth.isAuthenticated?  <ListFriend />:null}         
           </header>
      
           

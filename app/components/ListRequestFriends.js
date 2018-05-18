@@ -17,18 +17,7 @@ class listRequesFriends extends React.Component{
         this.setWrapperRef = this.setWrapperRef.bind(this);
         this.handleClickOutside = this.handleClickOutside.bind(this);
       }
-    componentDidMount(){
-        document.addEventListener('mousedown', this.handleClickOutside);
-        // let self = this
-        // io.socket.get('/friends/getlistRequestFriend',function(res,jwRes){
-        //     if(res.EC==0){
-        //         self.setState({listRequesFriends:resdata.DT})
-        //     //   self.props.dispatch(setNotification(res.DT))
-        //     }
-        // })
-      
-
-    }
+   
     accept(username){
         let self = this
         io.socket.post('/friends/accept',{username},((resdata,jwres)=>{
@@ -50,6 +39,8 @@ class listRequesFriends extends React.Component{
 
     }
     componentDidMount(){
+        document.addEventListener('mousedown', this.handleClickOutside);
+
         io.socket.on('notifi_user_requestFriend'+this.props.auth.user.id, function (data) {
             console.log('addnotifi',data)
       
@@ -67,7 +58,6 @@ class listRequesFriends extends React.Component{
     }
     componentWillUnmount() {
         document.removeEventListener('mousedown', this.handleClickOutside);
-      
       }
       showNotifi(){
         $("#listRequesFriends").fadeToggle(300);

@@ -109,7 +109,7 @@
 
             /* Custom bootstrap panel chat box*/
            .chat-window .panel .panel-body{
-                min-height: 188px;
+                height: 225px;
             }
             .col-md-12 {
                 /* width: 91% !important; */

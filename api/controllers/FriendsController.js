@@ -133,9 +133,13 @@ module.exports = {
                      ]
                     
                     })
+                    let userId_one = req.session.user.id<user.id?req.session.user.id:user.id
+                    let userId_two = req.session.user.id>user.id?req.session.user.id:user.id
+                    let friend = await Friends.findOne({userId_one,userId_two});
                     let data = {
                        user,
                        countFriend,
+                       friend
                     }
                     resolve(data)
                 })

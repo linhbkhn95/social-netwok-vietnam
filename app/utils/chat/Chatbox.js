@@ -1,7 +1,8 @@
 import React from  'react'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
-import {addMessageSubmit,openChatbox} from 'app/action/actionChatbox'
+import {addMessageSubmit,openChatbox,removeChatbox} from 'app/action/actionChatbox'
+const ReactDOM = require('react-dom')
 
 class ChatBox extends React.Component{
     // closeChatBox(e){
@@ -62,14 +63,18 @@ class ChatBox extends React.Component{
           data.userId_rec = this.props.chatbox.id;
           data.text = text
           console.log('text',text);
-         
+          if ( document.activeElement === ReactDOM.findDOMNode(this.refs.textchat) )
+                console.log('focus ccmm')
+          $("#chat_input").focusin(()=> {
+              console.log('cmmm')
+            })
           this.props.dispatch(addMessageSubmit(data));
         //   var elem = document.getElementById('bodychat');
         //   elem.scrollTop = elem.scrollHeight;
           
         $('#bodychat').stop().animate({
             scrollTop: $('#bodychat')[0].scrollHeight
-        }, 500);
+        }, 0);
           
           this.refs.textchat.value = ''
 
@@ -81,13 +86,29 @@ class ChatBox extends React.Component{
         console.log('nextProps',nextProps)
         $('#bodychat').stop().animate({
             scrollTop: $('#bodychat')[0].scrollHeight
-        }, 500);
+        }, 0);
           
          
 
         
         
     }
+
+    remove(){
+        let chatbox = this.props.chatbox
+        let me = this.props.auth.user;
+        let index = this.props.index
+        let id = me.id>chatbox.id?me.id+'_'+chatbox.id:chatbox.id+'_'+me.id
+        this.props.dispatch(removeChatbox({index,id}))
+    }
+    onFocusInput() {
+
+          io.socket.post('/chat/updateStatusListMessage',{userId_patner:this.props.chatbox.id},((resdata)=>{
+              if(resdata.EC==0){
+                  console.log('updateStatusMessage',resdata.DT)
+              }
+          }))
+      }
     render(){
             var styles ={
                         right :"243px",
@@ -113,7 +134,7 @@ class ChatBox extends React.Component{
 									 <a href="#"><span style={{   
     fontSize: "10px",color:"#818781"}} id="minim_chat_window" className="glyphicon glyphicon-minus icon_minim"></span></a>
 							 <a href="#" ><span style={{    
-    fontSize: "10px",color:"#818781"}} className="glyphicon glyphicon-remove icon_close" data-id="chat_window_1"></span></a>
+    fontSize: "10px",color:"#818781"}} className="glyphicon glyphicon-remove icon_close" onClick={this.remove.bind(this)} data-id="chat_window_1"></span></a>
 						 </div>
 				 </div>
 
@@ -176,9 +197,9 @@ class ChatBox extends React.Component{
                            <div style={{padding:"0px"}} className="panel-footer">
 
                                 
-                                    <form ref={el => this.myFormRef = el}  onSubmit={this.handleSubmit.bind(this)}>
+                                    <form id="form-send-message" ref={el => this.myFormRef = el}  onSubmit={this.handleSubmit.bind(this)}>
                                     {/* <textarea 	onChange={this.changeHandler} id="btn-input" style={{borderRadius:"0px"}} className="form-control input-sm chat_input" placeholder="Nhập tin nhắn để gửi...."> </textarea> */}
-              <textarea onKeyDown={this.onEnterPress}  id="chat_input" ref="textchat" className="form-control chat_input" style={{borderRadius:"0px",fontSize:"11px"}}  placeholder="Nhập tin nhắn.." rows="1" id="comment"></textarea>
+              <textarea onKeyDown={this.onEnterPress}   onFocus={ this.onFocusInput.bind(this) }   id="chat_input" ref="textchat" className="form-control chat_input" style={{borderRadius:"0px",fontSize:"11px", border:"1px solid #dcd9d9"}}  placeholder="Nhập tin nhắn.." rows="1" id="comment"></textarea>
 
                                     </form>
                                         {/* <span className="input-group-btn">

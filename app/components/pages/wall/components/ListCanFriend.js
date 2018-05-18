@@ -1,5 +1,6 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
+import {connect} from 'react-redux'
 class List extends React.Component{
     constructor(props){
         super(props);
@@ -12,13 +13,13 @@ class List extends React.Component{
   cancel(username){
     let {listfriend}  = this.state
     for(var i =0;i<listfriend.length;i++){
-        if(listfriend[i].username  == username){
+        if(listfriend[i].user.username  == username){
              listfriend.splice(i,1)
              break
         }
     }
     
-    self.setState({listfriend})
+    this.setState({listfriend})
   }
   accessFriend(username){
     let self = this
@@ -29,7 +30,7 @@ class List extends React.Component{
 
        if(resdata.EC==0){
            for(var i =0;i<listfriend.length;i++){
-               if(listfriend[i].username  == username){
+               if(listfriend[i].user.username  == username){
                     listfriend.splice(i,1)
                     break
                }
@@ -52,6 +53,17 @@ class List extends React.Component{
             }))
         }
     }
+    getTextButton(friend){
+        let textButton = "Kết bạn"
+        if(friend.status ==0)
+            if(this.props.auth.user.id == friend.action_userId)
+                 return "Hủy yêu cầu kết bạn"
+            else
+                return "Chấp nhận yêu cầu kết bạn"
+        else
+            return textButton
+        
+    }
    render(){
             let self =this
              let {listfriend} = this.state
@@ -69,7 +81,9 @@ class List extends React.Component{
                                       </div>
                                       <div style={{paddingTop:"10px"}} className="row col-md-12">
                                         {listfriend.map((friend,index)=>{
-                                            return(
+                                            let textButton = self.getTextButton(friend.friend);
+
+                                           return(
                                               <div style={{padding:"5px 10px 5px 5px"}} className="col-md-12 use">
                                               <div >
                                                  <NavLink to={"/userpage."+friend.user.username} ><img style={{width:"33px",height:"33px"}} className="img-user"  src={friend.user.url_avatar} /> </NavLink>
@@ -83,7 +97,7 @@ class List extends React.Component{
                                                 </div>
                                               </div>
                                               <div className="pull-right">
-                                                 <button onClick={self.accessFriend.bind(this,friend.user.username)} style={{padding:"3px 12px",fontSize:"11px",marginRight:"3px"}} className="btn btn-success"><i style={{color:"white",marginRight:"2px"}} className="fa fa-user-plus" aria-hidden="true"></i>Kết bạn
+                                                 <button onClick={self.accessFriend.bind(this,friend.user.username)} style={{padding:"3px 12px",fontSize:"11px",marginRight:"3px"}} className="btn btn-success"><i style={{color:"white",marginRight:"2px"}} className="fa fa-user-plus" aria-hidden="true"></i>{textButton}
 </button>
                                                  <button onClick={self.cancel.bind(this,friend.user.username)} style={{padding:"3px 12px",fontSize:"11px",marginRight:"3px"}} className="btn btn-default"><i style={{color:"none",marginRight:"2px"}} className="fa fa-times" aria-hidden="true"></i>Bỏ qua
 </button>
@@ -102,4 +116,10 @@ class List extends React.Component{
     }
     
 }
-module.exports = List
+module.exports =connect(function(state){
+    return{
+        auth:state.auth,
+
+
+    }})
+   (List);

@@ -119,7 +119,7 @@ module.exports.sockets = {
     if (session.user) {
       console.log('connect',session.user)
       User.update({id:session.user.id},{is_online:true}).exec((err,userupdate)=>{
-
+        sails.sockets.broadcast('NotificationUser',"status_user",userupdate);
 
       });
       User.subscribe(socket, session.user);
@@ -137,6 +137,7 @@ module.exports.sockets = {
         console.log("User "+session.user.id+" is gone!");
         // Do something!
         User.update({id:session.user.id},{is_online:false,time_offline:Date.now()}).exec((err,userupdate)=>{
+          sails.sockets.broadcast('NotificationUser',"status_user",userupdate);
 
           
         });

@@ -5,6 +5,7 @@ import {ButtonToolbar,Popover,OverlayTrigger,Button ,Dropdown,MenuItem,Glyphicon
 import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
 import {connect} from 'react-redux'
+import ModalEdit from './ModalEditInfo'
 class Layout extends React.Component{
     constructor(props){
         super(props);
@@ -13,7 +14,8 @@ class Layout extends React.Component{
             file: null,
             info:{
                 user:{}
-            }
+            },
+            showModalSubject:false
         }
     }
     componentDidMount(){
@@ -121,6 +123,24 @@ class Layout extends React.Component{
         }
         return axios.post(url,formData,config)
     }
+    showModalSubject(){
+        this.setState({showModalSubject:true})
+      }
+      closeModal(){
+           this.setState({showModalPost:false})
+    
+      }
+      closeModalSubject(){
+        this.setState({showModalSubject:false})
+    
+        }
+    accessSubject(){
+        this.setState({showModalSubject:false})
+        toast.success( "Thay đổi thông tin thành công!", {
+           position: toast.POSITION.TOP_LEFT
+         });
+      }
+    
     render(){
         let {info} = this.state
         return(
@@ -222,7 +242,7 @@ class Layout extends React.Component{
                                                     </li>
                                                     <li className="li-layout" style={{borderRight:"none"}}>
 
-                                                        {info.isMe?null:     <div style={{paddingLeft:"0px",lineHeight:"35px"}} className="btn-friend">   
+                                                        {info.isMe?<button onClick={this.showModalSubject.bind(this)} style={{padding:"2px 8px",fontSize:"12px",marginTop:"9px"}} className="btn btn-default"><i className="fa fa-pencil" aria-hidden="true"></i>Chỉnh sửa</button>:     <div style={{paddingLeft:"0px",lineHeight:"35px"}} className="btn-friend">   
 
        
                                          <Dropdown id="dropdown-custom-1">
@@ -259,6 +279,7 @@ Nhận thông báo</MenuItem>
                       </section>
                 </div>
             </div>
+            <ModalEdit access={this.accessSubject.bind(this)} show={this.state.showModalSubject} onHide={this.closeModalSubject.bind(this)} />
         </div>
         )
     }

@@ -10,9 +10,69 @@ body{
 }
 .chat-window .panel-body{
 
-  min-height: 416px;
-  overflow-y: scroll;
+  /* min-height: 416px; */
+  overflow-y: auto;
 }
+.chat-window-hide{
+  position: fixed;
+  bottom: 0px;
+  /* right: 224px; */
+  border-radius: 5px 5px 0px 0px;
+  background: #ffffff;
+  /* height: 23px; */
+  /* width: 21px; */
+  border: 1px solid #bec0c5;
+  border-bottom: none;
+  height: 28px;
+  box-shadow: 0px 0px 0px 0px;
+  z-index: 999999999999;
+}
+.chat-window-hide i{
+  font-size: 20px;
+    padding: 3px;
+    color: #8e8f92;
+}
+.chat-window-hide .btn{
+  padding: 1px 3px;
+}
+.focus-behide{
+  font-size: 12px;
+
+}
+.focus-behide .popover-title{
+  padding: 4px 5px;
+  font-size: 12px;
+  
+}
+.focus-behide .popover-content{
+  font-size: 12px;
+  padding: 5px 5px 6px 6px;
+  font-weight: bold;
+}
+.focus-behide .popover-content i{
+  cursor: pointer;
+  margin-left: 10px;
+  float: right;
+  line-height: 18px;
+  color:#989695
+}
+.focus-behide .item-user{
+  font-weight: bold;
+  line-height: 18px;
+
+
+}
+.focus-behide .name-user-behide{
+  float: left;
+  cursor: pointer;
+}
+.focus-behide .name-user-behide:hover,focus{
+  color: #1bad0b;
+}
+.focus-behide .item-user:hover,focus{
+  background: #e9ebef;
+}
+
 /* .number{
   float: right;
     margin-left: 15px;
@@ -51,7 +111,7 @@ body{
     margin-top: -5px;
   }
  .chat-window .panel-heading{
-  font-size: 21px;
+  /* font-size: 21px; */
   font-weight: bold;
 }
 

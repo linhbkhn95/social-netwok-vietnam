@@ -7,6 +7,9 @@ var data = {
  ],
  listchat:{
      
+ },
+ new_message:{
+
  }
 };
 
@@ -18,13 +21,27 @@ let datacopy
 
     case "ADD_CHATBOX":
          datacopy = {...state}
+
         datacopy.listUser.unshift(action.data.user)
         datacopy.listchat[action.data.id] = action.data.listchat
         return datacopy
     case "ADD_MESSAGE":
         datacopy = {...state}
+        datacopy.new_message  = action.data.new_message;
         datacopy.listchat[action.data.id].push(action.data.message);
         return datacopy
+    case "REMOVE_CHATBOX" :
+        datacopy = {...state}
+        datacopy.listUser.splice(action.data.index,1);
+        delete datacopy.listchat[action.data.id];
+        return datacopy
+
+    case "RE_OPEN_CHATBOX" :
+        datacopy = {...state}
+        datacopy.listUser.splice(action.data.index, 1);
+        datacopy.listUser.unshift(action.data.user);
+        return datacopy;
+
     default:
        return state;
   }

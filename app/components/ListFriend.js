@@ -24,7 +24,10 @@ class List extends React.Component{
     self.setState({listfriend})
   }
   addChatbox(user){
-        this.props.dispatch(openChatbox(user))
+        let auth = this.props.auth
+        let id = user.id>auth.user.id? user.id+'_'+auth.user.id: auth.user.id+'_'+user.id
+        if(this.props.chatbox.listchat[id]==undefined||this.props.chatbox.listchat[id]==null)
+             this.props.dispatch(openChatbox(user))
   }
   accessFriend(username){
     let self = this
@@ -56,8 +59,12 @@ class List extends React.Component{
                     sefl.setState({listfriend:resdata.DT})
                 }
             }))
+            io.socket.on('status_user',function(data){
+                console.log('status_user',data)
+            })
       
     }
+    
    render(){
             let self =this
              let {listfriend} = this.state
@@ -112,5 +119,6 @@ class List extends React.Component{
 module.exports =connect(function(state){
     return{
         auth:state.auth,
+        chatbox:state.chatbox
     }})
    (List);

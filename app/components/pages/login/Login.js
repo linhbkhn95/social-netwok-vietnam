@@ -98,6 +98,7 @@ class Login extends React.Component{
                                                 <input id="login-remember" type="checkbox" name="remember" value="1"/> Nhớ mật khẩu
                                                 </label>
                                             </div>
+                                          
                                             </div>
 
 
@@ -108,7 +109,9 @@ class Login extends React.Component{
                                             <a style={{width:"100%"}} id="btn-login" onClick={this.login.bind(this)} href="#" className="btn btn-default">Đăng nhập  </a>
                                             <a  style={{marginTop:"5px",width:"100%"}} id="btn-fblogin" href="/auth/facebook" className="btn btn-primary"><i style ={{marginRight:"5px",color:"white"}} className="fa fa-facebook-official" aria-hidden="true"></i>
 Đăng nhập qua Facebook</a>
-
+                                            <div>
+                                                 Nếu chưa có tài khoản thì hãy    <button className="btn btn-link">Đăng kí</button>
+                                            </div>
                                             </div>
                                         </div>
 

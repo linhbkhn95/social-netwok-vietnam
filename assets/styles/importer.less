@@ -47,8 +47,10 @@
 .menu-left .dropdown-menu{
   position: relative !important;
 }
+
 .nav > li > a:hover, .nav > li > a:focus{
-  height: 50px !important;
+  // height: 50px !important;
+  // background:#0c0000 !important
 }
 
 .title-project{
@@ -105,6 +107,18 @@ border-bottom: 1px solid #dddddd;
   font-size: 12px;
   overflow-y: auto;
 }
+#messagerContainer {
+  background-color: #fff;
+  border: 1px solid rgba(100, 100, 100, 0.4);
+  -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  overflow: visible;
+  position: absolute;
+  top: 41px;
+  margin-left: -332px;
+  width: 382px;
+  z-index: 9999;
+  display: none;
+}
 #notificationFooter
 {
 // background-color: #e9eaed;
@@ -112,7 +126,7 @@ text-align: center;
 font-weight: bold;
 padding: 8px;
 font-size: 12px;
-border-top: 1px solid #dddddd;
+border-top: 1px solid #ece6e6
 }
 .avatar-alert {
   width: 36px;
@@ -141,8 +155,17 @@ margin-top: 2px;
 font-size: 11px;
 }
 .alert-message{
-  padding-bottom: 5px;
-  border-bottom: 1px solid #d8d4d4;
+ 
+  border-bottom:  1px solid #ece6e6;
+  
+  cursor: pointer;
+}
+#messagerContainer .alert-message{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.alert-message:hover{
+  background: #eff5ec !important 
 }
 .alert-message a{
     color: #555
