@@ -23,7 +23,6 @@ export default function(ComposedComponent) {
         io.socket.post('/friends/checkfriend',{username},((resdata,jwres)=>{
           if(resdata.EC==0){
               self.setState({isFriend:true,callDB:true})
-              console.log('requireFriend',this.props.match,resdata)
 
           }
           else{
