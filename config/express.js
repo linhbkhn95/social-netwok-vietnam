@@ -61,7 +61,7 @@ module.exports.http = {
     passport.use(new FacebookStrategy({
         clientID: "595958844103469", // Use your Facebook App Id
         clientSecret: "fdf804f40eed430e7fa6e82df8a00709", // Use your Facebook App Secret
-        callbackURL: "https://8b5ef360.ngrok.io/auth/facebook/callback",
+        callbackURL: "https://e3c884c1.ngrok.io/auth/facebook/callback",
         profileFields: ['email','id', 'first_name', 'gender', 'last_name','displayName', 'picture']
 
       }, verifyHandler));

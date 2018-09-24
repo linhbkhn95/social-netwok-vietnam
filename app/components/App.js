@@ -33,7 +33,7 @@ import {cyan500} from 'material-ui/styles/colors';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import requrieFriend from 'app/utils/friend/requrieFriend'
-
+import CallVideo from '../components/pages/callvideo/CallVideo'
 import Notfound from './Notfound'
 const muiTheme = getMuiTheme({
   palette: {
@@ -66,8 +66,9 @@ const muiTheme = getMuiTheme({
                
                    <Switch>
                        
-                      <Route  exact   path="/" component={UserManager}/>
+                      <Route  exact   path="/" component={Home}/>
                       <Route     path="/wall" component={Home}/>
+                      <Route     path="/callvideo" component={CallVideo}/>
                       <Route path = '/post.notifi.:postId' component ={PostNotifi} />
                       <Route  path="/userpage.:username" component={requrieFriend(UserPage)} />
                       <Route  path="/login" component={Login} />

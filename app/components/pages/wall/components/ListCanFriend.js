@@ -1,6 +1,9 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
 import {connect} from 'react-redux'
+import {emojify} from 'react-emojione';
+import Emojify from 'react-emojione';
+
 class List extends React.Component{
     constructor(props){
         super(props);
@@ -75,11 +78,17 @@ class List extends React.Component{
                                           <div   className="pull-left">
                                               <i style={{marginRight:"10px"}} className="fa fa-users" aria-hidden="true"></i>
                                             Những người bạn có thể  biết
+                                           
+                                            {/* <Emojify>
+        <span>Easy! :wink:</span>
+        <span>ðŸ˜¸ :D  ^__^</span>
+    </Emojify>, */}
                                           </div>
                                           <div >
                                           </div>
                                       </div>
                                       <div style={{paddingTop:"10px"}} className="row col-md-12">
+                                      {emojify('Easy! :wink: ðŸ˜¸ :D  ^__^ -.- :)')}
                                         {listfriend.map((friend,index)=>{
                                             let textButton = self.getTextButton(friend.friend);
 

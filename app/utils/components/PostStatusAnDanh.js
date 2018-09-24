@@ -249,12 +249,12 @@ class PostStatus extends React.Component{
                        <p style={{float:"none"}} className="">{moment(data.time).lang('vi').fromNow()}</p>
                    </div>
                </div>
-               <div style={{paddingLeft:"45px"}} className="col-md-12 ">
+               <div style={{paddingLeft:"45px"}} className="">
     
                            {data.listRepComment.map(c =>  (self.renderActive(c)))}                     
                         <div className="img-rep-rep"> <img src={self.props.auth.user.url_avatar} /> </div>
                 
-                        <div style={{paddingRight:"0px",paddingLeft:"6px"}} className="col-md-11">
+                        <div style={{paddingRight:"0px",paddingLeft:"6px"}} className="col-md-10">
                             <form onSubmit={self.repToRepComment.bind(this,data.id)} > <input ref={data.id}  placeholder="Viết bình luận ..." type="text" className="form-control input-repcomment" />
                             </form>
                             </div>
@@ -269,7 +269,7 @@ class PostStatus extends React.Component{
             <div key={data.id}>
                 <div className="img-rep-rep">{data.incognito?  <img className="" src="/images/user/robot.png" />:<NavLink to={"/userpage."+data.user_comment.username}><img src={data.user_comment.url_avatar} /></NavLink>}</div>
                 
-                <div className="col-md-11">
+                <div className="col-md-10">
                     <div className="text-rep"><span style={{color: "rgb(21, 165, 65)",
     fontSize: "12px",
     fontWeight:" bold"}} className="">
@@ -292,7 +292,7 @@ class PostStatus extends React.Component{
                         <p className="">{moment(data.time).lang('vi').fromNow()}</p>
                     </div>
                 </div>
-                <div style={{display:self.state.displayInputRepComment[data.id]?"block":"none",paddingLeft:"45px",marginBottom:"5px"}}  className="col-md-12 ">
+                <div style={{display:self.state.displayInputRepComment[data.id]?"block":"none",paddingLeft:"45px",marginBottom:"5px"}}  className="">
     
                            {/* {data.listRepComment.map(c =>  (self.renderActive(c)))}                      */}
                         <div className="img-rep-rep"> <img src={self.props.auth.user.url_avatar} /> </div>
