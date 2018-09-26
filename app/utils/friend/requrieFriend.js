@@ -32,9 +32,9 @@ export default function(ComposedComponent) {
 
           }
         }))
-     
 
-    
+
+
     }
     accessFriend(){
        let friend = this.state.userPatner.friend
@@ -54,7 +54,7 @@ export default function(ComposedComponent) {
       let self  =this
       console.log('requireFriend',this.props.match,this.props.auth)
       let {username} = this.props.match.params
-    
+
       io.socket.post('/friends/checkfriend',{username},((resdata,jwres)=>{
          if(resdata.EC==0){
             self.setState({isFriend:true,callDB:true})
@@ -67,25 +67,25 @@ export default function(ComposedComponent) {
           self.setState({isFriend:false,callDB:true,userPatner:resdata.EM})
          }
       }))
-     
 
-    
+
+
     }
 
     componentWillUpdate(nextProps) {
-     
+
     }
 
     getTextButton(friend){
         let text = "Kết bạn"
         if(friend==0)
             text = "Hủy yêu cầu kết bạn"
-        
-        
+
+
     }
     render() {
-     
-       
+
+
        if(this.state.callDB) return (
 
           this.state.isFriend?<ComposedComponent {...this.props} />: <div className="row">
@@ -104,20 +104,20 @@ height: "33px"
                                 }} className="user-request">
                                     <div style={{float:"left",width:"75%"}}> <strong>{this.state.userPatner.fullname}</strong>
                                     <br />
-                                    
+
                                     </div>
                                     <div className="pull-right">
                                         <button onClick={this.accessFriend.bind(this)} className="btn btn-success">{this.state.userPatner.friend==-1?"Kết bạn":"Huỷ yêu câu kết bạn" }</button>
-                                       
+
 
                                     </div>
                                 </div>
-                               
+
                        </div>
           </div>
           </div>
         );
-     
+
       else{
          return(
             <div></div>
@@ -132,7 +132,7 @@ height: "33px"
   // }
   //
   Authenticate.contextTypes = {
-    router: React.PropTypes.object.isRequired
+    // router: React.PropTypes.object.isRequired
   }
 
   function mapStateToProps(state) {

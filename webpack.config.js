@@ -32,7 +32,7 @@ module.exports={
     modules: [__dirname, 'node_modules'],
     extensions: ['*', '.jsx', '.js', '.json'],
     alias:{
-      
+
 
 
 
@@ -83,10 +83,13 @@ module.exports={
     //     test:/\.(js|jsx)$/,    //file nao xu dung trong goi bundel
     //     exclude:/node_modules/ //ngoai tru khog su dung
     //   },
-      
-   
+
+
    // ]
   },
+  watchOptions: {
+    poll: true
+},
   node:{
     net:'empty',
     dns:'empty'

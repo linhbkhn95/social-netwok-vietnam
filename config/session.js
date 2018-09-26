@@ -17,10 +17,10 @@ var store_options = {
   host: 'localhost',
   port: 3306,
   user: 'root',
-  password: '1234',
+  password: '123456',
   database: 'webandanh'
   }
-  
+
 module.exports.session = {
 
   /***************************************************************************

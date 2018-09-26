@@ -7,17 +7,17 @@ import {green100, green500, green700} from 'material-ui/styles/colors';
 
 
 
-import injectTapEventPlugin from 'react-tap-event-plugin';
+// import injectTapEventPlugin from 'react-tap-event-plugin';
 
  var App = require('./components/App.js');
 
 
-injectTapEventPlugin();
+// injectTapEventPlugin();
 ReactDOM.render(
-	 	     
-     		 
+
+
      		 <App />
-   	   
+
     ,
   document.getElementById('layout')
 );
