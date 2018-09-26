@@ -16,15 +16,15 @@ class HeaderPost extends React.Component{
               showModalPost:false,
               showModalSubject:false,
               onBlur:false,
-             
+
         }
   }
-  
-  
+
+
   showModalPost(){
-   
+
              this.setState({showModalPost:true})
-      
+
   }
   showModalSubject(){
     this.setState({showModalSubject:true})
@@ -41,7 +41,7 @@ class HeaderPost extends React.Component{
       this.setState({showModalPost:true})
   }
   onBlur(){
-    
+
       this.setState({onBlur:true})
 
   }
@@ -62,29 +62,34 @@ class HeaderPost extends React.Component{
 
 
   render(){
- 
+
 
      return(
 
         <div className="col-md-12 post-wall " >
              <div className="" >
                      <div className="question" >
-                         <i className="fa fa-question" aria-hidden="true"></i> Câu hỏi
+                     <i className="fa fa-pencil" aria-hidden="true"></i> Viết bài
 
                      </div>
-                     <div className="vote" >
-                        <i className="fa fa-star" aria-hidden="true"></i> Bình chọn ảnh
+                     <div className="question" >
+                       <input type="file" className="input-file-post" accept="image" title="Chọn file để tải lên" />
+                        <i className="fa fa-camera-retro" aria-hidden="true"></i> Thêm ảnh/Video
                         </div>
+                        <div className="question" >
+                     <i className="fa fa-video-camera" aria-hidden="true"></i> Quay trực tiếp
+                     </div>
+
                      {/* <div>
                      </div>      */}
               </div>
 
               <div className="col-md-12 input-post">
               <textarea className="form-control" placeholder="Bạn đang nghĩ gì.." rows="3" id="comment"></textarea>
-              </div>     
-              
+              </div>
+
               <div style={{paddingTop:"6px",paddingBottom:"2px"}} className="col-md-12">
-                  
+
                    <button  style={{float:"right",fontSize:"12px",padding:"3px 8px"}} onClick={this.showModalPost.bind(this)} className="btn btn-success">
                            <i style={{color:"white"}} className="fa fa-paper-plane" aria-hidden="true"></i> Đăng
                    </button>
@@ -103,6 +108,6 @@ class HeaderPost extends React.Component{
 module.exports =connect(function(state){
   return{
       auth:state.auth,
-     
+
   }})
  (HeaderPost);

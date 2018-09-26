@@ -148,6 +148,10 @@ body{
     float: left;
     font-weight: bold;
     color: white;
+    height: 22px;
+    max-width: 28px;
+    word-break: normal;
+    overflow: hidden;
 }
 .post .user-answer{
     clear: both;
@@ -371,4 +375,19 @@ padding: 2px;
   box-shadow: 1px 0 0 #eaebed inset;
   text-decoration: none;
   cursor: pointer;
+}
+
+.input-file-post{
+    /* bottom: 0; */
+    cursor: pointer;
+    font-size: 1000px !important;
+    height: 300px;
+    margin: 0;
+    opacity: 0;
+    z-index: 1;
+    width: 91px;
+    /* padding: 0; */
+    height: 30px;
+    position: absolute;
+    right: 316px;
 }
