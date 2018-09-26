@@ -31,6 +31,17 @@ header .dropdown-menu>li>a{
     font-size: 12px;
     font-weight: bold;
 }
+.question {
+  float: left;
+  padding: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+.question i{
+  margin-right: 3px;
+}
 .post-toggle{
     float: left;
     font-size: 16px;
@@ -390,4 +401,47 @@ padding: 2px;
     height: 30px;
     position: absolute;
     right: 316px;
+}
+
+
+
+
+
+.div-textarea {
+  min-height: 50px;
+  background: #ffff;
+  /* border: 1px solid #ddd; */
+  padding: 5px;
+}
+.div-avatar-post{
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.div-avatar-post img{
+  width: 38px;
+  height: 38px;;
+}
+.div-textarea [placeholder]:empty:before {
+  content: attr(placeholder);
+  color: #555;
+}
+.div-list-img-post{
+  padding-top: 8px;
+  padding-bottom: 8px;
+  height: 112px;
+  width: 100%;
+  overflow: hidden;
+}
+.div-textarea [placeholder]:empty:focus:before {
+  content: "";
+}
+div[contentEditable=true]:empty:not(:focus):before{
+  content:attr(data-ph);
+  color:grey;
+  font-style:italic;
+}
+div[contenteditable="true"]:focus {
+  border: none !important;
 }

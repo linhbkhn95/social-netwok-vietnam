@@ -16,6 +16,9 @@ class HeaderPost extends React.Component{
               showModalPost:false,
               showModalSubject:false,
               onBlur:false,
+              src:[],
+              file:null,
+              filename:''
 
         }
   }
@@ -59,7 +62,28 @@ class HeaderPost extends React.Component{
        position: toast.POSITION.TOP_LEFT
      });
   }
+  _handleChangeCover(e) {
+    let self = this
+    e.preventDefault();
+    let src = []
+    let file = e.target.files[0];
+    var fileName = file.name;
 
+    for(var i =0;i<e.target.files.length;i++){
+      src[i] = URL.createObjectURL(e.target.files[i])
+    }
+
+    this.setState({ file: e.target.files[0], fileName,src: src })
+    // self.uploadCover(e.target.files).then((response)=>{
+    //     if(response.data.EC==0){
+    //         toast.success('Thành công', {
+    //                         position: toast.POSITION.TOP_CENTER
+    //                     });
+
+    //     }
+    // })
+
+}
 
   render(){
 
@@ -73,8 +97,11 @@ class HeaderPost extends React.Component{
 
                      </div>
                      <div className="question" >
-                       <input type="file" className="input-file-post" accept="image" title="Chọn file để tải lên" />
-                        <i className="fa fa-camera-retro" aria-hidden="true"></i> Thêm ảnh/Video
+                     <span style={{display:"flex",alignItems:"center",paddingTop:"1px"}} className=" btn-file">
+                                      <i style={{marginRight:"3px",marginTop:"-1px"}} className="fa fa-camera" aria-hidden="true"></i> Thêm ảnh/Video
+                                      <input multiple onChange={this._handleChangeCover.bind(this)} title="Chọn file để đăng" type="file" /></span>
+                       {/* <input type="file" className="input-file-post" accept="image" title="Chọn file để tải lên" />
+                        <i className="fa fa-camera-retro" aria-hidden="true"></i> Thêm ảnh/Video */}
                         </div>
                         <div className="question" >
                      <i className="fa fa-video-camera" aria-hidden="true"></i> Quay trực tiếp
@@ -83,11 +110,29 @@ class HeaderPost extends React.Component{
                      {/* <div>
                      </div>      */}
               </div>
-
-              <div className="col-md-12 input-post">
-              <textarea className="form-control" placeholder="Bạn đang nghĩ gì.." rows="3" id="comment"></textarea>
+              <div style={{paddingTop:"8px",paddingBottom:"8px"}} className="col-md-12 remove-padding-col input-post">
+              <div className="col-md-2 col-sm-2 div-avatar-post remove-padding-col">
+                  <div className="user-avatar">
+                            <img  className="img-user" src={this.props.auth.user.url_avatar} />
+                 </div>
               </div>
 
+
+                <div className="div-textarea col-md-10 col-sm-10 remove-padding-col" placeholder="Bạn đang nghĩ gì..."  contenteditable="true"></div>
+              {/* <textarea className="form-control" placeholder="Bạn đang nghĩ gì.." rows="3" id="comment"></textarea> */}
+              </div>
+              {this.state.src.length>0?   <div className="col-md-12 div-list-img-post remove-padding-col ">
+
+               {this.state.src.map((item,index)=>{
+                 return(
+                  <div  key={index}  style={{height:"100%"}} className="col-md-3">
+                    <img style={{height:"100%"}}  src={item} />
+          </div>
+                 )
+
+              })}
+              </div>
+              :null}
               <div style={{paddingTop:"6px",paddingBottom:"2px"}} className="col-md-12">
 
                    <button  style={{float:"right",fontSize:"12px",padding:"3px 8px"}} onClick={this.showModalPost.bind(this)} className="btn btn-success">
