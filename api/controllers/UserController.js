@@ -29,7 +29,7 @@ module.exports = {
             if(err){
               console.log(err)
               return res.send(OutputInterface.errServer('Lỗi hệ thống'))
-            } 
+            }
              if(user){
                 let userId = user.id
                 let countPost = await Post.count({userId_post:userId});
@@ -39,7 +39,7 @@ module.exports = {
                     {userId_one:userId,status:1},
                     {userId_two:userId,status:1}
                  ]
-                
+
                 })
                 let follow = await Follows.findOne({userId_follow:req.session.user.id,userId:user.id});
 
@@ -51,7 +51,7 @@ module.exports = {
                   follow,
                   isMe:user.id==req.session.user.id
                 }
-                return res.send(OutputInterface.success(info)) 
+                return res.send(OutputInterface.success(info))
              }
              else{
               return res.send(OutputInterface.errServer('User ko tồn tại'))
@@ -89,17 +89,17 @@ module.exports = {
               console.log('follow',username,list)
 
               Promise.all(list.map((item)=>{
-                  
+
                   return new Promise(async(resolve,reject)=>{
-                 
-                      
+
+
                       let user = await User.findOne({id:item.userId_follow,select:['fullname','username','url_avatar']});
                       let countFriend = await Friends.count({
                         or:[
                           {userId_one:item.userId_follow,status:1},
                           {userId_two:item.userId_follow,status:1}
                        ]
-                      
+
                       })
                       let data = {
                          user,
@@ -112,7 +112,7 @@ module.exports = {
               return res.send(OutputInterface.success(response))
           })
               // res.send({DT:listPost})
-        
+
              })
           }
       },
@@ -121,7 +121,7 @@ module.exports = {
           User.update({username:data.username},data).exec((err,listupdate)=>{
             if(err){
               return res.send(OutputInterface.errServer(err))
-              
+
             }
             if(listupdate.length>0){
               req.session.user = listupdate[0]
@@ -133,14 +133,15 @@ module.exports = {
             }
           })
       },
+      
       updateCover:async  function (req, res) {
-        
+
         sails.log.info('req.headers', req.headers);
         let file = req.file('file');
-      
-        
+
+
         let data ={}
-        
+
         req.file('file').upload({
           // don't allow the total upload size to exceed ~100MB
           maxBytes: 100000000,
@@ -151,7 +152,7 @@ module.exports = {
           if (err) return res.negotiate(err);
             //  data.url_image_gobal = uploadedFile[0].fd
            var img = uploadedFile[0].fd.split("/");
-           
+
            data.url_image = '/images/user/'+img[img.length-1]
           User.update({id:req.session.user.id},{url_cover:data.url_image}).exec((err,gt)=>{
             if(err){
@@ -159,21 +160,21 @@ module.exports = {
             }
             res.send(OutputInterface.success(gt))
           })
-        
-         
-        
-    
+
+
+
+
         });
-      
+
       },
       updateAvatar:async  function (req, res) {
-        
+
         sails.log.info('req.headers', req.headers);
         let file = req.file('file');
-      
-        
+
+
         let data ={}
-        
+
         req.file('file').upload({
           // don't allow the total upload size to exceed ~100MB
           maxBytes: 100000000,
@@ -185,7 +186,7 @@ module.exports = {
              console.log('filename',uploadedFile[0]);
             //  data.url_image_gobal = uploadedFile[0].fd
            var img = uploadedFile[0].fd.split("/");
-           
+
            data.url_image = '/images/user/'+img[img.length-1]
           User.update({id:req.session.user.id},{url_avatar:data.url_image}).exec((err,gt)=>{
             if(err){
@@ -197,11 +198,11 @@ module.exports = {
           // console.log('filename',uploadedFile[0].filename);
           // console.log('url',uploadedFile[0].fd);
           // send ok response
-         
-        
-    
+
+
+
         });
-      
+
       },
       getUserId:function(req,res){
           return res.send({userId:req.session.user['id']})
@@ -215,13 +216,13 @@ module.exports = {
            let userId = userpage.id
            Friends.find({ or:[ {userId_one:userId,status:1},{userId_two:userId,status:1}   ]}).exec((err,list)=>{
             if(err){
-              
+
             }
             console.log('list',list,err)
             Promise.all(list.map((item)=>{
-                
+
                 return new Promise(async(resolve,reject)=>{
-                  
+
                     let userIdFriend = item.userId_one==userId?item.userId_two:item.userId_one
                     let user = await User.findOne({id:userIdFriend,select:['fullname','username','url_avatar','is_online','time_offline']})
                     let countFriend = await Friends.count({
@@ -229,7 +230,7 @@ module.exports = {
                         {userId_one:userIdFriend,status:1},
                         {userId_two:userIdFriend,status:1}
                      ]
-                    
+
                     })
                     let data = {
                        user,
@@ -242,7 +243,7 @@ module.exports = {
             return res.send(OutputInterface.success(response))
         })
             // res.send({DT:listPost})
-      
+
            })
         }
     },
@@ -261,13 +262,13 @@ module.exports = {
          let userId = userpage.id
          Friends.find({ or:[ {userId_one:userId,status:1},{userId_two:userId,status:1}   ]}).exec((err,list)=>{
           if(err){
-            
+
           }
           console.log('list',list,err)
           Promise.all(list.map((item)=>{
-              
+
               return new Promise(async(resolve,reject)=>{
-                
+
                   let userIdFriend = item.userId_one==userId?item.userId_two:item.userId_one
                   let user = await User.findOne({id:userIdFriend,select:['fullname','id','username','url_avatar','is_online','time_offline']})
                   let countFriend = await Friends.count({
@@ -275,7 +276,7 @@ module.exports = {
                       {userId_one:userIdFriend,status:1},
                       {userId_two:userIdFriend,status:1}
                    ]
-                  
+
                   })
                   let data = {
                      user,
@@ -288,11 +289,11 @@ module.exports = {
           return res.send(OutputInterface.success(response))
       })
           // res.send({DT:listPost})
-    
+
          })
       }
   }
-    
+
 
 };
 

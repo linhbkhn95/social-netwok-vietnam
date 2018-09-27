@@ -6,6 +6,7 @@
  */
 
 module.exports = {
+    
     postStatus:async function(req,res){
         let data = req.body
         data.userId_post = req.session.user.id;
@@ -42,7 +43,7 @@ module.exports = {
              if(err){
                 return res.send(OutputInterface.errServer('Lỗi hệ thống'))
             }
-            
+
             await Comment.destroy({postId:id})
             if(postdel.length>0){
                     // Post.publishDestroy(postdel);
@@ -74,7 +75,7 @@ module.exports = {
         let listsubject = req.body.listsubject||[]
         let result  = listsubject.map((item)=>{
             return item.value
-            
+
         })
         let dataQuery = {};
         let userId_post
@@ -89,13 +90,13 @@ module.exports = {
             dataQuery.subject=result
           Post.find({where:{sort:"createdAt DESC"}}).where(dataQuery).paginate({ limit: pagesize, page: page }).exec(function(err,list){
                     if(err){
-                
+
                     }
-                
+
                     Promise.all(list.map((item)=>{
-                        
+
                         return new Promise(async(resolve,reject)=>{
-                       
+
                             if(item.userId_wall){
                                 let userWall = await User.findOne({id:item.userId_wall,select:['fullname','username','url_avatar']});
                                 item.userWall = userWall
@@ -108,15 +109,15 @@ module.exports = {
                             let likePost = await Likepost.findOne({postId:item.id,userId});
                             if(likePost)
                                item.userLikePost = likePost.status?true:false
-                          
+
                             let subjectId = item.subject
                             let subject
                             subject = await Subject.findOne({id : subjectId})
                             if(subject){
                                     item.subject = subject;
                             }
-                            
-                        
+
+
                             else{
                                 item.subject = {
                                     subjectId,
@@ -145,13 +146,13 @@ module.exports = {
             //để  đăng kí sự kiện lăng nghe model Command thay đổi kích hoạt sự kiện on('command') bên phía client
         }
         let postId = req.body.postId
-        
-      
+
+
           Post.findOne({id:postId}).exec(async function(err,item){
                     if(err){
-                
+
                     }
-                
+
                             if(item.userId_wall){
                                 let userWall = await User.findOne({id:item.userId_wall,select:['fullname','username','url_avatar']});
                                 item.userWall = userWall
@@ -163,7 +164,7 @@ module.exports = {
                             let likePost = await Likepost.findOne({postId:item.id,userId});
                             if(likePost)
                                item.userLikePost = likePost.status?true:false
-                           
+
                             let userPost = await User.findOne({id:item.userId_post,select:['fullname','username','url_avatar']})
                             item.userPost = userPost
 
@@ -174,8 +175,8 @@ module.exports = {
                             if(subject){
                                     item.subject = subject;
                             }
-                            
-                        
+
+
                             else{
                                 item.subject = {
                                     subjectId,
@@ -206,10 +207,10 @@ module.exports = {
         let listsubject = req.body.listsubject||[]
         let result  = listsubject.map((item)=>{
             return item.value
-            
+
         })
         let dataQuery = {};
-       
+
         if(listsubject.length>0)
             dataQuery.subject=result
 
@@ -218,19 +219,19 @@ module.exports = {
        let listIdFriend =  listfriend.map((friend)=>{
            return(friend.userId_one==req.session.user.id?friend.userId_two:friend.userId_one)
        })
-       
+
         listIdFriend[listIdFriend.length] = req.session.user.id
        dataQuery.userId_post = listIdFriend;
        console.log('datqẻy',dataQuery,pagesize,page)
         Post.find({where:{sort:"createdAt DESC"}}).where(dataQuery).paginate({ limit: pagesize, page: page }).exec(function(err,list){
                     if(err){
-                
+
                     }
-                
+
                     Promise.all(list.map((item)=>{
-                        
+
                         return new Promise(async(resolve,reject)=>{
-                       
+
                             if(item.userId_wall){
                                 let userWall = await User.findOne({id:item.userId_wall,select:['fullname','username','url_avatar']});
                                 item.userWall = userWall
@@ -243,15 +244,15 @@ module.exports = {
                             let likePost = await Likepost.findOne({postId:item.id,userId});
                             if(likePost)
                                item.userLikePost = likePost.status?true:false
-                          
+
                             let subjectId = item.subject
                             let subject
                             subject = await Subject.findOne({id : subjectId})
                             if(subject){
                                     item.subject = subject;
                             }
-                            
-                        
+
+
                             else{
                                 item.subject = {
                                     subjectId,
@@ -286,10 +287,10 @@ module.exports = {
         let listsubject = req.body.listsubject||[]
         let result  = listsubject.map((item)=>{
             return item.value
-            
+
         })
         let dataQuery = {};
-        
+
         if(listsubject.length>0)
             dataQuery.subject=result
 
@@ -297,13 +298,13 @@ module.exports = {
 
           Post.find({where:{sort:"createdAt DESC"}}).where(dataQuery).paginate({ limit: pagesize, page: page }).exec(function(err,list){
                     if(err){
-                
+
                     }
-                
+
                     Promise.all(list.map((item)=>{
-                        
+
                         return new Promise(async(resolve,reject)=>{
-                       
+
                             if(item.userId_wall){
                                 let userWall = await User.findOne({id:item.userId_wall,select:['fullname','username','url_avatar']});
                                 item.userWall = userWall
@@ -315,7 +316,7 @@ module.exports = {
                             let likePost = await Likepost.findOne({postId:item.id,userId});
                             if(likePost)
                                item.userLikePost = likePost.status?true:false
-                          
+
 
                             let userPost = await User.findOne({id:item.userId_post,select:['fullname','username','url_avatar']});
                             item.userPost = userPost
@@ -327,8 +328,8 @@ module.exports = {
                             if(subject){
                                     item.subject = subject;
                             }
-                            
-                        
+
+
                             else{
                                 item.subject = {
                                     subjectId,

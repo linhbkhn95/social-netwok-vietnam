@@ -41,6 +41,7 @@
     "react-bootstrap": "^0.31.3",
     "react-burger-menu": "^2.1.5",
     "react-color": "^2.13.8",
+    "react-contenteditable": "^3.1.0",
     "react-csv": "^1.0.8",
     "react-d3-components": "^0.6.6",
     "react-dom": "^16.4.2",

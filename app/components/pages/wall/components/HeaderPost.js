@@ -8,6 +8,9 @@ import {connect} from 'react-redux'
 import {setCurrentUser} from 'app/action/authActions.js';
 import ModalSubject from './components/ModalSubject'
 import ModalPost from './components/ModalPost'
+import axios from 'axios'
+import FileFolderShared from 'material-ui/SvgIcon';
+
 class HeaderPost extends React.Component{
   constructor(props){
         super(props)
@@ -62,29 +65,47 @@ class HeaderPost extends React.Component{
        position: toast.POSITION.TOP_LEFT
      });
   }
-  _handleChangeCover(e) {
-    let self = this
-    e.preventDefault();
-    let src = []
-    let file = e.target.files[0];
-    var fileName = file.name;
+    _handleChangeCover(e) {
+      let self = this
+      e.preventDefault();
+      let src = []
+      let file = e.target.files[0];
+      var fileName = file.name;
 
-    for(var i =0;i<e.target.files.length;i++){
-      src[i] = URL.createObjectURL(e.target.files[i])
+      for(var i =0;i<e.target.files.length;i++){
+        src[i] = URL.createObjectURL(e.target.files[i])
+      }
+
+      this.setState({ file: e.target.files[0], fileName,src: src })
+      self.uploadCover(e.target.files).then((response)=>{
+          if(response.data.EC==0){
+              toast.success('Thành công', {
+                              position: toast.POSITION.TOP_CENTER
+                          });
+
+          }
+      })
+
+  }
+      uploadCover(files) {
+        const url = '/fileupload/upload_image';
+        console.log('upload',files)
+
+        const formData = new FormData();
+        for(var i =0;i<files.length;i++){
+          formData.append('files', files[i]);
+        }
+
+
+        const config = {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+
+
+            }
+        }
+        return io.socket.post(url,formData,config)
     }
-
-    this.setState({ file: e.target.files[0], fileName,src: src })
-    // self.uploadCover(e.target.files).then((response)=>{
-    //     if(response.data.EC==0){
-    //         toast.success('Thành công', {
-    //                         position: toast.POSITION.TOP_CENTER
-    //                     });
-
-    //     }
-    // })
-
-}
-
   render(){
 
 
@@ -99,7 +120,7 @@ class HeaderPost extends React.Component{
                      <div className="question" >
                      <span style={{display:"flex",alignItems:"center",paddingTop:"1px"}} className=" btn-file">
                                       <i style={{marginRight:"3px",marginTop:"-1px"}} className="fa fa-camera" aria-hidden="true"></i> Thêm ảnh/Video
-                                      <input multiple onChange={this._handleChangeCover.bind(this)} title="Chọn file để đăng" type="file" /></span>
+                                      <input name="files" multiple onChange={this._handleChangeCover.bind(this)} title="Chọn file để đăng" type="file" /></span>
                        {/* <input type="file" className="input-file-post" accept="image" title="Chọn file để tải lên" />
                         <i className="fa fa-camera-retro" aria-hidden="true"></i> Thêm ảnh/Video */}
                         </div>

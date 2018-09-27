@@ -10,7 +10,8 @@ class ModalPost extends React.Component{
           TYPEPOST:'TSAD',
           dataPost:{
 
-          }
+          },
+          getFile:false
 
       }
     }
@@ -25,8 +26,9 @@ class ModalPost extends React.Component{
       }
       this.setState(this.state)
     }
-    post(){
+    post(files){
       let self = this
+      i
       io.socket.post('/post/postStatus',this.state.dataPost,function(resdata,jwres){
          if(resdata.EC==0){
              self.props.access()
@@ -36,6 +38,9 @@ class ModalPost extends React.Component{
            self.setState({err_msg:resdata.EM})
          }
       })
+    }
+    getFile(){
+      this.setState({getFile:true})
     }
     render(){
       return (
@@ -47,16 +52,16 @@ class ModalPost extends React.Component{
                 <i className="fa fa-commenting" aria-hidden="true"></i>---<i className="fa fa-question-circle" aria-hidden="true"></i>
               </div>
                <div className="title-modal-post"> Bạn muốn tâm sự điều gì ?</div>
-               
+
                </div>
-            
+
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
               <div className="body-modal-post">
                {/* <div>
                   <div>
-                     Hình thức tâm sự 
+                     Hình thức tâm sự
                   </div> */}
                {/* </div> */}
                <div className="row">
@@ -70,11 +75,11 @@ class ModalPost extends React.Component{
                  </div>
                  </div>
                 </div>
-                  
-                {this.state.TYPEPOST=="TSAD"?<ContentAnDanh onChange={this.onChange.bind(this)} />: <ContentQuestion />}
+
+                {this.state.TYPEPOST=="TSAD"?<ContentAnDanh sendFile={this.post.bind(this)} getFile={this.state.getFile} onChange={this.onChange.bind(this)} />: <ContentQuestion />}
                 <div className="col-md-12">{this.state.err_msg}</div>
               </div>
-                
+
           </Modal.Body>
           <Modal.Footer>
             <Button   bsStyle="success" onClick={this.post.bind(this)}>Đăng</Button>
@@ -84,5 +89,5 @@ class ModalPost extends React.Component{
       );
     }
   };
-  
+
   module.exports = ModalPost;
