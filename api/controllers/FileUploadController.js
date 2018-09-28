@@ -4,7 +4,6 @@
  * @description :: Server-side logic for managing fileuploads
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-
 module.exports = {
      upload_image:function(req,res){
        try {
@@ -23,10 +22,13 @@ module.exports = {
           if (err) return res.send(OutputInterface.errServer(err));
 
             //  data.url_image_gobal = uploadedFile[0].fd
-            let result={}
+            let result=[]
             for(var i=0 ;i<uploadedFile.length;i++){
               var img = uploadedFile[0].fd.split("/");
-                result[uploadedFile[i].filename] =              '/images/upload'+img[img.length-1]
+                let datafile={}
+                datafile.url = '/images/upload'+img[img.length-1]
+                datafile.fileName = uploadedFile[i].filename
+                result[i] = datafile
 
             }
 
@@ -46,6 +48,29 @@ module.exports = {
         res.send(OutputInterface.errServer(error))
        }
 
+
+     },
+     postFile:async function(post_id,listFile){
+       return new Promise((resolve,reject)=>{
+            let dataInsert = []
+            for(var i=0;i<listFile.length;i++){
+              dataInsert[i] = {
+                filename : listFile[i].filename,
+                url_file :listFile[i].url,
+                post_id,
+                type_file:"img"
+              }
+            }
+            File_post.create(dataInsert).exec((err,listFilePost)=>{
+                if(err){
+                  reject(err)
+
+                }
+                resolve(listFilePost)
+
+
+            })
+       })
 
      }
 };

@@ -4,23 +4,29 @@
  * @description :: Server-side logic for managing Posts
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+var FileUploadController = require('./FileUploadController')
 
 module.exports = {
-    
+
     postStatus:async function(req,res){
-        let data = req.body
+        let {data,urls_file} = req.body
         data.userId_post = req.session.user.id;
-        data.incognito = req.session.user.incognito
+        data.incognito = req.session.user.incognito //ẩn danh hay k
         let userWall;
         if(data.username&&data.username!=req.session.user.username){
             userWall = await User.findOne({username:data.username})
             data.userId_wall = userWall.id
         }
+
+
         Post.create(data).exec(async function(err,post){
             if(err){
 
             }
             if(post){
+                 FileUploadController.postFile(post.id,urls_file).then((data)=>{
+
+                 })
                  let subject  = await Subject.findOne({id:data.subject})
                  post.subject  = subject;
                  post.userLikePost = false

@@ -3,6 +3,10 @@ import {Modal,Button, FormGroup,ControlLabel,FormControl,HelpBlock} from 'react-
 import {RadioGroup, Radio} from 'react-radio-group'
 import ContentAnDanh from './ContentAnDanh'
 import ContentQuestion from './ContentQuestion'
+import axios from 'axios'
+import { ToastContainer, toast } from 'react-toastify';
+
+import FileUpload from 'app/utils/upload/FileUpload'
 class ModalPost extends React.Component{
     constructor(props){
       super(props);
@@ -28,20 +32,33 @@ class ModalPost extends React.Component{
     }
     post(files){
       let self = this
-      i
-      io.socket.post('/post/postStatus',this.state.dataPost,function(resdata,jwres){
-         if(resdata.EC==0){
-             self.props.access()
+      FileUpload.upload(files).then((response)=>{
+            if(response.data.EC==0){
 
-         }
-         else{
-           self.setState({err_msg:resdata.EM})
-         }
+
+                  io.socket.post('/post/postStatus',{data:this.state.dataPost,urls_file:response.data.DT},function(resdata,jwres){
+                      if(resdata.EC==0){
+                          self.props.access()
+
+                      }
+                      else{
+                        self.setState({err_msg:resdata.EM})
+                      }
+                    })
+              toast.success('Thành công', {
+                              position: toast.POSITION.TOP_CENTER
+                          });
+                          self.setState({getFile:false})
+
+          }
       })
+
+
     }
     getFile(){
       this.setState({getFile:true})
     }
+
     render(){
       return (
         <Modal {...this.props} aria-labelledby="contained-modal-title-lg">
@@ -82,7 +99,7 @@ class ModalPost extends React.Component{
 
           </Modal.Body>
           <Modal.Footer>
-            <Button   bsStyle="success" onClick={this.post.bind(this)}>Đăng</Button>
+            <Button   bsStyle="success" onClick={this.getFile.bind(this)}>Đăng</Button>
             <Button onClick={this.props.onHide}>Thoát</Button>
           </Modal.Footer>
         </Modal>

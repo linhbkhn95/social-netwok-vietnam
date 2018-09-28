@@ -49,6 +49,7 @@
     "react-emojione": "^5.0.0",
     "react-image-magnify": "^2.0.4",
     "react-image-zoom": "^0.6.1",
+    "react-images": "^0.5.19",
     "react-infinite": "^0.13.0",
     "react-mentions": "^2.0.1",
     "react-radio-group": "^3.0.2",

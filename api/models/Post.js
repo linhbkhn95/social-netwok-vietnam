@@ -27,11 +27,21 @@ module.exports = {
     userId_wall:{
       type:'integer'
     },
+    group_id:{
+      type:'integer'
+    },
+    postId_parent:{
+      type:'integer'
+    },
+    type_post:{
+      type:'integer'
+
+    },
     incognito:{
       type:"boolean",
       defaultsTo:false
     }
-    
+
   }
 };
 

@@ -10,12 +10,13 @@ import { ToastContainer, toast } from 'react-toastify';
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 
- 
+import Lightbox from 'react-images';
+
 const Msg = ({ closeToast }) => (
     <div style={{borderBottom:"none"}} className=" alert-message">
                       <NavLink to={'/'} > <div className="col-md-3 "><NavLink to={"/userpage.5"} ><img className="avatar-alert" src="/images/user/linh.jpg" /></NavLink></div>
                                 <div className="col-md-10 row">
-                                <NavLink to={"/userpage."+"1"} >  <strong>Trịnh linh</strong></NavLink> đã cmnt bai viet cua ban
+                                <NavLink to={"/userpage."+"1"} >  <strong>Trịnh linh</strong></NavLink> đã cmnt bài viet cua ban
                                     <br />
                                     <p className="time-alert">{moment(datedemo).lang('vi').fromNow()}</p>
                                 </div>
@@ -31,28 +32,28 @@ const tooltip = (
       <span>Nhỏ ngọc</span>
     </Tooltip>
   );
-  
+
 class Post extends React.Component{
-   
+
 
     constructor(props){
         super(props);
         this.state = {
             displayListComment:false,
-            
+
             dataPostAccess:null,
             showModalConfirm:false,
-   
-      
+
+
             likeInfo:{
                 listUserId:[],
                 listUser:{}
             }
-        
+
         }
     }
     renderTooltip(){
-        
+
         let {likeInfo} = this.state
         let {listUserId,listUser} = likeInfo
         let length  = listUserId.length
@@ -66,13 +67,13 @@ class Post extends React.Component{
                         <div  key={userId}> <span style={{float:"left"}}>{listUser[userId].fullname}</span><br /> </div>
                       )
                   })}
-                
+
               </Tooltip>
             )
         }
         else{
             let jsx = [];
-            
+
             for(var i =0;i<6;i++){
                 jsx.push(
                     <span style={{float:"left",clear:"both"}} >{listUser[listUserId[i]].fullname}</span>
@@ -86,17 +87,17 @@ class Post extends React.Component{
             return jsx
         }
 
-      
+
     }
     renderTextUserLike(){
         let likeInfo = this.state.likeInfo
         let textListUserLike = ''
         let {listUser,listUserId} = likeInfo
         if(listUserId.length>0){
-           
+
             if(this.props.userLikePost){
                 textListUserLike +='Bạn,'
-               
+
             }
             let length  = listUserId.length
             if(length>2){
@@ -115,9 +116,9 @@ class Post extends React.Component{
 
             textListUserLike = textListUserLike.substring(0, textListUserLike.length - 1);
 
-            
-             
-          
+
+
+
 
         }
         // console.log('texListLike',textListUserLike)
@@ -127,15 +128,15 @@ class Post extends React.Component{
     componentDidMount(){
         let self = this
         console.log('socket like,'+this.props.idPost+"like")
-        
+
         io.socket.on(this.props.idPost+"like", function (data) {
             console.log('Socket like`' + data.id + '` joined the party!',data);
 
             switch(data.type){
-                
+
                 case "like" : self.accessLike(data);
-            }    
-       
+            }
+
          })
     }
     accessLike(data){
@@ -161,9 +162,9 @@ class Post extends React.Component{
                 this.setState({likeInfo:this.state.likeInfo})
                 break
             }
-        }    
+        }
     }
-    
+
     async componentWillMount(){
         let self  =this
         io.socket.post('/likepost/getlist_LikeFormatPost',{postId:this.props.idPost},((resdata,jwres)=>{
@@ -201,7 +202,7 @@ class Post extends React.Component{
                 this.setState({likeInfo:this.state.likeInfo})
                 break
             }
-        }    
+        }
     }
     like(){
         this.accessLikeUser();
@@ -229,7 +230,7 @@ class Post extends React.Component{
         }
         this.setState({showModalConfirm:false})
     }
-  
+
     closeModalConfirm(){
         this.setState({showModalConfirm:false})
     }
@@ -241,10 +242,10 @@ class Post extends React.Component{
         let texListLike =''
          texListLike = this.renderTextUserLike()
         return(
-            
+
                 <div>
-                   
-                    
+
+
                     <header>
                       <div className="pull-left title-post"><i className="fa fa-header" aria-hidden="true"></i> {this.props.title} </div>
                         <div>  <div className="pull-right title-post"><i style={{marginRight:"3px"}} className="fa fa-flag-o" aria-hidden="true"></i>{this.props.subject.subjectname}</div></div>
@@ -269,6 +270,18 @@ class Post extends React.Component{
                      <div className="content-asw">
                             {this.props.content}
                      </div>
+                     <div className="col-md-12 remove-padding-col">
+                     <Lightbox
+                          images={[
+                            { src: './images/upload/b598ee6e-1376-40d5-9b78-b28b485820b6.jpg' },
+                            { src: '/images/photo-2.jpg' }
+                          ]}
+                          // isOpen={this.state.lightboxIsOpen}
+                          // onClickPrev={this.gotoPrevLightboxImage}
+                          // onClickNext={this.gotoNextLightboxImage}
+                          // onClose={this.closeLightbox}
+                        />
+                    </div>
                      <div style={{marginLeft:"0px",marginRight:"0px"}} className="footer-post row">
                          <div  onClick={this.like.bind(this)} className="btn-footer-post btn-heart">
                           {this.props.countLike} <i style={{marginRight:"3px",fontWeight:this.props.userLikePost?"bold":"normal"}}  className="fa fa-heart-o" aria-hidden="true"></i> {this.props.userLikePost?"Bỏ thích":"Thích"}
@@ -281,18 +294,18 @@ class Post extends React.Component{
                         </div>
                         {/* <div className="fb-share-button" data-href="http://localhost:1337/wall/discover" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A1337%2Fwall%2Fdiscover&amp;src=sdkpreparse" className="fb-xfbml-parse-ignore">Chia sẻ</a></div>                        */}
                           <div className="btn-more">
-                       
+
                          <NavDropdown style={{color:"green"}} eventKey={3}  id="basic-nav-dropdown">
                             <MenuItem  onClick={this.showModalConfirm.bind(this,this.props.id)} eventKey={3.1}><i style={{marginRight:"10px"}} className="fa fa-ban" aria-hidden="true"></i> Xóa bài đăng</MenuItem>
-                           
+
                             <MenuItem eventKey={3.2}><i style={{marginRight:"10px"}}  className="fa fa-minus" aria-hidden="true"></i>
                                 Ẩn bài đăng</MenuItem>
                           </NavDropdown>
                            <i > </i>
                          </div>
                      </div>
-                    
-                   
+
+
                {this.state.likeInfo.listUserId.length?<div  className="row content-like-post">
                <div style={{marginRight:"-6px"}} className="col-md-1">
                     <OverlayTrigger placement="top" overlay={this.renderTooltip()}>

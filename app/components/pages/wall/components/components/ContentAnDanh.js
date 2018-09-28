@@ -1,6 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux'
 import ContentEditable from 'react-contenteditable'
+import axios from 'axios'
 
 import 'react-select/dist/react-select.css'
 var Select = require('react-select');
@@ -13,7 +14,7 @@ class ContentAnDanh extends React.Component{
             options:[],
             subject:null,
             src:[],
-            file:null,
+            files:null,
             filename:'',
 
         }
@@ -47,14 +48,13 @@ class ContentAnDanh extends React.Component{
         let self = this
         e.preventDefault();
         let src = []
-        let file = e.target.files[0];
-        var fileName = file.name;
+
 
         for(var i =0;i<e.target.files.length;i++){
           src[i] = URL.createObjectURL(e.target.files[i])
         }
-
-        this.setState({ file: e.target.files[0], fileName,src: src })
+        console.log('length',e.target.files.length)
+        this.setState({ files: e.target.files,src: src })
         // self.uploadCover(e.target.files).then((response)=>{
         //     if(response.data.EC==0){
         //         toast.success('Thành công', {
@@ -65,6 +65,27 @@ class ContentAnDanh extends React.Component{
         // })
 
     }
+    uploadCover(files) {
+      const url = '/fileupload/upload_image';
+
+      const formData = new FormData();
+      for(var i =0;i<files.length;i++){
+        console.log('uploasssd',files[i])
+
+        formData.append('files', files[i]);
+      }
+
+
+      const config = {
+          headers: {
+              'Content-Type': 'multipart/form-data',
+
+
+          }
+      }
+      return axios.post(url,formData,config)
+
+    }
     handleChange = evt => {
       console.log(evt.target.value)
       this.setState({html: evt.target.value});
@@ -72,7 +93,10 @@ class ContentAnDanh extends React.Component{
     componentWillReceiveProps(nextProps){
       let {getFile} = nextProps
       if(getFile){
-        this.props.sendFile(this.state.src)
+        console.log('componentWillReceivePropssssssssss')
+
+        console.log('componentWillReceiveProps',this.state.files.length)
+        this.props.sendFile(this.state.files)
       }
     }
     render(){

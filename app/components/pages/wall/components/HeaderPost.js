@@ -76,7 +76,7 @@ class HeaderPost extends React.Component{
         src[i] = URL.createObjectURL(e.target.files[i])
       }
 
-      this.setState({ file: e.target.files[0], fileName,src: src })
+      this.setState({ files: e.target.files, fileName,src: src })
       self.uploadCover(e.target.files).then((response)=>{
           if(response.data.EC==0){
               toast.success('Thành công', {
@@ -86,7 +86,7 @@ class HeaderPost extends React.Component{
           }
       })
 
-  }
+    }
       uploadCover(files) {
         const url = '/fileupload/upload_image';
         console.log('upload',files)
@@ -104,7 +104,7 @@ class HeaderPost extends React.Component{
 
             }
         }
-        return io.socket.post(url,formData,config)
+        return axios.post(url,formData,config)
     }
   render(){
 
