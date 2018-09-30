@@ -2,7 +2,7 @@ import React from 'react';
 import {NavDropdown,Navbar,NavItem,MenuItem,Nav,OverlayTrigger,Tooltip,Button} from 'react-bootstrap';
 import {convertComment} from '../ConvertComment'
 import ModalConfirm from '../modal/Modalconfirm'
-
+import ContainerFile from './ContainerFile'
 var date = Date.now();
 var datedemo=151139964297
 import moment from 'moment'
@@ -144,7 +144,6 @@ class Post extends React.Component{
         switch(data.verb){
             case "like" :{
                 var index = this.state.likeInfo.listUserId.indexOf(data.data.id);
-                console.log('index',index)
                 if (index == -1) {
                     this.state.likeInfo.listUserId.push(data.data.id)
                     this.state.likeInfo.listUser[data.data.id] = data.data;
@@ -154,7 +153,6 @@ class Post extends React.Component{
             }
             case "unlike":{
                 var index = this.state.likeInfo.listUserId.indexOf(data.data.id);
-                console.log('index',index)
                 if (index > -1) {
                   this.state.likeInfo.listUserId.splice(index, 1);
                   delete this.state.likeInfo.listUser[data.data.id]
@@ -168,7 +166,6 @@ class Post extends React.Component{
     async componentWillMount(){
         let self  =this
         io.socket.post('/likepost/getlist_LikeFormatPost',{postId:this.props.idPost},((resdata,jwres)=>{
-            console.log('re',resdata)
             if(resdata.EC==0){
                  self.state.likeInfo.listUser = resdata.DT.listUser;
                  self.state.likeInfo.listUserId = resdata.DT.listUserId
@@ -184,7 +181,6 @@ class Post extends React.Component{
         switch(this.props.userLikePost){
             case false :{
                 var index = this.state.likeInfo.listUserId.indexOf(this.props.auth.user.id);
-                console.log('index',index)
                 if (index == -1) {
                     this.state.likeInfo.listUserId.push(this.props.auth.user.id)
                     this.state.likeInfo.listUser[this.props.auth.user.id] = this.props.auth.user;
@@ -271,16 +267,8 @@ class Post extends React.Component{
                             {this.props.content}
                      </div>
                      <div className="col-md-12 remove-padding-col">
-                     <Lightbox
-                          images={[
-                            { src: './images/upload/b598ee6e-1376-40d5-9b78-b28b485820b6.jpg' },
-                            { src: '/images/photo-2.jpg' }
-                          ]}
-                          // isOpen={this.state.lightboxIsOpen}
-                          // onClickPrev={this.gotoPrevLightboxImage}
-                          // onClickNext={this.gotoNextLightboxImage}
-                          // onClose={this.closeLightbox}
-                        />
+                      <ContainerFile post_id={this.props.idPost} />
+                     {/* <img src="/images/upload/378968d6-5236-4064-b613-8af21a5b1133.jpg" /> */}
                     </div>
                      <div style={{marginLeft:"0px",marginRight:"0px"}} className="footer-post row">
                          <div  onClick={this.like.bind(this)} className="btn-footer-post btn-heart">

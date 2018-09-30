@@ -143,6 +143,7 @@ body{
 }
 .img-user{
     width: 26px;
+    height: 26px;
     border-radius: 50%;
     float: left;
 }
@@ -304,10 +305,11 @@ body, input, textarea {
     font-size: 11px;
 }
 .navbar-inverse {
-  background-image: linear-gradient(123deg, #5e8e5e, #157317,#2b8c2d)
+  background-image: linear-gradient(123deg, #5e8e5e, #157317,#2b8c2d);
     /* background-color: #222; */
   /* border-color: #080808; */
   /* background-image: linear-gradient(123deg, #00398f, #086ed5,#0850bd) !important; */
+  border-color: #157317;
 }
 
 .left-wall .user-name{
@@ -321,6 +323,7 @@ body, input, textarea {
   padding-bottom: 4px;
   padding-left: 3px;
   padding-right: 3px;
+  clear: both;
 }
 .list-group .group .icon{
   float: left;

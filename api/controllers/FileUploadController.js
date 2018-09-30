@@ -24,9 +24,9 @@ module.exports = {
             //  data.url_image_gobal = uploadedFile[0].fd
             let result=[]
             for(var i=0 ;i<uploadedFile.length;i++){
-              var img = uploadedFile[0].fd.split("/");
+              var img = uploadedFile[i].fd.split("/");
                 let datafile={}
-                datafile.url = '/images/upload'+img[img.length-1]
+                datafile.url = '/images/upload/'+img[img.length-1]
                 datafile.fileName = uploadedFile[i].filename
                 result[i] = datafile
 
@@ -48,6 +48,30 @@ module.exports = {
         res.send(OutputInterface.errServer(error))
        }
 
+
+     },
+     //lấy danh sách file upload theo postid
+     getFilePostId:function(req,res){
+       try {
+          let {post_id} = req.body
+          return new Promise((resolve,reject)=>{
+              if(post_id){
+                File_post.find({post_id}).exec((err,listFile)=>{
+                      if(err){
+                        res.send(OutputInterface.errServer(err))
+                      }
+                      res.send(OutputInterface.success(listFile))
+                    })
+
+              }
+              else
+              res.send(OutputInterface.errServer('bài post k tồn tai'))
+            })
+
+       } catch (error) {
+           res.send(OutputInterface.errServer(error))
+
+       }
 
      },
      postFile:async function(post_id,listFile){
