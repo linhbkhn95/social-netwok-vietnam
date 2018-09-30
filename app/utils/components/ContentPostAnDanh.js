@@ -11,7 +11,6 @@ import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 
 import Lightbox from 'react-images';
-
 const Msg = ({ closeToast }) => (
     <div style={{borderBottom:"none"}} className=" alert-message">
                       <NavLink to={'/'} > <div className="col-md-3 "><NavLink to={"/userpage.5"} ><img className="avatar-alert" src="/images/user/linh.jpg" /></NavLink></div>

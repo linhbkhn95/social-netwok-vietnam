@@ -43,26 +43,36 @@ module.exports={
        {
         test: /\.css$/,
         use: [
-          'isomorphic-style-loader',
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 1
-            }
-          },
-          'postcss-loader'
+          'style-loader', 'css-loader' ,
+          // 'isomorphic-style-loader',
+          // {
+          //   loader: 'css-loader',
+          //   options: {
+          //     importLoaders: 1
+          //   }
+          // },
+          // 'postcss-loader'
         ]
       },
-           {
-              loader:'babel-loader', //thu vien nhu 1 chuong trinh dich
-              query:{
-                cacheDirectory: true,
-                plugins: ['transform-decorators-legacy' ],
-                presets:['react','es2015','stage-0'] // cac thu vien can de webpack no hieu dc doan ma jsx html
-              },
-              test:/\.(js|jsx)$/,    //file nao xu dung trong goi bundel
-              exclude:/node_modules/ //ngoai tru khog su dung
-         },
+      {
+        loader:'babel-loader', //thu vien nhu 1 chuong trinh dich
+        query:{
+          cacheDirectory: true,
+          plugins: ['transform-decorators-legacy' ],
+          presets:['react','es2015','stage-0'] // cac thu vien can de webpack no hieu dc doan ma jsx html
+        },
+        test:/\.(js|jsx)$/,    //file nao xu dung trong goi bundel
+        exclude:/node_modules/ //ngoai tru khog su dung
+    },
+    {
+      test: /\.(html)$/,
+      use: {
+        loader: 'html-loader',
+        options: {
+          attrs: [':data-src']
+        }
+      }
+    }
     ]
     // rules: [
     //  {

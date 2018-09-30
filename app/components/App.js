@@ -29,6 +29,7 @@ import {logout}  from 'app/action/actionAuthenticate.js';
 import requrieFriend from 'app/utils/friend/requrieFriend'
 import CallVideo from '../components/pages/callvideo/CallVideo'
 import Notfound from './Notfound'
+import "node_modules/video-react/dist/video-react.css"; // import css
 
 
  class App extends React.Component{

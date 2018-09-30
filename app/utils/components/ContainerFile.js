@@ -225,6 +225,8 @@ const styles = theme => ({
  *   },
  * ];
  */
+import ComponentVideo from './ComponentVideo'
+
 class  AdvancedGridList extends React.Component {
   constructor(props){
     super(props)
@@ -260,7 +262,8 @@ class  AdvancedGridList extends React.Component {
       <GridList cellHeight={225} spacing={1} className={classes.gridList}>
         {this.state.listFile.map((tile,index) => (
           <GridListTile key={tile.img} cols={length==1||index==length-1?2:1} rows={length==1||index==length-1?2:1}>
-            <img src={tile.url_file} alt={tile.title} />
+
+           {tile.type_file=="img"?<img src={tile.url_file} alt={tile.title} />:<ComponentVideo src={tile.url_file} />}
             <GridListTileBar
               title={tile.title}
               titlePosition="top"
