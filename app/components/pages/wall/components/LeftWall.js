@@ -160,16 +160,16 @@ class LeftWall extends React.Component{
 
                       </div>
                       <div className="col-md-12 remove-padding-col group">
-                      <NavLink to={"/userpage."+this.props.auth.user.username}>
+                        <NavLink to={"/userpage."+this.props.auth.user.username}>
 
-                          <div className="icon"><i class="fa fa-file-text-o" aria-hidden="true"></i></div>
-                          <div className="name-group">Trang</div>
-                          <div className="count-group">+4</div>
+                            <div className="icon"><i class="fa fa-file-text-o" aria-hidden="true"></i></div>
+                            <div className="name-group">Trang</div>
+                            <div className="count-group">+4</div>
                           </NavLink>
 
                       </div>
                   </div>
-  </div>
+               </div>
               </div>
 
         </div>

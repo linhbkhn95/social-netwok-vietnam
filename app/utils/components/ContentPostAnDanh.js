@@ -294,7 +294,7 @@ class Post extends React.Component{
 
 
                {this.state.likeInfo.listUserId.length?<div  className="row content-like-post">
-               <div style={{marginRight:"-6px"}} className="col-md-1">
+               <div className="">
                     <OverlayTrigger placement="top" overlay={this.renderTooltip()}>
                        <i  style={{marginRight:"2px",float:"left"}} className="fa fa-heart-o" aria-hidden="true"></i>
                      </OverlayTrigger>

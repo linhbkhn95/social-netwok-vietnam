@@ -76,7 +76,9 @@ header .dropdown-menu>li>a{
      margin-bottom: 0px !important;
 }
 body{
-    background:#eeeef0
+    background:#eeeef0;
+    font-family: 'IBM Plex Sans', sans-serif !important;
+
 }
 .list-post{
     background: white;
@@ -460,6 +462,12 @@ div[contenteditable="true"]:focus {
   left: 0;
 }
 .video-react{
-  padding-top: 100% !important;
+  /* padding-top: 100% !important; */
 }
 
+.AdvancedGridList-titleBar-3{
+  background: none !important
+}
+.MuiGridListTileBar-root-10{
+  background: none !important;
+}

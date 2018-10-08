@@ -12,6 +12,7 @@ var Layout = require('app/components/Layout.js');
 var Login = require('app/components/pages/login/Login.js');
 // var ShopCart = require('app/components/pages/shopcart/ShopCart.js');
 import UserPage from 'app/components/pages/userpage/UserPage.js';
+import GroupPage from 'app/components/pages/group/GroupPage.js';
 
 import jwt from 'jsonwebtoken';
 import jwtDecode from 'jwt-decode';
@@ -58,6 +59,8 @@ import "node_modules/video-react/dist/video-react.css"; // import css
                       <Route     path="/wall" component={Home}/>
                       {/* <Route     path="/callvideo" component={CallVideo}/> */}
                       <Route path = '/post.notifi.:postId' component ={PostNotifi} />
+                      <Route  path="/groups/:groupname" component={GroupPage} />
+
                       <Route  path="/userpage.:username" component={requrieFriend(UserPage)} />
                       <Route  path="/login" component={Login} />
                        {/* <Route  exact   path="/wall" component={Home}/> */}

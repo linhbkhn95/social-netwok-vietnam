@@ -193,7 +193,7 @@ const styles = theme => ({
   },
   gridList: {
     width: '100%',
-     height: '100%',
+    height: '100%',
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: 'translateZ(0)',
   },
@@ -244,14 +244,35 @@ class  AdvancedGridList extends React.Component {
 
     RestfulUtils.post('/fileupload/getFilePostId',{post_id}).then((res)=>{
       if(res.EC==0){
-           self.setState({listFile:res.DT})
+           self.setState({listFile:self.convertData(res.DT)})
       }
    })
   }
+
   componentWillReceiveProps(nextProps){
      let {post_id} = nextProps
      if(post_id!=this.props.post_id)
         this.getListFile(post_id)
+  }
+  convertData(data){
+    if(data.length==1){
+      data[0].cols=data[0].rows = 2
+    }
+    else if(data.length==2){
+      data[0].cols = data[1].cols=2
+      data[0].rows= data[1].rows =1
+    }
+    else if(data.length==3){
+      data[0].cols =2
+      data[0].rows =1
+      data[1].rows= data[2].rows = data[1].cols = data[2].cols = 1
+    }
+    else
+      data[0].cols =data[0].rows  =data[3].cols =data[3].rows  = data[1].rows= data[2].rows = data[1].cols = data[2].cols = 1
+
+
+    return data
+
   }
   render(){
     let { classes } = this.props;
@@ -259,9 +280,9 @@ class  AdvancedGridList extends React.Component {
     if(this.state.listFile.length>0)
     return (
     <div className={classes.root}>
-      <GridList cellHeight={225} spacing={1} className={classes.gridList}>
+      <GridList cellHeight={'250'} spacing={1} className={classes.gridList}>
         {this.state.listFile.map((tile,index) => (
-          <GridListTile key={tile.img} cols={length==1||index==length-1?2:1} rows={length==1||index==length-1?2:1}>
+          <GridListTile key={tile.img} cols={tile.cols} rows={tile.rows}>
 
            {tile.type_file=="img"?<img src={tile.url_file} alt={tile.title} />:<ComponentVideo src={tile.url_file} />}
             <GridListTileBar

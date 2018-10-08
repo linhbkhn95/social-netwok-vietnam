@@ -56,7 +56,7 @@ section#user_main div.home-user .group-head .bt-info .img-left .avatar-user {
 .img-thumbnail {
     display: inline-block;
     max-width: 100%;
-    
+
     padding: 0px;
     line-height: 1.42857143;
     background-color: #fff;
@@ -121,11 +121,11 @@ section#user_main div.home-user .group-head .box-title .content-right li a{
     color: #525155
 }
 section#user_main div.home-user .group-head .box-title .content-right li a:hover{
-   
+
     /* color: rgb(23, 138, 57) */
 }
 section#user_main div.home-user .group-head .box-title .content-right li a i{
-   
+
   margin-right: 3px !important;
 }
 section#user_main div.home-user .group-head .box-title .content-right ul {
@@ -163,7 +163,7 @@ section#user_main div.home-user .group-head .box-title .content-right ul .li-lay
 /* .custom-share{
     font-size: 19px;
     padding: 5px 9px 5px 9px;
-    /* padding: 5px; 
+    /* padding: 5px;
     border: 2px solid #3c6fbb;
     border-radius: 50%;
 } */
@@ -177,21 +177,21 @@ section#user_main div.home-user .group-head .box-title .content-right ul .li-lay
     margin: 5px 2px !important;
     border-radius: 50% !important ;
   }
-  
+
   section#user_main div.home-user .group-head .box-title .content-right ul li div.link-share.fa:hover {
       opacity: 0.7;
   }
-  
+
   section#user_main div.home-user .group-head .box-title .content-right ul li div.link-share .fa-facebook {
     background: #3B5998;
     color: white;
   }
-  
+
   section#user_main div.home-user .group-head .box-title .content-right ul li div.link-share .fa-twitter {
     background: #55ACEE;
     color: white;
   }
-  
+
   section#user_main div.home-user .group-head .box-title .content-right ul li div.link-share .fa-google {
     background: #dd4b39;
     color: white;
@@ -383,4 +383,95 @@ section#user_main div.content-main .head{
     padding-right: 5px;
     padding-left: 5px;
     border-radius: 11px;
+}
+
+/* css group page */
+
+.left-group h1{
+  color: #1d2129;
+  flex: 1;
+  font-size: 20px !important;
+  font-weight: normal;
+  line-height: 24px;
+  word-wrap: break-word;
+}
+.left-group{
+  width: 180px;
+  top: 43px;
+  position: fixed;
+}
+._19s_ {
+  color: #90949c;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 18px;
+  margin-top: 4px;
+  word-wrap: break-word;
+  margin-bottom: 16px;
+}
+._19s_ i{
+  margin: 2px 4px 0 0;
+  vertical-align: top;
+}
+
+.left-group .list-menu{
+  color: #1d2129;
+  font-size: 14px;
+}
+.left-group .list-menu .menu-item{
+  align-items: center;
+  display: flex;
+  line-height: 18px;
+  margin-bottom: 4px;
+  position: relative;
+  z-index: 0;
+}
+._2yav {
+  flex: 1 1 0px;
+  margin-left: 4px;
+  overflow: hidden;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+._2yau {
+  align-items: center;
+  color: inherit;
+  display: flex;
+  flex: 1 1 0px;
+  overflow: hidden;
+  padding: 5px 4px 5px 0;
+}
+#imaginary_container{
+  margin-top:20%; /* Don't copy this */
+}
+#imaginary_container input{
+  font-size: 14px;
+  height: 24px;
+  line-height: 24px;
+  padding: 3px 3px;
+}
+.stylish-input-group .input-group-addon{
+  background: white !important;
+  padding: 3px 1px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  color: #a59a9a;
+}
+.stylish-input-group .form-control{
+border-right:0;
+box-shadow:0 0 0;
+border-color:#ccc;
+}
+.stylish-input-group button{
+  border:0;
+  background:transparent;
+}
+.group-page .content-right{
+    margin-left: 0% !important;
+    width: 100% !important;
+}
+.li-layout i,.li-layout span{
+  margin-right: 5px;
 }
