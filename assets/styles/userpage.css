@@ -396,9 +396,9 @@ section#user_main div.content-main .head{
   word-wrap: break-word;
 }
 .left-group{
-  width: 180px;
+  /* width: 180px; */
   top: 43px;
-  position: fixed;
+  /* position: fixed; */
 }
 ._19s_ {
   color: #90949c;
@@ -447,7 +447,7 @@ section#user_main div.content-main .head{
 }
 #imaginary_container input{
   font-size: 14px;
-  height: 24px;
+  height: 31px;
   line-height: 24px;
   padding: 3px 3px;
 }

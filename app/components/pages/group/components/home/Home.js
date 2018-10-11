@@ -4,11 +4,14 @@ import ListPostNew from './components/ListPostNew'
 import ListDiscover from './components/ListDiscover'
 import HeaderPost from './HeaderPost'
 import ListPost from './ListPost'
-import Info from './Info'
 import LayoutHome from './LayoutHome'
 class Wall extends React.Component{
- 
+  componentDidMount(){
+    console.log('homeaaaa')
+  }
   render(){
+
+
      return(
       //  <div>
       //   <div style={{marginTop:"5px"}} className="col-md-3 col-xs-12">
@@ -19,17 +22,17 @@ class Wall extends React.Component{
 
 
 
-      //   </div> 
+      //   </div>
       //   <div style={{paddingLeft:"0px"}} className="col-md-9 col-xs-12">
-          
+
       //               <HeaderPost />
       //               <ListPost />
-                
+
       //   </div>
       // </div>
-        <LayoutHome username={this.props.username}>  
+          <LayoutHome groupname={this.props.groupname} >
                               {/* <Route exact path="/userpage" component={ListPostNew} /> */}
-                              <ListDiscover username={this.props.username} />
+                              <ListDiscover groupname={this.props.groupname} />
           </LayoutHome>
      )
   }

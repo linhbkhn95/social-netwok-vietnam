@@ -22,12 +22,12 @@ class ListDiscover extends React.Component{
         if(this.state.loadingState){
             return;
         }
-       let {username} = this.props
+       let {groupname} = this.props
        this.setState({ loadingState: true });
        let self  =this;
        let {dispatch} = this.props
         let {subject} = this.state
-        io.socket.post('/post/getListPost_username',{page:this.state.page,listsubject:subject,username},function(res,jwres){
+        io.socket.post('/post/getListPost_groupname',{page:this.state.page,listsubject:subject,groupname},function(res,jwres){
           if(res.EC==0){
               console.log('dataload',res.DT)
               if(res.DT.length<10){
@@ -36,7 +36,7 @@ class ListDiscover extends React.Component{
               }
               let data = self.state.listStatus.concat(res.DT)
               self.setState({listStatus:data,page:self.state.page+1,loadingState:false,fulldata:self.state.fulldata})
- 
+
           }
         })
        // setTimeout(() => {
@@ -52,27 +52,27 @@ class ListDiscover extends React.Component{
                 self.loadMoreItems();
             }
         });
-        let username = this.props.username
-       if(username)
-                io.socket.post('/post/getListPost_username',{page:this.state.page,username},function(res,jwres){
+        let groupname = this.props.groupname
+       if(groupname)
+                io.socket.post('/post/getListPost_groupname',{page:this.state.page,groupname},function(res,jwres){
                     if(res.EC==0){
                         self.setState({listStatus:res.DT,page:self.state.page+1,loadingState:false})
 
                     }
                 })
-       
+
         io.socket.on('post', function (event) {
             console.log('event',event)
             switch(event.verb){
                 case 'created' :{
                     self.state.listStatus.unshift(event.data)
                     self.setState({ listStatus: self.state.listStatus });
-                    break 
+                    break
                 }
-               
+
             }
-      
-       }); 
+
+       });
     }
     deletePost(data){
         console.log('datadel',data)
@@ -83,7 +83,7 @@ class ListDiscover extends React.Component{
                 break;
             }
         }
-        
+
     }
     likePost(postId){
         for(var i=0;i<this.state.listStatus.length;i++){
@@ -117,7 +117,7 @@ class ListDiscover extends React.Component{
         let self  = this
         io.socket.get('/notification/follow', function gotResponse(data, jwRes) {
             console.log('Server responded with status code ' + jwRes.statusCode + ' and data: ', data);
-          
+
           });
         io.socket.get('/subject/getall',((resdata,jwres)=>{
              console.log('ress',resdata)
@@ -125,10 +125,10 @@ class ListDiscover extends React.Component{
         }))
     }
     componentWillReceiveProps(nextProps){
-        let {username} = nextProps;
+        let {groupname} = nextProps;
         let self = this
-        if(username != this.props.username){
-            io.socket.post('/post/getListPost_username',{page:1,username},function(res,jwres){
+        if(groupname != this.props.groupname){
+            io.socket.post('/post/getListPost_groupname',{page:1,groupname},function(res,jwres){
                 if(res.EC==0){
                     self.state.fulldata = false;
                     if(res.DT.length<10)
@@ -141,10 +141,10 @@ class ListDiscover extends React.Component{
         }
     }
     async getlistSubject(input) {
-       
-       
+
+
         return {options:this.state.options}
-      
+
     }
     accessLike(postId,verb){
         for(var i=0;i<this.state.listStatus.length;i++){
@@ -155,17 +155,17 @@ class ListDiscover extends React.Component{
         }
     }
     onChangeSelect(subject) {
-       
-        this.setState({ subject,page:2,fulldata:false });  
+
+        this.setState({ subject,page:2,fulldata:false });
          let self  = this
-        let username = this.props.username
-        if(username)
-            io.socket.post('/post/getListPost_username',{listsubject:subject,username},((resdata,jwres)=>{
+        let groupname = this.props.groupname
+        if(groupname)
+            io.socket.post('/post/getListPost_groupname',{listsubject:subject,groupname},((resdata,jwres)=>{
                 console.log('listpost',resdata)
                 if(resdata.EC==0)
                     self.setState({listStatus:resdata.DT})
             }))
-	
+
     }
     render(){
         let ListStatus = this.state.listStatus.length>0?
@@ -192,12 +192,12 @@ class ListDiscover extends React.Component{
                             onChange={this.onChangeSelect.bind(this)}
                             cache={false}
                             multi
-                            
+
                   />
                     </div>
             </div>
             <div className="col-md-12">
-            
+
                 {ListStatus}
             </div>
             </div>

@@ -2,26 +2,17 @@ import React from 'react';
 import HeaderListPost from './components/HeaderListPost'
 import HeaderPost from './HeaderPost'
 import ListPost from './ListPost'
-import Info from './Info'
+import Relative from '../Relative'
 
 import {NavLink,Route} from 'react-router-dom';
 
 class Wall extends React.Component{
- 
+
   render(){
      return(
-       <div>
-        <div style={{marginTop:"5px"}} className="col-md-3 col-xs-12">
-          <Info username={this.props.username} />
 
+        <div style={{paddingLeft:"0px"}} className="col-md-12">
 
-
-
-
-
-        </div> 
-        <div style={{paddingLeft:"0px"}} className="col-md-9 col-xs-12">
-          
                     <HeaderPost username={this.props.username} />
                     <div className="col-md-12 list-post " >
                     <div className="">
@@ -32,10 +23,9 @@ class Wall extends React.Component{
 
                     </div>
                     </div>
-                
+
         </div>
-      </div>
-      
+
      )
   }
 }

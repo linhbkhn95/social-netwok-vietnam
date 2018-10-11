@@ -46,6 +46,7 @@ class ListFriend extends React.Component{
   componentDidMount(){
     let username = this.props.username
     let sefl = this
+    console.log('member componentDidMount ')
     if(username){
         axios.post('/user/getlistFriends',{username})
         .then((res)=>{
@@ -59,15 +60,27 @@ class ListFriend extends React.Component{
       let {listfriend} = this.state
      return(
 
-            <div  className="col-md-12">
+            <div  className="col-md-12 page-member">
                      <div style={{background:"white",    padding: "10px"}} className="col-md-12 ">
-                            <div className="head col-md-12">
-                                <div  style={{fontSize:"20px",fontWeight:"bold"}} className="pull-left">
-                                    <i style={{marginRight:"10px"}} className="fa fa-users" aria-hidden="true"></i>
-                                    Bạn bè
+                            <div className="header col-md-12">
+                                  <div className="info-group">
+                                        <a href="#">Thành viên</a><div className="number">9,122</div>
+                                  </div>
+                                  <div className="input-search">
+
+                                  </div>
+                            </div>
+                            <div className="list-member">
+                                <div className="member">
+                                    <div className="info-member">
+                                            <div className="div-img"><img src="https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-1/p74x74/43065464_1290271367779869_5724331772158672896_n.jpg?_nc_cat=102&oh=adc91274f0bc0e0913d66e6c39ed6855&oe=5C611AAF" /></div>
+                                            <div className="name">Nguyễn thị Hồng</div>
+                                    </div>
+                                    <div className="btn-join">
+                                        <i className="fa fa-plus" aria-hidden="true"></i>Kết bạn
+                                    </div>
                                 </div>
-                                <div >
-                                </div>
+
                             </div>
                             <div style={{paddingTop:"10px"}} className="row col-md-12">
                               {listfriend.map((friend,index)=>{
@@ -86,9 +99,9 @@ class ListFriend extends React.Component{
                                         </div>
                                     </div>
                                     <div className="col-md-3 col-xs-3">
-                                         <div style={{paddingLeft:"0px",paddingTop:"35px"}} className="info-user">   
-                                         
-       
+                                         <div style={{paddingLeft:"0px",paddingTop:"35px"}} className="info-user">
+
+
                                                     <Dropdown id="dropdown-custom-1">
                                                     <Dropdown.Toggle>
                                                     <Glyphicon glyph="star" />
@@ -111,7 +124,7 @@ class ListFriend extends React.Component{
                                </div>
                                   )
                               })}
-                          
+
                             </div>
                      </div>
             </div>
