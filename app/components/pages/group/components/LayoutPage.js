@@ -167,30 +167,30 @@ class Layout extends React.Component {
                       </Link>
                     </div>
                     <div className="menu-item">
-                      <Link className="_2yau" to="/">
-                        <span className="_2yav">Thao luan</span>
+                      <Link to={'/groups/'+this.props.groupname} className="_2yau">
+                        <span className="_2yav">Thảo luận</span>
                       </Link>
                     </div>
                     <div className="menu-item">
                       <Link className="_2yau" to="/">
-                        <span className="_2yav">Cong bo</span>
+                        <span className="_2yav">Công bố</span>
                       </Link>
                     </div>
 
                     <div className="menu-item">
-                      <Link className="_2yau" to="/">
-                        <span className="_2yav">Thanh vien</span>
+                      <Link className="_2yau" to={'/groups/'+this.props.groupname+"/members"}>
+                        <span className="_2yav">Thành viên</span>
                       </Link>
                     </div>
                     <div className="menu-item">
-                      <Link className="_2yau" to="/">
+                      <Link className="_2yau" to={'/groups/'+this.props.groupname+"/videos"}>
                         <span className="_2yav">Video</span>
                       </Link>
                     </div>
 
                     <div className="menu-item">
-                      <Link className="_2yau" to="/">
-                        <span className="_2yav">Anh</span>
+                      <Link className="_2yau" to={'/groups/'+this.props.groupname+"/images"}>
+                        <span className="_2yav">Ảnh</span>
                       </Link>
                     </div>
                     <div className="menu-item">
@@ -465,7 +465,7 @@ class Layout extends React.Component {
                                 className="btn-friend"
                               >
                                 <Dropdown id="dropdown-custom-1">
-                                  <Dropdown.Toggle>Da tham gia</Dropdown.Toggle>
+                                  <Dropdown.Toggle>Đã tham gia</Dropdown.Toggle>
                                   <Dropdown.Menu className="">
                                     <MenuItem
                                       onClick={this.accessFollow.bind(this)}
@@ -517,7 +517,7 @@ class Layout extends React.Component {
                                 <Dropdown id="dropdown-custom-1">
                                   <Dropdown.Toggle>
                                     <Glyphicon style={{color:'green',fontSize: '11px', top: '0px'}} glyph="ok" />
-                                    Thong bao
+                                    Thông báo
                                   </Dropdown.Toggle>
                                   <Dropdown.Menu className="">
                                     <MenuItem
@@ -577,7 +577,7 @@ class Layout extends React.Component {
                                       className="fa fa-share"
                                       aria-hidden="true"
                                     />
-                                    Chia se
+                                    Chia sẻ
                                   </Dropdown.Toggle>
                                   <Dropdown.Menu className="">
                                     <MenuItem
@@ -639,7 +639,7 @@ class Layout extends React.Component {
                                 <Dropdown id="dropdown-custom-1">
                                   <Dropdown.Toggle>
                                     <Glyphicon glyph="option-horizontal" />
-                                    Khac
+                                    Khác
                                   </Dropdown.Toggle>
                                   <Dropdown.Menu className="">
                                     <MenuItem
