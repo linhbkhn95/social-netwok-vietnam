@@ -42,9 +42,11 @@ class Layout extends React.Component {
     }
   }
   componentWillReceiveProps(nextProps) {
+    console.log('componentWillReceiveProps',nextProps)
     if (nextProps.username != this.props.username) {
       this.getData(nextProps.username);
     }
+
   }
   accessFollow() {
     let { username } = this.props;
@@ -674,12 +676,12 @@ class Layout extends React.Component {
                   </div>
                 </div>
                 <div className="col-md-12 remove-padding-col">
-                <div className="content-main col-md-8">
+                <div className={this.props.url_page!="images"&&this.props.url_page!="videos"?"content-main col-md-8":"content-main col-md-12"}>
                   <div className="row">{this.props.children}</div>
                 </div>
-                <div className="col-md-4 remove-padding-col">
+                {this.props.url_page!="images"&&this.props.url_page!="videos"?<div className="col-md-4 remove-padding-col">
                   <Relative />
-              </div>
+               </div>:null}
               </div>
               </div>
 

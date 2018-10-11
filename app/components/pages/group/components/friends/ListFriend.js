@@ -2,6 +2,7 @@ import React from 'react';
 import {NavLink} from 'react-router-dom';
 import axios from 'axios'
 import {ButtonToolbar,Popover,OverlayTrigger,Button ,Dropdown,MenuItem,Glyphicon } from 'react-bootstrap'
+
 const popoverHoverFocus = (
     <Popover id="popover-trigger-hover-focus" title="Popover bottom">
       <strong>Holy guacamole!</strong> Check this info.
@@ -60,7 +61,7 @@ class ListFriend extends React.Component{
       let {listfriend} = this.state
      return(
 
-            <div  className="col-md-12 page-member">
+            <div style={{paddingLeft:"0px"}}  className="col-md-12 page-member">
                      <div style={{background:"white",    padding: "10px"}} className="col-md-12 ">
                             <div className="header col-md-12">
                                   <div className="info-group">
@@ -70,6 +71,10 @@ class ListFriend extends React.Component{
 
                                   </div>
                             </div>
+                            <div className="info-admin">
+                                          <div style={{marginTop:"20px"}}>Quản trị viên và người kiểm duyệt <span className="number-admin">11</span></div>
+                            </div>
+
                             <div className="list-member">
                                 <div className="member">
                                     <div className="info-member">
@@ -79,6 +84,70 @@ class ListFriend extends React.Component{
                                     <div className="btn-join">
                                         <i className="fa fa-plus" aria-hidden="true"></i>Kết bạn
                                     </div>
+                                </div>
+
+                            </div>
+                            <div className="list-member">
+                                <div className="member">
+                                    <div className="info-member">
+                                            <div className="div-img"><img src="https://scontent.fhan5-4.fna.fbcdn.net/v/t1.0-1/p74x74/41769887_1001820906665146_4065829158670827520_n.jpg?_nc_cat=104&oh=c09b535ac76548810806e58bcdb9b4e5&oe=5C53D612" /></div>
+                                            <div className="info-detail">
+                                                <div className="name">Đinh thị Ngọc</div>
+                                                <div className="work">Làm việc tại Đai học Xây Dựng</div>
+                                            </div>
+
+                                    </div>
+                                    <div className="btn-friend">
+
+
+                                         <Dropdown id="dropdown-custom-1">
+                                         <Dropdown.Toggle>
+                                         <Glyphicon glyph="ok" />
+                                         Bạn bè
+                                         </Dropdown.Toggle>
+                                         <Dropdown.Menu className="">
+                                         <MenuItem  eventKey="1"> <i style={{marginLeft:"-15px"}} className="fa fa-check" aria-hidden="true"></i>
+Nhận thông báo</MenuItem>
+                                         <MenuItem eventKey="2">Bạn thân</MenuItem>
+
+                                         <MenuItem divider />
+                                         <MenuItem eventKey="4">Hủy kết bạn</MenuItem>
+                                         </Dropdown.Menu>
+                                     </Dropdown>
+
+                                   </div>
+                                </div>
+
+                            </div>
+                            <div className="list-member">
+                                <div className="member">
+                                    <div className="info-member">
+                                            <div className="div-img"><img src="https://scontent.fhan5-3.fna.fbcdn.net/v/t1.0-1/p74x74/43407869_2216909191864129_7113157228831440896_n.jpg?_nc_cat=106&oh=a5988312a215cd964274a40086cbe061&oe=5C503AE8" /></div>
+                                            <div className="name">Trần An</div>
+                                            <div className="work">Đã tham gia 3 giờ trước</div>
+                                            <div className="work">Hà Nội</div>
+
+
+                                    </div>
+                                    <div className="btn-friend">
+
+
+                                         <Dropdown id="dropdown-custom-1">
+                                         <Dropdown.Toggle>
+                                         <Glyphicon glyph="star" />
+                                         Bạn bè
+                                         </Dropdown.Toggle>
+                                         <Dropdown.Menu className="">
+                                         <MenuItem  eventKey="1"> <i style={{marginLeft:"-15px"}} className="fa fa-check" aria-hidden="true"></i>
+Nhận thông báo</MenuItem>
+                                         <MenuItem eventKey="2">Bạn thân</MenuItem>
+
+                                         <MenuItem divider />
+                                         <MenuItem eventKey="4">Hủy kết bạn</MenuItem>
+                                         </Dropdown.Menu>
+                                     </Dropdown>
+
+                                   </div>
                                 </div>
 
                             </div>

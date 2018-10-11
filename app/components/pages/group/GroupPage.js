@@ -12,9 +12,13 @@ import {
 } from "react-router-dom";
 import Wall from "./components/home/Home";
 import LayoutPage from "./components/LayoutPage";
+import LayoutPageMore from "./components/LayoutPageMore";
+
 import ListFriend from "./components/friends/ListFriend";
 import ListFollow from "./components/follow/ListFollow";
 import ListImage from "./components/images/ListImage";
+import ListVideo from "./components/images/ListVideo";
+
 class GroupPage extends React.Component {
   constructor(props) {
     super(props);
@@ -34,10 +38,16 @@ class GroupPage extends React.Component {
     this.props.history.push("/");
   }
   render() {
-    console.log("match", this.props.match.params);
+    console.log("match", this.props.location);
+    var url_page =''
+    if(this.props.location.pathname.length>0)
+       url_page = this.props.location.pathname.split("/").pop();
+
     let { groupname } = this.props.match.params;
     return (
-      <LayoutPage groupname={groupname}>
+
+
+    <LayoutPage url_page={url_page}  groupname={groupname}>
         {/* <Route exact path={"/groups/"+groupname}  component={Wall} */}
         {/* /> */}
         <Route
@@ -74,18 +84,31 @@ class GroupPage extends React.Component {
             );
           }}
         />
+         <Route
+            path={"/groups/" + groupname + "/images"}
+            render={function() {
+              return (
+                <div>
+                  <ListImage groupname={groupname} />
+                </div>
+              );
+            }}
+          />
+           <Route
+            path={"/groups/" + groupname + "/videos"}
+            render={function() {
+              return (
+                <div>
+                  <ListVideo groupname={groupname} />
+                </div>
+              );
+            }}
+          />
 
-        <Route
-          path={"/groups/" + groupname + "/images"}
-          render={function() {
-            return (
-              <div>
-                <ListImage groupname={groupname} />
-              </div>
-            );
-          }}
-        />
+
       </LayoutPage>
+
+
     );
   }
 }
