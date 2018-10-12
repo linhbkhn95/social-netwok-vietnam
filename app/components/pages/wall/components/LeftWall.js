@@ -67,7 +67,7 @@ class LeftWall extends React.Component{
                   </div>
                   <div className="col-md-12 remove-padding-col">
                       <div className="col-md-12 remove-padding-col group">
-                      <NavLink to={"/userpage."+this.props.auth.user.username}>
+                      <NavLink to={"/groups/"+this.props.auth.user.username}>
 
                           <div className="icon"><i style={{color:"#5d5b5b"}} className="fa fa-users" aria-hidden="true"></i></div>
                           <div className="name-group">CNTT-K58</div>

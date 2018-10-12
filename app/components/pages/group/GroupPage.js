@@ -18,6 +18,7 @@ import ListFriend from "./components/friends/ListFriend";
 import ListFollow from "./components/follow/ListFollow";
 import ListImage from "./components/images/ListImage";
 import ListVideo from "./components/images/ListVideo";
+import About from "./components/about/About";
 
 class GroupPage extends React.Component {
   constructor(props) {
@@ -104,7 +105,16 @@ class GroupPage extends React.Component {
               );
             }}
           />
-
+          <Route
+            path={"/groups/" + groupname + "/about"}
+            render={function() {
+              return (
+                <div>
+                  <About groupname={groupname} />
+                </div>
+              );
+            }}
+          />
 
       </LayoutPage>
 

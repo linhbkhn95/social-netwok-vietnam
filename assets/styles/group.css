@@ -83,31 +83,32 @@
   text-decoration: none;
   white-space: nowrap;
 }
-.group-relative .member{
+.member{
   font-size: 13px;
 }
-.group-relative .member .list-member{
+.member .list-member{
   display:flex;
   margin-top: 10px;
 }
-.group-relative .member ul{
-  list-style-type: none;
+.member ul{
+  list-style: none;
   margin: 0;
   padding: 0
+  
 }
-.group-relative .title .number{
+.div-member.title .number{
   float: right;
   font-size: 11px;
   text-transform: initial;
   color: #3b8628;
   cursor: pointer;
 }
-.group-relative .member ul>li{
+ .div-member ul>li{
   flex: 1;
   overflow: hidden;
   margin-left:0px;
 }
-.group-relative .member .div-img{
+ .div-img{
   height: 0;
   padding-bottom: 100%;
   position: relative;
@@ -117,7 +118,7 @@
 }
 
 
-.group-relative .member .div-img img{
+.div-img img{
   border-radius: 50%;
   overflow: hidden;
   width: 38px;
@@ -465,3 +466,45 @@ padding: 2px;
     position: relative;
     vertical-align:bottom;
   }
+.page-about .header{
+  border-bottom: 1px solid #ebedf0;
+  color: #4b4f56;
+  margin-bottom: 12px;
+  padding: 12px;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 18px;
+}
+.page-about .about-text{
+  border-color: transparent;
+  border-left-width: 0;
+  border-right-width: 0;
+  position: relative;
+  border: 1px solid #dddfe2;
+  border-radius: 3px;
+  background-color: #fff;
+
+}
+.page-about .content-text{
+  color: #4b4f56;
+  padding: 0 12px 0 12px;
+}
+.page-about .content-text .text-title{
+  color: #90949c;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 18px;
+  margin-bottom: 12px;
+}
+.page-about .content-text .text{
+  font-size: 14px;
+  line-height: 18px;
+  white-space: pre-wrap;
+  margin: 1em 0;
+}
+.page-about .content-text .type-group{
+
+  font-size: 14px;
+  line-height: 18px;
+  margin-bottom: 12px;
+}

@@ -162,7 +162,7 @@ class Layout extends React.Component {
                   </div>
                   <div className="list-meu">
                     <div className="menu-item">
-                      <Link className="_2yau" to="/">
+                      <Link className="_2yau" to={'/groups/'+this.props.groupname+"/about"}>
                         <span className="_2yav">Giới thiệu</span>
                       </Link>
                     </div>

@@ -61,140 +61,39 @@ class ListFriend extends React.Component{
       let {listfriend} = this.state
      return(
 
-            <div style={{paddingLeft:"0px"}}  className="col-md-12 page-member">
-                     <div style={{background:"white",    padding: "10px"}} className="col-md-12 ">
-                            <div className="header col-md-12">
-                                  <div className="info-group">
-                                        <a href="#">Thành viên</a><div className="number">9,122</div>
+            <div style={{paddingLeft:"0px"}}  className="col-md-12 page-about">
+                     <div style={{background:"white",display:"grid"}} className="">
+                            <div className="about-text">
+                                  <div className="header">
+                                        Giới thiệu về nhóm này
                                   </div>
-                                  <div className="input-search">
+                                 <div className="content-text">
 
+                                    <div className="text-title">Mô tả</div>
+                                    <div className="text">Hội Sinh viên, cựu Sinh viên CNTT & TT cùng giáo viên cựu giáo viên ngành CNTT
+SOICT GROUP chia sẻ thông tin
+Điểm, Môn học, BTL, Đề tài
+Đào tạo, nghiên cứu: Học bổng du học, hỗ trợ cty, post nghiên cứu, thực tập đào tạo, hội... </div>
+                                    <div className="text-title">Loại nhóm</div>
+                                    <div className="type-group">Trường lớp</div>
+                                </div>
+                            </div>
+                            <div className="about-text">
+                                  <div className="header">
+                                       Thành viên nhóm  9780
                                   </div>
-                            </div>
-                            <div className="info-admin">
-                                          <div style={{marginTop:"20px"}}>Quản trị viên và người kiểm duyệt <span className="number-admin">11</span></div>
-                            </div>
+                                  <div className="div-member">
+                              <ul className="list-member">
+                                <li><div className="div-img"><img src="https://scontent.fhan5-2.fna.fbcdn.net/v/t1.0-1/p40x40/43065464_1290271367779869_5724331772158672896_n.jpg?_nc_cat=102&oh=b350db1a5ba8ea6e700808b529ea954f&oe=5C1533C0" /></div></li>
+                                <li><div className="div-img"><img src="https://scontent.fhan5-4.fna.fbcdn.net/v/t1.0-1/p40x40/41769887_1001820906665146_4065829158670827520_n.jpg?_nc_cat=104&oh=f4681c5a97974ef54793aec9d54930b2&oe=5C516E7D" /></div></li>
+                                <li><div className="div-img"><img src="https://scontent.fhan5-6.fna.fbcdn.net/v/t1.0-1/p40x40/41719216_855933534610347_5463926784015728640_n.jpg?_nc_cat=105&oh=bc4107e4687a2ef312b694e2765e9703&oe=5C5D758A" /></div></li>
+                                <li><div className="div-img"><img src="https://scontent.fhan5-5.fna.fbcdn.net/v/t1.0-1/p50x50/19959055_1442566135809857_5263977069378558177_n.jpg?_nc_cat=108&oh=c79ae51faa5e9f22b2aa1589e77c6980&oe=5C196B48" /></div></li>
+                                <li><div className="div-img"><img src="https://scontent.fhan5-4.fna.fbcdn.net/v/t1.0-1/p40x40/20663701_633925460143450_4308823456224829255_n.jpg?_nc_cat=104&oh=25c64648ff01e33cfb20d918d0fa70ee&oe=5C1A6D82" /></div></li>
+                                <li><div className="div-img"><img src="https://scontent.fhan5-2.fna.fbcdn.net/v/t1.0-1/p40x40/42289782_1230681137071258_8052830716678897664_n.jpg?_nc_cat=110&oh=ff701334996793f41ca06d80ada9e6ee&oe=5C43006C" /></div></li>
+                              </ul>
+                           </div>
+                           </div>
 
-                            <div className="list-member">
-                                <div className="member">
-                                    <div className="info-member">
-                                            <div className="div-img"><img src="https://scontent.fhan2-1.fna.fbcdn.net/v/t1.0-1/p74x74/43065464_1290271367779869_5724331772158672896_n.jpg?_nc_cat=102&oh=adc91274f0bc0e0913d66e6c39ed6855&oe=5C611AAF" /></div>
-                                            <div className="name">Nguyễn thị Hồng</div>
-                                    </div>
-                                    <div className="btn-join">
-                                        <i className="fa fa-plus" aria-hidden="true"></i>Kết bạn
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div className="list-member">
-                                <div className="member">
-                                    <div className="info-member">
-                                            <div className="div-img"><img src="https://scontent.fhan5-4.fna.fbcdn.net/v/t1.0-1/p74x74/41769887_1001820906665146_4065829158670827520_n.jpg?_nc_cat=104&oh=c09b535ac76548810806e58bcdb9b4e5&oe=5C53D612" /></div>
-                                            <div className="info-detail">
-                                                <div className="name">Đinh thị Ngọc</div>
-                                                <div className="work">Làm việc tại Đai học Xây Dựng</div>
-                                            </div>
-
-                                    </div>
-                                    <div className="btn-friend">
-
-
-                                         <Dropdown id="dropdown-custom-1">
-                                         <Dropdown.Toggle>
-                                         <Glyphicon glyph="ok" />
-                                         Bạn bè
-                                         </Dropdown.Toggle>
-                                         <Dropdown.Menu className="">
-                                         <MenuItem  eventKey="1"> <i style={{marginLeft:"-15px"}} className="fa fa-check" aria-hidden="true"></i>
-Nhận thông báo</MenuItem>
-                                         <MenuItem eventKey="2">Bạn thân</MenuItem>
-
-                                         <MenuItem divider />
-                                         <MenuItem eventKey="4">Hủy kết bạn</MenuItem>
-                                         </Dropdown.Menu>
-                                     </Dropdown>
-
-                                   </div>
-                                </div>
-
-                            </div>
-                            <div className="list-member">
-                                <div className="member">
-                                    <div className="info-member">
-                                            <div className="div-img"><img src="https://scontent.fhan5-3.fna.fbcdn.net/v/t1.0-1/p74x74/43407869_2216909191864129_7113157228831440896_n.jpg?_nc_cat=106&oh=a5988312a215cd964274a40086cbe061&oe=5C503AE8" /></div>
-                                            <div className="name">Trần An</div>
-                                            <div className="work">Đã tham gia 3 giờ trước</div>
-                                            <div className="work">Hà Nội</div>
-
-
-                                    </div>
-                                    <div className="btn-friend">
-
-
-                                         <Dropdown id="dropdown-custom-1">
-                                         <Dropdown.Toggle>
-                                         <Glyphicon glyph="star" />
-                                         Bạn bè
-                                         </Dropdown.Toggle>
-                                         <Dropdown.Menu className="">
-                                         <MenuItem  eventKey="1"> <i style={{marginLeft:"-15px"}} className="fa fa-check" aria-hidden="true"></i>
-Nhận thông báo</MenuItem>
-                                         <MenuItem eventKey="2">Bạn thân</MenuItem>
-
-                                         <MenuItem divider />
-                                         <MenuItem eventKey="4">Hủy kết bạn</MenuItem>
-                                         </Dropdown.Menu>
-                                     </Dropdown>
-
-                                   </div>
-                                </div>
-
-                            </div>
-                            <div style={{paddingTop:"10px"}} className="row col-md-12">
-                              {listfriend.map((friend,index)=>{
-                                  return(
-                                    <div style={{display:""}} className="col-md-6 col-xs-12 item-friend ">
-                                    <div style={{float:"left"}} >
-                                       <NavLink to={"/userpage."+friend.user.username} ><img style={{width:"100px"}} src={friend.user.url_avatar} /> </NavLink>
-
-                                    </div>
-                                    <div className="info-user col-md-6 col-xs-6 ">
-                                        <div className="name-user" >
-                                        <NavLink to={"/userpage."+friend.user.username} >    {friend.user.fullname} </NavLink>
-                                        </div>
-                                        <div className="number-friend-middle">
-                                            {friend.countFriend} bạn bè
-                                        </div>
-                                    </div>
-                                    <div className="col-md-3 col-xs-3">
-                                         <div style={{paddingLeft:"0px",paddingTop:"35px"}} className="info-user">
-
-
-                                                    <Dropdown id="dropdown-custom-1">
-                                                    <Dropdown.Toggle>
-                                                    <Glyphicon glyph="star" />
-                                                    Bạn bè
-                                                    </Dropdown.Toggle>
-                                                    <Dropdown.Menu className="">
-                                                    <MenuItem eventKey="1">Nhận thông báo</MenuItem>
-                                                    <MenuItem eventKey="2">Bạn thân</MenuItem>
-                                                    <MenuItem divider />
-                                                    <MenuItem eventKey="3" >
-                                                    Đề xuất kết bạn
-                                                    </MenuItem>
-                                                    <MenuItem divider />
-                                                    <MenuItem eventKey="4">Hủy kết bạn</MenuItem>
-                                                    </Dropdown.Menu>
-                                                </Dropdown>
-
-                                                 </div>
-                                    </div>
-                               </div>
-                                  )
-                              })}
-
-                            </div>
                      </div>
             </div>
      )
