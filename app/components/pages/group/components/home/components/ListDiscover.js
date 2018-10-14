@@ -27,7 +27,7 @@ class ListDiscover extends React.Component{
        let self  =this;
        let {dispatch} = this.props
         let {subject} = this.state
-        io.socket.post('/post/getListPost_groupname',{page:this.state.page,listsubject:subject,groupname},function(res,jwres){
+        io.socket.post('/group/getListPost_groupname',{page:this.state.page,listsubject:subject,groupname},function(res,jwres){
           if(res.EC==0){
               console.log('dataload',res.DT)
               if(res.DT.length<10){
@@ -54,7 +54,7 @@ class ListDiscover extends React.Component{
         });
         let groupname = this.props.groupname
        if(groupname)
-                io.socket.post('/post/getListPost_groupname',{page:this.state.page,groupname},function(res,jwres){
+                io.socket.post('/group/getListPost_groupname',{page:this.state.page,groupname:1},function(res,jwres){
                     if(res.EC==0){
                         self.setState({listStatus:res.DT,page:self.state.page+1,loadingState:false})
 
@@ -128,7 +128,7 @@ class ListDiscover extends React.Component{
         let {groupname} = nextProps;
         let self = this
         if(groupname != this.props.groupname){
-            io.socket.post('/post/getListPost_groupname',{page:1,groupname},function(res,jwres){
+            io.socket.post('/post/getListPost_groupname',{page:1,groupname:1},function(res,jwres){
                 if(res.EC==0){
                     self.state.fulldata = false;
                     if(res.DT.length<10)

@@ -10,7 +10,9 @@ module.exports = {
 
     postStatus:async function(req,res){
         let {data,urls_file} = req.body
+
         data.userId_post = req.session.user.id;
+
         data.incognito = req.session.user.incognito //ẩn danh hay k
         let userWall;
         if(data.username&&data.username!=req.session.user.username){
@@ -18,15 +20,16 @@ module.exports = {
             data.userId_wall = userWall.id
         }
 
-
+        console.log('datapost',data)
         Post.create(data).exec(async function(err,post){
             if(err){
 
             }
             if(post){
-                 FileUploadController.postFile(post.id,urls_file).then((data)=>{
+                 if(urls_file&&urls_file.length>0)
+                    FileUploadController.postFile(post.id,urls_file).then((data)=>{
 
-                 })
+                  })
                  let subject  = await Subject.findOne({id:data.subject})
                  post.subject  = subject;
                  post.userLikePost = false
@@ -251,6 +254,10 @@ module.exports = {
                             if(likePost)
                                item.userLikePost = likePost.status?true:false
 
+                            if(item.type_post==2){
+                               item.postParent = await Post.findOne({id:item.postId_parent})
+                              
+                            }
                             let subjectId = item.subject
                             let subject
                             subject = await Subject.findOne({id : subjectId})

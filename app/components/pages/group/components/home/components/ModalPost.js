@@ -32,11 +32,18 @@ class ModalPost extends React.Component{
     }
     post(files){
       let self = this
+      let group_id = 1
+      let type_post = 'post'
+      let data = {...this.state.dataPost}
+      data.group_id = group_id
+      data.type_post = 1
+
       FileUpload.upload(files).then((response)=>{
             if(response.data.EC==0){
 
 
-                  io.socket.post('/post/postStatus',{data:this.state.dataPost,urls_file:response.data.DT},function(resdata,jwres){
+                  io.socket.post('/post/postStatus',{data,urls_file:response.data.DT},function(resdata,jwres){
+                    console.log('resdataaaaaa',resdata)
                       if(resdata.EC==0){
                           self.props.access()
 
@@ -45,7 +52,7 @@ class ModalPost extends React.Component{
                         self.setState({err_msg:resdata.EM})
                       }
                     })
-              toast.success('Thành công', {
+                     toast.success('Thành công', {
                               position: toast.POSITION.TOP_CENTER
                           });
                           self.setState({getFile:false})

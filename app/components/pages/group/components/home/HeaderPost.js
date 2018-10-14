@@ -78,14 +78,14 @@ class HeaderPost extends React.Component{
       }
 
       this.setState({ files: e.target.files, fileName,src: src })
-      self.uploadCover(e.target.files).then((response)=>{
-          if(response.data.EC==0){
-              toast.success('Thành công', {
-                              position: toast.POSITION.TOP_CENTER
-                          });
+      // self.uploadCover(e.target.files).then((response)=>{
+      //     if(response.data.EC==0){
+      //         toast.success('Thành công', {
+      //                         position: toast.POSITION.TOP_CENTER
+      //                     });
 
-          }
-      })
+      //     }
+      // })
 
     }
       uploadCover(files) {

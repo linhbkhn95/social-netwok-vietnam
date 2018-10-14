@@ -9,7 +9,7 @@ import moment from 'moment'
 import { ToastContainer, toast } from 'react-toastify';
 import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
-
+import ModalShare from './ModalShare'
 import Lightbox from 'react-images';
 const Msg = ({ closeToast }) => (
     <div style={{borderBottom:"none"}} className=" alert-message">
@@ -42,14 +42,18 @@ class Post extends React.Component{
 
             dataPostAccess:null,
             showModalConfirm:false,
-
+            showModalShare:false,
 
             likeInfo:{
                 listUserId:[],
                 listUser:{}
-            }
+            },
+            dataPostShare:null,
 
         }
+    }
+    closeModalShare(){
+      this.setState({showModalShare:false})
     }
     renderTooltip(){
 
@@ -164,6 +168,9 @@ class Post extends React.Component{
 
     async componentWillMount(){
         let self  =this
+
+            console.log('componentWillMount contentStatus')
+
         io.socket.post('/likepost/getlist_LikeFormatPost',{postId:this.props.idPost},((resdata,jwres)=>{
             if(resdata.EC==0){
                  self.state.likeInfo.listUser = resdata.DT.listUser;
@@ -173,7 +180,6 @@ class Post extends React.Component{
         }))
     }
     comment(){
-        console.log('comment')
         this.props.displayListComment()
     }
     accessLikeUser(){
@@ -189,7 +195,6 @@ class Post extends React.Component{
             }
             case true:{
                 var index = this.state.likeInfo.listUserId.indexOf(this.props.auth.user.id);
-                console.log('index',index)
                 if (index > -1) {
                   this.state.likeInfo.listUserId.splice(index, 1);
                   delete this.state.likeInfo.listUser[this.props.auth.user.id]
@@ -205,6 +210,7 @@ class Post extends React.Component{
     }
     share(){
         console.log('share')
+        this.setState({showModalShare:true,dataPostShare:this.props.post})
     }
     access(){
         let self = this;
@@ -225,7 +231,14 @@ class Post extends React.Component{
         }
         this.setState({showModalConfirm:false})
     }
-
+    accessShare(){
+      this.setState({showModalPost:false})
+       console.log('ok');
+       toast.success( "Đăng bài thành công !", {
+          position: toast.POSITION.TOP_LEFT
+        });
+      //   this.props.addPost(postmodel)
+    }
     closeModalConfirm(){
         this.setState({showModalConfirm:false})
     }
@@ -236,8 +249,12 @@ class Post extends React.Component{
         let self = this;
         let texListLike =''
          texListLike = this.renderTextUserLike()
+         let jsxAtribute
+         let {type_post} = this.props.post
+         if(type_post==2)
+             jsxAtribute = <div style={{    color: '#616770',marginLeft:'8px',
+              fontWeight: '500'}}>dã chia sẻ <NavLink style={{marginRight:'5px'}} to={"/post.notifi."+this.props.post.postId_parent}>bài viết</NavLink> </div>
         return(
-
                 <div>
 
 
@@ -247,13 +264,14 @@ class Post extends React.Component{
                     </header>
                     <div className="user-answer">
                         <div className="user-avatar">
-                        {this.props.incognito?  <img className="img-user" src="/images/user/robot.png" />:<NavLink to={"/userpage."+this.props.userPost.username}><img className="img-user" src={this.props.userPost.url_avatar} /></NavLink>}
+                        {this.props.incognito?  <img className="img-user" src="/images/user/robot.png" />:<NavLink style={{marginRight:'5px'}} to={"/userpage."+this.props.userPost.username}><img className="img-user" src={this.props.userPost.url_avatar} /></NavLink>}
 
                             {/* <img className="img-user" src={this.props.incognito?"/images/user/robot.png":this.props.userPost.url_avatar} /> */}
                         </div>
                         <div className="user-detail">
                             <div className="user-name">
                             {this.props.incognito?"Người lạ":<NavLink to={"/userpage."+this.props.userPost.username}>{this.props.userPost.fullname}</NavLink>}
+                             {jsxAtribute}
                             </div>
                             {this.props.userWall?<div><i style={{float:"left",fontSize:"17px",color:"black",marginLeft:"-12px",marginRight:"1px"}} className="fa fa-caret-right" aria-hidden="true"></i><div className="user-name"><NavLink to={"/userpage."+this.props.userWall.username}>{this.props.userWall.fullname}</NavLink></div></div>:null}
 
@@ -269,15 +287,16 @@ class Post extends React.Component{
                       <ContainerFile post_id={this.props.idPost} />
                      {/* <img src="/images/upload/378968d6-5236-4064-b613-8af21a5b1133.jpg" /> */}
                     </div>
-                     <div style={{marginLeft:"0px",marginRight:"0px"}} className="footer-post row">
+                    {this.props.hideFooter?null:
+                    <div style={{marginLeft:"0px",marginRight:"0px"}} className="footer-post row">
                          <div  onClick={this.like.bind(this)} className="btn-footer-post btn-heart">
                           {this.props.countLike} <i style={{marginRight:"3px",fontWeight:this.props.userLikePost?"bold":"normal"}}  className="fa fa-heart-o" aria-hidden="true"></i> {this.props.userLikePost?"Bỏ thích":"Thích"}
                          </div>
                          <div onClick={this.comment.bind(this)} className="btn-footer-post btn-comment">
                            {this.props.lengthComment} <i  style={{marginRight:"3px"}}  className="fa fa-comment-o" aria-hidden="true"></i>Bình luận
                          </div>
-                         <div className="btn-footer-post btn-share">
-                          5 <i style={{marginRight:"3px"}} onClick={this.share.bind(this)} className="fa fa-share" aria-hidden="true"></i>Chia sẻ
+                         <div  onClick={this.share.bind(this)} className="btn-footer-post btn-share">
+                          5 <i style={{marginRight:"3px"}} className="fa fa-share" aria-hidden="true"></i>Chia sẻ
                         </div>
                         {/* <div className="fb-share-button" data-href="http://localhost:1337/wall/discover" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A1337%2Fwall%2Fdiscover&amp;src=sdkpreparse" className="fb-xfbml-parse-ignore">Chia sẻ</a></div>                        */}
                           <div className="btn-more">
@@ -288,9 +307,10 @@ class Post extends React.Component{
                             <MenuItem eventKey={3.2}><i style={{marginRight:"10px"}}  className="fa fa-minus" aria-hidden="true"></i>
                                 Ẩn bài đăng</MenuItem>
                           </NavDropdown>
-                           <i > </i>
+
                          </div>
                      </div>
+                    }
 
 
                {this.state.likeInfo.listUserId.length?<div  className="row content-like-post">
@@ -302,6 +322,7 @@ class Post extends React.Component{
                <div style={{  fontSize:"11px",color:"green"}}>{texListLike}</div>
                </div>:null}
                  <ModalConfirm show={this.state.showModalConfirm} access={this.access.bind(this)} close={this.closeModalConfirm.bind(this)} />
+                 {this.props.hideFooter?null:<ModalShare post={this.state.dataPostShare} access={this.accessShare.bind(this)} show={this.state.showModalShare} onHide={this.closeModalShare.bind(this)} />}
 
              </div>
         )

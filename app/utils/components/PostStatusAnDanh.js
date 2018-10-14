@@ -322,7 +322,10 @@ class PostStatus extends React.Component{
           }))
         this.setState({showModalConfirm:false})
       }
-    render(){
+    componentDidmount(){
+      console.log('componentDidmount poststatus')
+    }
+        render(){
         let self = this;
         var listComment =convertComment(this.state.listComment, {
             idKey: 'id',
@@ -333,7 +336,7 @@ class PostStatus extends React.Component{
             <div  className="col-md-12 post-status">
                 <article className="post"> 
                   
-                       <ContentPostAnDanh userWall={this.props.post.userWall} userPost = {this.props.post.userPost} accessLike={this.props.accessLike} like={this.props.like} userLikePost={this.props.post.userLikePost} countLike ={this.props.post.countLike} deletePost={this.props.deletePost} idPost={this.props.post.id} displayListComment={this.displayListComment.bind(this)} time={this.props.post.createdAt} title={this.props.post.title} subject={this.props.post.subject} content={this.props.post.content} incognito={this.props.post.incognito} lengthComment ={this.state.listComment.length} />
+                      <ContentPostAnDanh hideFooter={this.props.hideFooter} post={this.props.post} userWall={this.props.post.userWall} userPost = {this.props.post.userPost} accessLike={this.props.accessLike} like={this.props.like} userLikePost={this.props.post.userLikePost} countLike ={this.props.post.countLike} deletePost={this.props.deletePost} idPost={this.props.post.id} displayListComment={this.displayListComment.bind(this)} time={this.props.post.createdAt} title={this.props.post.title} subject={this.props.post.subject} content={this.props.post.content} incognito={this.props.post.incognito} lengthComment ={this.state.listComment.length} />
                      <div style={{display:this.state.displayListComment?"block":"none"}} className="list-comment row">
                          
                           <div  className="col-md-12 post-repcomment">

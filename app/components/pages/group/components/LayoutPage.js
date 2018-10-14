@@ -28,13 +28,13 @@ class Layout extends React.Component {
     };
   }
   componentDidMount() {
-    let username = this.props.username;
-    this.getData(username);
+    let groupname = this.props.groupname;
+    this.getData(groupname);
   }
-  getData(username) {
+  getData(groupname) {
     let sefl = this;
-    if (username) {
-      axios.post("/user/getInfo", { username }).then(res => {
+    if (groupname) {
+      axios.post("/group/getInfo", { groupname }).then(res => {
         if (res.data.EC == 0) {
           sefl.setState({ info: res.data.DT });
         }
@@ -43,15 +43,15 @@ class Layout extends React.Component {
   }
   componentWillReceiveProps(nextProps) {
     console.log('componentWillReceiveProps',nextProps)
-    if (nextProps.username != this.props.username) {
-      this.getData(nextProps.username);
+    if (nextProps.groupname != this.props.groupname) {
+      this.getData(nextProps.groupname);
     }
 
   }
   accessFollow() {
-    let { username } = this.props;
+    let { groupname } = this.props;
     let self = this;
-    io.socket.post("/follows/accessFollow", { username }, (resdata, jwres) => {
+    io.socket.post("/follows/accessFollow", { groupname }, (resdata, jwres) => {
       if (resdata.EC == 0) {
         // self.props.dispatch(removeReqFriend(resdata.DT))
 
@@ -61,12 +61,12 @@ class Layout extends React.Component {
     });
   }
   destroyFriend() {
-    let { username } = this.props;
+    let { groupname } = this.props;
     let self = this;
-    io.socket.post("/friends/cancel", { username }, (resdata, jwres) => {
+    io.socket.post("/friends/cancel", { groupname }, (resdata, jwres) => {
       if (resdata.EC == 0) {
         // self.props.dispatch(removeReqFriend(resdata.DT))
-        self.context.router.history.push("/userpage." + username);
+        self.context.router.history.push("/userpage." + groupname);
       }
     });
   }
@@ -142,6 +142,14 @@ class Layout extends React.Component {
 
   render() {
     let { info } = this.state;
+
+    let styleBanner={
+      // backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
+      backgroundSize: "100% 100%",
+      backgroundImage: "url('" + info.image + "')",
+
+    }
     return (
       <div className="container" style={{ marginTop: "-24px" }}>
         <div className="fix-product">
@@ -149,7 +157,7 @@ class Layout extends React.Component {
             <section id="user_main">
               <div className="col-md-2 remove-padding-col">
                 <div className="left-group">
-                  <h1 className="name-group">BK2.04</h1>
+                  <h1 className="name-group">{info.groupname}</h1>
                   <div className="_19s_">
                     <span
                       data-hover="tooltip"
@@ -221,7 +229,7 @@ class Layout extends React.Component {
                     <div className="col-md-12 remove-padding-col">
                       <div className="col-md-12 remove-padding-col group">
                         <NavLink
-                          to={"/userpage." + this.props.auth.user.username}
+                          to={"/userpage." + this.props.auth.user.groupname}
                         >
                           <div className="icon">
                             <i
@@ -236,7 +244,7 @@ class Layout extends React.Component {
                       </div>
                       <div className="col-md-12 remove-padding-col group">
                         <NavLink
-                          to={"/userpage." + this.props.auth.user.username}
+                          to={"/userpage." + this.props.auth.user.groupname}
                         >
                           <div className="icon">
                             <i
@@ -252,7 +260,7 @@ class Layout extends React.Component {
                       </div>
                       <div className="col-md-12 remove-padding-col group">
                         <NavLink
-                          to={"/userpage." + this.props.auth.user.username}
+                          to={"/userpage." + this.props.auth.user.groupname}
                         >
                           <div className="icon">
                             <i
@@ -268,7 +276,7 @@ class Layout extends React.Component {
                       </div>
                       <div className="col-md-12 remove-padding-col group">
                         <NavLink
-                          to={"/userpage." + this.props.auth.user.username}
+                          to={"/userpage." + this.props.auth.user.groupname}
                         >
                           <div className="icon">
                             <i
@@ -283,7 +291,7 @@ class Layout extends React.Component {
                       </div>
                       <div className="col-md-12 remove-padding-col group">
                         <NavLink
-                          to={"/userpage." + this.props.auth.user.username}
+                          to={"/userpage." + this.props.auth.user.groupname}
                         >
                           <div className="icon">
                             <i
@@ -298,7 +306,7 @@ class Layout extends React.Component {
                       </div>
                       <div className="col-md-12 remove-padding-col group">
                         <NavLink
-                          to={"/userpage." + this.props.auth.user.username}
+                          to={"/userpage." + this.props.auth.user.groupname}
                         >
                           <div className="icon">
                             <i
@@ -321,7 +329,7 @@ class Layout extends React.Component {
                       <div className="col-md-12 remove-padding-col">
                         <div className="col-md-12 remove-padding-col group">
                           <NavLink
-                            to={"/userpage." + this.props.auth.user.username}
+                            to={"/userpage." + this.props.auth.user.groupname}
                           >
                             <div className="icon">
                               <i
@@ -336,7 +344,7 @@ class Layout extends React.Component {
                         </div>
                         <div className="col-md-12 remove-padding-col group">
                           <NavLink
-                            to={"/userpage." + this.props.auth.user.username}
+                            to={"/userpage." + this.props.auth.user.groupname}
                           >
                             <div className="icon">
                               <i
@@ -352,7 +360,7 @@ class Layout extends React.Component {
 
                         <div className="col-md-12 remove-padding-col group">
                           <NavLink
-                            to={"/userpage." + this.props.auth.user.username}
+                            to={"/userpage." + this.props.auth.user.groupname}
                           >
                             <div className="icon">
                               <i
@@ -367,7 +375,7 @@ class Layout extends React.Component {
                         </div>
                         <div className="col-md-12 remove-padding-col group">
                           <NavLink
-                            to={"/userpage." + this.props.auth.user.username}
+                            to={"/userpage." + this.props.auth.user.groupname}
                           >
                             <div className="icon">
                               <i class="fa fa-file-text-o" aria-hidden="true" />
@@ -385,16 +393,13 @@ class Layout extends React.Component {
                 <div className="home-user">
                   <div
                     className="banner"
-                    style={{
-                      background: "url('" + info.user.url_cover + "')",
-                      backgroundSize: "cover"
-                    }}
+                    style={styleBanner}
                   >
                     <div className="background-cover">
                       <div className="image-cover">
                         {" "}
-                        {this.props.auth.user.username ==
-                        this.props.username ? (
+                        {this.props.auth.user.groupname ==
+                        this.props.groupname ? (
                           <span
                             style={{
                               display: "flex",

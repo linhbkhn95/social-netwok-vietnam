@@ -2,11 +2,16 @@ section#user_main div.home-user {
     padding-bottom: 70px;
 }
 section#user_main div.home-user .banner {
-    position: relative;
-    background: url(https://moki.vn/moki/themes/img/background.png) no-repeat;
-    width: 100%;
-    height: 310px;
-    background-size: cover;
+  position: relative;
+  background: url(https://moki.vn/moki/themes/img/background.png) no-repeat;
+  width: 100%;
+  height: 477px;
+  /* top: 1px; */
+  margin-top: -111px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-size: 100% 100%,
+
 }
 section#user_main div.home-user .banner .background-cover {
     background: url(https://moki.vn/moki/themes/img/UgNUNkKQar6.png) bottom left repeat-x;
@@ -474,4 +479,23 @@ border-color:#ccc;
 }
 .li-layout i,.li-layout span{
   margin-right: 5px;
+}
+.content-share .header{
+  display: flex;
+  justify-content: space-between;
+}
+.content-share .user-answer{
+  clear: both;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+.content-share .content-asw{
+  font-size: 12px;
+}
+.modal-body{
+ display:flow-root;
+}
+.content-share{
+pointer-events: none;
 }

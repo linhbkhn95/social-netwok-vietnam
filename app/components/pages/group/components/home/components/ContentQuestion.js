@@ -10,7 +10,7 @@ class ContentQuestion extends React.Component{
         this.state={
               toggle:true,
               options: [
-				{ value: true, label: 'Trịnh đức Bảo Linh' },
+				      { value: true, label: 'Trịnh đức Bảo Linh' },
                 { value: false, label: 'Nguyễn thị Xuân' },
                 { value: false, label: 'Hà Đăng Dương' },
                 { value: false, label: 'Nguyễn Đức Tài' },
@@ -27,23 +27,23 @@ class ContentQuestion extends React.Component{
         else
                this.setState({toggle:false})
     }
-  
+
 	 onChangeSelect(value) {
 		this.setState({ value });
 		console.log('Boolean Select value changed to', value);
     }
     async  getOptionsSession(input) {
-       
-       
+
+
         return {options:this.state.options}
-      
+
     }
     render(){
-    
+
       return (
-        
+
                <div className="content-question">
-               
+
                 <div className="row">
                   <div className="col-md-12">
                     <textarea className="form-control" placeholder="Bạn đang nghĩ gì, Bản muốn hỏi gì..." rows="5" id="comment"></textarea>
@@ -54,8 +54,8 @@ class ContentQuestion extends React.Component{
                 <div className=" col-md-12" >
                      <Toggle
                         defaultChecked={this.state.toggle}
-                        
-                        onChange={this.onChange.bind(this)} /> 
+
+                        onChange={this.onChange.bind(this)} />
                         < i className="text-toggle">Tâm sự ẩn danh</i>
                    </div>
                 </div>
@@ -69,7 +69,7 @@ class ContentQuestion extends React.Component{
                     </div>
                 </div>
                 <div className="col-md-12">
-                  
+
                         {/* <input type="text" name="search" placeholder="Tìm kiếm bạn bè.."/> */}
                         <Select.Async
                             name="form-field-name"
@@ -82,7 +82,7 @@ class ContentQuestion extends React.Component{
                             cache={false}
                             multi
                   />
-                
+
                 </div>
                 <div className="col-md-12">
                     <div list >
@@ -91,9 +91,9 @@ class ContentQuestion extends React.Component{
               </div>
               </div>
 
-          
+
       );
     }
   };
-  
+
   module.exports = ContentQuestion;
