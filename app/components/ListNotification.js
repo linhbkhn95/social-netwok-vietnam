@@ -29,7 +29,7 @@ class ListNotification extends React.Component{
             console.log('listnotifi',resdata)
             if(resdata.EC==0){
                 self.props.dispatch(addList(resdata.DT))
-             
+
             }
         }))
 
@@ -44,7 +44,7 @@ class ListNotification extends React.Component{
         $("#notificationContainer").fadeToggle(300);
         let self = this
         self.props.dispatch(resetNotification())
-      
+
         // $("#notification_count").fadeOut("slow");
         return false;
       }
@@ -53,28 +53,28 @@ class ListNotification extends React.Component{
         $("#notificationContainer").hide();
         }
       }
-  
+
       setWrapperRef(node) {
         this.wrapperRef = node;
       }
        render(){
-         let {data,number_notifi} = this.props.notification 
+         let {data,number_notifi} = this.props.notification
          return(
             <li ref={this.setWrapperRef} onClick={this.showNotifi.bind(this)} id="notification_li">
            {number_notifi? <span id="notification_count">{number_notifi}</span>:null}
-            <a href="#" ref="foo" id="notificationLink" data-tip="Thông báo"><i className="fa fa-bell-o" aria-hidden="true"></i> </a>
-        
+            <a href="#" ref="foo" id="notificationLink" data-tip="Thông báo"><i style={{color:" rgb(92, 184, 92)"}} className="fas fa-bell" aria-hidden="true"></i> </a>
+
             <div id="notificationContainer">
                   <div className="beeperNub"></div>
                 <div id="notificationTitle" >Thông báo</div>
                 <div className="">Mới</div>
                 <div id="notificationsBody" className="notifications">
-                  
+
                    {data.length>0?data.map((notifi,index)=>{
                     //    let text = notifi.type=="comment"?" đã bình luận về bài"
                        return(
                         <div key={index} style={{background:notifi.readNotifi?"white":"#ebf4e7"}} className="col-md-12 alert-message">
-                        
+
                          <NavLink to={notifi.url_ref} > <div className="col-md-3 row">{notifi.incognito?<img className="avatar-alert" src="/images/user/robot.png" />:<NavLink to={"/userpage."+notifi.user_notifi.username} ><img className="avatar-alert" src={notifi.user_notifi.url_avatar} /></NavLink>}</div>
                                 <div className="col-md-10 row">
                        {notifi.incognito? <strong>"Người lạ nào đó</strong>:<NavLink to={"/userpage."+notifi.user_notifi.username} >  <strong>{notifi.user_notifi.fullname}</strong></NavLink>} {notifi.text +" bạn"}
@@ -85,11 +85,11 @@ class ListNotification extends React.Component{
                        </div>
                        )
                    }):<div style={{textAlign:"center"}}>Chưa có thông báo nào</div>}
-                   
+
                 </div>
                 <div id="notificationFooter"><a href="#">Xem tất cả</a></div>
             </div>
-        
+
         </li>
 
          )

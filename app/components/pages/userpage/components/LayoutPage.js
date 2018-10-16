@@ -143,32 +143,27 @@ class Layout extends React.Component{
 
     render(){
         let {info} = this.state
+        let styleBanner={
+          // backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          // backgroundSize: "100% 100%",
+          backgroundImage: "url('" + info.user.url_cover+ "')",
+
+        }
         return(
 
             <div className="container" style={{marginTop:"-24px"}}>
             <div className="fix-product">
                 <div className="row">
                       <section id="user_main">
-                      <div className="col-md-12">
+                      <div style={{paddingLeft:'0px'}} className="col-md-9">
                                       <div className="home-user">
-                                        <div className="banner" style={{background:"url('"+info.user.url_cover+"')", backgroundSize: "cover"}}>
+                                        <div className="banner" style={styleBanner}>
                                                 <div className="background-cover">
                                                 <div className="image-cover" >   {this.props.auth.user.username == this.props.username?  <span style={{display:"flex",justifyContent:"center",padding:"3px 7px",fontSize:"11px",float:'right'}} className=" btn-file">
                                                 <i style={{marginRight:"2px"}} className="fa fa-camera" aria-hidden="true"></i>
   Thay ảnh bìa <input onChange={this._handleChangeCover.bind(this)} type="file" />
 </span>:null} </div>
-                                                </div>
-                                                <div className="link-share visible-xs">
-                                                    <a href="http://www.facebook.com/share.php?u=https://moki.vn/shop/MK.Shop.5389" >
-                                                        <i className="icon-svg svg-social-facebook"></i>
-                                                    </a>
-                                                    <a href="http://twitter.com/share?url=https://moki.vn/shop/MK.Shop.5389;text= Ghé thăm gian hàng của MK Shop trên ứng dụng mua sắm Moki" target="_blank">
-                                                        <i className="icon-svg svg-social-twitter"></i>
-                                                    </a>
-                                                    <a href="https://plus.google.com/share?url=https://moki.vn/shop/MK.Shop.5389">
-                                                        <i className="icon-svg svg-social-google"></i>
-                                                    </a>
-
                                                 </div>
 
                                             </div>
@@ -214,7 +209,7 @@ class Layout extends React.Component{
                                                     </li>
                                                     <li className="li-layout">
                                                     <Link to={"/userpage."+this.props.username+"/follows"}>   <p>
-                                                            <span className="color-title"><i className="fa fa-id-card-o" aria-hidden="true"></i> Người theo dõi</span>
+                                                            <span className="color-title"><i style={{color:'#19ab27'}} className="fas fa-id-card" aria-hidden="true"></i> Người theo dõi</span>
                                                             <span className="total_product">
                                                             {info.countFollow}                            </span>
                                                         </p>
@@ -228,22 +223,10 @@ class Layout extends React.Component{
                                                         </p>
                                                         </Link>
                                                     </li>
-                                                    <li className="li-layout" style={{borderRight:"none"}}>
-                                                        <div className="link-share">
-                                                            <a href="http://www.facebook.com/share.php?u=https://moki.vn/shop/MK.Shop.5389">
-                                                                <i className="fa fa-facebook "></i>
-                                                            </a>
-                                                            <a href="http://twitter.com/share?url=https://moki.vn/shop/MK.Shop.5389;text= Ghé thăm gian hàng của MK Shop trên ứng dụng mua sắm Moki" target="_blank">
-                                                                <i    className="fa fa-twitter "></i>
-                                                            </a>
-                                                            <a href="https://plus.google.com/share?url=https://moki.vn/shop/MK.Shop.5389">
-                                                                <i  className="fa fa-google "></i>
-                                                            </a>
-                                                        </div>
-                                                    </li>
+
                                                     <li className="li-layout" style={{borderRight:"none"}}>
 
-                                                        {info.isMe?<button onClick={this.showModalSubject.bind(this)} style={{padding:"2px 8px",fontSize:"12px",marginTop:"9px"}} className="btn btn-default"><i className="fa fa-pencil" aria-hidden="true"></i>Chỉnh sửa</button>:     <div style={{paddingLeft:"0px",lineHeight:"35px"}} className="btn-friend">
+                                                        {info.isMe?<button onClick={this.showModalSubject.bind(this)} style={{padding:"2px 8px",fontSize:"12px"}} className="btn btn-default"><i className="fa fa-pencil" aria-hidden="true"></i>Chỉnh sửa</button>:     <div style={{paddingLeft:"0px",lineHeight:"35px"}} className="btn-friend">
 
 
                                          <Dropdown id="dropdown-custom-1">
@@ -269,7 +252,7 @@ Nhận thông báo</MenuItem>
                                     </div>
                                     </div>
                   </div>
-                           <div className="col-md-12">
+                           <div className="col-md-9">
                                <div className="content-main">
                                     <div className="row" >
                                          {this.props.children}

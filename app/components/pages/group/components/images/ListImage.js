@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import axios from 'axios'
 class ListImage extends Component {
   constructor(props) {
     super(props);
@@ -48,6 +48,18 @@ class ListImage extends Component {
       ]
     };
   }
+  componentDidMount(){
+    let groupname = this.props.groupname
+    let sefl = this
+    if(groupname){
+        axios.post('/fileupload/getlist_file_with_group',{group_id:1})
+        .then((res)=>{
+            if(res.data.EC==0){
+                sefl.setState({listImage:res.data.DT})
+            }
+        })
+    }
+  }
   render() {
     let { listImage } = this.state;
     return (
@@ -65,7 +77,7 @@ class ListImage extends Component {
                   style={{ padding: "2px" }}
                   className="col-md-3 col-xs-6 item-image "
                 >
-                  <img className="" src={item.src} />
+                  <img title={item.title} className="" src={item.url_file} />
                 </div>
               );
             })}

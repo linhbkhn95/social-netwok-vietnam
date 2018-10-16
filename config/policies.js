@@ -34,7 +34,7 @@ module.exports.policies = {
   *                                                                          *
   ***************************************************************************/
 	// RabbitController: {
-    '*': 'sessionAuth',
+    // '*': 'sessionAuth',
     'AuthController': {
       '*': true // We dont need authorization here, allowing public access
     }

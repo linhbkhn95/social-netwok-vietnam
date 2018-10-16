@@ -1,5 +1,6 @@
 import  React, { Component } from 'react';
-
+import axios from 'axios'
+import {connect} from 'react-redux'
 class ListImage extends Component {
     constructor(props){
         super(props);
@@ -11,6 +12,18 @@ class ListImage extends Component {
                 }
             ]
         }
+    }
+    componentDidMount(){
+      let username = this.props.username
+      let sefl = this
+      if(username){
+          axios.post('/fileupload/getlist_file_with_user',{username})
+          .then((res)=>{
+              if(res.data.EC==0){
+                  sefl.setState({listImage:res.data.DT})
+              }
+          })
+      }
     }
     render() {
         let {listImage} = this.state
@@ -27,17 +40,17 @@ class ListImage extends Component {
                             </div>
                             <div style={{paddingTop:"10px"}} className="row col-md-12">
                               {listImage.map((item,index)=>{
-                                  let urlBackgroup = 'url('+item.src+')';
+                                  let urlBackgroup = 'url('+item.url_file+')';
                                   return(
-                                    <div style={{padding:"2px"}} className="col-md-3 col-xs-6 item-friend ">
-                                            <img style={{width:"206px"}} src={item.src} />
+                                    <div style={{padding:"2px"}} className="col-md-3 col-xs-6 img-post item-friend ">
+                                            <img title={item.title} src={item.url_file} />
 
                                     </div>
-                                  
-                             
+
+
                                   )
                               })}
-                          
+
                             </div>
                      </div>
             </div>
@@ -45,4 +58,9 @@ class ListImage extends Component {
     }
 }
 
-export default ListImage;
+export default connect((state)=>{
+  return{
+      user:state.auth.user
+  }
+})
+(ListImage);

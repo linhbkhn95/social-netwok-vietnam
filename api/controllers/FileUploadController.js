@@ -74,6 +74,87 @@ module.exports = {
        }
 
      },
+     //lấy danh sách image theo group
+     getlist_file_with_group:function(req,res){
+      try {
+        let {group_id,type_file} = req.body
+        type_file = type_file || 'image'
+        group_id = group_id || 1
+        // let categoryId = params['category_id'] || 0;
+        // let index = params['index'] || 1;
+        // let sort = params['sort'] || 'p_fromdate';
+        // let typeSort = params['typeSort'] || 0; //0: DESC, 1: ASC
+        // let count = params['count'] || 10; //default 20
+        // let status = 'ENABLE';
+        // let token = req.headers['authorization'];
+        // var self = this;
+
+        // if (count > 200) {
+        //     count = 200;
+        // }
+        return new Promise((resolve,reject)=>{
+            if(group_id){
+              StoredProcedure.query('call webandanh.getlist_file_group(?, ?)', [type_file,group_id], function (err, [data, server_status]) {
+                if (err) {
+                     res.send(OutputInterface.errServer(err))
+                }
+                  res.send(OutputInterface.success(data))
+
+              })
+            }
+
+            else
+              res.send(OutputInterface.errServer('group k ton tai'))
+          })
+
+     } catch (error) {
+         res.send(OutputInterface.errServer(error))
+
+     }
+
+     },
+     //lay danh sachs file theo user
+     getlist_file_with_user: async function(req,res){
+      try {
+        let {username,type_file} = req.body
+        type_file = type_file || 'img'
+
+        let user = await User.findOne({username});
+        // let categoryId = params['category_id'] || 0;
+        // let index = params['index'] || 1;
+        // let sort = params['sort'] || 'p_fromdate';
+        // let typeSort = params['typeSort'] || 0; //0: DESC, 1: ASC
+        // let count = params['count'] || 10; //default 20
+        // let status = 'ENABLE';
+        // let token = req.headers['authorization'];
+        // var self = this;
+
+        // if (count > 200) {
+        //     count = 200;
+        // }
+        console.log('suser',user)
+        return new Promise((resolve,reject)=>{
+            if(user){
+              StoredProcedure.query('call webandanh.getlist_file_user(?, ?)', [type_file,user.id], function (err, [data, server_status]) {
+                if (err) {
+                     res.send(OutputInterface.errServer(err))
+                }
+                  res.send(OutputInterface.success(data))
+
+              })
+            }
+
+            else
+              res.send(OutputInterface.errServer('group k ton tai'))
+          })
+
+
+     } catch (error) {
+         res.send(OutputInterface.errServer(error))
+
+     }
+
+     },
      postFile:async function(post_id,listFile){
        return new Promise((resolve,reject)=>{
             let dataInsert = []

@@ -94,7 +94,7 @@
   list-style: none;
   margin: 0;
   padding: 0
-  
+
 }
 .div-member.title .number{
   float: right;
@@ -314,7 +314,7 @@
   display: flex;
   align-items: center;
 }
-.page-member .list-member .info-member .div-img{
+.page-member .list-member .info-member .div-avatar{
   margin-right: 12px;
 
 }

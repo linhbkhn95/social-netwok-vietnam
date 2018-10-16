@@ -174,14 +174,15 @@ body{
 }
 .post .user-detail{
     padding-top: 13px;
+    display: flex;
 }
 .post .user-name{
-    color: #4dab28;
-    font-weight: bold;
-    font-size: 12px;
-    float: left;
-    padding-right: 20px;
-    display: flex;
+  color: #4dab28;
+  font-weight: bold;
+  font-size: 12px;
+  /* float: left; */
+  padding-right: 20px;
+  display: flex;
 }
 .content-asw{
     clear: both;
@@ -220,6 +221,7 @@ body{
     cursor: pointer;
     font-size: 14px;
     padding: 10px 15px 10px 15px;
+    color: #90949c;
 
 }
 .footer-post .btn-footer-post:hover{

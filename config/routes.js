@@ -35,31 +35,7 @@ module.exports.routes = {
   '/': {
     view: 'homepage'
   },
-   '/eventLog':{
-    view:'homepage'
-   },
-   '/user/login':{
-    view:'homepage'
-   },
-   '/linh':{
-    view:'homepage'
-   },
-   '/dashboard':{
-    view:'homepage'
-   },
-   '/settings':{
-     view:'homepage'
-   },
-   '/be/thia':{
-     view:'homepage'
-   },
-   '/shopCart':{
-    view:'homepage'
-  },
-  '/shopMK':{
-    view:'homepage'
-  }
-  // '/product/:d'   : {
+
   //   view:'homepage'
   // }
   /***************************************************************************

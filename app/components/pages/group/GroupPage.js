@@ -14,7 +14,7 @@ import Wall from "./components/home/Home";
 import LayoutPage from "./components/LayoutPage";
 import LayoutPageMore from "./components/LayoutPageMore";
 
-import ListFriend from "./components/friends/ListFriend";
+import ListMember from "./components/members/ListMember";
 import ListFollow from "./components/follow/ListFollow";
 import ListImage from "./components/images/ListImage";
 import ListVideo from "./components/images/ListVideo";
@@ -69,7 +69,7 @@ class GroupPage extends React.Component {
           render={function() {
             return (
               <div>
-                <ListFriend groupname={groupname} />
+                <ListMember groupname={groupname} />
               </div>
             );
           }}

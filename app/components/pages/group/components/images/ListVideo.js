@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ComponentVideo from 'app/utils/components/ComponentVideo'
-
+import axios from 'axios'
 class ListImage extends Component {
   constructor(props) {
     super(props);
@@ -48,6 +48,18 @@ class ListImage extends Component {
         }
       ]
     };
+  }
+  componentDidMount(){
+    let groupname = this.props.groupname
+    let sefl = this
+    if(groupname){
+        axios.post('/fileupload/getlist_file_with_group',{group_id:1,type_file:'video'})
+        .then((res)=>{
+            if(res.data.EC==0){
+                sefl.setState({listImage:res.data.DT})
+            }
+        })
+    }
   }
   render() {
     let { listImage } = this.state;

@@ -32,7 +32,7 @@ class ListNotification extends React.Component{
         //     console.log('listnotifi',resdata)
         //     if(resdata.EC==0){
         //         self.props.dispatch(addList(resdata.DT))
-             
+
         //     }
         // }))
         io.socket.post('/chat/getlist_message_user',{},((resdata)=>{
@@ -50,15 +50,15 @@ class ListNotification extends React.Component{
                let id = data.data.userId_sent>data.data.userId_rec?(data.data.userId_sent+'_'+data.data.userId_rec):(data.data.userId_rec+'_'+data.data.userId_sent)
                self.state.listChat.splice(index,1)
                self.state.listChat.unshift(data);
-                self.setState({listChat:self.state.listChat,count_wait_user:self.state.count_wait_user+1})                
-             
+                self.setState({listChat:self.state.listChat,count_wait_user:self.state.count_wait_user+1})
+
             }
              else{
                 self.state.listChat.unshift(data);
-                self.setState({listChat:self.state.listChat,count_wait_user:self.state.count_wait_user+1})                
+                self.setState({listChat:self.state.listChat,count_wait_user:self.state.count_wait_user+1})
 
              }
-   
+
         })
 
     }
@@ -86,19 +86,19 @@ class ListNotification extends React.Component{
                let id = data.data.userId_sent>data.data.userId_rec?(data.data.userId_sent+'_'+data.data.userId_rec):(data.data.userId_rec+'_'+data.data.userId_sent)
                self.state.listChat.splice(index,1)
                self.state.listChat.unshift(data);
-                self.setState({listChat:self.state.listChat,count_wait_user,new_message:{...data}})                
-             
+                self.setState({listChat:self.state.listChat,count_wait_user,new_message:{...data}})
+
             }
              else{
                 self.state.listChat.unshift(data);
-                self.setState({listChat:self.state.listChat,count_wait_user,new_message:{...data}})                
+                self.setState({listChat:self.state.listChat,count_wait_user,new_message:{...data}})
 
              }
-            
+
         }
 
             console.log('newmessage',nextProps.chatbox.new_message)
-         
+
     }
     componentWillUnmount() {
         document.removeEventListener('mousedown', this.handleClickOutside);
@@ -131,7 +131,7 @@ class ListNotification extends React.Component{
       }
        render(){
          let self = this
-         let listChat = this.state.listChat 
+         let listChat = this.state.listChat
          let number_notifi = this.state.count_wait_user
         let user = this.props.auth.user
          return(
@@ -140,36 +140,37 @@ class ListNotification extends React.Component{
             <a href="#" ref="foo" id="notificationLink" data-tip="Tin nhắn">
              <i style={{color: "#5cb85c"}} className="glyphicon glyphicon-comment" aria-hidden="true"></i>
  </a>
-        
+
             <div id="messagerContainer">
                   <div className="beeperNub"></div>
                 <div id="notificationTitle" >Tin nhắn</div>
                 <div className="">Mới</div>
                 <div id="notificationsBody" className="notifications">
-                  
+
                    {listChat.length>0?listChat.map((chat,index)=>{
+                     console.log('châtdad',chat)
                        return(
                         <div onClick={self.openChatbox.bind(self,chat.user)} key={index} style={{background:chat.data.userId_rec==user.id&&!chat.data.read_message?"#ebf4e7":"white"}} className="col-md-12 alert-message">
-                        
+
                     <div className="col-md-3 row"><img style={{height:"36px"}} className="avatar-alert" src={chat.user.url_avatar} /></div>
                                 <div className="">
                                  <div  className="pull-left"> <strong>{chat.user.fullname}</strong></div>
                                   <div className="pull-right">
-                                  <p style={{float:"",height:"36px"}} className="time-alert">{moment(chat.time).lang('vi').fromNow()}</p> 
+                                  <p style={{float:"",height:"36px"}} className="time-alert">{moment(chat.time).lang('vi').fromNow()}</p>
                                   </div>
                                     <br />
                                     {chat.data.text}
-                               
+
                                 </div>
-                            
+
                        </div>
                        )
                    }):<div style={{textAlign:"center"}}>Chưa có tin nhắn nào</div>}
-                   
+
                 </div>
                 <div id="notificationFooter"><a href="#">Xem tất cả</a></div>
             </div>
-        
+
         </li>
 
          )

@@ -11,6 +11,8 @@ import {connect} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import ModalShare from './ModalShare'
 import Lightbox from 'react-images';
+import Post from './Post'
+
 const Msg = ({ closeToast }) => (
     <div style={{borderBottom:"none"}} className=" alert-message">
                       <NavLink to={'/'} > <div className="col-md-3 "><NavLink to={"/userpage.5"} ><img className="avatar-alert" src="/images/user/linh.jpg" /></NavLink></div>
@@ -32,7 +34,7 @@ const tooltip = (
     </Tooltip>
   );
 
-class Post extends React.Component{
+class PostAnhDanh extends React.Component{
 
 
     constructor(props){
@@ -253,7 +255,7 @@ class Post extends React.Component{
          let {type_post} = this.props.post
          if(type_post==2)
              jsxAtribute = <div style={{    color: '#616770',marginLeft:'8px',
-              fontWeight: '500'}}>dã chia sẻ <NavLink style={{marginRight:'5px'}} to={"/post.notifi."+this.props.post.postId_parent}>bài viết</NavLink> </div>
+              fontWeight: '500'}}>đã chia sẻ <NavLink style={{marginRight:'5px'}} to={"/post.notifi."+this.props.post.postId_parent}>bài viết</NavLink> </div>
         return(
                 <div>
 
@@ -268,35 +270,38 @@ class Post extends React.Component{
 
                             {/* <img className="img-user" src={this.props.incognito?"/images/user/robot.png":this.props.userPost.url_avatar} /> */}
                         </div>
-                        <div className="user-detail">
+
+                       <div > <div className="user-detail">
                             <div className="user-name">
                             {this.props.incognito?"Người lạ":<NavLink to={"/userpage."+this.props.userPost.username}>{this.props.userPost.fullname}</NavLink>}
                              {jsxAtribute}
                             </div>
-                            {this.props.userWall?<div><i style={{float:"left",fontSize:"17px",color:"black",marginLeft:"-12px",marginRight:"1px"}} className="fa fa-caret-right" aria-hidden="true"></i><div className="user-name"><NavLink to={"/userpage."+this.props.userWall.username}>{this.props.userWall.fullname}</NavLink></div></div>:null}
+                            {this.props.userWall?<div style={{display:'flex'}}><i style={{float:"left",fontSize:"17px",color:"black",marginLeft:"-12px",marginRight:"1px"}} className="fa fa-caret-right" aria-hidden="true"></i><div className="user-name"><NavLink to={"/userpage."+this.props.userWall.username}>{this.props.userWall.fullname}</NavLink></div></div>:null}
 
-                            <div className="time">
-                                  <p className="">{moment(this.props.time).lang('vi').fromNow()}</p>
-                            </div>
+
                         </div>
+                        <div className="time">
+                                  <p className="">{moment(this.props.time).lang('vi').fromNow()}</p>
+                         </div>
+                         </div>
                     </div>
                      <div className="content-asw">
                             {this.props.content}
                      </div>
-                     <div className="col-md-12 remove-padding-col">
-                      <ContainerFile post_id={this.props.idPost} />
+
+                    <ContainerFile post_id={this.props.idPost} />
                      {/* <img src="/images/upload/378968d6-5236-4064-b613-8af21a5b1133.jpg" /> */}
-                    </div>
+                   {this.props.post.type_post==2? <Post postId={this.props.post.postId_parent} />:null}
                     {this.props.hideFooter?null:
                     <div style={{marginLeft:"0px",marginRight:"0px"}} className="footer-post row">
                          <div  onClick={this.like.bind(this)} className="btn-footer-post btn-heart">
-                          {this.props.countLike} <i style={{marginRight:"3px",fontWeight:this.props.userLikePost?"bold":"normal"}}  className="fa fa-heart-o" aria-hidden="true"></i> {this.props.userLikePost?"Bỏ thích":"Thích"}
+                          {this.props.countLike} <i style={{marginRight:"3px",fontWeight:this.props.userLikePost?"bold":"normal"}}  className="far fa-thumbs-up" aria-hidden="true"></i> {this.props.userLikePost?"Bỏ thích":"Thích"}
                          </div>
                          <div onClick={this.comment.bind(this)} className="btn-footer-post btn-comment">
-                           {this.props.lengthComment} <i  style={{marginRight:"3px"}}  className="fa fa-comment-o" aria-hidden="true"></i>Bình luận
+                           {this.props.lengthComment} <i  style={{marginRight:"3px"}}  className="far fa-comment-alt" aria-hidden="true"></i>Bình luận
                          </div>
                          <div  onClick={this.share.bind(this)} className="btn-footer-post btn-share">
-                          5 <i style={{marginRight:"3px"}} className="fa fa-share" aria-hidden="true"></i>Chia sẻ
+                          5 <i style={{marginRight:"3px"}} className="fas fa-share" aria-hidden="true"></i>Chia sẻ
                         </div>
                         {/* <div className="fb-share-button" data-href="http://localhost:1337/wall/discover" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A1337%2Fwall%2Fdiscover&amp;src=sdkpreparse" className="fb-xfbml-parse-ignore">Chia sẻ</a></div>                        */}
                           <div className="btn-more">
@@ -316,7 +321,7 @@ class Post extends React.Component{
                {this.state.likeInfo.listUserId.length?<div  className="row content-like-post">
                <div className="">
                     <OverlayTrigger placement="top" overlay={this.renderTooltip()}>
-                       <i  style={{marginRight:"2px",float:"left"}} className="fa fa-heart-o" aria-hidden="true"></i>
+                       <i  style={{marginRight:"2px",float:"left"}} className="far fa-thumbs-up" aria-hidden="true"></i>
                      </OverlayTrigger>
                 </div>
                <div style={{  fontSize:"11px",color:"green"}}>{texListLike}</div>
@@ -328,4 +333,4 @@ class Post extends React.Component{
         )
     }
 }
-module.exports = connect(function(state){return{auth:state.auth}})(Post)
+module.exports = connect(function(state){return{auth:state.auth}})(PostAnhDanh)

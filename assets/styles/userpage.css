@@ -5,9 +5,9 @@ section#user_main div.home-user .banner {
   position: relative;
   background: url(https://moki.vn/moki/themes/img/background.png) no-repeat;
   width: 100%;
-  height: 477px;
+  height: 420px;
   /* top: 1px; */
-  margin-top: -111px;
+  margin-top: -70px;
   background-size: cover;
   background-repeat: no-repeat;
   background-size: 100% 100%,
@@ -48,8 +48,8 @@ section#user_main div.home-user .group-head .bt-info .img-left .avatar-user {
     overflow: hidden;
     position: relative;
     z-index: 999;
-    width: 168px;
-    height: 168px;
+    width: 156px;
+    height: 156px;
 }
 .itemImage {
     width: 100%;
@@ -65,7 +65,7 @@ section#user_main div.home-user .group-head .bt-info .img-left .avatar-user {
     padding: 0px;
     line-height: 1.42857143;
     background-color: #fff;
-    border: 1px solid #ddd;
+    border: 3px solid #ffff;
     border-radius: 4px;
     -webkit-transition: all .2s ease-in-out;
     -o-transition: all .2s ease-in-out;
@@ -94,8 +94,8 @@ section#user_main div.home-user .group-head .bt-info .img-left .avatar-user {
 section#user_main div.home-user .group-head .bt-info .name-user {
     width: auto;
     float: left;
-    padding-top: 80px;
-    font-size: 24px;
+    padding-top: 90px;
+    font-size: 19px;
     padding-left: 10px;
     color: #fff;
     font-weight: bold;
@@ -115,11 +115,14 @@ section#user_main div.home-user .group-head .box-title {
     border-left: 1px solid rgb(221, 221, 221);
     border-right: 1px solid rgb(221, 221, 221);
     position: absolute;
+    height: 44px;
 }
 section#user_main div.home-user .group-head .box-title .content-right {
-    margin-left: 24%;
+    margin-left: 23%;
     width: 85%;
-    float: left;
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 section#user_main div.home-user .group-head .box-title .content-right li a{
     text-decoration: none;
@@ -138,11 +141,17 @@ section#user_main div.home-user .group-head .box-title .content-right ul {
     list-style: none;
     padding: 0;
     margin: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 section#user_main div.home-user .group-head .box-title .content-right ul .li-layout {
     float: left;
     padding: 10px 10px 10px 10px;
     border-right: 1px solid #ebe8e8;
+    height: 100%;
+    display: flex;
+    align-items: center;
 
 
 }
@@ -204,8 +213,8 @@ section#user_main div.home-user .group-head .box-title .content-right ul .li-lay
 
   section#user_main div.content-main .left-list {
     padding: 0px 10px;
-    background: #f0f0f0 url(//cdn.shopify.com/s/files/1/1786/6805/t/2/assets/bkg_collection.jpg?1013842…) 0 0 repeat;
-    border: 1px solid #ddd;
+    /* background: #f0f0f0 url(//cdn.shopify.com/s/files/1/1786/6805/t/2/assets/bkg_collection.jpg?1013842…) 0 0 repeat; */
+    /* border: 1px solid #ddd; */
     /* border-radius: 5px; */
 }
 section#user_main div.content-main .left-list .text-box {
@@ -217,13 +226,14 @@ section#user_main div.content-main .left-list .text-box {
     font-weight: 400;
 }
 section#user_main div.content-main .left-list table tr td {
-    padding: 10px 0px;
+    padding: 5px 0px;
+    border:none;
 }
 section#user_main div.content-main .left-list table tr td span {
     font-size: 12px;
 }
 section#user_main div.content-main .left-list table tr td .color-title i {
-    /* padding-right: 7px; */
+  width: 20px;
 }
 section#user_main div.content-main .left-list table tr td .total_product {
     color: #4dab28;
@@ -498,4 +508,16 @@ border-color:#ccc;
 }
 .content-share{
 pointer-events: none;
+}
+.img-post img{
+  display: block;
+  width: 100%;
+  /* object-fit: contain; */
+  height: 186px;
+  object-fit: fill;
+}
+.text-info{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

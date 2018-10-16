@@ -12,23 +12,23 @@ import ListImage from './components/images/ListImage'
 class shopMK extends React.Component{
     constructor(props) {
         super(props);
-    
+
         this.state = {
           data:[
-           
+
           ],
           username:null
         };
       }
     componentWillReceiveProps(nextProps){
-        
+
     }
     componentDidMount(){
-    
+
     }
     login(){
         var {dispatch} = this.props;
-        
+
        console.log(this.refs.sdt.value+' ' +this.refs.password.value);
        dispatch(login(this.refs.sdt.value));
        this.props.history.push('/');
@@ -47,18 +47,18 @@ class shopMK extends React.Component{
             //                                 <div className="row">
             //                                      <div style={{marginTop:"5px"}} className="col-md-3 col-xs-12">
             //                                        <Info />
-                                             
-                                        
-                                        
-                                        
-                                        
-                                        
-            //                                      </div> 
+
+
+
+
+
+
+            //                                      </div>
             //                                      <div style={{paddingLeft:"0px"}} className="col-md-9 col-xs-12">
-                                                   
+
             //                                         <Wall />
             //                                      </div>
-                                              
+
             //                                 </div>
             //                          </div>
             //                      </div>
@@ -67,20 +67,20 @@ class shopMK extends React.Component{
             //       </div>
             //   </div>
             <LayoutPage username={username}>
-                  
+
                               {/* <Route exact path={"/userpage."+username}  component={Wall} */}
                               {/* /> */}
                         <Route exact path={"/userpage."+username}  render={function () {
                                     return <div><Wall username={username} /></div>
                                 }
                                 } />
-                      
+
                               {/* <Route path={"/userpage."+username+"/friends"} component={ListFriend}/> */}
                               <Route path={"/userpage."+username+"/friends"}  render={function () {
                                     return <div><ListFriend username={username}  /></div>
                                 }
                                 } />
-                    
+
                               <Route path={"/userpage."+username+"/follows"}  render={function () {
                                     return <div><ListFollow username={username} /></div>
                                 }
@@ -91,7 +91,7 @@ class shopMK extends React.Component{
                                 }
                                 } />
 
-                        } />
+                      
 
             </LayoutPage>
         )

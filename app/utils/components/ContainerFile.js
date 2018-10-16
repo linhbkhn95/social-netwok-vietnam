@@ -243,7 +243,7 @@ class  AdvancedGridList extends React.Component {
     let self = this
 
     RestfulUtils.post('/fileupload/getFilePostId',{post_id}).then((res)=>{
-      if(res.EC==0){
+      if(res.EC==0&&res.DT.length>0){
            self.setState({listFile:self.convertData(res.DT)})
       }
    })
@@ -303,8 +303,8 @@ class  AdvancedGridList extends React.Component {
 
   );
   else
-    return <div></div>
-            }
+    return null
+ }
 }
 
 AdvancedGridList.propTypes = {

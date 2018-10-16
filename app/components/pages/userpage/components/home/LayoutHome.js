@@ -7,11 +7,11 @@ import Info from './Info'
 import {NavLink,Route} from 'react-router-dom';
 
 class Wall extends React.Component{
- 
+
   render(){
      return(
        <div>
-        <div style={{marginTop:"5px"}} className="col-md-3 col-xs-12">
+        <div style={{background:'white'}} className="col-md-4 col-xs-12 remove-padding-col">
           <Info username={this.props.username} />
 
 
@@ -19,9 +19,9 @@ class Wall extends React.Component{
 
 
 
-        </div> 
-        <div style={{paddingLeft:"0px"}} className="col-md-9 col-xs-12">
-          
+        </div>
+        <div  className="col-md-8 col-xs-12">
+
                     <HeaderPost username={this.props.username} />
                     <div className="col-md-12 list-post " >
                     <div className="">
@@ -32,10 +32,10 @@ class Wall extends React.Component{
 
                     </div>
                     </div>
-                
+
         </div>
       </div>
-      
+
      )
   }
 }
