@@ -30,6 +30,8 @@ module.exports = {
                     FileUploadController.postFile(post.id,urls_file).then((data)=>{
 
                   })
+                  Elasticsearch.add('post','post',post)
+
                  let subject  = await Subject.findOne({id:data.subject})
                  post.subject  = subject;
                  post.userLikePost = false
@@ -38,10 +40,31 @@ module.exports = {
                  post.userWall = userWall
                  Post.publishCreate(post);
                  NotificationUtils.postToFriend(post,req);
+                 Elasticsearch.add('post','post',post)
 
                  return res.send(OutputInterface.success(post))
             }
         })
+    },
+
+    //cập nhật post
+    updatePost:function(req,res){
+        let id = req.body.idPost;
+        let {data} = req.body ;
+        let dataUpdate = {
+        }
+        if(data.content)
+             dataUpdate.content = data.content
+        if(data.content)
+             dataUpdate.feeli = data.content
+        if(data.file){
+
+        }
+
+
+
+
+
     },
     deletePost:function(req,res){
         let id = req.body.idPost;
@@ -256,7 +279,7 @@ module.exports = {
 
                             if(item.type_post==2){
                                item.postParent = await Post.findOne({id:item.postId_parent})
-                              
+
                             }
                             let subjectId = item.subject
                             let subject

@@ -46,8 +46,11 @@ class Info extends React.Component {
       <div className="fixMenu">
         <div className="left-list">
           <h3 className="text-box">Giới thiệu</h3>
-          <div className="text-info">
-                          Vui vẻ hoàn đồng
+          <div className="div-text-info">
+                          <div className="text-info">Vui vẻ hòa đồng</div>
+                          <div className="edit-text-info"><i style={{    marginRight: '5px',
+    fontSize: '12px'}} className="fas fa-pencil-alt"></i>Chỉnh sửa</div>
+
           </div>
           <table className="table table-reflow">
             <tbody>

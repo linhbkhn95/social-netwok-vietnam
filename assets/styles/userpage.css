@@ -1,5 +1,5 @@
 section#user_main div.home-user {
-    padding-bottom: 70px;
+    padding-bottom: 50px;
 }
 section#user_main div.home-user .banner {
   position: relative;
@@ -115,7 +115,7 @@ section#user_main div.home-user .group-head .box-title {
     border-left: 1px solid rgb(221, 221, 221);
     border-right: 1px solid rgb(221, 221, 221);
     position: absolute;
-    height: 44px;
+    height: 43px;
 }
 section#user_main div.home-user .group-head .box-title .content-right {
     margin-left: 23%;
@@ -517,7 +517,49 @@ pointer-events: none;
   object-fit: fill;
 }
 .text-info{
+  clear: both;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 12px;
+  line-height: 16px;
+  color: black;
+  text-align: center;
+  white-space: pre-wrap;
+  padding: 5px;
+  font-style: normal;
+  font-family: sans-serif;
+
+}
+.div-text-info{
+  padding: 8px;
+  border-bottom: 1px solid #ebedf0;
+
+}
+.edit-text-info{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: #60a046;
+}
+.input-post-userpage{
+  background: #e8ece8;
+  border-radius: 16px;
+  padding-left: 9px;
+  padding-right: 9px;
+  padding-bottom: 6px;
+  padding-top: 6px;
+  align-items: center;
+  justify-content: center;
+  text-overflow: ellipsis;
+  vertical-align: middle;
+  margin-right: 7px;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.input-post-userpage i{
+   font-size: 18px;
+   margin-right: 6px;
 }
