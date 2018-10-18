@@ -557,6 +557,7 @@ pointer-events: none;
   margin-right: 7px;
   font-size: 12px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .input-post-userpage i{

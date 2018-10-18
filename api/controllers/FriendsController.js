@@ -23,7 +23,7 @@ module.exports = {
              })).then((response)=>{
                 res.send(OutputInterface.success(response));
              })
-            
+
          })
 
         // var query = 'SELECT * from friends,user where (user.id = userId_one or user.id=userId_two) and user';
@@ -61,7 +61,7 @@ module.exports = {
 
      },
      accessFriend:function(req,res){
-         
+
          let {username,friend}  = req.body;
          console.log('data',req.body)
 
@@ -109,29 +109,29 @@ module.exports = {
            let userId = req.session.user.id
            Friends.find({ or:[ {userId_one:userId,status:1},{userId_two:userId,status:1}   ]}).exec(async (err,list)=>{
             if(err){
-              
+
             }
             let listUserId = list.map((friend)=>{
                 return(friend.userId_one==userId?friend.userId_two:friend.userId_one)
             })
-            let listUser 
+            let listUser
             console.log('listfreined',listUserId)
             listUserId[listUserId.length]=req.session.user.id
               listUser = await User.find({select:['fullname','username','url_avatar','id']}).where({id:{'!':listUserId}});
-            
+
               console.log('listuser',listUser)
 
-        
+
             Promise.all(listUser.map((user)=>{
-                
+
                 return new Promise(async(resolve,reject)=>{
-                  
+
                     let countFriend = await Friends.count({
                       or:[
                         {userId_one:user.id,status:1},
                         {userId_two:user.id,status:1}
                      ]
-                    
+
                     })
                     let userId_one = req.session.user.id<user.id?req.session.user.id:user.id
                     let userId_two = req.session.user.id>user.id?req.session.user.id:user.id
@@ -148,9 +148,9 @@ module.exports = {
             return res.send(OutputInterface.success(response))
         })
             // res.send({DT:listPost})
-      
+
            })
-        
+
     },
      checkFriend:async function(req,res){
          let username  = req.body.username
@@ -163,7 +163,7 @@ module.exports = {
              let friend = await Friends.findOne({userId_one,userId_two});
              if(friend&&friend.status==1)
                 return res.send(OutputInterface.success(friend));
-             
+
              userPatner.friend = friend?friend.status:-1;
              console.log('userpatner',userPatner,friend,userId_one,userId_two)
 
@@ -171,7 +171,39 @@ module.exports = {
          }
          else
             return  res.send(OutputInterface.errServer(''));
-        
+
+     },
+     getlist_option:function(req,res){
+       console.log('getlist_option')
+       try {
+        let userId = req.session.user.id
+        Friends.find({ or:[ {userId_one:userId,status:1},{userId_two:userId,status:1}   ]}).exec((err,list)=>{
+         if(err){
+
+         }
+         Promise.all(list.map((item)=>{
+
+             return new Promise(async(resolve,reject)=>{
+
+                 let userIdFriend = item.userId_one==userId?item.userId_two:item.userId_one
+                 let user = await User.findOne({id:userIdFriend,select:['fullname','username','url_avatar','is_online','time_offline','id']})
+                 user.value = user.id
+                 user.label = user.fullname
+
+                 resolve(user)
+             })
+     }))
+     .then((response)=>{
+         return res.send(OutputInterface.success(response))
+     })
+         // res.send({DT:listPost})
+        })
+       } catch (error) {
+
+       }
+
+
+
      }
 };
 

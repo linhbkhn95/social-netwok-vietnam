@@ -55,8 +55,8 @@ module.exports = {
         }
         if(data.content)
              dataUpdate.content = data.content
-        if(data.content)
-             dataUpdate.feeli = data.content
+        if(data.feel_id)
+             dataUpdate.feel_id = data.feel_id
         if(data.file){
 
         }

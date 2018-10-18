@@ -120,7 +120,7 @@ body{
     /* padding-bottom:30px;
     margin-bottom: 40px; */
 }
-.fa,.fas{
+.fa,.fas, .far{
     color: #19ab27
 }
 .post header h2{
@@ -135,6 +135,9 @@ body{
     height: 33px;
     border-radius: 50%;
     float: left;
+}
+img{
+  width: inherit;
 }
 .post .user-avatar{
     float: left;
@@ -478,3 +481,5 @@ div[contenteditable="true"]:focus {
 .MuiGridListTileBar-root-10{
   background: none !important;
 }
+.Select-menu-outer{
+  z-index: 999 !important;}

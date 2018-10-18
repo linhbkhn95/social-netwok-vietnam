@@ -25,7 +25,7 @@ module.exports = {
                     return res.send(OutputInterface.errServer(err))
                }
                Promise.all(list.map((item)=>{
-                  
+
                     return new Promise(async(resolve,reject)=>{
                         let userId = item.userId_comment
                         let user
@@ -33,15 +33,15 @@ module.exports = {
                          if(user){
                                 item.user_comment = user;
                          }
-                        
-                       
-                      
+
+
+
                         else{
                             item.user_comment = {
                                   userId,
                                   url_avatar:"/images/user/me.png",
                                   fullname:"Người lạ",
-                                  
+
                             }
                         }
                         resolve(item)
@@ -50,7 +50,7 @@ module.exports = {
                .then((response)=>{
                 return res.send(OutputInterface.success(response))
                })
-               
+
            })
     },
     delete:function(req,res){
@@ -65,12 +65,13 @@ module.exports = {
             if(err){
                 return res.send(OutputInterface.errServer(err))
             }
+            
             return res.send(OutputInterface.success(list))
          })
-       
+
     },
     create:async function(req,res){
-        
+
         if (!req.isSocket) {
             return res.badRequest();
         }
@@ -86,11 +87,11 @@ module.exports = {
                     return res.send(OutputInterface.errServer(err))
                      }
                     if(comment){
-                        
+
                         comment.user_comment = req.session.user
-                        
-                       
-                        
+
+
+
                         // notifi.user = req.session.user;
                         NotificationUtils.notifiPostUser_Comment(postId,comment,req);
                         sails.sockets.broadcast('Subscribe_Status',data.postId,UtilsSocket.getData(comment,TypeSocket.comment,VerbSocket.add),req);

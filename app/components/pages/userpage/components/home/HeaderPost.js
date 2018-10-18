@@ -10,7 +10,14 @@ import ModalSubject from "./components/ModalSubject";
 import ModalPost from "./components/ModalPost";
 import axios from "axios";
 import FileFolderShared from "material-ui/SvgIcon";
+import SelectUtils from 'app/utils/input/ReactSelectCustom'
+var Select = require('react-select');
 
+const options = [
+  { value: 'chocolate', label: 'Chocolate' },
+  { value: 'strawberry', label: 'Strawberry' },
+  { value: 'vanilla', label: 'Vanilla' }
+];
 class HeaderPost extends React.Component {
   constructor(props) {
     super(props);
@@ -21,10 +28,28 @@ class HeaderPost extends React.Component {
       onBlur: false,
       src: [],
       file: null,
-      filename: ""
+      filename: "",
+
+      showSelect:{
+        tag:false,
+        feel:false
+      }
     };
   }
+  onChangeSelect(value) {
+		this.setState({ value });
+		console.log('Boolean Select value changed to', value);
+    }
+  async  getOptionsSession(input) {
 
+
+      return {options:this.state.options}
+
+  }
+  handleChange = (selectedOption) => {
+    this.setState({ selectedOption });
+    console.log(`Option selected:`, selectedOption);
+  }
   showModalPost() {
     this.setState({ showModalPost: true });
   }
@@ -93,7 +118,22 @@ class HeaderPost extends React.Component {
     };
     return axios.post(url, formData, config);
   }
+  tag = ()=>{
+    if(!this.state.showSelect.tag)
+        this.state.showSelect.feel = false
+    this.state.showSelect.tag = !this.state.showSelect.tag
+
+    this.setState({showSelect:this.state.showSelect})
+  }
+  feel = ()=>{
+    if(!this.state.showSelect.feel)
+    this.state.showSelect.tag = false
+    this.state.showSelect.feel = !this.state.showSelect.feel
+    this.setState({showSelect:this.state.showSelect})
+    }
   render() {
+    const { selectedOption } = this.state;
+
     return (
       <div className="col-md-12 post-wall ">
         <div className="">
@@ -151,6 +191,22 @@ class HeaderPost extends React.Component {
           />
           {/* <textarea className="form-control" placeholder="Bạn đang nghĩ gì.." rows="3" id="comment"></textarea> */}
         </div>
+        <div  className="col-md-12  remove-padding-col " >
+       { this.state.showSelect.tag?<SelectUtils placeholder="Chọn người gắn thẻ" urlApi="/friends/getlist_option" />:null}
+       { this.state.showSelect.feel?<SelectUtils placeholder="Chọn cảm xúc của bạn" urlApi="/feel_post/getlist_option" />:null}
+
+        {/* <Select.Async
+                            name="form-field-name"
+                            disabled={this.state.ISEDIT}
+                            placeholder="Nhập tên bạn bè..."
+                            loadOptions={this.getOptionsSession.bind(this)}
+                            value={this.state.value}
+                            options={this.state.options}
+                            onChange={this.onChangeSelect.bind(this)}
+                            cache={false}
+                            multi
+                  /> */}
+        </div>
         {this.state.src.length > 0 ? (
           <div className="col-md-12 div-list-img-post remove-padding-col ">
             {this.state.src.map((item, index) => {
@@ -167,7 +223,7 @@ class HeaderPost extends React.Component {
           </div>
         ) : null}
         <div
-          style={{ paddingTop: "6px", paddingBottom: "2px", display: "flex" }}
+          style={{ paddingTop: "9px", paddingBottom: "9px", display: "flex" }}
           className="col-md-12 tag-post"
         >
           <div className="input-post-userpage">
@@ -195,14 +251,19 @@ class HeaderPost extends React.Component {
               />
             </span>
           </div>
-          <div style={{background:"#f5f6f7"}} className="input-post-userpage">
-            <div>
-              {" "}
+          <div onClick={this.tag} style={{background:"#f5f6f7"}} className="input-post-userpage">
+
               <i  className="fas fa-user-tag" />
               Gắn thẻ
-            </div>
+
           </div>
 
+          <div onClick={this.feel} style={{background:"#f5f6f7"}} className="input-post-userpage">
+
+              <i className="far fa-grin-alt"></i>
+              Cảm xúc
+
+          </div>
           {/* <button  style={{float:"right",fontSize:"12px",padding:"3px 8px"}} onClick={this.showModalPost.bind(this)} className="btn btn-success">
                            <i style={{color:"white"}} className="fa fa-paper-plane" aria-hidden="true"></i> Đăng
                    </button>
