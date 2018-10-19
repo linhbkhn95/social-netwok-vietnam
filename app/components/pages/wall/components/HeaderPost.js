@@ -114,7 +114,7 @@ class HeaderPost extends React.Component{
         <div className="col-md-12 post-wall " >
              <div className="" >
                      <div className="question" >
-                     <i className="fa fa-pencil" aria-hidden="true"></i> Viết bài
+                     <i className="fas fa-pencil-alt" aria-hidden="true" /> Viết bài
 
                      </div>
                      <div className="question" >

@@ -282,6 +282,7 @@ class PostAnhDanh extends React.Component{
                         </div>
                         <div className="time">
                                   <p className="">{moment(this.props.time).lang('vi').fromNow()}</p>
+                                  <i title="Công khai" className="fas fa-globe-asia"></i>
                          </div>
                          </div>
                     </div>

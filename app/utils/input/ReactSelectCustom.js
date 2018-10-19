@@ -139,7 +139,9 @@ const UsersField = createClass({
     };
 	},
 	setValue (value) {
-		this.setState({ value });
+    console.log('setvaue',value)
+    this.setState({ value });
+    this.props.onChangeValue(this.props.type,value)
 	},
 	render () {
   var placeholder = <span>&#9786; {this.props.placeholder}</span>;
@@ -147,7 +149,7 @@ const UsersField = createClass({
 		return (
 				<Select
 					arrowRenderer={arrowRenderer}
-					onChange={this.setValue}
+					onChange={this.setValue.bind(this)}
 					optionComponent={GravatarOption}
 					options={this.state.options}
 					placeholder={placeholder}
@@ -155,7 +157,7 @@ const UsersField = createClass({
           loadOptions={this.getlist_option.bind(this)}
 
 					// valueComponent={GravatarValue}
-          multi
+          {...this.props}
           clearable
 
           cache={false}

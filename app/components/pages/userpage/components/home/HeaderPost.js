@@ -10,13 +10,23 @@ import ModalSubject from "./components/ModalSubject";
 import ModalPost from "./components/ModalPost";
 import axios from "axios";
 import FileFolderShared from "material-ui/SvgIcon";
-import SelectUtils from 'app/utils/input/ReactSelectCustom'
-var Select = require('react-select');
+import SelectUtils from "app/utils/input/ReactSelectCustom";
+var Select = require("react-select");
+import {NavDropdown,Navbar,NavItem,Nav,OverlayTrigger,Tooltip} from 'react-bootstrap';
+
+import {
+  ButtonToolbar,
+  Popover,
+  Button,
+  Dropdown,
+  MenuItem,
+  Glyphicon
+} from "react-bootstrap";
 
 const options = [
-  { value: 'chocolate', label: 'Chocolate' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'vanilla', label: 'Vanilla' }
+  { value: "chocolate", label: "Chocolate" },
+  { value: "strawberry", label: "Strawberry" },
+  { value: "vanilla", label: "Vanilla" }
 ];
 class HeaderPost extends React.Component {
   constructor(props) {
@@ -30,26 +40,24 @@ class HeaderPost extends React.Component {
       file: null,
       filename: "",
 
-      showSelect:{
-        tag:false,
-        feel:false
-      }
+      showSelect: {
+        tag: false,
+        feel: false
+      },
+      valueSelect: {}
     };
   }
   onChangeSelect(value) {
-		this.setState({ value });
-		console.log('Boolean Select value changed to', value);
-    }
-  async  getOptionsSession(input) {
-
-
-      return {options:this.state.options}
-
+    this.setState({ value });
+    console.log("Boolean Select value changed to", value);
   }
-  handleChange = (selectedOption) => {
+  async getOptionsSession(input) {
+    return { options: this.state.options };
+  }
+  handleChange = selectedOption => {
     this.setState({ selectedOption });
     console.log(`Option selected:`, selectedOption);
-  }
+  };
   showModalPost() {
     this.setState({ showModalPost: true });
   }
@@ -118,25 +126,85 @@ class HeaderPost extends React.Component {
     };
     return axios.post(url, formData, config);
   }
-  tag = ()=>{
-    if(!this.state.showSelect.tag)
-        this.state.showSelect.feel = false
-    this.state.showSelect.tag = !this.state.showSelect.tag
+  tag = () => {
+    if (!this.state.showSelect.tag) this.state.showSelect.feel = false;
+    this.state.showSelect.tag = !this.state.showSelect.tag;
 
-    this.setState({showSelect:this.state.showSelect})
-  }
-  feel = ()=>{
-    if(!this.state.showSelect.feel)
-    this.state.showSelect.tag = false
-    this.state.showSelect.feel = !this.state.showSelect.feel
-    this.setState({showSelect:this.state.showSelect})
+    this.setState({ showSelect: this.state.showSelect });
+  };
+  feel = () => {
+    if (!this.state.showSelect.feel) this.state.showSelect.tag = false;
+    this.state.showSelect.feel = !this.state.showSelect.feel;
+    this.setState({ showSelect: this.state.showSelect });
+  };
+  onChange = (type, value) => {
+    this.state.valueSelect[type] = value;
+    this.setState({ valueSelect: this.state.valueSelect });
+  };
+  renderTooltip(){
+
+    let listTag = this.state.valueSelect['tag']
+    let length  = listTag.length
+    if(length<6){
+        return(
+
+            <Tooltip id="tooltip">
+              {listTag.map((user,index)=>{
+                  console.log('fullname',user.fullname)
+                  return(
+                    <div  key={index}> <span style={{float:"left"}}>{user}.fullname}</span><br /> </div>
+                  )
+              })}
+
+          </Tooltip>
+        )
     }
+    else{
+        let jsx = [];
+
+        for(var i =0;i<6;i++){
+            jsx.push(
+                <span style={{float:"left",clear:"both"}} >{listTag[i].fullname}</span>
+            )
+        }
+        let text ="và"+(length - 6) +" người khác..."
+        jsx.push(
+            <span style={{float:"left",clear:"both"}} >{text}</span>
+
+        )
+        return jsx
+    }
+
+
+ }
+  renderListTag() {
+    let listTag = this.state.valueSelect.tag;
+
+    // if (listTag && listTag.length) {
+    //   return listTag.map(user => {
+    //     return (
+    //       <NavLink to={"/userpage." + user.username}>{user.fullname}</NavLink>
+    //     );
+    //   });
+      if(listTag&&listTag.length==1){
+         return <NavLink to={"/userpage." + listTag&&listTag[0].username}>{listTag&&listTag[0].fullname}</NavLink>
+      }
+       if(listTag&&listTag.length==2){
+        return <div><NavLink to={"/userpage." + listTag&&listTag[0].username}>{listTag&&listTag[0].fullname}</NavLink> và <NavLink to={"/userpage." + listTag&&listTag[1].username}>{listTag&&listTag[1].fullname}</NavLink></div>
+      }
+      if(listTag&&listTag.length>2){
+         return <div> <NavLink to={"/userpage." + listTag&&listTag[0].username}>{listTag&&listTag[0].fullname}</NavLink> và    <OverlayTrigger placement="top" overlay={this.renderTooltip()}></OverlayTrigger> <div className="number-other-tag">{listTag.length-1} người khác </div></div>
+      }
+
+
+    return null;
+  }
   render() {
     const { selectedOption } = this.state;
 
     return (
-      <div className="col-md-12 post-wall ">
-        <div className="">
+      <div className="col-md-12 post-wall remove-padding-col ">
+        <div className="header-post-new">
           <div className="question">
             <i className="fas fa-pencil-alt" aria-hidden="true" /> Viết bài
           </div>
@@ -174,10 +242,7 @@ class HeaderPost extends React.Component {
           {/* <div>
                      </div>      */}
         </div>
-        <div
-          style={{ paddingTop: "8px", paddingBottom: "8px" }}
-          className="col-md-12 remove-padding-col input-post"
-        >
+        <div className="col-md-12 remove-padding-col input-post">
           <div className="col-md-2 col-sm-2 div-avatar-post remove-padding-col">
             <div className="user-avatar">
               <img className="img-user" src={this.props.auth.user.url_avatar} />
@@ -191,11 +256,47 @@ class HeaderPost extends React.Component {
           />
           {/* <textarea className="form-control" placeholder="Bạn đang nghĩ gì.." rows="3" id="comment"></textarea> */}
         </div>
-        <div  className="col-md-12  remove-padding-col " >
-       { this.state.showSelect.tag?<SelectUtils placeholder="Chọn người gắn thẻ" urlApi="/friends/getlist_option" />:null}
-       { this.state.showSelect.feel?<SelectUtils placeholder="Chọn cảm xúc của bạn" urlApi="/feel_post/getlist_option" />:null}
+        <div
+          style={{ display: "flex", fontSize: "13px" , alignTtems: 'center', }}
+          className="col-md-12 list-tag-feel remove-padding-col "
+        >
+             <div    style={{
+              display: this.state.valueSelect["feel"] ? "flex" : "none",padding:"7px",    alignTtems: 'center',
+              marginRight: "3px"
+            }} >đang <img style={{marginLeft:"3px",marginRight:"3px"}} src="/images/icons/feel/in-love.png" /> cảm thấy  <div style={{color:"green",marginLeft:"3px",marginRight:"3px"}}>{  this.state.valueSelect.feel ?   this.state.valueSelect.feel.label:null}</div></div>
+          <div
+            style={{
+              display: this.state.valueSelect["tag"] ? "block" : "none",
+              marginRight: "3px"
+            }}
+          >
 
-        {/* <Select.Async
+            cùng với
+          </div>
+          {this.renderListTag()}
+        </div>
+        <div className="col-md-12  remove-padding-col ">
+          {this.state.showSelect.tag ? (
+            <SelectUtils
+              value={this.state.valueSelect["tag"]}
+              multi
+              onChangeValue={this.onChange}
+              type="tag"
+              placeholder="Bạn đang ở cùng với ai"
+              urlApi="/friends/getlist_option"
+            />
+          ) : null}
+          {this.state.showSelect.feel ? (
+            <SelectUtils
+              value={this.state.valueSelect["feel"]}
+              onChangeValue={this.onChange}
+              type="feel"
+              placeholder="Chọn cảm xúc của bạn"
+              urlApi="/feel_post/getlist_option"
+            />
+          ) : null}
+
+          {/* <Select.Async
                             name="form-field-name"
                             disabled={this.state.ISEDIT}
                             placeholder="Nhập tên bạn bè..."
@@ -251,19 +352,52 @@ class HeaderPost extends React.Component {
               />
             </span>
           </div>
-          <div onClick={this.tag} style={{background:"#f5f6f7"}} className="input-post-userpage">
-
-              <i  className="fas fa-user-tag" />
-              Gắn thẻ
-
+          <div
+            onClick={this.tag}
+            style={{ background: "#f5f6f7" }}
+            className="input-post-userpage"
+          >
+            <i className="fas fa-user-tag" />
+            Gắn thẻ
           </div>
 
-          <div onClick={this.feel} style={{background:"#f5f6f7"}} className="input-post-userpage">
-
-              <i className="far fa-grin-alt"></i>
-              Cảm xúc
-
+          <div
+            onClick={this.feel}
+            style={{ background: "#f5f6f7" }}
+            className="input-post-userpage"
+          >
+            <i className="far fa-grin-alt" />
+            Cảm xúc
           </div>
+        </div>
+
+        <div className="col-md-12  police-post">
+          <div className="icon">
+             <div className="icon-newpost"><i className="fa fa-newspaper-o" aria-hidden="true" ></i></div>
+              Bảng tin
+          </div>
+          <div
+            style={{ paddingLeft: "0px", lineHeight: "35px" }}
+            className="select-police"
+          >
+            <Dropdown id="dropdown-custom-1">
+              <Dropdown.Toggle>
+                <i className="fas fa-globe-asia"></i>
+                Công khai
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="">
+                <MenuItem eventKey="1">
+                  {" "}
+                  <i className="fas fa-globe-asia"></i>
+                  Công khai
+                </MenuItem>
+                <MenuItem eventKey="2"><i className="fas fa-user-friends"></i>Bạn bè</MenuItem>
+                <MenuItem eventKey="3"><i className="fas fa-lock"></i>Chỉ mình tôi</MenuItem>
+
+              </Dropdown.Menu>
+            </Dropdown>
+          </div>
+
           {/* <button  style={{float:"right",fontSize:"12px",padding:"3px 8px"}} onClick={this.showModalPost.bind(this)} className="btn btn-success">
                            <i style={{color:"white"}} className="fa fa-paper-plane" aria-hidden="true"></i> Đăng
                    </button>
@@ -271,7 +405,9 @@ class HeaderPost extends React.Component {
                            <i style={{color:"white"}} className="fa fa-plus" aria-hidden="true"></i> Thêm chủ đề  tâm sự
                    </button> */}
         </div>
-
+        <div className="col-md-12 btn-post police-post">
+               <div className="button-post">Đăng bài</div>
+        </div>
         <ModalSubject
           access={this.accessSubject.bind(this)}
           show={this.state.showModalSubject}

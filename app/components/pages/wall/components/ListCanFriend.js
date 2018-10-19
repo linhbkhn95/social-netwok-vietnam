@@ -9,7 +9,7 @@ class List extends React.Component{
         super(props);
         this.state={
             listfriend:[
- 
+
             ]
         }
   }
@@ -21,7 +21,7 @@ class List extends React.Component{
              break
         }
     }
-    
+
     this.setState({listfriend})
   }
   accessFriend(username){
@@ -38,7 +38,7 @@ class List extends React.Component{
                     break
                }
            }
-           
+
            self.setState({listfriend})
        }
 
@@ -58,27 +58,27 @@ class List extends React.Component{
     }
     getTextButton(friend){
         let textButton = "Kết bạn"
-        if(friend.status ==0)
+        if(friend&&friend.status ==0)
             if(this.props.auth.user.id == friend.action_userId)
                  return "Hủy yêu cầu kết bạn"
             else
                 return "Chấp nhận yêu cầu kết bạn"
         else
             return textButton
-        
+
     }
    render(){
             let self =this
              let {listfriend} = this.state
                return(
-          
+
                       <div  className="col-md-12">
                                <div style={{background:"white",    padding: "10px"}} className="col-md-12 ">
                                       <div className=" col-md-12 row">
                                           <div   className="pull-left">
                                               <i style={{marginRight:"10px"}} className="fa fa-users" aria-hidden="true"></i>
                                             Những người bạn có thể  biết
-                                           
+
                                             {/* <Emojify>
         <span>Easy! :wink:</span>
         <span>ðŸ˜¸ :D  ^__^</span>
@@ -112,18 +112,18 @@ class List extends React.Component{
 </button>
 
                                               </div>
-                                              
+
                                          </div>
                                             )
                                         })}
-                                    
+
                                       </div>
                                </div>
                       </div>
                )
-    
+
     }
-    
+
 }
 module.exports =connect(function(state){
     return{
