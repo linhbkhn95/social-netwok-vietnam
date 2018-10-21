@@ -151,7 +151,11 @@ img{
     /* padding: 0px; */
     width: 40px;
     display: flex;
-    height: 40px;
+    height: 36px;
+}
+.post header{
+  display: flow-root;
+  margin-bottom: 10px;
 }
 .img-user{
     width: 26px;
@@ -180,15 +184,15 @@ img{
 .post .user-answer{
     clear: both;
     display: flex;
-    align-items: center
+    /* align-items: center */
 }
 .post .user-detail{
-    padding-top: 13px;
+
     display: flex;
 }
 .post .user-name{
-  color: #4dab28;
-  font-weight: bold;
+  /* color: #4dab28; */
+  /* font-weight: bold; */
   font-size: 12px;
   /* float: left; */
   padding-right: 20px;
@@ -204,13 +208,17 @@ img{
     /* margin-top: 10px; */
     padding-bottom: 10px;
 }
+.post .time{
+  align-items: center;
+  display: flex;
+}
 .post .time p{
     color: #b2b2bb;
 
     font-size: 12px;
     float: left;
     margin-right: 6px;
-    margin-bottom: 9px;
+    margin-bottom: 0px;
 }
 
 .footer-post{

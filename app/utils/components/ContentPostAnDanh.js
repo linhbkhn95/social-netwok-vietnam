@@ -254,8 +254,8 @@ class PostAnhDanh extends React.Component{
          let jsxAtribute
          let {type_post} = this.props.post
          if(type_post==2)
-             jsxAtribute = <div style={{    color: '#616770',marginLeft:'8px',
-              fontWeight: '500'}}>đã chia sẻ <NavLink style={{marginRight:'5px'}} to={"/post.notifi."+this.props.post.postId_parent}>bài viết</NavLink> </div>
+             jsxAtribute = <React.Fragment>
+             đã chia sẻ <NavLink style={{marginRight:'5px',marginLeft:"5px"}} to={"/post.notifi."+this.props.post.postId_parent}>bài viết</NavLink> </React.Fragment>
         return(
                 <div>
 
@@ -274,7 +274,7 @@ class PostAnhDanh extends React.Component{
                        <div > <div className="user-detail">
                             <div className="user-name">
                             {/* {this.props.incognito?"Người lạ":<NavLink to={"/userpage."+this.props.userPost.username}>{this.props.userPost.fullname}</NavLink>} */}
-                            <HeaderPost listTag = {this.props.post.listUserTag} feel = {this.props.post.feel} />
+                            <HeaderPost incognito={this.props.incognito}  userPost = {this.props.userPost} listTag = {this.props.post.listUserTag} feel = {this.props.post.feel} />
                              {jsxAtribute}
 
                             </div>
@@ -284,7 +284,10 @@ class PostAnhDanh extends React.Component{
                         </div>
                         <div className="time">
                                   <p className="">{moment(this.props.time).lang('vi').fromNow()}</p>
-                                  <i title="Công khai" className="fas fa-globe-asia"></i>
+                                  {/* <i title="Công khai" className="fas fa-globe-asia"></i> */}
+                                  <div className="icon-police-post">
+                                    <img title={this.props.post.police?this.props.post.police.policename:'Công khai'} src={this.props.post.police?this.props.post.police.url_image:'/images/icons/police/internet.png'} />
+                                  </div>
                          </div>
                          </div>
                     </div>

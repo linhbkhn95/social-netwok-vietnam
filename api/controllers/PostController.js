@@ -36,7 +36,7 @@ module.exports = {
 
                     });
                  }
-                 Elasticsearch.add('post','post',post)
+                //  Elasticsearch.add('post','post',post)
 
                  let subject  = await Subject.findOne({id:data.subject})
                  post.subject  = subject;
@@ -147,6 +147,10 @@ module.exports = {
                             if(item.feel_id){
                               feel = await Feel_post.findOne({id:item.feel_id});
                               item.feel = feel
+                            }
+                            if(item.police_id){
+                              police = await Police_post.findOne({id:item.police_id});
+                              item.police = police
                             }
                             let userId = req.session.user?req.session.user.id:''
                             item.userLikePost = false

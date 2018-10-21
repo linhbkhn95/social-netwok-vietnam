@@ -56,22 +56,22 @@ class HeaderPost extends React.Component {
     //   });
     if (listTag && listTag.length == 1) {
       return (
-        <NavLink to={"/userpage." + listTag && listTag[0].username}>
-          {listTag && listTag[0].fullname}
+        <NavLink to={"/userpage." +listTag[0].username}>
+          { listTag[0].fullname}
         </NavLink>
       );
     }
     if (listTag && listTag.length == 2) {
       return (
-        <div>
-          <NavLink to={"/userpage." + listTag && listTag[0].username}>
+        <React.Fragment>
+          <NavLink to={"/userpage." + listTag[0].username}>
             {listTag && listTag[0].fullname}
           </NavLink>{" "}
           và{" "}
-          <NavLink to={"/userpage." + listTag && listTag[1].username}>
-            {listTag && listTag[1].fullname}
+          <NavLink style={{float:'none'}} to={"/userpage." +listTag[1].username}>
+            {listTag[1].fullname}
           </NavLink>
-        </div>
+        </React.Fragment>
       );
     }
     if (listTag && listTag.length > 2) {
@@ -79,8 +79,8 @@ class HeaderPost extends React.Component {
       console.log("jsxTooltip", jsxTooltip);
       return (
         <React.Fragment>
-          <NavLink to={"/userpage." + listTag && listTag[0].username}>
-            {listTag && listTag[0].fullname}
+          <NavLink to={"/userpage." +listTag[0].username}>
+            {listTag[0].fullname}
           </NavLink>{" "}
           và
           <OverlayTrigger placement="top" overlay={jsxTooltip}>
@@ -95,11 +95,11 @@ class HeaderPost extends React.Component {
     return null;
   }
   render() {
-    let { feel, listTag } = this.props;
+    let { feel, listTag,userPost,incognito } = this.props;
     return (
       <div
         style={{
-          
+
           fontSize: "13px",
           alignItems: "center",
           paddingRight: "7px",
@@ -107,7 +107,12 @@ class HeaderPost extends React.Component {
         }}
         className="list-tag-feel remove-padding-col "
       >
-        <a style={{float:'left'}}>Trinh linh</a>
+        {userPost?  <NavLink to={"/userpage." +userPost.username}>
+            {userPost.fullname}
+          </NavLink>
+         :null}
+         {incognito?"Người lạ":""}
+           {/* <a style={{float:'left'}}>Trinh linh</a> */}
         {feel?
         <div
           style={{

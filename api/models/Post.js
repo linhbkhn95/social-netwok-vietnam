@@ -27,6 +27,10 @@ module.exports = {
       type:"integer",
       defaultsTo : 0
     },
+    police_id:{
+      type:"integer",
+      defaultsTo : 1
+    },
     userId_wall:{
       type:'integer'
     },

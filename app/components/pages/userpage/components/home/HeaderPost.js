@@ -11,6 +11,8 @@ import ModalPost from "./components/ModalPost";
 import axios from "axios";
 import FileFolderShared from "material-ui/SvgIcon";
 import SelectUtils from "app/utils/input/ReactSelectCustom";
+import SelectPolice from "app/utils/input/SelectPolice";
+
 var Select = require("react-select");
 import {
   NavDropdown,
@@ -155,13 +157,16 @@ class HeaderPost extends React.Component {
     this.setState(this.state);
     // this.props.onChange(type,event.target.value)
   }
-
+  onChangePolice=(police)=>{
+      this.setState({police})
+  }
   post = () => {
-    let { valueSelect, files, content } = this.state;
+    let { valueSelect, files, content,police } = this.state;
     let { feel, tag } = valueSelect;
     let dataPost = {
       content,
-      feel_id: valueSelect.feel ? feel.id : null
+      feel_id: valueSelect.feel ? feel.id : null,
+      police_id:police?police.id:null
     };
     let self = this;
     if (files) {
@@ -203,7 +208,7 @@ class HeaderPost extends React.Component {
     }
   };
   componentDidMount(){
-    
+
   }
   render() {
     const { selectedOption } = this.state;
@@ -401,44 +406,7 @@ class HeaderPost extends React.Component {
             style={{ paddingLeft: "0px", lineHeight: "35px" }}
             className="select-police"
           >
-            <Dropdown id="dropdown-custom-1">
-              <Dropdown.Toggle>
-                {/* <i className="fas fa-globe-asia"></i> */}
-                <img
-                  style={{
-                    float: "left",
-                    marginRight: "5px"
-                  }}
-                  className="icon-plice-image"
-                  src="/images/icons/police/internet.png"
-                />
-                Công khai
-              </Dropdown.Toggle>
-              <Dropdown.Menu className="">
-                <MenuItem eventKey="1">
-                  {" "}
-                  {/* <i className="fas fa-globe-asia"></i> */}
-                  <div className="icon-police-post">
-                    <img src="/images/icons/police/internet.png" />{" "}
-                  </div>
-                  Công khai
-                </MenuItem>
-                <MenuItem eventKey="2">
-                  {/* <i className="fas fa-user-friends"></i> */}
-                  <div className="icon-police-post">
-                    <img src="/images/icons/police/friendship.png" />{" "}
-                  </div>
-                  Bạn bè
-                </MenuItem>
-                <MenuItem eventKey="3">
-                  <div className="icon-police-post">
-                    <img src="/images/icons/police/private.png" />{" "}
-                  </div>
-                  {/* <i className="fas fa-lock"></i> */}
-                  Chỉ mình tôi
-                </MenuItem>
-              </Dropdown.Menu>
-            </Dropdown>
+          <SelectPolice onChange={this.onChangePolice} />
           </div>
 
           {/* <button  style={{float:"right",fontSize:"12px",padding:"3px 8px"}} onClick={this.showModalPost.bind(this)} className="btn btn-success">

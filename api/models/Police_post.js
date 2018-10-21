@@ -13,9 +13,7 @@ module.exports = {
     url_image: {
       type: "string"
     },
-    desc: {
-      type: "string"
-    },
+  
     colorText: {
       type: "string"
     },

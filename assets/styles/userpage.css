@@ -141,9 +141,9 @@ section#user_main div.home-user .group-head .box-title .content-right ul {
     list-style: none;
     padding: 0;
     margin: 0;
-    height: 100%;
+    /* height: 100%;
     display: flex;
-    align-items: center;
+    align-items: center; */
 }
 section#user_main div.home-user .group-head .box-title .content-right ul .li-layout {
     float: left;
@@ -378,9 +378,10 @@ section#user_main div.content-main .head{
     display: block;
 }
 .user-name a{
-    color :#4dab28;
+    color :#337619;
     display: flex;
     align-items: center;
+    font-weight: bold;
 }
 .text-rep a{
     color :#4dab28;
@@ -611,6 +612,7 @@ pointer-events: none;
   font-size: 13px;
   align-items: center;
     display: flex;
+    border-color: #dcd3d3;
 }
 .select-police
 .dropdown-menu>li>a{

@@ -155,7 +155,7 @@
   /* margin-top: 20px; */
   margin-bottom: 20px;
   border-radius: 5px;
-  box-shadow: 0px 2px 2px 2px gainsboro
+  /* box-shadow: 0px 2px 2px 2px gainsboro */
 }
 .title-post{
   font-weight: bold;
@@ -246,7 +246,7 @@ clear: both;
   box-shadow: 1px 0 0 #eaebed inset;
   text-decoration: none;
   cursor: pointer;
-} 
+}
 .status-user{
   display: flex;
   height: 33px;
@@ -257,7 +257,7 @@ clear: both;
 .status-user .time{
   color: #b2b2bb;
   font-size:9px;
- 
+
 }
 .status-online{
   background: rgb(66, 183, 42);
