@@ -12,8 +12,17 @@ import axios from "axios";
 import FileFolderShared from "material-ui/SvgIcon";
 import SelectUtils from "app/utils/input/ReactSelectCustom";
 var Select = require("react-select");
-import {NavDropdown,Navbar,NavItem,Nav,OverlayTrigger,Tooltip} from 'react-bootstrap';
-
+import {
+  NavDropdown,
+  Navbar,
+  NavItem,
+  Nav,
+  OverlayTrigger,
+  Tooltip
+} from "react-bootstrap";
+import ContentEditable from "react-contenteditable";
+import FileUpload from "app/utils/upload/FileUpload";
+import Header from "app/utils/components/HeaderPost";
 import {
   ButtonToolbar,
   Popover,
@@ -102,13 +111,13 @@ class HeaderPost extends React.Component {
     }
 
     this.setState({ files: e.target.files, fileName, src: src });
-    self.uploadCover(e.target.files).then(response => {
-      if (response.data.EC == 0) {
-        toast.success("Thành công", {
-          position: toast.POSITION.TOP_CENTER
-        });
-      }
-    });
+    // self.uploadCover(e.target.files).then(response => {
+    //   if (response.data.EC == 0) {
+    //     toast.success("Thành công", {
+    //       position: toast.POSITION.TOP_CENTER
+    //     });
+    //   }
+    // });
   }
   uploadCover(files) {
     const url = "/fileupload/upload_image";
@@ -141,63 +150,60 @@ class HeaderPost extends React.Component {
     this.state.valueSelect[type] = value;
     this.setState({ valueSelect: this.state.valueSelect });
   };
-  renderTooltip(){
+  onChangeContent(type, event) {
+    this.state[type] = event.target.value;
+    this.setState(this.state);
+    // this.props.onChange(type,event.target.value)
+  }
 
-    let listTag = this.state.valueSelect['tag']
-    let length  = listTag.length
-    if(length<6){
-        return(
-
-            <Tooltip id="tooltip">
-              {listTag.map((user,index)=>{
-                  console.log('fullname',user.fullname)
-                  return(
-                    <div  key={index}> <span style={{float:"left"}}>{user}.fullname}</span><br /> </div>
-                  )
-              })}
-
-          </Tooltip>
-        )
-    }
-    else{
-        let jsx = [];
-
-        for(var i =0;i<6;i++){
-            jsx.push(
-                <span style={{float:"left",clear:"both"}} >{listTag[i].fullname}</span>
-            )
+  post = () => {
+    let { valueSelect, files, content } = this.state;
+    let { feel, tag } = valueSelect;
+    let dataPost = {
+      content,
+      feel_id: valueSelect.feel ? feel.id : null
+    };
+    let self = this;
+    if (files) {
+      FileUpload.upload(files).then(response => {
+        if (response.data.EC == 0) {
+          io.socket.post(
+            "/post/postStatus",
+            {
+              data: dataPost,
+              urls_file: response.data.DT,
+              listTag: valueSelect["tag"]
+            },
+            function(resdata, jwres) {
+              if (resdata.EC == 0) {
+                toast.success("Thành công", {
+                  position: toast.POSITION.TOP_CENTER
+                });
+              } else {
+                self.setState({ err_msg: resdata.EM });
+              }
+            }
+          );
         }
-        let text ="và"+(length - 6) +" người khác..."
-        jsx.push(
-            <span style={{float:"left",clear:"both"}} >{text}</span>
-
-        )
-        return jsx
+      });
+    } else {
+      io.socket.post(
+        "/post/postStatus",
+        { data: dataPost, listTag: valueSelect["tag"] },
+        function(resdata, jwres) {
+          if (resdata.EC == 0) {
+            toast.success("Thành công", {
+              position: toast.POSITION.TOP_CENTER
+            });
+          } else {
+            self.setState({ err_msg: resdata.EM });
+          }
+        }
+      );
     }
-
-
- }
-  renderListTag() {
-    let listTag = this.state.valueSelect.tag;
-
-    // if (listTag && listTag.length) {
-    //   return listTag.map(user => {
-    //     return (
-    //       <NavLink to={"/userpage." + user.username}>{user.fullname}</NavLink>
-    //     );
-    //   });
-      if(listTag&&listTag.length==1){
-         return <NavLink to={"/userpage." + listTag&&listTag[0].username}>{listTag&&listTag[0].fullname}</NavLink>
-      }
-       if(listTag&&listTag.length==2){
-        return <div><NavLink to={"/userpage." + listTag&&listTag[0].username}>{listTag&&listTag[0].fullname}</NavLink> và <NavLink to={"/userpage." + listTag&&listTag[1].username}>{listTag&&listTag[1].fullname}</NavLink></div>
-      }
-      if(listTag&&listTag.length>2){
-         return <div> <NavLink to={"/userpage." + listTag&&listTag[0].username}>{listTag&&listTag[0].fullname}</NavLink> và    <OverlayTrigger placement="top" overlay={this.renderTooltip()}></OverlayTrigger> <div className="number-other-tag">{listTag.length-1} người khác </div></div>
-      }
-
-
-    return null;
+  };
+  componentDidMount(){
+    
   }
   render() {
     const { selectedOption } = this.state;
@@ -249,19 +255,28 @@ class HeaderPost extends React.Component {
             </div>
           </div>
 
-          <div
+          {/* <div
             className="div-textarea col-md-10 col-sm-10 remove-padding-col"
             placeholder="Bạn đang nghĩ gì..."
             contenteditable="true"
-          />
+          /> */}
+          <div className="col-md-10 col-sm-2  remove-padding-col">
+            <ContentEditable
+              className="div-textarea "
+              html={this.state.content} // innerHTML of the editable div
+              disabled={false} // use true to disable edition
+              onChange={this.onChangeContent.bind(this, "content")} // handle innerHTML change
+              tagName="article" // Use a custom HTML tag (uses a div by default)
+            />
+          </div>
           {/* <textarea className="form-control" placeholder="Bạn đang nghĩ gì.." rows="3" id="comment"></textarea> */}
         </div>
-        <div
-          style={{ display: "flex", fontSize: "13px" , alignTtems: 'center', }}
+        {/* <div
+          style={{ display: "flex", fontSize: "13px" , alignItems: 'center',padding:"7px" }}
           className="col-md-12 list-tag-feel remove-padding-col "
         >
              <div    style={{
-              display: this.state.valueSelect["feel"] ? "flex" : "none",padding:"7px",    alignTtems: 'center',
+              display: this.state.valueSelect["feel"] ? "flex" : "none",padding:"7px",    alignItems: 'center',
               marginRight: "3px"
             }} >đang <img style={{marginLeft:"3px",marginRight:"3px"}} src="/images/icons/feel/in-love.png" /> cảm thấy  <div style={{color:"green",marginLeft:"3px",marginRight:"3px"}}>{  this.state.valueSelect.feel ?   this.state.valueSelect.feel.label:null}</div></div>
           <div
@@ -274,7 +289,11 @@ class HeaderPost extends React.Component {
             cùng với
           </div>
           {this.renderListTag()}
-        </div>
+        </div> */}
+        <Header
+          listTag={this.state.valueSelect.tag}
+          feel={this.state.valueSelect.feel}
+        />
         <div className="col-md-12  remove-padding-col ">
           {this.state.showSelect.tag ? (
             <SelectUtils
@@ -314,10 +333,10 @@ class HeaderPost extends React.Component {
               return (
                 <div
                   key={index}
-                  style={{ height: "100%" }}
+                  style={{ height: "100px" }}
                   className="col-md-3"
                 >
-                  <img style={{ height: "100%" }} src={item} />
+                  <img style={{ height: "100%", width: "100%" }} src={item} />
                 </div>
               );
             })}
@@ -373,8 +392,10 @@ class HeaderPost extends React.Component {
 
         <div className="col-md-12  police-post">
           <div className="icon">
-             <div className="icon-newpost"><i className="fa fa-newspaper-o" aria-hidden="true" ></i></div>
-              Bảng tin
+            <div className="icon-newpost">
+              <i className="fa fa-newspaper-o" aria-hidden="true" />
+            </div>
+            Bảng tin
           </div>
           <div
             style={{ paddingLeft: "0px", lineHeight: "35px" }}
@@ -382,18 +403,40 @@ class HeaderPost extends React.Component {
           >
             <Dropdown id="dropdown-custom-1">
               <Dropdown.Toggle>
-                <i className="fas fa-globe-asia"></i>
+                {/* <i className="fas fa-globe-asia"></i> */}
+                <img
+                  style={{
+                    float: "left",
+                    marginRight: "5px"
+                  }}
+                  className="icon-plice-image"
+                  src="/images/icons/police/internet.png"
+                />
                 Công khai
               </Dropdown.Toggle>
               <Dropdown.Menu className="">
                 <MenuItem eventKey="1">
                   {" "}
-                  <i className="fas fa-globe-asia"></i>
+                  {/* <i className="fas fa-globe-asia"></i> */}
+                  <div className="icon-police-post">
+                    <img src="/images/icons/police/internet.png" />{" "}
+                  </div>
                   Công khai
                 </MenuItem>
-                <MenuItem eventKey="2"><i className="fas fa-user-friends"></i>Bạn bè</MenuItem>
-                <MenuItem eventKey="3"><i className="fas fa-lock"></i>Chỉ mình tôi</MenuItem>
-
+                <MenuItem eventKey="2">
+                  {/* <i className="fas fa-user-friends"></i> */}
+                  <div className="icon-police-post">
+                    <img src="/images/icons/police/friendship.png" />{" "}
+                  </div>
+                  Bạn bè
+                </MenuItem>
+                <MenuItem eventKey="3">
+                  <div className="icon-police-post">
+                    <img src="/images/icons/police/private.png" />{" "}
+                  </div>
+                  {/* <i className="fas fa-lock"></i> */}
+                  Chỉ mình tôi
+                </MenuItem>
               </Dropdown.Menu>
             </Dropdown>
           </div>
@@ -406,7 +449,9 @@ class HeaderPost extends React.Component {
                    </button> */}
         </div>
         <div className="col-md-12 btn-post police-post">
-               <div className="button-post">Đăng bài</div>
+          <div onClick={this.post} className="button-post">
+            Đăng bài
+          </div>
         </div>
         <ModalSubject
           access={this.accessSubject.bind(this)}

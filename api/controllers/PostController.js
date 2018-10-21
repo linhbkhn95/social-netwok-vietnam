@@ -5,11 +5,12 @@
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
 var FileUploadController = require('./FileUploadController')
+var Tag_postController = require('./Tag_postController')
 
 module.exports = {
 
     postStatus:async function(req,res){
-        let {data,urls_file} = req.body
+        let {data,urls_file,listTag} = req.body
 
         data.userId_post = req.session.user.id;
 
@@ -20,7 +21,7 @@ module.exports = {
             data.userId_wall = userWall.id
         }
 
-        console.log('datapost',data)
+        console.log('datapost',data,listTag,urls_file)
         Post.create(data).exec(async function(err,post){
             if(err){
 
@@ -30,17 +31,23 @@ module.exports = {
                     FileUploadController.postFile(post.id,urls_file).then((data)=>{
 
                   })
-                  Elasticsearch.add('post','post',post)
+                if(listTag&&listTag.length>0){
+                    Tag_postController.addTag(req,listTag,post.id).then((data)=>{
+
+                    });
+                 }
+                 Elasticsearch.add('post','post',post)
 
                  let subject  = await Subject.findOne({id:data.subject})
                  post.subject  = subject;
+                 post.listTag = listTag;
                  post.userLikePost = false
                  let userPost = await User.findOne({id:post.userId_post,select:['fullname','username','url_avatar','id']});
                  post.userPost = userPost
                  post.userWall = userWall
                  Post.publishCreate(post);
                  NotificationUtils.postToFriend(post,req);
-                 Elasticsearch.add('post','post',post)
+                //  Elasticsearch.add('post','post',post)
 
                  return res.send(OutputInterface.success(post))
             }
@@ -134,6 +141,13 @@ module.exports = {
                                 item.userWall = userWall
 
                             }
+                            Tag_postController.getlist_user(item.id).then((listUserTag)=>{
+                              item.listUserTag = listUserTag ;
+                            });
+                            if(item.feel_id){
+                              feel = await Feel_post.findOne({id:item.feel_id});
+                              item.feel = feel
+                            }
                             let userId = req.session.user?req.session.user.id:''
                             item.userLikePost = false
                             let userPost = await User.findOne({id:item.userId_post,select:['fullname','username','url_avatar']});
@@ -219,6 +233,7 @@ module.exports = {
                     // res.send({DT:listPost})
                 })
     },
+
     //lấy danh sách bài đăng trên tường
     getList_Wall:async function(req,res){
         if (!req.isSocket) {
@@ -269,6 +284,10 @@ module.exports = {
                                 item.userWall = userWall
 
                             }
+                            Tag_postController.getlist_user(item.id).then((listUserTag)=>{
+                              item.listUserTag = listUserTag ;
+                            }) ;
+
                             let userId = req.session.user?req.session.user.id:''
                             item.userLikePost = false
                             let userPost = await User.findOne({id:item.userId_post,select:['fullname','username','url_avatar']});

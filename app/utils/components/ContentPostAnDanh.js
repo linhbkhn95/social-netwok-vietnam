@@ -12,7 +12,7 @@ import {NavLink} from 'react-router-dom'
 import ModalShare from './ModalShare'
 import Lightbox from 'react-images';
 import Post from './Post'
-
+import HeaderPost from './HeaderPost'
 const Msg = ({ closeToast }) => (
     <div style={{borderBottom:"none"}} className=" alert-message">
                       <NavLink to={'/'} > <div className="col-md-3 "><NavLink to={"/userpage.5"} ><img className="avatar-alert" src="/images/user/linh.jpg" /></NavLink></div>
@@ -273,8 +273,10 @@ class PostAnhDanh extends React.Component{
 
                        <div > <div className="user-detail">
                             <div className="user-name">
-                            {this.props.incognito?"Người lạ":<NavLink to={"/userpage."+this.props.userPost.username}>{this.props.userPost.fullname}</NavLink>}
+                            {/* {this.props.incognito?"Người lạ":<NavLink to={"/userpage."+this.props.userPost.username}>{this.props.userPost.fullname}</NavLink>} */}
+                            <HeaderPost listTag = {this.props.post.listUserTag} feel = {this.props.post.feel} />
                              {jsxAtribute}
+
                             </div>
                             {this.props.userWall?<div style={{display:'flex'}}><i style={{float:"left",fontSize:"17px",color:"black",marginLeft:"-12px",marginRight:"1px"}} className="fa fa-caret-right" aria-hidden="true"></i><div className="user-name"><NavLink to={"/userpage."+this.props.userWall.username}>{this.props.userWall.fullname}</NavLink></div></div>:null}
 

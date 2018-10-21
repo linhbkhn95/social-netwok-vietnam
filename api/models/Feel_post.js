@@ -8,7 +8,19 @@
 module.exports = {
 
   attributes: {
+      feelname:{
+          type:"string"
 
+      },
+      url_image:{
+          type:"string"
+      },
+      desc:{
+        type:"string"
+      },
+      colorText:{
+        type:"string"
+      }
   }
 };
 

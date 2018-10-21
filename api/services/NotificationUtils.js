@@ -1,5 +1,5 @@
 module.exports = {
-   
+
     //thông báo những người comment bài đăng đến ng đăng bài và ng comment bài
     notifiPostUser_Comment:async function(postId,data,req){
         let post = await Post.findOne({id:postId});
@@ -30,7 +30,7 @@ module.exports = {
               console.log('list',listUserComment)
           listUserComment.forEach(user => {
             //tăng sô thông báo tưng user
-            
+
             User.findOne({id:user.userId_comment}).exec((err,user)=>{
                 if(!user.number_notifi)
                     user.number_notifi = 1;
@@ -43,7 +43,7 @@ module.exports = {
 
             //đồng bộ thông báo điến các user
             sails.sockets.broadcast('NotificationUser',"notifi_user"+user.userId_comment,notifi,req);
-           
+
          });
     },
     notifiPostUser_Like: async function(post,req){
@@ -60,7 +60,33 @@ module.exports = {
          notifi.user_notifi = req.session.user;
          Ref_notification_user.create({notificationId:notifi.id,userId:post.userId_post,readNotifi:false,status:true}).exec({})
          sails.sockets.broadcast('NotificationUser',"notifi_user"+post.userId_post,notifi,req);
-         
+
+
+
+    },
+    tagPost: async function (post_id,listTag,req){
+        let datanotifi ={userId:req.session.user.id,
+          url_ref:'/post.notifi.'+post.id,
+          text: 'Đã gắn thẻ bạn vào 1 bài viết',
+          type:'tag_post',
+          time:Date.now(),
+        // data:post
+        }
+        for(var i=0;i<listTag.length;i++){
+
+
+           let notifi = await Notification.create( datanotifi)
+           notifi.user_notifi = req.session.user;
+           User.findOne({id:listTag[i].id}).exec((err,user)=>{
+              if(!user.number_notifi)
+                  user.number_notifi = 1;
+             else
+                 user.number_notifi +=1;
+              user.save({});
+          })
+          Ref_notification_user.create({notificationId:notifi.id,userId:user.id,readNotifi:false,status:true}).exec({})
+          sails.sockets.broadcast('NotificationUser',"notifi_user"+user.id,notifi,req);
+        }
 
 
     },
@@ -88,13 +114,13 @@ module.exports = {
                 sails.sockets.broadcast('NotificationUser',"notifi_user"+post.userWall.id,notifi,req);
 
 
-                
+
         }
         for(var i = 0;i<listfriend.length;i++){
-             
+
             let userIdPatner = listfriend[i].userId_one==req.session.user.id?listfriend[i].userId_two:listfriend[i].userId_one
 
-            
+
             sails.sockets.broadcast('Subscribe_Status',"post"+userIdPatner,post,req);
 
        }
