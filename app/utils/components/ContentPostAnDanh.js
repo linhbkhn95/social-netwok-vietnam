@@ -22,6 +22,7 @@ import ModalShare from "./ModalShare";
 import Lightbox from "react-images";
 import Post from "./Post";
 import HeaderPost from "./HeaderPost";
+import NavLinkUtils from 'app/utils/modal/NavLink_Popup'
 const Msg = ({ closeToast }) => (
   <div style={{ borderBottom: "none" }} className=" alert-message">
     <NavLink to={"/"}>
@@ -298,6 +299,7 @@ class PostAnhDanh extends React.Component {
         <header>
           <div className="pull-left title-post">
             <i className="fa fa-header" aria-hidden="true" /> {this.props.title}{" "}
+            <NavLinkUtils />
           </div>
           <div>
             {" "}
@@ -467,6 +469,7 @@ class PostAnhDanh extends React.Component {
                   Ẩn bài đăng
                 </MenuItem>
               </NavDropdown>
+
             </div>
           </div>
         )}

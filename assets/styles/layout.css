@@ -498,3 +498,92 @@ div[contenteditable="true"]:focus {
 }
 .Select-menu-outer{
   z-index: 999 !important;}
+.banner-popup{
+    position: relative;
+    background: url(https://moki.vn/moki/themes/img/background.png) no-repeat;
+    width: 100%;
+    height: 150px;
+    /* top: 1px; */
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-size: 100% 100%,;
+}
+.info-user-popup{
+  position: relative;
+  width: 100%;
+  height: 130px;
+  margin: -41px 0 0;
+}
+.info-user-popup .img-avatar{
+  width: auto;
+  float: left;
+}
+.info-user-popup .avatar-user{
+  margin: 0 5px;
+  overflow: hidden;
+  position: relative;
+  z-index: 999;
+  width: 109px;
+  height: 104px;
+}
+.info-user-popup .thum-avatar{
+  display: inline-block;
+  width: 100%;
+  padding: 0px;
+  height: 100%;
+    line-height: 1.42857143;
+    background-color: #fff;
+    border: 3px solid #ffff;
+    border-radius: 4px;
+    -webkit-transition: all .2s ease-in-out;
+    -o-transition: all .2s ease-in-out;
+    transition: all .2s ease-in-out;
+    background-image: url(/images/user/linh.jpg);
+}
+.popup-content {
+  width: 303px !important;
+  background: rgb(255, 255, 255);
+  border: 1px solid rgb(187, 187, 187);
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px;
+  padding: 0px !important;
+  /* top: -78.9176px !important;
+    padding: 3px;
+  left: -287px !important; */
+}
+.info-user-popup .name-user{
+  display: flex;
+  color: white;
+  font-size: 14px;
+  /* margin-top: -12px; */
+  font-weight: bold;
+  height: 39px;
+  align-items: center;
+
+}
+.card{
+  font-weight: normal;
+  font-size: 12px;
+}
+.card .footer-popup{
+  background: whitesmoke;
+  border-top: 1px solid #e9ebef;
+  padding-bottom: 2px;
+  justify-content: space-between;
+  display: flex;
+  align-items: center;
+}
+.card .info-data{
+  line-height: 18px;
+  padding-top: 10px;
+}
+.row-data{
+  display:flex;
+}
+.row-data .icon{
+  /* width: 27px; */
+}
+.row-data .data{
+  display: flex;
+  margin-left: 8px;
+}
