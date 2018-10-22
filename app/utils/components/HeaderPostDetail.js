@@ -11,7 +11,7 @@ import { NavLink } from "react-router-dom";
 
 class HeaderPost extends React.Component {
   renderTooltip() {
-    let data = this.props.listTag
+    let data = this.props.listTag;
     let listTag = data.slice();
     listTag.shift();
     let length = listTag.length;
@@ -112,8 +112,7 @@ class HeaderPost extends React.Component {
             display: feel ? "flex" : "none",
             padding: "7px",
             alignItems: "center",
-            marginRight: "3px",
-
+            marginRight: "3px"
           }}
         >
           đang{" "}
@@ -121,13 +120,11 @@ class HeaderPost extends React.Component {
             style={{ marginLeft: "3px", marginRight: "3px" }}
             src={feel.url_image}
           />{" "}
-          cảm thấy {" "}
+          cảm thấy{" "}
           <div
             style={{ color: "green", marginLeft: "3px", marginRight: "3px" }}
           >
-            {feel
-              ? feel.feelname
-              : null}
+            {feel ? feel.feelname : null}
           </div>
         </div>
         <div
@@ -144,4 +141,4 @@ class HeaderPost extends React.Component {
     );
   }
 }
-module.exports = HeaderPost
+module.exports = HeaderPost;

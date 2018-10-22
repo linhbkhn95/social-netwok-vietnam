@@ -1,9 +1,5 @@
 module.exports = {
-   
-     comment:"comment",
-        
-    
-     like: "like"
+  comment: "comment",
 
- }
- 
+  like: "like"
+};

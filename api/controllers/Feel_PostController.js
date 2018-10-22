@@ -20,7 +20,7 @@ module.exports = {
       Police_post.find({}).exec((err, list) => {
         if (err) {
         }
-        console.log('getlist_option_police_post',list)
+        console.log("getlist_option_police_post", list);
         return res.send(OutputInterface.success(list));
       });
     } catch (error) {}

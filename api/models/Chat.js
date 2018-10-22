@@ -9,22 +9,21 @@ module.exports = {
   autoCreatedAt: false,
   autoUpdatedAt: false,
   attributes: {
-      userId_sent:{
-        type:'integer'
-      },
-      userId_rec:{
-        type:'integer'
-      },
-      time:{
-        type:'float'
-      },
-      text:{
-        type:'string'
-      },
-      read_message:{
-        type:'boolean',
-        defaultsTo:false
-      }
+    userId_sent: {
+      type: "integer"
+    },
+    userId_rec: {
+      type: "integer"
+    },
+    time: {
+      type: "float"
+    },
+    text: {
+      type: "string"
+    },
+    read_message: {
+      type: "boolean",
+      defaultsTo: false
+    }
   }
 };
-

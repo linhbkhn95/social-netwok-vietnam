@@ -11,7 +11,7 @@ import { NavLink } from "react-router-dom";
 
 class HeaderPost extends React.Component {
   renderTooltip() {
-    let data = this.props.listTag
+    let data = this.props.listTag;
     let listTag = data.slice();
     listTag.shift();
     let length = listTag.length;
@@ -56,8 +56,8 @@ class HeaderPost extends React.Component {
     //   });
     if (listTag && listTag.length == 1) {
       return (
-        <NavLink to={"/userpage." +listTag[0].username}>
-          { listTag[0].fullname}
+        <NavLink to={"/userpage." + listTag[0].username}>
+          {listTag[0].fullname}
         </NavLink>
       );
     }
@@ -68,7 +68,10 @@ class HeaderPost extends React.Component {
             {listTag && listTag[0].fullname}
           </NavLink>{" "}
           và{" "}
-          <NavLink style={{float:'none'}} to={"/userpage." +listTag[1].username}>
+          <NavLink
+            style={{ float: "none" }}
+            to={"/userpage." + listTag[1].username}
+          >
             {listTag[1].fullname}
           </NavLink>
         </React.Fragment>
@@ -79,7 +82,7 @@ class HeaderPost extends React.Component {
       console.log("jsxTooltip", jsxTooltip);
       return (
         <React.Fragment>
-          <NavLink to={"/userpage." +listTag[0].username}>
+          <NavLink to={"/userpage." + listTag[0].username}>
             {listTag[0].fullname}
           </NavLink>{" "}
           và
@@ -95,54 +98,55 @@ class HeaderPost extends React.Component {
     return null;
   }
   render() {
-    let { feel, listTag,userPost,incognito } = this.props;
+    let { feel, listTag, userPost, incognito } = this.props;
     return (
       <div
         style={{
-
           fontSize: "13px",
           alignItems: "center",
-          paddingRight: "7px",
-
+          paddingRight: "7px"
         }}
         className="list-tag-feel remove-padding-col "
       >
-        {userPost?  <NavLink to={"/userpage." +userPost.username}>
+        {userPost ? (
+          <NavLink to={"/userpage." + userPost.username}>
             {userPost.fullname}
           </NavLink>
-         :null}
-         {incognito?"Người lạ":""}
-           {/* <a style={{float:'left'}}>Trinh linh</a> */}
-        {feel?
-        <div
-          style={{
-            display: feel ? "flex" : "none",
-
-            alignItems: "center",
-            float: 'left',
-          }}
-          className="div-feel"
-        >
-          đang{" "}
-          <img
-            style={{ marginLeft: "3px", marginRight: "3px" }}
-            src={feel?feel.url_image:null}
-          />{" "}
-          cảm thấy{" "}
+        ) : null}
+        {incognito ? "Người lạ" : ""}
+        {/* <a style={{float:'left'}}>Trinh linh</a> */}
+        {feel ? (
           <div
-            style={{ color:feel.colorText, marginLeft: "3px", marginRight: "3px" }}
+            style={{
+              display: feel ? "flex" : "none",
+
+              alignItems: "center",
+              float: "left"
+            }}
+            className="div-feel"
           >
-            {feel
-              ? feel.feelname
-              : null}
+            đang{" "}
+            <img
+              style={{ marginLeft: "3px", marginRight: "3px" }}
+              src={feel ? feel.url_image : null}
+            />{" "}
+            cảm thấy{" "}
+            <div
+              style={{
+                color: feel.colorText,
+                marginLeft: "3px",
+                marginRight: "3px"
+              }}
+            >
+              {feel ? feel.feelname : null}
+            </div>
           </div>
-        </div>
-        :null}
+        ) : null}
         <div
           style={{
             display: listTag && listTag.length > 0 ? "block" : "none",
             marginRight: "3px",
-            float: 'left',
+            float: "left"
           }}
           className="text-tag"
         >
@@ -153,4 +157,4 @@ class HeaderPost extends React.Component {
     );
   }
 }
-module.exports = HeaderPost
+module.exports = HeaderPost;

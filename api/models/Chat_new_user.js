@@ -9,20 +9,18 @@ module.exports = {
   autoCreatedAt: false,
   autoUpdatedAt: false,
   attributes: {
-      key_chat:{
-        type:'string'
-      },
-      id_message_new:{
-        type:'integer'
-      },
-      time:{
-        type:'datetime'
-      },
-      know_message:{
-        type:'boolean',
-        defaultsTo:false
-      }
-
+    key_chat: {
+      type: "string"
+    },
+    id_message_new: {
+      type: "integer"
+    },
+    time: {
+      type: "datetime"
+    },
+    know_message: {
+      type: "boolean",
+      defaultsTo: false
+    }
   }
 };
-

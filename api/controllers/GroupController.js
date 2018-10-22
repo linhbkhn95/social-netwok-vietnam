@@ -58,8 +58,8 @@ module.exports = {
   },
   getlist_memeber: function(req, res) {
     let { group_id } = req.body;
-    let user_id = req.session.user.id
-    Group_member.find({ group_id,status:1 }).exec((err, list) => {
+    let user_id = req.session.user.id;
+    Group_member.find({ group_id, status: 1 }).exec((err, list) => {
       if (err) {
       }
       Promise.all(
@@ -68,20 +68,22 @@ module.exports = {
             let member = await User.findOne({
               id: item.user_id,
               select: ["fullname", "username", "url_avatar"]
-            })
+            });
             item.member = member;
 
-            let friend = await Friends.findOne({userId_one:user_id<item.user_id?user_id:item.user_id,userId_two:user_id>item.user_id?user_id:item.user_id})
+            let friend = await Friends.findOne({
+              userId_one: user_id < item.user_id ? user_id : item.user_id,
+              userId_two: user_id > item.user_id ? user_id : item.user_id
+            });
             let countFriend = await Friends.count({
               or: [
                 { userId_one: item.user_id, status: 1 },
                 { userId_two: item.user_id, status: 1 }
               ]
             });
-            item.isFriend = -1
-            if(friend)
-               item.isFriend = friend.status
-            console.log('firneadda',friend)
+            item.isFriend = -1;
+            if (friend) item.isFriend = friend.status;
+            console.log("firneadda", friend);
 
             item.countFriend = countFriend;
             resolve(item);
