@@ -50,5 +50,11 @@ module.exports = {
         });
       }
     });
+  },
+  //xoa list tag theo post_id
+  delete_with_post:async function(req,post_id){
+      return new Promise(async(resolve,reject)=>{
+         await Tag_post.destroy({post_id});
+      })
   }
 };

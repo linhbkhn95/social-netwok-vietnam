@@ -4,6 +4,11 @@
  * @description :: Server-side logic for managing fileuploads
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
+fs = require("fs");
+http = require("http");
+path = require("path");
+var appRoot = require("app-root-path");
+
 module.exports = {
   upload_image: function(req, res) {
     try {
@@ -16,7 +21,8 @@ module.exports = {
           // don't allow the total upload size to exceed ~100MB
           maxBytes: 100000000,
           // set the directory
-          dirname: "../../assets/images/upload"
+          // dirname: "../../assets/images/upload"
+          dirname: "../../../data/upload/"
         },
         async function(err, uploadedFile) {
           // if error negotiate
@@ -31,6 +37,7 @@ module.exports = {
             datafile.fileName = uploadedFile[i].filename;
             result[i] = datafile;
           }
+          console.log(uploadedFile);
 
           // data.url_image = '/images/user/'+img[img.length-1]
           // User.update({id:req.session.user.id},{url_cover:data.url_image}).exec((err,gt)=>{
@@ -156,5 +163,57 @@ module.exports = {
         resolve(listFilePost);
       });
     });
+  },
+  readFile: function(req, res) {
+    let filePath =
+      appRoot +
+      "/assets/images/upload/7ef9bd31-59fb-46aa-8abe-8ee0e2a70ec5.jpg";
+    console.log("filepath", filePath);
+
+    fs.exists(filePath, function(exists) {
+      if (exists) {
+        var img = fs.readFileSync(filePath);
+        res.writeHead(200, { "Content-Type": "image/gif" });
+        res.end(img, "binary");
+      } else {
+        res.writeHead(200, { "Content-Type": "text/plain" });
+        res.end("File does not exist \n");
+      }
+    });
+    // console.log('filePath',filePath)
+    // //"/home/linhtd/Desktop/git/WebTamSuAnDanh/assets/images/upload/7ef9bd31-59fb-46aa-8abe-8ee0e2a70ec5.jpg"
+    // fs.exists(filePath, function(exists){
+    //   if (exists) {
+    //     // Content-type is very interesting part that guarantee that
+    //     // Web browser will handle response in an appropriate manner.
+    //     res.writeHead(200, {
+    //       "Content-Type": "application/octet-stream",
+    //       "Content-Disposition": "attachment; filename=" + 'fileName'
+    //     });
+    //     fs.createReadStream(filePath).pipe(res);
+    //   } else {
+    //     res.writeHead(400, {"Content-Type": "text/plain"});
+    //     res.end("ERROR File does not exist");
+    //   }
+    // });
+  },
+  delete_with_id: function(req, res) {
+    let { file_id } = req.body;
+
+    if (file_id) {
+      //xoa lien ket file post
+      File_post.destroy({ file_id }).exec((err, filepost) => {
+        if (err) {
+        }
+        //xoa data file
+        if (filepost) {
+          fs.unlinkSync(filepost.url_file, error => {
+            if (error) {
+            }
+            res.send(OutputInterface.success(filepost));
+          });
+        }
+      });
+    }
   }
 };

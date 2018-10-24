@@ -56,8 +56,8 @@ export default () => (
     <Popup
       trigger={<button className="button"> left Center </button>}
       position="left center"
-      // on="hover"
-      closeOnDocumentClick
+      on="hover"
+      // closeOnDocumentClick
     >
       <Card title="Left Center" />
     </Popup>

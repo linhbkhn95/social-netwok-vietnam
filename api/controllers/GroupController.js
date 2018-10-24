@@ -67,7 +67,7 @@ module.exports = {
           return new Promise(async (resolve, reject) => {
             let member = await User.findOne({
               id: item.user_id,
-              select: ["fullname", "username", "url_avatar"]
+              select: ["id", "fullname", "username", "url_avatar"]
             });
             item.member = member;
 
@@ -135,7 +135,7 @@ module.exports = {
               if (item.userId_wall) {
                 let userWall = await User.findOne({
                   id: item.userId_wall,
-                  select: ["fullname", "username", "url_avatar"]
+                  select: ["id", "fullname", "username", "url_avatar"]
                 });
                 item.userWall = userWall;
               }
@@ -143,7 +143,7 @@ module.exports = {
               item.userLikePost = false;
               let userPost = await User.findOne({
                 id: item.userId_post,
-                select: ["fullname", "username", "url_avatar"]
+                select: ["id", "fullname", "username", "url_avatar"]
               });
               item.userPost = userPost;
               let likePost = await Likepost.findOne({

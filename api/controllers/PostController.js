@@ -52,17 +52,25 @@ module.exports = {
   },
 
   //cập nhật post
-  updatePost: function(req, res) {
+  updatePost: async function(req, res) {
     let id = req.body.idPost;
     let { data } = req.body;
     let dataUpdate = {};
     if (data.content) dataUpdate.content = data.content;
     if (data.feel_id) dataUpdate.feel_id = data.feel_id;
+    if(data.police_id) dataUpdate.police_id = police_id;
+
     if (data.file) {
+        let {listId_file_remove,listId_file_add} = data.file;
+
+    }
+    if(data.listTag){
+
     }
   },
   deletePost: function(req, res) {
     let id = req.body.idPost;
+
     Post.destroy({ id: id }).exec(async (err, postdel) => {
       if (err) {
         return res.send(OutputInterface.errServer("Lỗi hệ thống"));
@@ -70,7 +78,8 @@ module.exports = {
       if (err) {
         return res.send(OutputInterface.errServer("Lỗi hệ thống"));
       }
-
+      await File_post.destroy({post_id:id});
+      await Tag_post.destroy({post_id:id})
       await Comment.destroy({ postId: id });
       if (postdel.length > 0) {
         // Post.publishDestroy(postdel);
@@ -123,7 +132,7 @@ module.exports = {
               if (item.userId_wall) {
                 let userWall = await User.findOne({
                   id: item.userId_wall,
-                  select: ["fullname", "username", "url_avatar"]
+                  select: ["id","fullname", "username", "url_avatar"]
                 });
                 item.userWall = userWall;
               }
@@ -142,7 +151,7 @@ module.exports = {
               item.userLikePost = false;
               let userPost = await User.findOne({
                 id: item.userId_post,
-                select: ["fullname", "username", "url_avatar"]
+                select: ["id","fullname", "username", "url_avatar"]
               });
               item.userPost = userPost;
               let likePost = await Likepost.findOne({
@@ -192,7 +201,7 @@ module.exports = {
       if (item.userId_wall) {
         let userWall = await User.findOne({
           id: item.userId_wall,
-          select: ["fullname", "username", "url_avatar"]
+          select: ["id","fullname", "username", "url_avatar"]
         });
         item.userWall = userWall;
       }
@@ -204,7 +213,7 @@ module.exports = {
 
       let userPost = await User.findOne({
         id: item.userId_post,
-        select: ["fullname", "username", "url_avatar"]
+        select: ["id","fullname", "username", "url_avatar"]
       });
       item.userPost = userPost;
 
@@ -278,7 +287,7 @@ module.exports = {
               if (item.userId_wall) {
                 let userWall = await User.findOne({
                   id: item.userId_wall,
-                  select: ["fullname", "username", "url_avatar"]
+                  select: ["id","fullname", "username", "url_avatar"]
                 });
                 item.userWall = userWall;
               }
@@ -290,7 +299,7 @@ module.exports = {
               item.userLikePost = false;
               let userPost = await User.findOne({
                 id: item.userId_post,
-                select: ["fullname", "username", "url_avatar"]
+                select: ["id","fullname", "username", "url_avatar"]
               });
               item.userPost = userPost;
               let likePost = await Likepost.findOne({
@@ -363,7 +372,7 @@ module.exports = {
               if (item.userId_wall) {
                 let userWall = await User.findOne({
                   id: item.userId_wall,
-                  select: ["fullname", "username", "url_avatar"]
+                  select: ["id","fullname", "username", "url_avatar"]
                 });
                 item.userWall = userWall;
               }
@@ -378,7 +387,7 @@ module.exports = {
 
               let userPost = await User.findOne({
                 id: item.userId_post,
-                select: ["fullname", "username", "url_avatar"]
+                select: ["id","fullname", "username", "url_avatar"]
               });
               item.userPost = userPost;
 

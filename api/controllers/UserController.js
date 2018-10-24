@@ -91,7 +91,7 @@ module.exports = {
             return new Promise(async (resolve, reject) => {
               let user = await User.findOne({
                 id: item.userId_follow,
-                select: ["fullname", "username", "url_avatar"]
+                select: ["id", "fullname", "username", "url_avatar"]
               });
               let countFriend = await Friends.count({
                 or: [
@@ -307,5 +307,96 @@ module.exports = {
         // res.send({DT:listPost})
       });
     }
+  },
+  getlist_friend_general: async function(user_id, patner_id) {
+    // let { user_id, patner_id } = req.body;
+    return new Promise(async (resolve, reject) => {
+      if (user_id && patner_id) {
+        let count_user = await Friends.count({
+          or: [
+            { userId_one: user_id, status: 1 },
+            { userId_two: user_id, status: 1 }
+          ]
+        });
+        let count_patner = await Friends.count({
+          or: [
+            { userId_one: patner_id, status: 1 },
+            { userId_two: patner_id, status: 1 }
+          ]
+        });
+
+        let userId_Friend = count_user > count_patner ? patner_id : user_id;
+
+        User.query("call getlist_friend(?)", [userId_Friend], function(
+          err,
+          [data, server_status]
+        ) {
+          if (err) {
+            resolve(null);
+          }
+          let result = [];
+          Promise.all(
+            data.map(item => {
+              return new Promise(async (resolve, reject) => {
+                let user_id_other =
+                  userId_Friend == user_id ? patner_id : user_id;
+                let userId_one =
+                  item.id < user_id_other ? item.id : user_id_other;
+                let userId_two =
+                  item.id > user_id_other ? item.id : user_id_other;
+
+                let friend = await Friends.findOne({ userId_one, userId_two });
+
+                if (friend && friend.status == 1) {
+                  result.push(item);
+                  resolve(item);
+                }
+                resolve(item);
+              });
+            })
+          )
+            .then(response => {
+              resolve(result);
+            })
+            .catch(e => {
+              resolve(e);
+            });
+          // //loai bo
+          // let result = data.filter(item=>item.id!=user_id)
+        });
+      }
+    });
+  },
+  get_info_user: async function(req, res) {
+    let { patner_id } = req.body;
+    let user_id = 1;
+    let user = await User.findOne({
+      id: patner_id,
+      select: [
+        "fullname",
+        "id",
+        "username",
+        "url_avatar",
+        "is_online",
+        "time_offline",
+        'url_cover'
+      ]
+    });
+    user.list_friends_general = await this.getlist_friend_general(
+      user_id,
+      patner_id
+    );
+    user.work_place_id = null;
+    let userId_one = user_id < patner_id ? user_id : patner_id;
+    let userId_two = user_id > patner_id ? user_id : patner_id;
+
+    let friend = await Friends.findOne({ userId_one, userId_two });
+    let follow = await Follows.findOne({userId_follow:user_id,userId:patner_id,status:1});
+
+    user.friend = friend;
+    user.follow = follow;
+
+
+    return res.send(OutputInterface.success(user));
   }
 };
