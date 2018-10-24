@@ -59,8 +59,8 @@ class ListFriend extends React.Component{
       let {listFollows} = this.state
      return(
 
-            <div  className="col-md-12">
-                     <div style={{background:"white",    padding: "10px"}} className="col-md-12 ">
+            <div style={{paddingLeft:"0px"}} className="col-md-12">
+                     <div style={{background:"white",   }} className="col-md-12 ">
                             <div className="head col-md-12">
                                 <div  style={{fontSize:"20px",fontWeight:"bold"}} className="pull-left">
                                     <i style={{marginRight:"10px"}} className="fa fa-users" aria-hidden="true"></i>
@@ -74,7 +74,11 @@ class ListFriend extends React.Component{
                                   return(
                                     <div style={{display:""}} className="col-md-6 col-xs-12 item-friend ">
                                     <div style={{float:"left"}} >
-                                    <NavLink to={"/userpage."+follow.user.username} ><img style={{width:"100px"}} src={follow.user.url_avatar} /> </NavLink>
+                                    <NavLink to={"/userpage."+follow.user.username} ><img  style={{
+                          width: "100px",
+                          height: "103px",
+                          objectFit: "cover"
+                        }} src={follow.user.url_avatar} /> </NavLink>
 
                                     </div>
                                     <div className="info-user col-md-6 col-xs-6 ">
@@ -86,9 +90,9 @@ class ListFriend extends React.Component{
                                         </div>
                                     </div>
                                     <div className="col-md-3 col-xs-3">
-                                         <div style={{paddingLeft:"0px",paddingTop:"35px"}} className="info-user">   
-                                         
-       
+                                         <div  className="info-user">
+
+
                                                     <Dropdown id="dropdown-custom-1">
                                                     <Dropdown.Toggle>
                                                     {/* <Glyphicon glyph="star" /> */}
@@ -111,7 +115,7 @@ class ListFriend extends React.Component{
                                </div>
                                   )
                               })}
-                          
+
                             </div>
                      </div>
             </div>

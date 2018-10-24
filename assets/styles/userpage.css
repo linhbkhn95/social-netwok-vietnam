@@ -337,14 +337,16 @@ section#user_main div.content-main .head{
     font-size:12px
 }
 .info-user{
-    padding: 32px 0px 21px 8px;
+    /* padding: 32px 0px 21px 8px;
     height: 100px;
-    display: inline-block;
+    display: inline-block; */
 
 }
 .item-friend{
     border: 1px solid #f6f0f0;
     padding: 0px;
+    display: flex;
+    align-items: center;
 }
 .info-user .btn{
     padding: 3px 11px;

@@ -34,7 +34,6 @@ class ListNotification extends React.Component {
       }
     );
     io.socket.post("/notification/getlist", (resdata, jwres) => {
-      console.log("listnotifi", resdata);
       if (resdata.EC == 0) {
         self.props.dispatch(addList(resdata.DT));
       }

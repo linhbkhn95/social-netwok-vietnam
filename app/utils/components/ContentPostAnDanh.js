@@ -22,7 +22,7 @@ import ModalShare from "./ModalShare";
 import Lightbox from "react-images";
 import Post from "./Post";
 import HeaderPost from "./HeaderPost";
-import NavLinkUtils from 'app/utils/modal/NavLink_Popup'
+import NavLinkUtils from "app/utils/modal/NavLink_Popup";
 const Msg = ({ closeToast }) => (
   <div style={{ borderBottom: "none" }} className=" alert-message">
     <NavLink to={"/"}>
@@ -86,7 +86,6 @@ class PostAnhDanh extends React.Component {
       return (
         <Tooltip id="tooltip">
           {listUserId.map(userId => {
-            console.log("fullname", listUser[userId].fullname);
             return (
               <div key={userId}>
                 {" "}
@@ -146,7 +145,7 @@ class PostAnhDanh extends React.Component {
   }
   componentDidMount() {
     let self = this;
-    console.log("socket like," + this.props.idPost + "like");
+    // console.log("socket like," + this.props.idPost + "like");
 
     io.socket.on(this.props.idPost + "like", function(data) {
       console.log("Socket like`" + data.id + "` joined the party!", data);
@@ -234,7 +233,6 @@ class PostAnhDanh extends React.Component {
     this.props.like(this.props.idPost);
   }
   share() {
-    console.log("share");
     this.setState({ showModalShare: true, dataPostShare: this.props.post });
   }
   access() {
@@ -261,7 +259,6 @@ class PostAnhDanh extends React.Component {
   }
   accessShare() {
     this.setState({ showModalPost: false });
-    console.log("ok");
     toast.success("Đăng bài thành công !", {
       position: toast.POSITION.TOP_LEFT
     });
@@ -469,7 +466,6 @@ class PostAnhDanh extends React.Component {
                   Ẩn bài đăng
                 </MenuItem>
               </NavDropdown>
-
             </div>
           </div>
         )}

@@ -51,7 +51,6 @@ class listRequesFriends extends React.Component {
     );
     let self = this;
     io.socket.post("/friends/getlistRequestFriend", (resdata, jwres) => {
-      console.log("listreqfriend", resdata);
       if (resdata.EC == 0) {
         self.props.dispatch(addList(resdata.DT));
       }

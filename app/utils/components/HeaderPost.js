@@ -19,7 +19,6 @@ class HeaderPost extends React.Component {
       return (
         <Tooltip id="tooltip">
           {listTag.map((user, index) => {
-            console.log("fullname", user.fullname);
             return (
               <div key={index}>
                 {" "}

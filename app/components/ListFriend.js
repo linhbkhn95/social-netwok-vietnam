@@ -35,10 +35,8 @@ class List extends React.Component {
   }
   accessFriend(username) {
     let self = this;
-    console.log("username", username);
     let { listfriend } = this.state;
     io.socket.post("/friends/accessFriend/", { username }, (resdata, jwres) => {
-      console.log("resdataaa", resdata);
 
       if (resdata.EC == 0) {
         for (var i = 0; i < listfriend.length; i++) {

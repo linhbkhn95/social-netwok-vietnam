@@ -45,7 +45,6 @@ class ListNotification extends React.Component {
     //     }
     // }))
     io.socket.post("/chat/getlist_message_user", {}, resdata => {
-      console.log("listchatnew", resdata);
       if (resdata.EC == 0) {
         self.setState({
           listChat: resdata.DT.list_message_user,
@@ -56,7 +55,6 @@ class ListNotification extends React.Component {
     console.log("chatusseraddadadadxxx", this.props.auth.user);
 
     io.socket.on("chatuser" + this.props.auth.user.id, function(data) {
-      console.log("chatusseraddadadad", data);
       let index = self.exitsChatbox(data.user);
       if (index != -1) {
         let id =
@@ -79,7 +77,6 @@ class ListNotification extends React.Component {
     });
   }
   exitsChatbox(user) {
-    console.log("userexxit", user);
     let { listChat } = this.state;
     for (var i = 0; i < listChat.length; i++) {
       if (listChat[i].user.id == user.id) return i;
@@ -123,8 +120,6 @@ class ListNotification extends React.Component {
         });
       }
     }
-
-    console.log("newmessage", nextProps.chatbox.new_message);
   }
   componentWillUnmount() {
     document.removeEventListener("mousedown", this.handleClickOutside);
