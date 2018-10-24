@@ -7,7 +7,7 @@ import {
   OverlayTrigger,
   Tooltip
 } from "react-bootstrap";
-import { NavLink } from "react-router-dom";
+import NavLinkUtils from "app/utils/modal/NavLink_Popup";
 
 class HeaderPost extends React.Component {
   renderTooltip() {
@@ -45,45 +45,46 @@ class HeaderPost extends React.Component {
     }
   }
   renderListTag() {
-    let listTag = this.props.listTag;
+
+    let {userPost,listTag} = this.props;
 
     // if (listTag && listTag.length) {
     //   return listTag.map(user => {
     //     return (
-    //       <NavLink to={"/userpage." + user.username}>{user.fullname}</NavLink>
+    //       <NavLinkUtils to={"/userpage." + user.username}>{user.fullname}</NavLinkUtils>
     //     );
     //   });
     if (listTag && listTag.length == 1) {
       return (
-        <NavLink to={"/userpage." + listTag[0].username}>
+        <NavLinkUtils user_id = {listTag[0].id} to={"/userpage." + listTag[0].username}>
           {listTag[0].fullname}
-        </NavLink>
+        </NavLinkUtils>
       );
     }
     if (listTag && listTag.length == 2) {
       return (
         <React.Fragment>
-          <NavLink to={"/userpage." + listTag[0].username}>
+          <NavLinkUtils user_id = {listTag[0].id} to={"/userpage." + listTag[0].username}>
             {listTag && listTag[0].fullname}
-          </NavLink>{" "}
+          </NavLinkUtils>{" "}
           và{" "}
-          <NavLink
+          <NavLinkUtils
+            user_id = {listTag[1].id}
             style={{ float: "none" }}
             to={"/userpage." + listTag[1].username}
           >
             {listTag[1].fullname}
-          </NavLink>
+          </NavLinkUtils>
         </React.Fragment>
       );
     }
     if (listTag && listTag.length > 2) {
       let jsxTooltip = this.renderTooltip();
-      console.log("jsxTooltip", jsxTooltip);
       return (
         <React.Fragment>
-          <NavLink to={"/userpage." + listTag[0].username}>
+          <NavLinkUtils user_id = {listTag[0].id} to={"/userpage." + listTag[0].username}>
             {listTag[0].fullname}
-          </NavLink>{" "}
+          </NavLinkUtils>{" "}
           và
           <OverlayTrigger placement="top" overlay={jsxTooltip}>
             <div className="number-other-tag">
@@ -108,9 +109,9 @@ class HeaderPost extends React.Component {
         className="list-tag-feel remove-padding-col "
       >
         {userPost ? (
-          <NavLink to={"/userpage." + userPost.username}>
+          <NavLinkUtils user_id = {userPost.id} to={"/userpage." + userPost.username}>
             {userPost.fullname}
-          </NavLink>
+          </NavLinkUtils>
         ) : null}
         {incognito ? "Người lạ" : ""}
         {/* <a style={{float:'left'}}>Trinh linh</a> */}

@@ -369,7 +369,7 @@ module.exports = {
   },
   get_info_user: async function(req, res) {
     let { patner_id } = req.body;
-    let user_id = 1;
+    let user_id = req.session.user.id||1;
     let user = await User.findOne({
       id: patner_id,
       select: [
