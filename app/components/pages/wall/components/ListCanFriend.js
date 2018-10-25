@@ -72,7 +72,7 @@ class List extends React.Component{
              let {listfriend} = this.state
                return(
 
-                      <div  className="col-md-12">
+                      <div  className="col-md-11">
                                <div style={{background:"white",    padding: "10px"}} className="col-md-12 ">
                                       <div className=" col-md-12 row">
                                           <div   className="pull-left">

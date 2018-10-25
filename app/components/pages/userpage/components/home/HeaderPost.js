@@ -12,7 +12,7 @@ import axios from "axios";
 import FileFolderShared from "material-ui/SvgIcon";
 import SelectUtils from "app/utils/input/ReactSelectCustom";
 import SelectPolice from "app/utils/input/SelectPolice";
-
+import ContainerVideo from 'app/utils/components/ComponentVideo'
 var Select = require("react-select");
 import {
   NavDropdown,
@@ -101,18 +101,27 @@ class HeaderPost extends React.Component {
       position: toast.POSITION.TOP_LEFT
     });
   }
+  getTypeFile(type) {
+    return type.split("/")[0];
+  }
   _handleChangeCover(e) {
     let self = this;
     e.preventDefault();
     let src = [];
     let file = e.target.files[0];
     var fileName = file.name;
-
+    let dataFile = {
+      type_file: "",
+      data: null
+    };
     for (var i = 0; i < e.target.files.length; i++) {
-      src[i] = URL.createObjectURL(e.target.files[i]);
+      dataFile.type_file = this.getTypeFile(e.target.files[i].type);
+      dataFile.data = URL.createObjectURL(e.target.files[i]);
+      src[i] = dataFile;
     }
-
-    this.setState({ files: e.target.files, fileName, src: src });
+    this.state.src = this.state.src.concat(src);
+    console.log("type file", e.target.files[0].type);
+    this.setState({ files: e.target.files, fileName, src: this.state.src });
     // self.uploadCover(e.target.files).then(response => {
     //   if (response.data.EC == 0) {
     //     toast.success("Thành công", {
@@ -157,16 +166,16 @@ class HeaderPost extends React.Component {
     this.setState(this.state);
     // this.props.onChange(type,event.target.value)
   }
-  onChangePolice=(police)=>{
-      this.setState({police})
-  }
+  onChangePolice = police => {
+    this.setState({ police });
+  };
   post = () => {
-    let { valueSelect, files, content,police } = this.state;
+    let { valueSelect, files, content, police } = this.state;
     let { feel, tag } = valueSelect;
     let dataPost = {
       content,
       feel_id: valueSelect.feel ? feel.id : null,
-      police_id:police?police.id:null
+      police_id: police ? police.id : null
     };
     let self = this;
     if (files) {
@@ -207,9 +216,7 @@ class HeaderPost extends React.Component {
       );
     }
   };
-  componentDidMount(){
-
-  }
+  componentDidMount() {}
   render() {
     const { selectedOption } = this.state;
 
@@ -341,7 +348,9 @@ class HeaderPost extends React.Component {
                   style={{ height: "100px" }}
                   className="col-md-3"
                 >
-                  <img style={{ height: "100%", width: "100%" }} src={item} />
+                 {item.type_file=="image"?
+                  <img style={{ height: "100%", width: "100%" }} src={item.data} />:
+                  <ContainerVideo style={{ height: "100%", width: "100%" }}  src={item.data} />}
                 </div>
               );
             })}
@@ -406,7 +415,7 @@ class HeaderPost extends React.Component {
             style={{ paddingLeft: "0px", lineHeight: "35px" }}
             className="select-police"
           >
-          <SelectPolice onChange={this.onChangePolice} />
+            <SelectPolice onChange={this.onChangePolice} />
           </div>
 
           {/* <button  style={{float:"right",fontSize:"12px",padding:"3px 8px"}} onClick={this.showModalPost.bind(this)} className="btn btn-success">

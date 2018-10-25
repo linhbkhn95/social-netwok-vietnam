@@ -236,7 +236,6 @@ class PopupInfo extends React.Component {
 }
 
 export default props => {
-  console.log("Popup", props);
   if (props.to)
     return (
       <Popup

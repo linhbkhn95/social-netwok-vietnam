@@ -5,6 +5,7 @@ import HeaderPost from './components/HeaderPost'
 import ListPost from './components/ListPost'
 import LeftWall from './components/LeftWall'
 import ListCanFriend from './components/ListCanFriend'
+import ListGroupRecommend from './components/ListGroupInteresting'
 class Wall extends React.Component{
 
   render(){
@@ -20,6 +21,7 @@ class Wall extends React.Component{
               </div>
               <div className="col-md-4 remove-padding-col">
                 <ListCanFriend />
+                <ListGroupRecommend />
               </div>
         </div>
      )

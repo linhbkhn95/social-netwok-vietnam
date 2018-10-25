@@ -146,6 +146,7 @@
     border-top-right-radius: 2px;
     height: 122px;
     overflow: hidden;
+    width: 100%;
 }
 .group-relative .group-item .img-cover img{
   height: 100%;

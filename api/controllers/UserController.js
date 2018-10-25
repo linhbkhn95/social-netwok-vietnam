@@ -369,7 +369,7 @@ module.exports = {
   },
   get_info_user: async function(req, res) {
     let { patner_id } = req.body;
-    let user_id = req.session.user.id||1;
+    let user_id = 1;
     let user = await User.findOne({
       id: patner_id,
       select: [
@@ -379,23 +379,36 @@ module.exports = {
         "url_avatar",
         "is_online",
         "time_offline",
-        'url_cover'
+        "url_cover",
+        "work_place_id",
+        "school_id"
       ]
     });
     user.list_friends_general = await this.getlist_friend_general(
       user_id,
       patner_id
     );
-    user.work_place_id = null;
     let userId_one = user_id < patner_id ? user_id : patner_id;
     let userId_two = user_id > patner_id ? user_id : patner_id;
-
+    if (user.work_place_id) {
+      user.work_place = await Work_place.findOne({ id: user.work_place_id });
+    }
+    if (user.school_id) {
+      user.school = await School.findOne({ id: user.school_id });
+    }
     let friend = await Friends.findOne({ userId_one, userId_two });
-    let follow = await Follows.findOne({userId_follow:user_id,userId:patner_id,status:1});
-
+    let follow = await Follows.findOne({
+      userId_follow: user_id,
+      userId: patner_id,
+      status: 1
+    });
+    let countFollow = await Follows.count({
+      userId: user.id,
+      status: 1
+    });
+    user.countFollow  = countFollow;
     user.friend = friend;
     user.follow = follow;
-
 
     return res.send(OutputInterface.success(user));
   }

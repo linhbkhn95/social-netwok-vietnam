@@ -64,13 +64,13 @@ class HeaderPost extends React.Component {
     if (listTag && listTag.length == 2) {
       return (
         <React.Fragment>
-          <NavLinkUtils user_id = {listTag[0].id} to={"/userpage." + listTag[0].username}>
+          <NavLinkUtils style={{ marginRight: "3px" }}  user_id = {listTag[0].id} to={"/userpage." + listTag[0].username}>
             {listTag && listTag[0].fullname}
           </NavLinkUtils>{" "}
-          và{" "}
+          <div style={{ float: "left"}}>và </div>
           <NavLinkUtils
             user_id = {listTag[1].id}
-            style={{ float: "none" }}
+            style={{ wordBreak: " break-word" }}
             to={"/userpage." + listTag[1].username}
           >
             {listTag[1].fullname}
@@ -82,10 +82,10 @@ class HeaderPost extends React.Component {
       let jsxTooltip = this.renderTooltip();
       return (
         <React.Fragment>
-          <NavLinkUtils user_id = {listTag[0].id} to={"/userpage." + listTag[0].username}>
+          <NavLinkUtils  style={{ marginRight: "3px" }} user_id = {listTag[0].id} to={"/userpage." + listTag[0].username}>
             {listTag[0].fullname}
           </NavLinkUtils>{" "}
-          và
+          <div style={{ float: "left", marginRight: "3px" }}>và </div>
           <OverlayTrigger placement="top" overlay={jsxTooltip}>
             <div className="number-other-tag">
               {listTag.length - 1} người khác{" "}
