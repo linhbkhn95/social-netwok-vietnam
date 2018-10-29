@@ -392,7 +392,6 @@ class PostStatus extends React.Component {
             }}
             className=""
           >
-            {/* {data.listRepComment.map(c =>  (self.renderActive(c)))}                      */}
             <div className="img-rep-rep">
               {" "}
               <img src={self.props.auth.user.url_avatar} />{" "}
@@ -441,7 +440,7 @@ class PostStatus extends React.Component {
       childrenKey: "listRepComment"
     });
     return (
-      <div className="col-md-12 post-status">
+      <div style={{background:"white"}} className="col-md-12 post-status">
         <article className="post">
           <ContentPostAnDanh
             hideFooter={this.props.hideFooter}

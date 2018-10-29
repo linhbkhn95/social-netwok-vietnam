@@ -63,7 +63,13 @@ module.exports = {
             if (err) {
               res.send(OutputInterface.errServer(err));
             }
-            res.send(OutputInterface.success(listFile));
+            let result = listFile.map(file => {
+              return {
+                ...file,
+                url_file: sails.config.url_service_upload + file.url_file
+              };
+            });
+            res.send(OutputInterface.success(result));
           });
         } else res.send(OutputInterface.errServer("bài post k tồn tai"));
       });
@@ -111,7 +117,7 @@ module.exports = {
   getlist_file_with_user: async function(req, res) {
     try {
       let { username, type_file } = req.body;
-      type_file = type_file || "img";
+      type_file = type_file || "image";
 
       let user = await User.findOne({ username });
       // let categoryId = params['category_id'] || 0;
@@ -151,9 +157,14 @@ module.exports = {
       for (var i = 0; i < listFile.length; i++) {
         dataInsert[i] = {
           filename: listFile[i].filename,
-          url_file: listFile[i].url,
+          url_file:
+            "?hash=" +
+            listFile[i].filename +
+            "&type_file=" +
+            listFile[i].type_file,
+
           post_id,
-          type_file: "img"
+          type_file: listFile[i].type_file
         };
       }
       File_post.create(dataInsert).exec((err, listFilePost) => {

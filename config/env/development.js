@@ -20,5 +20,5 @@ module.exports = {
   // models: {
   //   connection: 'someMongodbServer'
   // }
-  url_service_upload:'http://localhost:1338'
+  url_service_upload:'http://localhost:1338/file/readFile'
 };

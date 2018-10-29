@@ -213,6 +213,7 @@ module.exports = {
       return res.send(OutputInterface.success(rp));
     });
   },
+
   get_number_notifi: function(req, res) {
     let username =
       req.body.username ||
@@ -270,5 +271,11 @@ module.exports = {
         resolve(response);
       });
     });
+  },
+  insertListRef_notify : function(dataInsert){
+    Ref_notification_user.create(dataInsert
+
+    ).exec({});
+
   }
 };

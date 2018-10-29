@@ -12,7 +12,7 @@ import axios from "axios";
 import FileFolderShared from "material-ui/SvgIcon";
 import SelectUtils from "app/utils/input/ReactSelectCustom";
 import SelectPolice from "app/utils/input/SelectPolice";
-import ContainerVideo from 'app/utils/components/ComponentVideo'
+import ContainerVideo from "app/utils/components/ComponentVideo";
 var Select = require("react-select");
 import {
   NavDropdown,
@@ -108,20 +108,21 @@ class HeaderPost extends React.Component {
     let self = this;
     e.preventDefault();
     let src = [];
-    let file = e.target.files[0];
-    var fileName = file.name;
-    let dataFile = {
-      type_file: "",
-      data: null
-    };
+
     for (var i = 0; i < e.target.files.length; i++) {
+      let dataFile = {
+        type_file: "",
+        data: null,
+        file: null
+      };
       dataFile.type_file = this.getTypeFile(e.target.files[i].type);
       dataFile.data = URL.createObjectURL(e.target.files[i]);
+      dataFile.file = e.target.files[i];
       src[i] = dataFile;
     }
     this.state.src = this.state.src.concat(src);
-    console.log("type file", e.target.files[0].type);
-    this.setState({ files: e.target.files, fileName, src: this.state.src });
+
+    this.setState({ files: e.target.files, src: this.state.src });
     // self.uploadCover(e.target.files).then(response => {
     //   if (response.data.EC == 0) {
     //     toast.success("Thành công", {
@@ -130,22 +131,7 @@ class HeaderPost extends React.Component {
     //   }
     // });
   }
-  uploadCover(files) {
-    const url = "/fileupload/upload_image";
-    console.log("upload", files);
 
-    const formData = new FormData();
-    for (var i = 0; i < files.length; i++) {
-      formData.append("files", files[i]);
-    }
-
-    const config = {
-      headers: {
-        "Content-Type": "multipart/form-data"
-      }
-    };
-    return axios.post(url, formData, config);
-  }
   tag = () => {
     if (!this.state.showSelect.tag) this.state.showSelect.feel = false;
     this.state.showSelect.tag = !this.state.showSelect.tag;
@@ -169,8 +155,25 @@ class HeaderPost extends React.Component {
   onChangePolice = police => {
     this.setState({ police });
   };
+  resetForm() {
+    this.setState({
+      toggle: false,
+      showModalPost: false,
+      showModalSubject: false,
+      onBlur: false,
+      src: [],
+      file: null,
+      filename: "",
+
+      showSelect: {
+        tag: false,
+        feel: false
+      },
+      valueSelect: {}
+    });
+  }
   post = () => {
-    let { valueSelect, files, content, police } = this.state;
+    let { valueSelect, files, src, content, police } = this.state;
     let { feel, tag } = valueSelect;
     let dataPost = {
       content,
@@ -178,18 +181,19 @@ class HeaderPost extends React.Component {
       police_id: police ? police.id : null
     };
     let self = this;
-    if (files) {
-      FileUpload.upload(files).then(response => {
-        if (response.data.EC == 0) {
+    if (src && src.length > 0) {
+      FileUpload.upload_with_src(src)
+        .then(response => {
           io.socket.post(
             "/post/postStatus",
             {
               data: dataPost,
-              urls_file: response.data.DT,
+              urls_file: response,
               listTag: valueSelect["tag"]
             },
             function(resdata, jwres) {
               if (resdata.EC == 0) {
+                self.resetForm();
                 toast.success("Thành công", {
                   position: toast.POSITION.TOP_CENTER
                 });
@@ -198,22 +202,22 @@ class HeaderPost extends React.Component {
               }
             }
           );
-        }
-      });
+        })
+        .catch(err => {});
     } else {
-      io.socket.post(
-        "/post/postStatus",
-        { data: dataPost, listTag: valueSelect["tag"] },
-        function(resdata, jwres) {
-          if (resdata.EC == 0) {
-            toast.success("Thành công", {
-              position: toast.POSITION.TOP_CENTER
-            });
-          } else {
-            self.setState({ err_msg: resdata.EM });
-          }
-        }
-      );
+      // io.socket.post(
+      //   "/post/postStatus",
+      //   { data: dataPost, listTag: valueSelect["tag"] },
+      //   function(resdata, jwres) {
+      //     if (resdata.EC == 0) {
+      //       toast.success("Thành công", {
+      //         position: toast.POSITION.TOP_CENTER
+      //       });
+      //     } else {
+      //       self.setState({ err_msg: resdata.EM });
+      //     }
+      //   }
+      //  );
     }
   };
   componentDidMount() {}
@@ -348,9 +352,17 @@ class HeaderPost extends React.Component {
                   style={{ height: "100px" }}
                   className="col-md-3"
                 >
-                 {item.type_file=="image"?
-                  <img style={{ height: "100%", width: "100%" }} src={item.data} />:
-                  <ContainerVideo style={{ height: "100%", width: "100%" }}  src={item.data} />}
+                  {item.type_file == "image" ? (
+                    <img
+                      style={{ height: "100%", width: "100%" }}
+                      src={item.data}
+                    />
+                  ) : (
+                    <ContainerVideo
+                      style={{ height: "100%", width: "100%" }}
+                      src={item.data}
+                    />
+                  )}
                 </div>
               );
             })}

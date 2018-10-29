@@ -1,7 +1,102 @@
 module.exports = {
   //thông báo những người comment bài đăng đến ng đăng bài và ng comment bài
-  notifiPostUser_Comment: async function(postId, data, req) {
-    let post = await Post.findOne({ id: postId });
+  notifiPostUser_Comment: async function(post_id, data, req) {
+    let post = await Post.findOne({ id: post_id });
+    // let datanotifi = {
+    //   userId: req.session.user.id,
+    //   url_ref: "/post.notifi." + postId,
+    //   text: " đã bình luận bài đăng " + post.title + " của",
+    //   type: "comment",
+    //   time: Date.now(),
+    //   data: data,
+    //   incognito: req.session.user.incognito
+    // };
+    // let notifi = await Notification.create(datanotifi);
+    // notifi.user_notifi = req.session.user;
+
+    // let listIdPostRef = [];
+    // listIdPostRef[0] = req.session.user.id;
+    // listIdPostRef[1] = post.userId_post;
+    // if (post.userId_wall) listIdPostRef[2] = post.userId_wall;
+
+    // let listUserComment = await Comment.find({
+    //   postId,
+    //   groupBy: "userId_comment",
+    //   userId_comment: { "!": listIdPostRef }
+    // }).sum();
+    // console.log("lisst", listUserComment);
+    // if (post.userId_post != req.session.user.id)
+    //   listUserComment.push({ userId_comment: post.userId_post });
+    // if (post.userId_wall)
+    //   listUserComment.push({ userId_comment: post.userId_wall });
+    // console.log("list", listUserComment);
+    // listUserComment.forEach(user => {
+    //   //tăng sô thông báo tưng user
+
+    //   User.findOne({ id: user.userId_comment }).exec((err, user) => {
+    //     if (!user.number_notifi) user.number_notifi = 1;
+    //     else user.number_notifi += 1;
+    //     user.save({});
+    //   });
+    //   //tạo thông báo
+    //   Ref_notification_user.create({
+    //     notificationId: notifi.id,
+    //     userId: user.userId_comment,
+    //     readNotifi: false,
+    //     status: true
+    //   }).exec({});
+
+    //   //đồng bộ thông báo điến các user
+    //   sails.sockets.broadcast(
+    //     "NotificationUser",
+    //     "notifi_user" + user.userId_comment,
+    //     notifi,
+    //     req
+    //   );
+    // });
+    let listFollow_Post = await Follow_post.find({ post_id, status: 1 });
+    let datanotifi = {
+      userId: req.session.user.id,
+      url_ref: "/post.notifi." + post_id,
+      text: " đã bình luận bài đăng " + post.title + " của",
+      type: "comment",
+      time: Date.now(),
+      data: data,
+      incognito: req.session.user.incognito
+    };
+    let notifi = await Notification.create(datanotifi);
+    notifi.user_notifi = req.session.user;
+
+    let listDataInsert = [];
+
+    //duyệt trên danh sách follow bài viết để gửi notify
+    listFollow_Post.forEach(follow_post => {
+      User.findOne({ id: follow_post.user_id }).exec((err, user) => {
+        if (!user.number_notifi) user.number_notifi = 1;
+        else user.number_notifi += 1;
+        user.save({});
+      });
+      let dataInsert = {
+        notificationId: notifi.id,
+        userId: follow_post.user_id,
+        readNotifi: false,
+        status: true
+      };
+      listDataInsert.push(dataInsert);
+      //đồng bộ thông báo điến các user
+      sails.sockets.broadcast(
+        "NotificationUser",
+        "notifi_user" + follow_post.user_id,
+        notifi,
+        req
+      );
+    });
+
+    //insert listdataNotifi ref
+    Ref_notification_user.create(listDataInsert).exec(() => {});
+  },
+  follow_post: async function(post_id, data) {
+    let listFollow_Post = await Follow_post.find({ post_id, status: 1 });
     let datanotifi = {
       userId: req.session.user.id,
       url_ref: "/post.notifi." + postId,
@@ -14,47 +109,35 @@ module.exports = {
     let notifi = await Notification.create(datanotifi);
     notifi.user_notifi = req.session.user;
 
-    let listIdPostRef = [];
-    listIdPostRef[0] = req.session.user.id;
-    listIdPostRef[1] = post.userId_post;
-    if (post.userId_wall) listIdPostRef[2] = post.userId_wall;
+    let listDataInsert = [];
 
-    let listUserComment = await Comment.find({
-      postId,
-      groupBy: "userId_comment",
-      userId_comment: { "!": listIdPostRef }
-    }).sum();
-    console.log("lisst", listUserComment);
-    if (post.userId_post != req.session.user.id)
-      listUserComment.push({ userId_comment: post.userId_post });
-    if (post.userId_wall)
-      listUserComment.push({ userId_comment: post.userId_wall });
-    console.log("list", listUserComment);
-    listUserComment.forEach(user => {
-      //tăng sô thông báo tưng user
-
-      User.findOne({ id: user.userId_comment }).exec((err, user) => {
+    //duyệt trên danh sách follow bài viết để gửi notify
+    listFollow_Post.forEach(follow_post => {
+      User.findOne({ id: user.follow_post.user_id }).exec((err, user) => {
         if (!user.number_notifi) user.number_notifi = 1;
         else user.number_notifi += 1;
         user.save({});
       });
-      //tạo thông báo
-      Ref_notification_user.create({
+      let dataInsert = {
         notificationId: notifi.id,
-        userId: user.userId_comment,
+        userId: follow_post.user_id,
         readNotifi: false,
         status: true
-      }).exec({});
-
+      };
+      listDataInsert.push(dataInsert);
       //đồng bộ thông báo điến các user
       sails.sockets.broadcast(
         "NotificationUser",
-        "notifi_user" + user.userId_comment,
+        "notifi_user" + follow_post.user_id,
         notifi,
         req
       );
     });
+
+    //insert listdataNotifi ref
+    Ref_notification_user.create(listDataInsert).exec(() => {});
   },
+  //thông báo like bài viết
   notifiPostUser_Like: async function(post, req) {
     let datanotifi = {
       userId: req.session.user.id,
@@ -80,36 +163,40 @@ module.exports = {
       req
     );
   },
+  //thông báo tag bài viết lúc tạo bài viết
   tagPost: async function(post_id, listTag, req) {
     let datanotifi = {
       userId: req.session.user.id,
-      url_ref: "/post.notifi." + post.id,
+      url_ref: "/post.notifi." + post_id,
       text: "Đã gắn thẻ bạn vào 1 bài viết",
       type: "tag_post",
       time: Date.now()
       // data:post
     };
+    let notifi = await Notification.create(datanotifi);
+    let listDataInsert = [];
     for (var i = 0; i < listTag.length; i++) {
-      let notifi = await Notification.create(datanotifi);
       notifi.user_notifi = req.session.user;
       User.findOne({ id: listTag[i].id }).exec((err, user) => {
         if (!user.number_notifi) user.number_notifi = 1;
         else user.number_notifi += 1;
         user.save({});
       });
-      Ref_notification_user.create({
+      let dataInsert = {
         notificationId: notifi.id,
-        userId: user.id,
+        userId: listTag[i].id,
         readNotifi: false,
         status: true
-      }).exec({});
+      };
       sails.sockets.broadcast(
         "NotificationUser",
-        "notifi_user" + user.id,
+        "notifi_user" +  listTag[i].id,
         notifi,
         req
       );
+      listDataInsert[i] = dataInsert;
     }
+    Ref_notification_user.create(listDataInsert).exec({});
   },
   postToFriend: async function(post, req) {
     let listfriend = await Friends.find({

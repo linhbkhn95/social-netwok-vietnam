@@ -6,6 +6,7 @@
  */
 var FileUploadController = require("./FileUploadController");
 var Tag_postController = require("./Tag_postController");
+var Follow_postController = require("./Follow_postController");
 
 module.exports = {
   postStatus: async function(req, res) {
@@ -20,7 +21,6 @@ module.exports = {
       data.userId_wall = userWall.id;
     }
 
-    console.log("datapost", data, listTag, urls_file);
     Post.create(data).exec(async function(err, post) {
       if (err) {
       }
@@ -28,7 +28,9 @@ module.exports = {
         if (urls_file && urls_file.length > 0)
           FileUploadController.postFile(post.id, urls_file).then(data => {});
         if (listTag && listTag.length > 0) {
-          Tag_postController.addTag(req, listTag, post.id).then(data => {});
+           Tag_postController.addTag(req, listTag, post.id).then(data => {});
+           Follow_postController.add_with_listTag(req, listTag, post.id).then(data => {});
+
         }
         //  Elasticsearch.add('post','post',post)
 

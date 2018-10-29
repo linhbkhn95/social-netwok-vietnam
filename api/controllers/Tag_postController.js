@@ -21,7 +21,7 @@ module.exports = {
         if (err) {
           reject(err);
         }
-        NotificationUtils.notifiPostUser_Comment(post_id, listTag, req);
+        NotificationUtils.tagPost(post_id, listTag, req);
 
         resolve(listTagPost);
       });

@@ -207,24 +207,6 @@ const styles = theme => ({
   },
 });
 
-/**
- * The example data is structured as follows:
- *
- * import image from 'path/to/image.jpg';
- * [etc...]
- *
- * const tileData = [
- *   {
- *     img: image,
- *     title: 'Image',
- *     author: 'author',
- *     featured: true,
- *   },
- *   {
- *     [etc...]
- *   },
- * ];
- */
 import ComponentVideo from './ComponentVideo'
 
 class  AdvancedGridList extends React.Component {
@@ -284,7 +266,7 @@ class  AdvancedGridList extends React.Component {
         {this.state.listFile.map((tile,index) => (
           <GridListTile key={tile.img} cols={tile.cols} rows={tile.rows}>
 
-           {tile.type_file=="img"?<img src={tile.url_file} alt={tile.title} />:<ComponentVideo src={tile.url_file} />}
+           {tile.type_file=="image"?<img src={tile.url_file} alt={tile.title} />:<ComponentVideo src={tile.url_file} />}
             <GridListTileBar
               title={tile.title}
               titlePosition="top"

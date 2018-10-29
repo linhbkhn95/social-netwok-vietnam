@@ -21,6 +21,7 @@ header .dropdown-menu > li > a {
 .post-wall {
   background: #ffffff;
   color: #333;
+  display: grid;
   /* color: #f5f5f5; */
   border-radius: 5px;
   margin-bottom: 2px;

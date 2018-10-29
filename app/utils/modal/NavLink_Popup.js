@@ -67,12 +67,7 @@ class PopupInfo extends React.Component {
     let { userInfo } = this.state;
     let { list_friends_general } = userInfo;
 
-    // if (list_friends_general && list_friends_general.length) {
-    //   return list_friends_general.map(user => {
-    //     return (
-    //       <NavLink to={"/userpage." + user.username}>{user.fullname}</NavLink>
-    //     );
-    //   });
+ 
     if (list_friends_general && list_friends_general.length == 1) {
       return (
         <NavLink
