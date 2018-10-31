@@ -104,7 +104,19 @@ module.exports = {
               if (err) {
                 res.send(OutputInterface.errServer(err));
               }
-              res.send(OutputInterface.success(data));
+
+              Promise.all(
+                data.map(item => {
+                  return new Promise((resolve, reject) => {
+                    resolve({
+                      ...item,
+                      url_file: sails.config.url_service_upload + file.url_file
+                    });
+                  });
+                })
+              ).then(respone => {
+                res.send(OutputInterface.success(respone));
+              });
             }
           );
         } else res.send(OutputInterface.errServer("group k ton tai"));
@@ -142,10 +154,22 @@ module.exports = {
               if (err) {
                 res.send(OutputInterface.errServer(err));
               }
-              res.send(OutputInterface.success(data));
+
+              Promise.all(
+                data.map(item => {
+                  return new Promise((resolve, reject) => {
+                    resolve({
+                      ...item,
+                      url_file: sails.config.url_service_upload + item.url_file
+                    });
+                  });
+                })
+              ).then(respone => {
+                res.send(OutputInterface.success(respone));
+              });
             }
           );
-        } else res.send(OutputInterface.errServer("group k ton tai"));
+        } else res.send(OutputInterface.errServer("user k ton tai"));
       });
     } catch (error) {
       res.send(OutputInterface.errServer(error));

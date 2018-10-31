@@ -14,6 +14,8 @@ import PropTypes from "prop-types";
 import { ToastContainer, toast } from "react-toastify";
 import { connect } from "react-redux";
 import ModalEdit from "./ModalEditInfo";
+import FileUpload from "app/utils/upload/FileUpload";
+
 class Layout extends React.Component {
   constructor(props) {
     super(props);
@@ -73,13 +75,17 @@ class Layout extends React.Component {
     let file = e.target.files[0];
     var fileName = file.name;
     this.setState({ file: e.target.files[0], fileName });
-    self.fileUpload(e.target.files[0]).then(response => {
-      if (response.data.EC == 0) {
-        toast.success("Thành công", {
-          position: toast.POSITION.TOP_CENTER
-        });
-      }
-    });
+
+    this.upload_file(item).then(resdata => {
+    })
+
+    // self.fileUpload(e.target.files[0]).then(response => {
+    //   if (response.data.EC == 0) {
+    //     toast.success("Thành công", {
+    //       position: toast.POSITION.TOP_CENTER
+    //     });
+    //   }
+    // });
   }
   _handleChangeCover(e) {
     let self = this;

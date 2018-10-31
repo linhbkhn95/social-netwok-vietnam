@@ -55,10 +55,11 @@ module.exports = {
     //   );
     // });
     let listFollow_Post = await Follow_post.find({ post_id, status: 1 });
+    let listTagUser = await Tag_post.find({ post_id });
     let datanotifi = {
       userId: req.session.user.id,
       url_ref: "/post.notifi." + post_id,
-      text: " đã bình luận bài đăng " + post.title + " của",
+      text: " đã bình luận bài đăng bạn đang theo dõi",
       type: "comment",
       time: Date.now(),
       data: data,
@@ -69,7 +70,7 @@ module.exports = {
 
     let listDataInsert = [];
 
-    //duyệt trên danh sách follow bài viết để gửi notify
+    //duyệt trên danh sác1h follow bài viết để gửi notify
     listFollow_Post.forEach(follow_post => {
       User.findOne({ id: follow_post.user_id }).exec((err, user) => {
         if (!user.number_notifi) user.number_notifi = 1;
@@ -83,7 +84,16 @@ module.exports = {
         status: true
       };
       listDataInsert.push(dataInsert);
+
       //đồng bộ thông báo điến các user
+      //gender data notify theo use
+      let user_tag = listTagUser.filter(tag=>tag.user_id == follow_post.user_id);
+      if(user_tag&&user_tag.length>0){
+         notifi.text = "đã bình luận bài đăng bạn đang được gắn thẻ"
+         notifi.type = ""
+      }
+
+
       sails.sockets.broadcast(
         "NotificationUser",
         "notifi_user" + follow_post.user_id,
@@ -93,7 +103,23 @@ module.exports = {
     });
 
     //insert listdataNotifi ref
+    //tao ref nhung thong bao cho user
     Ref_notification_user.create(listDataInsert).exec(() => {});
+    //check user do da follow den bai post chua neu chua thi insert con khong thi update
+    let follow_post = await Follow_post.findOne({
+      post_id,
+      user_id: req.session.user.id
+    });
+    if (follow_post) {
+      follow_post.status = 1;
+      follow_post.save(() => {});
+    } else {
+      await Follow_post.findOne({
+        post_id,
+        user_id: req.session.user.id,
+        status: 1
+      });
+    }
   },
   follow_post: async function(post_id, data) {
     let listFollow_Post = await Follow_post.find({ post_id, status: 1 });
@@ -190,7 +216,7 @@ module.exports = {
       };
       sails.sockets.broadcast(
         "NotificationUser",
-        "notifi_user" +  listTag[i].id,
+        "notifi_user" + listTag[i].id,
         notifi,
         req
       );

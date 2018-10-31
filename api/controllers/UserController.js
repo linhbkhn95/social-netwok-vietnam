@@ -161,41 +161,44 @@ module.exports = {
     );
   },
   updateAvatar: async function(req, res) {
-    sails.log.info("req.headers", req.headers);
-    let file = req.file("file");
+    // sails.log.info("req.headers", req.headers);
+    // let file = req.file("file");
 
-    let data = {};
+    // let data = {};
 
-    req.file("file").upload(
-      {
-        // don't allow the total upload size to exceed ~100MB
-        maxBytes: 100000000,
-        // set the directory
-        dirname: "../../assets/images/user"
-      },
-      async function(err, uploadedFile) {
-        // if error negotiate
-        if (err) return res.negotiate(err);
-        console.log("filename", uploadedFile[0]);
-        //  data.url_image_gobal = uploadedFile[0].fd
-        var img = uploadedFile[0].fd.split("/");
+    // req.file("file").upload(
+    //   {
+    //     // don't allow the total upload size to exceed ~100MB
+    //     maxBytes: 100000000,
+    //     // set the directory
+    //     dirname: "../../assets/images/user"
+    //   },
+    //   async function(err, uploadedFile) {
+    //     // if error negotiate
+    //     if (err) return res.negotiate(err);
+    //     console.log("filename", uploadedFile[0]);
+    //     //  data.url_image_gobal = uploadedFile[0].fd
+    //     var img = uploadedFile[0].fd.split("/");
 
-        data.url_image = "/images/user/" + img[img.length - 1];
-        User.update(
-          { id: req.session.user.id },
-          { url_avatar: data.url_image }
-        ).exec((err, gt) => {
-          if (err) {
-            res.send(OutputInterface.errServer(err));
-          }
-          res.send(OutputInterface.success(gt));
-        });
-        // logging the filename
-        // console.log('filename',uploadedFile[0].filename);
-        // console.log('url',uploadedFile[0].fd);
-        // send ok response
-      }
-    );
+    //     data.url_image = "/images/user/" + img[img.length - 1];
+    //     User.update(
+    //       { id: req.session.user.id },
+    //       { url_avatar: data.url_image }
+    //     ).exec((err, gt) => {
+    //       if (err) {
+    //         res.send(OutputInterface.errServer(err));
+    //       }
+    //       res.send(OutputInterface.success(gt));
+    //     });
+    //     // logging the filename
+    //     // console.log('filename',uploadedFile[0].filename);
+    //     // console.log('url',uploadedFile[0].fd);
+    //     // send ok response
+    //   }
+    // );
+       let {url_avatar} = req.body;
+       sef
+
   },
   getUserId: function(req, res) {
     return res.send({ userId: req.session.user["id"] });

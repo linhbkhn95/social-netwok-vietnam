@@ -205,19 +205,24 @@ class HeaderPost extends React.Component {
         })
         .catch(err => {});
     } else {
-      // io.socket.post(
-      //   "/post/postStatus",
-      //   { data: dataPost, listTag: valueSelect["tag"] },
-      //   function(resdata, jwres) {
-      //     if (resdata.EC == 0) {
-      //       toast.success("Thành công", {
-      //         position: toast.POSITION.TOP_CENTER
-      //       });
-      //     } else {
-      //       self.setState({ err_msg: resdata.EM });
-      //     }
-      //   }
-      //  );
+      io.socket.post(
+        "/post/postStatus",
+        {
+          data: dataPost,
+          listTag: valueSelect["tag"]
+        },
+        function(resdata, jwres) {
+          if (resdata.EC == 0) {
+            self.resetForm();
+            toast.success("Thành công", {
+              position: toast.POSITION.TOP_CENTER
+            });
+          } else {
+            self.setState({ err_msg: resdata.EM });
+          }
+        }
+      );
+
     }
   };
   componentDidMount() {}

@@ -12,11 +12,9 @@ module.exports = {
   //   rest: false
   // }
   getInfo: function(req, res) {
-    console.log("groupgetinfoadadadadada");
     let { groupname } = req.body;
     Group.findOne({ id: 1 }).exec(async (err, group) => {
       if (err) {
-        console.log("ddadadad errr", err);
         return res.send(OutputInterface.errServer("Lỗi hệ thống"));
       }
       if (group) {
@@ -27,7 +25,6 @@ module.exports = {
     });
   },
   join: function(req, res) {
-    console.log("joinGroup", req.body);
     let { group_id, status, user_id } = req.body;
 
     user_id = user_id || req.session.user.id;
@@ -83,7 +80,6 @@ module.exports = {
             });
             item.isFriend = -1;
             if (friend) item.isFriend = friend.status;
-            console.log("firneadda", friend);
 
             item.countFriend = countFriend;
             resolve(item);

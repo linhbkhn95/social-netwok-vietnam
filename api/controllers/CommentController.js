@@ -81,7 +81,10 @@ module.exports = {
           comment.user_comment = req.session.user;
 
           // notifi.user = req.session.user;
+
+          //gui notification den nhung user follow vao bai post
           NotificationUtils.notifiPostUser_Comment(postId, comment, req);
+          //gui comment realtime den bai post
           sails.sockets.broadcast(
             "Subscribe_Status",
             data.postId,

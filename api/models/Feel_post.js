@@ -6,21 +6,22 @@
  */
 
 module.exports = {
-
   attributes: {
-      feelname:{
-          type:"string"
+    feelname: {
+      type: "string"
+    },
 
-      },
-      url_image:{
-          type:"string"
-      },
-      desc:{
-        type:"string"
-      },
-      colorText:{
-        type:"string"
-      }
+    url_image: {
+      type: "string"
+    },
+    desc: {
+      type: "string"
+    },
+    type: {
+      type: "integer"
+    },
+    colorText: {
+      type: "string"
+    }
   }
 };
-

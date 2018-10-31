@@ -28,12 +28,32 @@ module.exports = {
         if (urls_file && urls_file.length > 0)
           FileUploadController.postFile(post.id, urls_file).then(data => {});
         if (listTag && listTag.length > 0) {
-           Tag_postController.addTag(req, listTag, post.id).then(data => {});
-           Follow_postController.add_with_listTag(req, listTag, post.id).then(data => {});
-
+          Tag_postController.addTag(req, listTag, post.id).then(data => {});
+          Follow_postController.add_with_listTag(req, listTag, post.id).then(
+            data => {}
+          );
         }
         //  Elasticsearch.add('post','post',post)
-
+        await Follow_postController.add({
+          user_id: req.session.user.id,
+          post_id: post.id,
+          status: 1,
+          type: 0
+        });
+        await Follow_postController.add({
+          user_id: req.session.user.id,
+          post_id: post.id,
+          status: 1,
+          type: 0
+        });
+        if (userWall) {
+          await Follow_postController.add({
+            user_id: userWall.id,
+            post_id: post.id,
+            status: 1,
+            type: 4
+          });
+        }
         let subject = await Subject.findOne({ id: data.subject });
         post.subject = subject;
         post.listTag = listTag;
@@ -44,6 +64,7 @@ module.exports = {
         });
         post.userPost = userPost;
         post.userWall = userWall;
+        //gui bai post den cac user
         Post.publishCreate(post);
         NotificationUtils.postToFriend(post, req);
         //  Elasticsearch.add('post','post',post)
@@ -60,14 +81,12 @@ module.exports = {
     let dataUpdate = {};
     if (data.content) dataUpdate.content = data.content;
     if (data.feel_id) dataUpdate.feel_id = data.feel_id;
-    if(data.police_id) dataUpdate.police_id = police_id;
+    if (data.police_id) dataUpdate.police_id = police_id;
 
     if (data.file) {
-        let {listId_file_remove,listId_file_add} = data.file;
-
+      let { listId_file_remove, listId_file_add } = data.file;
     }
-    if(data.listTag){
-
+    if (data.listTag) {
     }
   },
   deletePost: function(req, res) {
@@ -80,8 +99,8 @@ module.exports = {
       if (err) {
         return res.send(OutputInterface.errServer("Lỗi hệ thống"));
       }
-      await File_post.destroy({post_id:id});
-      await Tag_post.destroy({post_id:id})
+      await File_post.destroy({ post_id: id });
+      await Tag_post.destroy({ post_id: id });
       await Comment.destroy({ postId: id });
       if (postdel.length > 0) {
         // Post.publishDestroy(postdel);
@@ -134,7 +153,7 @@ module.exports = {
               if (item.userId_wall) {
                 let userWall = await User.findOne({
                   id: item.userId_wall,
-                  select: ["id","fullname", "username", "url_avatar"]
+                  select: ["id", "fullname", "username", "url_avatar"]
                 });
                 item.userWall = userWall;
               }
@@ -153,7 +172,7 @@ module.exports = {
               item.userLikePost = false;
               let userPost = await User.findOne({
                 id: item.userId_post,
-                select: ["id","fullname", "username", "url_avatar"]
+                select: ["id", "fullname", "username", "url_avatar"]
               });
               item.userPost = userPost;
               let likePost = await Likepost.findOne({
@@ -203,7 +222,7 @@ module.exports = {
       if (item.userId_wall) {
         let userWall = await User.findOne({
           id: item.userId_wall,
-          select: ["id","fullname", "username", "url_avatar"]
+          select: ["id", "fullname", "username", "url_avatar"]
         });
         item.userWall = userWall;
       }
@@ -215,7 +234,7 @@ module.exports = {
 
       let userPost = await User.findOne({
         id: item.userId_post,
-        select: ["id","fullname", "username", "url_avatar"]
+        select: ["id", "fullname", "username", "url_avatar"]
       });
       item.userPost = userPost;
 
@@ -289,7 +308,7 @@ module.exports = {
               if (item.userId_wall) {
                 let userWall = await User.findOne({
                   id: item.userId_wall,
-                  select: ["id","fullname", "username", "url_avatar"]
+                  select: ["id", "fullname", "username", "url_avatar"]
                 });
                 item.userWall = userWall;
               }
@@ -301,7 +320,7 @@ module.exports = {
               item.userLikePost = false;
               let userPost = await User.findOne({
                 id: item.userId_post,
-                select: ["id","fullname", "username", "url_avatar"]
+                select: ["id", "fullname", "username", "url_avatar"]
               });
               item.userPost = userPost;
               let likePost = await Likepost.findOne({
@@ -374,7 +393,7 @@ module.exports = {
               if (item.userId_wall) {
                 let userWall = await User.findOne({
                   id: item.userId_wall,
-                  select: ["id","fullname", "username", "url_avatar"]
+                  select: ["id", "fullname", "username", "url_avatar"]
                 });
                 item.userWall = userWall;
               }
@@ -389,7 +408,7 @@ module.exports = {
 
               let userPost = await User.findOne({
                 id: item.userId_post,
-                select: ["id","fullname", "username", "url_avatar"]
+                select: ["id", "fullname", "username", "url_avatar"]
               });
               item.userPost = userPost;
 
