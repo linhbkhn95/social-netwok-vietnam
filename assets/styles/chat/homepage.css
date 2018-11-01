@@ -1,19 +1,18 @@
-body{
+body {
   background-color: #e7e8e4;
 }
-#wrapper{
+#wrapper {
   width: 1345px;
   background-color: white;
 
   padding: 6px;
   z-index: 9999;
 }
-.chat-window .panel-body{
-
+.chat-window .panel-body {
   /* min-height: 416px; */
   overflow-y: auto;
 }
-.chat-window-hide{
+.chat-window-hide {
   position: fixed;
   bottom: 0px;
   /* right: 224px; */
@@ -27,49 +26,48 @@ body{
   box-shadow: 0px 0px 0px 0px;
   z-index: 999999999999;
 }
-.chat-window-hide i{
+.chat-window-hide i {
   font-size: 20px;
-    padding: 3px;
-    color: #8e8f92;
+  padding: 3px;
+  color: #8e8f92;
 }
-.chat-window-hide .btn{
+.chat-window-hide .btn {
   padding: 1px 3px;
 }
-.focus-behide{
+.focus-behide {
   font-size: 12px;
-
+  z-index: 99999999994;
 }
-.focus-behide .popover-title{
+.focus-behide .popover-title {
   padding: 4px 5px;
   font-size: 12px;
-  
 }
-.focus-behide .popover-content{
+.focus-behide .popover-content {
   font-size: 12px;
   padding: 5px 5px 6px 6px;
   font-weight: bold;
 }
-.focus-behide .popover-content i{
+.focus-behide .popover-content i {
   cursor: pointer;
   margin-left: 10px;
   float: right;
   line-height: 18px;
-  color:#989695
+  color: #989695;
 }
-.focus-behide .item-user{
+.focus-behide .item-user {
   font-weight: bold;
   line-height: 18px;
-
-
 }
-.focus-behide .name-user-behide{
+.focus-behide .name-user-behide {
   float: left;
   cursor: pointer;
 }
-.focus-behide .name-user-behide:hover,focus{
+.focus-behide .name-user-behide:hover,
+focus {
   color: #1bad0b;
 }
-.focus-behide .item-user:hover,focus{
+.focus-behide .item-user:hover,
+focus {
   background: #e9ebef;
 }
 
@@ -82,104 +80,100 @@ body{
     font-family: cursive;
     color: #a167d8
 } */
-#number-online{
-    float: right ;
-    font-size: 23px;
-    color: #0e6784;
-    line-height: 77px;
-    margin-right: 58px;
+#number-online {
+  float: right;
+  font-size: 23px;
+  color: #0e6784;
+  line-height: 77px;
+  margin-right: 58px;
 
-    /* padding: 1px; */
-    /* height: 79px; */
-    border-radius: 11px;
-    padding-left: 3p;
-    margin-bottom: 5px;
-    box-shadow: 12px 9px 10px #7c8c82;
+  /* padding: 1px; */
+  /* height: 79px; */
+  border-radius: 11px;
+  padding-left: 3p;
+  margin-bottom: 5px;
+  box-shadow: 12px 9px 10px #7c8c82;
 }
 /* ghi de bootstrap*/
- .chat-window.panel-body{
+.chat-window.panel-body {
   height: 416px;
 }
-.facebook{
+.facebook {
   font-size: 19px;
 }
-.alert{
-    padding: 3px !important;
-    margin-bottom: 16px !important;
-    float: left;
-    clear: both;
-    margin-top: -5px;
-  }
- .chat-window .panel-heading{
+.alert {
+  padding: 3px !important;
+  margin-bottom: 16px !important;
+  float: left;
+  clear: both;
+  margin-top: -5px;
+}
+.chat-window .panel-heading {
   /* font-size: 21px; */
   font-weight: bold;
 }
 
-
-
-
-#main{
+#main {
   width: 823px;
   float: left;
   max-height: 600px;
   padding-left: 5px;
 }
-#header{
+#header {
   width: 100%;
-      background-color: #f0f5f0;
-      float: left;
-      z-index: 99999;
-      border-radius: 18px;
-      font-style: normal;
-      text-align: center;
-      font-weight: initial;
-      color: #1bad0b;
-      height: 125px;
+  background-color: #f0f5f0;
+  float: left;
+  z-index: 99999;
+  border-radius: 18px;
+  font-style: normal;
+  text-align: center;
+  font-weight: initial;
+  color: #1bad0b;
+  height: 125px;
 }
-#title{
+#title {
   height: 81px;
-    font-weight: bolder;
-    font-size: -webkit-xxx-large;
-    font-family: cursive,fantasy,serif;
-    /* border: 1px #cc2215; */
-    padding: 0px;
-    margin-right: 17px;
-    border-radius: 25px;
-    box-shadow: 10px 10px 5px #b6c3b7;
+  font-weight: bolder;
+  font-size: -webkit-xxx-large;
+  font-family: cursive, fantasy, serif;
+  /* border: 1px #cc2215; */
+  padding: 0px;
+  margin-right: 17px;
+  border-radius: 25px;
+  box-shadow: 10px 10px 5px #b6c3b7;
 }
-#content{
+#content {
   width: 100%;
   float: left;
   padding-top: 5px;
   background-color: white;
 }
-#left{
+#left {
   width: 252px;
   float: left;
   border-radius: 5px;
   max-height: 600px;
-  overflow-y:hidden;;
+  overflow-y: hidden;
 }
-#right{
+#right {
   width: 252px;
   float: right;
   border-radius: 5px;
   max-height: 600px;
-  overflow-y:hidden;;
+  overflow-y: hidden;
 }
 /* Message componet ***********/
-.timemsg{
+.timemsg {
   float: right;
-    margin-top: 12px;
-    margin-left: 10px;
-    font-size: 10px;
-    font-weight: inherit;
+  margin-top: 12px;
+  margin-left: 10px;
+  font-size: 10px;
+  font-weight: inherit;
   color: rgb(212, 103, 24);
 }
-#list-popup{
-
-    height: 50px;
-    position: fixed;
-    bottom: 0px;
-    width: 100%;
+#list-popup {
+  height: 50px;
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
 }

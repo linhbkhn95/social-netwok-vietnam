@@ -130,7 +130,7 @@ class ChatBox extends React.Component {
     return (
       <div
         style={{ right: this.props.right + "px" }}
-        className="row chat-window col-xs-4 col-md-2"
+        className="row chat-window col-xs-4 col-md-3"
       >
         <div className="col-xs-12 col-md-12">
           <div className="panel panel-default">

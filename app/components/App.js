@@ -51,39 +51,44 @@ class App extends React.Component {
       // <MuiThemeProvider muiTheme={muiTheme}>
       <Provider store={store}>
         <Router>
-          <Layout>
-            {/* <Link to="/user/login">Đăng nhập</Link>  */}
+          <React.Fragment>
 
-            <div>
+              {/* <Link to="/user/login">Đăng nhập</Link>  */}
               <Switch>
-                <Route exact path="/" component={Home} />
-                <Route path="/wall" component={Home} />
-                {/* <Route     path="/callvideo" component={CallVideo}/> */}
-                <Route path="/post.notifi.:postId" component={PostNotifi} />
-                <Route path="/groups/:groupname" component={GroupPage} />
-
-                <Route
-                  path="/userpage.:username"
-                  component={requrieFriend(UserPage)}
-                />
                 <Route path="/login" component={Login} />
-                {/* <Route  exact   path="/wall" component={Home}/> */}
-                <Route
-                  render={function() {
-                    return <Notfound />;
-                  }}
-                />
-              </Switch>
-              {/* <Route  path="/userpage.a" component={UserPage} /> */}
 
-              {/* <Route   path="/userpage.a"  render={function () {
+
+              <div>
+              <Layout>
+                  <Route exact path="/" component={Home} />
+                  <Route path="/wall" component={Home} />
+                  {/* <Route     path="/callvideo" component={CallVideo}/> */}
+                  <Route path="/post.notifi.:postId" component={PostNotifi} />
+                  <Route path="/groups/:groupname" component={GroupPage} />
+
+                  <Route
+                    path="/userpage.:username"
+                    component={requrieFriend(UserPage)}
+                  />
+
+                  {/* <Route  exact   path="/wall" component={Home}/> */}
+                  <Route
+                    render={function() {
+                      return <Notfound />;
+                    }}
+                  />
+                </Layout>
+                {/* <Route  path="/userpage.a" component={UserPage} /> */}
+
+                {/* <Route   path="/userpage.a"  render={function () {
                                     return <div><UserPage  /></div>
                                 }
                                 } />
 
                         } /> */}
-            </div>
-          </Layout>
+              </div>
+            </Switch>
+          </React.Fragment>
         </Router>
       </Provider>
 
