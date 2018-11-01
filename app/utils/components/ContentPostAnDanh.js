@@ -306,7 +306,7 @@ class PostAnhDanh extends React.Component {
                 className="fa fa-flag-o"
                 aria-hidden="true"
               />
-              {this.props.subject.subjectname}
+              {this.props.subject ? this.props.subject.subjectname : ""}
             </div>
           </div>
         </header>

@@ -566,7 +566,7 @@ div[contenteditable="true"]:focus {
   justify-content: flex-end;
   margin-right: 5px;
 }
-.footer-popup .btn-friend{
+.footer-popup .btn-friend {
   margin-right: 5px;
 }
 .card .info-data {
@@ -576,7 +576,6 @@ div[contenteditable="true"]:focus {
 }
 .row-data {
   display: flex;
-
 }
 .row-data .icon {
   /* width: 27px; */
@@ -586,11 +585,10 @@ div[contenteditable="true"]:focus {
   margin-left: 8px;
   color: #737475;
   margin-bottom: 5px;
-
 }
-.footer-popup .btn-join{
+.footer-popup .btn-join {
   background-color: #f5f6f7;
-  border:1px solid #ccd0d5;
+  border: 1px solid #ccd0d5;
   color: #4b4f56;
   font-size: 12px;
 
@@ -610,25 +608,32 @@ div[contenteditable="true"]:focus {
   text-decoration: none;
   white-space: nowrap;
 }
-.footer-popup .btn-join i{
+.footer-popup .btn-join i {
   font-size: 10px;
   color: #4b4f56;
   margin-right: 4px;
 }
-.banner-popup .img-cover{
-  background: url(https://moki.vn/moki/themes/img/UgNUNkKQar6.png) bottom left repeat-x;
-    /* border-bottom-color: rgba(0,0,0,.4); */
-    /* border: 1px solid #ddd; */
-    /* border-color: rgba(0, 0, 0, .25); */
-    /* border-top-color: rgba(0, 0, 0, .1); */
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-
+.banner-popup .img-cover {
+  background: url(https://moki.vn/moki/themes/img/UgNUNkKQar6.png) bottom left
+    repeat-x;
+  /* border-bottom-color: rgba(0,0,0,.4); */
+  /* border: 1px solid #ddd; */
+  /* border-color: rgba(0, 0, 0, .25); */
+  /* border-top-color: rgba(0, 0, 0, .1); */
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
 }
-.info-data .data  a{
-font-weight: normal !important;
-font-weight: 400 !important;
+.info-data .data a {
+  font-weight: normal !important;
+  font-weight: 400 !important;
+}
+.user-notification {
+  height: 37px;
+  align-items: center;
+  display: flex;
+  padding-left: 10px;
+  padding-right: 10px;
 }

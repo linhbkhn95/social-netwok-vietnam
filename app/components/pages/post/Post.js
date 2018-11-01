@@ -97,9 +97,7 @@ class PostNotifi extends React.Component {
     );
     return (
       <div>
-        <div className="col-md-8">
-          {ListStatus}
-        </div>
+        <div className="col-md-8">{ListStatus}</div>
       </div>
     );
   }

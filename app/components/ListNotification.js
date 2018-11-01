@@ -86,18 +86,20 @@ class ListNotification extends React.Component {
           <div id="notificationsBody" className="notifications">
             {data.length > 0 ? (
               data.map((notifi, index) => {
-                //    let text = notifi.type=="comment"?" đã bình luận về bài"
                 return (
                   <div
                     key={index}
                     style={{
-                      background: notifi.readNotifi ? "white" : "#ebf4e7"
+                      display: "flex",
+                      paddingTop: "5px",
+                      paddingBottom: "5px"
+                      // background: notifi.readNotifi ? "white" : "#ebf4e7"
                     }}
-                    className="col-md-12 alert-message"
+                    className="alert-message"
                   >
-                    <NavLink to={notifi.url_ref}>
+                    <NavLink style={{ display: "flex" }} to={notifi.url_ref}>
                       {" "}
-                      <div className="col-md-3 row">
+                      <div className="user-notification">
                         {notifi.incognito ? (
                           <img
                             className="avatar-alert"
@@ -114,7 +116,7 @@ class ListNotification extends React.Component {
                           </NavLink>
                         )}
                       </div>
-                      <div className="col-md-10 row">
+                      <div className="">
                         {notifi.incognito ? (
                           <strong>"Người lạ nào đó</strong>
                         ) : (
@@ -125,9 +127,9 @@ class ListNotification extends React.Component {
                             <strong>{notifi.user_notifi.fullname}</strong>
                           </NavLink>
                         )}{" "}
-                        {notifi.text + " bạn"}
+                        {notifi.text}
                         <br />
-                        <div>
+                        <div style={{marginTop:"3px"}}>
                           {" "}
                           <i
                             style={{
@@ -137,8 +139,10 @@ class ListNotification extends React.Component {
                             }}
                             className={
                               notifi.type == "like"
-                                ? "fa fa-heart-o"
-                                : "fa fa-comment-o"
+                                ? "far fa-thumbs-up"
+                                : notifi.type == "tag_post"
+                                  ? "fas fa-user-tag"
+                                  : "far fa-comment-alt"
                             }
                             aria-hidden="true"
                           />{" "}

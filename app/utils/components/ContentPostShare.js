@@ -20,6 +20,8 @@ import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import ModalShare from "./ModalShare";
 import Lightbox from "react-images";
+import HeaderPost from "./HeaderPost";
+
 const Msg = ({ closeToast }) => (
   <div style={{ borderBottom: "none" }} className=" alert-message">
     <NavLink to={"/"}>
@@ -133,7 +135,21 @@ class Post extends React.Component {
 
   render() {
     let self = this;
+    let jsxAtribute;
+    let { type_post } = this.props.post;
 
+    if (type_post == 2)
+      jsxAtribute = (
+        <React.Fragment>
+          đã chia sẻ{" "}
+          <NavLink
+            style={{ marginRight: "5px", marginLeft: "5px" }}
+            to={"/post.notifi." + this.props.post.postId_parent}
+          >
+            bài viết
+          </NavLink>{" "}
+        </React.Fragment>
+      );
     return (
       <div className="content-share">
         <header>
@@ -148,7 +164,7 @@ class Post extends React.Component {
                 className="fa fa-flag-o"
                 aria-hidden="true"
               />
-              {this.props.subject.subjectname}
+              {this.props.subject ? this.props.subject.subjectname : ""}
             </div>
           </div>
         </header>
@@ -169,13 +185,14 @@ class Post extends React.Component {
           </div>
           <div className="user-detail">
             <div className="user-name">
-              {this.props.incognito ? (
-                "Người lạ"
-              ) : (
-                <NavLink to={"/userpage." + this.props.userPost.username}>
-                  {this.props.userPost.fullname}
-                </NavLink>
-              )}
+              {/* {this.props.incognito?"Người lạ":<NavLink to={"/userpage."+this.props.userPost.username}>{this.props.userPost.fullname}</NavLink>} */}
+              <HeaderPost
+                incognito={this.props.incognito}
+                userPost={this.props.userPost}
+                listTag={this.props.post.listUserTag}
+                feel={this.props.post.feel}
+              />
+              {jsxAtribute}
             </div>
             {this.props.userWall ? (
               <div>
@@ -198,12 +215,26 @@ class Post extends React.Component {
               </div>
             ) : null}
 
-            <div className="time">
+            <div style={{display:"flex",clear:"both"}} className="time">
               <p className="">
                 {moment(this.props.time)
                   .lang("vi")
                   .fromNow()}
               </p>
+              <div style={{marginLeft:"3px"}} className="icon-police-post">
+                <img
+                  title={
+                    this.props.post.police
+                      ? this.props.post.police.policename
+                      : "Công khai"
+                  }
+                  src={
+                    this.props.post.police
+                      ? this.props.post.police.url_image
+                      : "/images/icons/police/internet.png"
+                  }
+                />
+              </div>
             </div>
           </div>
         </div>

@@ -10,7 +10,7 @@ section#user_main div.home-user .banner {
   margin-top: -70px;
   background-size: cover;
   background-repeat: no-repeat;
-  background-size: 100% 100%;
+  /* background-size: 100% 100%; */
 }
 section#user_main div.home-user .banner .background-cover {
   background: url(https://moki.vn/moki/themes/img/UgNUNkKQar6.png) bottom left

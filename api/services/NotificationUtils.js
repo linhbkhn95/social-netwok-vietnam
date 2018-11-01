@@ -54,7 +54,11 @@ module.exports = {
     //     req
     //   );
     // });
-    let listFollow_Post = await Follow_post.find({ post_id, status: 1 });
+    let listFollow_Post = await Follow_post.find({
+      post_id,
+      status: 1,
+      user_id: { "!": [req.session.user.id] }
+    });
     let listTagUser = await Tag_post.find({ post_id });
     let datanotifi = {
       userId: req.session.user.id,
@@ -87,12 +91,19 @@ module.exports = {
 
       //đồng bộ thông báo điến các user
       //gender data notify theo use
-      let user_tag = listTagUser.filter(tag=>tag.user_id == follow_post.user_id);
-      if(user_tag&&user_tag.length>0){
-         notifi.text = "đã bình luận bài đăng bạn đang được gắn thẻ"
-         notifi.type = ""
+      let user_tag = listTagUser.filter(
+        tag => tag.user_id == follow_post.user_id
+      );
+      if (user_tag && user_tag.length > 0) {
+        notifi.text = "đã bình luận bài đăng bạn đang được gắn thẻ";
+        notifi.type = "tag";
+      } else if (follow_post.user_id == post.userId_post) {
+        notifi.text = "đã bình luận bài về  bài đăng của bạn";
+        notifi.type = "mypost";
+      } else if (follow_post.user_id == post.userId_wall) {
+        notifi.text = "đã bình luận bài về  bài đăng trên tường của bạn";
+        notifi.type = "tag";
       }
-
 
       sails.sockets.broadcast(
         "NotificationUser",
@@ -199,6 +210,7 @@ module.exports = {
       time: Date.now()
       // data:post
     };
+    
     let notifi = await Notification.create(datanotifi);
     let listDataInsert = [];
     for (var i = 0; i < listTag.length; i++) {
@@ -260,18 +272,20 @@ module.exports = {
         req
       );
     }
-    for (var i = 0; i < listfriend.length; i++) {
-      let userIdPatner =
-        listfriend[i].userId_one == req.session.user.id
-          ? listfriend[i].userId_two
-          : listfriend[i].userId_one;
+    if (post.police && post.police.id != 3) {
+      for (var i = 0; i < listfriend.length; i++) {
+        let userIdPatner =
+          listfriend[i].userId_one == req.session.user.id
+            ? listfriend[i].userId_two
+            : listfriend[i].userId_one;
 
-      sails.sockets.broadcast(
-        "Subscribe_Status",
-        "post" + userIdPatner,
-        post,
-        req
-      );
+        sails.sockets.broadcast(
+          "Subscribe_Status",
+          "post" + userIdPatner,
+          post,
+          req
+        );
+      }
     }
   },
   notifiAccessFriend: async function(statusFriend, userFriend, req) {

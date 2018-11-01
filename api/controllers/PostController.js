@@ -34,12 +34,10 @@ module.exports = {
           );
         }
         //  Elasticsearch.add('post','post',post)
-        await Follow_postController.add({
-          user_id: req.session.user.id,
-          post_id: post.id,
-          status: 1,
-          type: 0
-        });
+        if (post.police_id) {
+          police = await Police_post.findOne({ id: post.police_id });
+          post.police = police;
+        }
         await Follow_postController.add({
           user_id: req.session.user.id,
           post_id: post.id,
@@ -56,7 +54,7 @@ module.exports = {
         }
         let subject = await Subject.findOne({ id: data.subject });
         post.subject = subject;
-        post.listTag = listTag;
+        post.listUserTag = listTag;
         post.userLikePost = false;
         let userPost = await User.findOne({
           id: post.userId_post,
@@ -66,7 +64,10 @@ module.exports = {
         post.userWall = userWall;
         //gui bai post den cac user
         Post.publishCreate(post);
+
+        //gửi bài post realtime đến trang chủ của bạn bè
         NotificationUtils.postToFriend(post, req);
+        UtilsSocket.sendPost_toWall(post, req);
         //  Elasticsearch.add('post','post',post)
 
         return res.send(OutputInterface.success(post));
@@ -232,6 +233,17 @@ module.exports = {
       let likePost = await Likepost.findOne({ postId: item.id, userId });
       if (likePost) item.userLikePost = likePost.status ? true : false;
 
+      Tag_postController.getlist_user(item.id).then(listUserTag => {
+        item.listUserTag = listUserTag;
+      });
+      if (item.feel_id) {
+        feel = await Feel_post.findOne({ id: item.feel_id });
+        item.feel = feel;
+      }
+      if (item.police_id) {
+        police = await Police_post.findOne({ id: item.police_id });
+        item.police = police;
+      }
       let userPost = await User.findOne({
         id: item.userId_post,
         select: ["id", "fullname", "username", "url_avatar"]
@@ -294,6 +306,8 @@ module.exports = {
 
     listIdFriend[listIdFriend.length] = req.session.user.id;
     dataQuery.userId_post = listIdFriend;
+    dataQuery.police_id = { "!": [3] };
+
     console.log("datqẻy", dataQuery, pagesize, page);
     Post.find({ where: { sort: "createdAt DESC" } })
       .where(dataQuery)
@@ -315,6 +329,14 @@ module.exports = {
               Tag_postController.getlist_user(item.id).then(listUserTag => {
                 item.listUserTag = listUserTag;
               });
+              if (item.feel_id) {
+                feel = await Feel_post.findOne({ id: item.feel_id });
+                item.feel = feel;
+              }
+              if (item.police_id) {
+                police = await Police_post.findOne({ id: item.police_id });
+                item.police = police;
+              }
 
               let userId = req.session.user ? req.session.user.id : "";
               item.userLikePost = false;
@@ -398,6 +420,17 @@ module.exports = {
                 item.userWall = userWall;
               }
               let userId = req.session.user ? req.session.user.id : "";
+              Tag_postController.getlist_user(item.id).then(listUserTag => {
+                item.listUserTag = listUserTag;
+              });
+              if (item.feel_id) {
+                feel = await Feel_post.findOne({ id: item.feel_id });
+                item.feel = feel;
+              }
+              if (item.police_id) {
+                police = await Police_post.findOne({ id: item.police_id });
+                item.police = police;
+              }
               item.userLikePost = false;
 
               let likePost = await Likepost.findOne({
