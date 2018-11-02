@@ -698,3 +698,6 @@ div[contenteditable="true"]:focus {
   color: green;
   font-weight: 500;
 }
+.post-wall:focus {
+  background: red;
+}

@@ -222,10 +222,18 @@ class HeaderPost extends React.Component {
           }
         }
       );
-
     }
   };
-  componentDidMount() {}
+  componentDidMount() {
+    $("article")
+      .blur(function() {
+        console.log("foscusadadada");
+        $(".post-wall").css("box-shadow", "none");
+      })
+      .focus(function() {
+        $(".post-wall").css("box-shadow", "0 0 196px rgba(0, 0, 0, 1)");
+      });
+  }
   render() {
     const { selectedOption } = this.state;
 

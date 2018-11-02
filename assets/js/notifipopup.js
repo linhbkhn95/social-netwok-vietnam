@@ -9,7 +9,7 @@
 // return false;
 // });
 
-//Document Click hiding the popup 
+//Document Click hiding the popup
 // $(document).click(function()
 // {
 //     console.log('close')
