@@ -11,7 +11,6 @@
  */
 
 module.exports = {
-
   /***************************************************************************
    * Set the default database connection for models in the production        *
    * environment (see config/connections.js and config/models.js )           *
@@ -26,7 +25,8 @@ module.exports = {
    ***************************************************************************/
 
   // port: 80,
-
+  port: 1337,
+  hookTimeout: 80000
   /***************************************************************************
    * Set the log level in production environment to "silent"                 *
    ***************************************************************************/
@@ -34,9 +34,9 @@ module.exports = {
   // log: {
   //   level: "silent"
   // }
-  ssl: {
-    ca: require('fs').readFileSync(require('path').resolve(__dirname,'../ssl/my-gd-bundle.crt')),
-    key: require('fs').readFileSync(require('path').resolve(__dirname,'../ssl/my-ssl.key')),
-    cert: require('fs').readFileSync(require('path').resolve(__dirname,'../ssl/my-ssl.crt'))
-  }
+  // ssl: {
+  //   ca: require('fs').readFileSync(require('path').resolve(__dirname,'../ssl/my-gd-bundle.crt')),
+  //   key: require('fs').readFileSync(require('path').resolve(__dirname,'../ssl/my-ssl.key')),
+  //   cert: require('fs').readFileSync(require('path').resolve(__dirname,'../ssl/my-ssl.crt'))
+  // }
 };

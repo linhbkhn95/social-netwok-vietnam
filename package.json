@@ -94,12 +94,12 @@
   },
   "scripts": {
     "debug": "node debug app.js",
-    "start": "node app.js webpack -w"
+    "start": "SET NODE_ENV=production  & nodemon  app.js"
   },
   "main": "app.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/linhbkhn95/moki.vn"
+    "url": "git://github.com/linhbkhn95/webtamsuandanh.vn"
   },
   "author": "linhtd",
   "license": "",
@@ -117,6 +117,7 @@
     "html-loader": "^0.5.5",
     "isomorphic-style-loader": "^4.0.0",
     "node-sass": "^4.5.3",
+    "nodemon": "^1.18.5",
     "postcss-loader": "^2.0.6",
     "prop-types": "^15.5.10",
     "sass-loader": "^6.0.6",
