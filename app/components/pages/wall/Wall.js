@@ -1,7 +1,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 
-import HeaderPost from './components/HeaderPost'
+import ModalPostStatus from "app/utils/modal/ModalPostStatus";
 import ListPost from './components/ListPost'
 import LeftWall from './components/LeftWall'
 import ListCanFriend from './components/ListCanFriend'
@@ -16,7 +16,7 @@ class Wall extends React.Component{
                   <LeftWall />
                </div>
              <div className="col-md-6 remove-padiing-col" >
-                 <HeaderPost />
+                 <ModalPostStatus />
                  <ListPost  />
               </div>
               <div className="col-md-4 remove-padding-col">

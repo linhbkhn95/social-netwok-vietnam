@@ -52,31 +52,30 @@ class App extends React.Component {
       <Provider store={store}>
         <Router>
           <React.Fragment>
+            {/* <Link to="/user/login">Đăng nhập</Link>  */}
+            <Switch>
+              <Route path="/login" component={Login} />
+              <React.Fragment>
+                <Layout>
+                  <Switch>
+                    <Route exact path="/" component={Home} />
+                    <Route path="/wall" component={Home} />
+                    {/* <Route     path="/callvideo" component={CallVideo}/> */}
+                    <Route path="/post.notifi.:postId" component={PostNotifi} />
+                    <Route path="/groups/:groupname" component={GroupPage} />
 
-              {/* <Link to="/user/login">Đăng nhập</Link>  */}
-              <Switch>
-                <Route path="/login" component={Login} />
+                    <Route
+                      path="/userpage.:username"
+                      component={requrieFriend(UserPage)}
+                    />
 
-
-              <div>
-              <Layout>
-                  <Route exact path="/" component={Home} />
-                  <Route path="/wall" component={Home} />
-                  {/* <Route     path="/callvideo" component={CallVideo}/> */}
-                  <Route path="/post.notifi.:postId" component={PostNotifi} />
-                  <Route path="/groups/:groupname" component={GroupPage} />
-
-                  <Route
-                    path="/userpage.:username"
-                    component={requrieFriend(UserPage)}
-                  />
-
-                  {/* <Route  exact   path="/wall" component={Home}/> */}
-                  <Route
-                    render={function() {
-                      return <Notfound />;
-                    }}
-                  />
+                    {/* <Route  exact   path="/wall" component={Home}/> */}
+                    <Route
+                      render={function() {
+                        return <Notfound />;
+                      }}
+                    />
+                  </Switch>
                 </Layout>
                 {/* <Route  path="/userpage.a" component={UserPage} /> */}
 
@@ -86,7 +85,7 @@ class App extends React.Component {
                                 } />
 
                         } /> */}
-              </div>
+              </React.Fragment>{" "}
             </Switch>
           </React.Fragment>
         </Router>

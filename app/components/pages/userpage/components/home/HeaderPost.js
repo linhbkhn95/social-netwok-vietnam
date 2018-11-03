@@ -14,6 +14,8 @@ import SelectUtils from "app/utils/input/ReactSelectCustom";
 import SelectPolice from "app/utils/input/SelectPolice";
 import ContainerVideo from "app/utils/components/ComponentVideo";
 var Select = require("react-select");
+const enhanceWithClickOutside = require("react-click-outside");
+
 import {
   NavDropdown,
   Navbar,
@@ -55,7 +57,8 @@ class HeaderPost extends React.Component {
         tag: false,
         feel: false
       },
-      valueSelect: {}
+      valueSelect: {},
+      styleModalpost: {}
     };
   }
   onChangeSelect(value) {
@@ -225,20 +228,40 @@ class HeaderPost extends React.Component {
     }
   };
   componentDidMount() {
-    $("article")
-      .blur(function() {
-        console.log("foscusadadada");
-        $(".post-wall").css("box-shadow", "none");
-      })
-      .focus(function() {
-        $(".post-wall").css("box-shadow", "0 0 196px rgba(0, 0, 0, 1)");
-      });
+    // $("article")
+    //   .blur(function() {
+    //     console.log("foscusadadada");
+    //     $(".post-wall").css("box-shadow", "none");
+    //   })
+    //   .focus(function() {
+    //     $(".post-wall").css("box-shadow", "0 0 196px rgba(0, 0, 0, 1)");
+    //   });
   }
+
+  handleClickOutside() {
+    console.log("click outdadadad");
+    this.toggle();
+  }
+  toggle() {
+    this.setState({
+      styleModalpost: { boxShadow: "none" }
+    });
+  }
+  clickModalPost = () => {
+    this.setState({
+      styleModalpost: { boxShadow: "0 0 196px rgba(0, 0, 0, 1)" }
+    });
+  };
   render() {
     const { selectedOption } = this.state;
+    let style = this.state.styleModalpost;
 
     return (
-      <div className="col-md-12 post-wall remove-padding-col ">
+      <div
+        style={style}
+        onClick={this.clickModalPost}
+        className="col-md-12 post-wall remove-padding-col "
+      >
         <div className="header-post-new">
           <div className="question">
             <i className="fas fa-pencil-alt" aria-hidden="true" /> Viết bài
@@ -474,4 +497,4 @@ module.exports = connect(function(state) {
   return {
     auth: state.auth
   };
-})(HeaderPost);
+})(enhanceWithClickOutside(HeaderPost));
