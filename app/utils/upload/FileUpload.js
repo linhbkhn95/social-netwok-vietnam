@@ -26,7 +26,9 @@ module.exports = {
 
     const config = {
       headers: {
-        "Content-Type": "multipart/form-data"
+        "Access-Control-Allow-Origin": "*",
+        Accept: "application/json",
+        "Content-Type": "application/json"
       },
       params: { type_file: data.type_file }
     };

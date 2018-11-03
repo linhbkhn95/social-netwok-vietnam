@@ -702,3 +702,15 @@ div[contenteditable="true"]:focus {
 .post-wall:focus {
   background: red;
 }
+.left-wall {
+  position: fixed;
+  /* float: left; */
+  width: auto;
+  width: 179px;
+  float: left;
+  min-height: 50px;
+  /* padding: 20px 0 0 2px; */
+  /* position: relative; */
+  width: 179px;
+  z-index: 99999;
+}
