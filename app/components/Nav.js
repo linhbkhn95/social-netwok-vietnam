@@ -198,7 +198,8 @@ class NavContent extends React.Component {
                 <NavItem
                   style={{
                     display: "flex",
-                    alignItems: "center"
+                    alignItems: "center",
+                    height: '46px',
                   }}
                   eventKey={2}
                   href="#"

@@ -327,6 +327,7 @@ textarea {
   font-size: 11px;
 }
 .navbar-inverse {
+  margin-bottom: 0px;
   height: 46px;
   display: flex;
   align-items: center;
@@ -335,6 +336,7 @@ textarea {
   /* border-color: #080808; */
   /* background-image: linear-gradient(123deg, #00398f, #086ed5,#0850bd) !important; */
   border-color: #157317;
+  min-height: 46px !important;
 }
 
 .left-wall .user-name {
@@ -716,6 +718,7 @@ div[contenteditable="true"]:focus {
 }
 .div-item-action {
   display: flex;
+  cursor: pointer;
   padding: 10px 15px;
   align-items: center;
   /* position: relative;
@@ -727,4 +730,10 @@ div[contenteditable="true"]:focus {
 header .navbar-right {
   align-items: center;
   display: flex;
+}
+header ul li:hover {
+  background: #2a6d18;
+}
+header ul li{
+
 }
