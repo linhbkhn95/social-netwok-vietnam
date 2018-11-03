@@ -714,3 +714,17 @@ div[contenteditable="true"]:focus {
   width: 179px;
   z-index: 99999;
 }
+.div-item-action {
+  display: flex;
+  padding: 10px 15px;
+  align-items: center;
+  /* position: relative;
+  display: block;
+  padding: 10px 15px; */
+  /* padding-top: 15px;
+  padding-bottom: 15px; */
+}
+header .navbar-right {
+  align-items: center;
+  display: flex;
+}

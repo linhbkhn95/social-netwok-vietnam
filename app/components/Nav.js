@@ -195,7 +195,14 @@ class NavContent extends React.Component {
                           </NavDropdown> */}
               </Nav>
               <Nav pullRight>
-                <NavItem eventKey={2} href="#">
+                <NavItem
+                  style={{
+                    display: "flex",
+                    alignItems: "center"
+                  }}
+                  eventKey={2}
+                  href="#"
+                >
                   <NavLink to={"/userpage." + this.props.auth.user.username}>
                     <div className="user-avatar">
                       <img

@@ -88,10 +88,16 @@ class listRequesFriends extends React.Component {
         {number_reqfriend ? (
           <span id="notification_count">{number_reqfriend}</span>
         ) : null}
-        <a href="#" ref="foo" id="notificationLink" data-tip="Thông báo">
+        <div
+          className="div-item-action"
+          href="#"
+          ref="foo"
+          id="notificationLink"
+          data-tip="Thông báo"
+        >
           {" "}
           <i className="fa fa-user-plus" aria-hidden="true" />{" "}
-        </a>
+        </div>
 
         <div id="listRequesFriends">
           <div className="beeperNub" />

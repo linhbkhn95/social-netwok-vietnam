@@ -71,13 +71,13 @@ class ListNotification extends React.Component {
         {number_notifi ? (
           <span id="notification_count">{number_notifi}</span>
         ) : null}
-        <a href="#" ref="foo" id="notificationLink" data-tip="Thông báo">
+        <div className="div-item-action"  ref="foo" id="notificationLink" data-tip="Thông báo">
           <i
             style={{ color: " rgb(92, 184, 92)" }}
             className="fas fa-bell"
             aria-hidden="true"
           />{" "}
-        </a>
+        </div>
 
         <div id="notificationContainer">
           <div className="beeperNub" />
