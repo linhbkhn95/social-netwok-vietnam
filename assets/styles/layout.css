@@ -211,6 +211,8 @@ img {
 .post .time {
   align-items: center;
   display: flex;
+  clear: both;
+  margin-bottom: 6px;
 }
 .post .time p {
   color: #b2b2bb;
@@ -227,7 +229,7 @@ img {
   /* padding: 10px 15px 10px 15px; */
   /* background: #f5f5f5; */
   /* margin-top: 15px; */
-  /* border-bottom: 1px solid #f0f0f1; */
+  border-bottom: 1px solid #f0f0f1;
   display: flex;
   border-top: 1px solid #f0f0f1;
 }

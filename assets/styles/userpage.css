@@ -505,6 +505,8 @@ section#user_main div.content-main .head {
   padding-left: 7px;
 }
 .text-rep {
+  float: left;
+  display: flex;
   font-size: 13px;
   background: #eff1f3;
   color: #1d2129;

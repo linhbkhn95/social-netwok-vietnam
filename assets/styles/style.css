@@ -144,6 +144,8 @@
   padding-bottom: 20px;
   /* background: #f2f3f5; */
   padding-top: 20px;
+  /* display: flex; */
+  align-items: center;
 }
 .post-repcomment .input-repcomment {
   border-radius: 50px;
@@ -201,6 +203,7 @@
   padding: 10px 0px 10px 0px;
   margin-bottom: 5px;
   clear: both;
+  padding: 0px 0px 0px 0px;
   /* margin-top: -15px; */
 }
 .text-rep .pull-right li {
@@ -269,4 +272,9 @@
   height: 5px;
   margin-left: 4px;
   width: 5px;
+}
+.data-comment {
+  /* display: flex; */
+  clear: both;
+  justify-content: flex-start;
 }

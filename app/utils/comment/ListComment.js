@@ -154,23 +154,26 @@ class ListComment extends React.Component {
           )}
           <div className="col-md-10">
             <div className="text-rep">
-              <span
-                style={{
-                  color: "rgb(21, 165, 65)",
-                  fontSize: "12px",
-                  fontWeight: " bold"
-                }}
-                className=""
-              >
-                {data.incognito ? (
-                  "Người lạ " + data.user_comment.id
-                ) : (
-                  <NavLink to={"/userpage." + data.user_comment.username}>
-                    {data.user_comment.fullname}
-                  </NavLink>
-                )}{" "}
-              </span>
-              {data.text}
+              <div>
+                <span
+                  style={{
+                    color: "rgb(21, 165, 65)",
+                    fontSize: "12px",
+                    fontWeight: " bold",
+                    marginRight: "5px"
+                  }}
+                  className=""
+                >
+                  {data.incognito ? (
+                    "Người lạ " + data.user_comment.id
+                  ) : (
+                    <NavLink to={"/userpage." + data.user_comment.username}>
+                      {data.user_comment.fullname}
+                    </NavLink>
+                  )}{" "}
+                </span>
+                {data.text}
+              </div>
               <div className="pull-right">
                 <NavDropdown
                   style={{ color: "green" }}
@@ -201,7 +204,7 @@ class ListComment extends React.Component {
                 </NavDropdown>
               </div>
             </div>
-            <div style={{ marginTop: "5px" }} className="time">
+            <div style={{ marginBottom: "5px" }} className="time">
               <p style={{ color: "#604a50", cursor: "pointer" }}>Thích</p>
               <p style={{ color: "#604a50", cursor: "pointer" }}>Trả lời</p>
               <p style={{ float: "none" }} className="">
@@ -237,7 +240,7 @@ class ListComment extends React.Component {
       );
     } else {
       return (
-        <div key={data.id}>
+        <div className="data-comment" key={data.id}>
           <div className="img-rep-rep">
             {data.incognito ? (
               <img className="" src="/images/user/robot.png" />
@@ -250,23 +253,27 @@ class ListComment extends React.Component {
 
           <div className="col-md-10">
             <div className="text-rep">
-              <span
-                style={{
-                  color: "rgb(21, 165, 65)",
-                  fontSize: "12px",
-                  fontWeight: " bold"
-                }}
-                className=""
-              >
-                {data.incognito ? (
-                  "Người lạ " + data.user_comment.id
-                ) : (
-                  <NavLink to={"/userpage." + data.user_comment.username}>
-                    {data.user_comment.fullname}
-                  </NavLink>
-                )}{" "}
-              </span>
-              {data.text}
+              <div>
+                <span
+                  style={{
+                    color: "rgb(21, 165, 65)",
+                    fontSize: "12px",
+                    fontWeight: " bold",
+                    marginRight: "5px"
+                  }}
+                  className=""
+                >
+                  {data.incognito ? (
+                    "Người lạ " + data.user_comment.id
+                  ) : (
+                    <NavLink to={"/userpage." + data.user_comment.username}>
+                      {data.user_comment.fullname}
+                    </NavLink>
+                  )}{" "}
+                </span>
+                {data.text}
+              </div>
+
               <div className="pull-right">
                 <NavDropdown
                   style={{ color: "green" }}
@@ -297,7 +304,7 @@ class ListComment extends React.Component {
                 </NavDropdown>
               </div>
             </div>
-            <div style={{ marginTop: "5px" }} className="time">
+            <div className="time">
               <p style={{ color: "#604a50", cursor: "pointer" }}>Thích</p>
               <p
                 onClick={self.showInputRep.bind(this, data.id)}
@@ -315,8 +322,9 @@ class ListComment extends React.Component {
           <div
             style={{
               display: self.state.displayInputRepComment[data.id]
-                ? "block"
+                ? "flex"
                 : "none",
+              clear: "both",
               paddingLeft: "45px",
               marginBottom: "5px"
             }}
@@ -348,7 +356,9 @@ class ListComment extends React.Component {
   }
 
   showInputRep(id) {
-    this.state.displayInputRepComment[id] = true;
+    this.state.displayInputRepComment[id] = !this.state.displayInputRepComment[
+      id
+    ];
     this.setState({
       displayInputRepComment: this.state.displayInputRepComment
     });
