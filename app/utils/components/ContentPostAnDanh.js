@@ -393,9 +393,25 @@ class PostAnhDanh extends React.Component {
         {this.props.post.type_post == 2 ? (
           <Post postId={this.props.post.postId_parent} />
         ) : null}
+        {this.state.likeInfo.listUserId.length ? (
+          <div className=" content-like-post row">
+            <div className="">
+              <OverlayTrigger placement="top" overlay={this.renderTooltip()}>
+                <i
+                  style={{ marginRight: "2px", float: "left" }}
+                  className="far fa-thumbs-up"
+                  aria-hidden="true"
+                />
+              </OverlayTrigger>
+            </div>
+            <div style={{ fontSize: "11px", color: "green" }}>
+              {texListLike}
+            </div>
+          </div>
+        ) : null}
         {this.props.hideFooter ? null : (
           <div
-            style={{ marginLeft: "0px", marginRight: "0px" }}
+            // style={{ marginLeft: "0px", marginRight: "0px" }}
             className="footer-post row"
           >
             <div
@@ -405,7 +421,9 @@ class PostAnhDanh extends React.Component {
               <span className="count-action"> {this.props.countLike}</span>
               <i
                 style={{
-                  WebkitTextStroke: this.props.userLikePost ? "1.2px #33771a" : "1.2px #a9a1a1"
+                  WebkitTextStroke: this.props.userLikePost
+                    ? "1.2px #33771a"
+                    : "1.2px #a9a1a1"
                 }}
                 className="far fa-thumbs-up"
                 aria-hidden="true"
@@ -461,22 +479,6 @@ class PostAnhDanh extends React.Component {
           </div>
         )}
 
-        {this.state.likeInfo.listUserId.length ? (
-          <div className="row content-like-post">
-            <div className="">
-              <OverlayTrigger placement="top" overlay={this.renderTooltip()}>
-                <i
-                  style={{ marginRight: "2px", float: "left" }}
-                  className="far fa-thumbs-up"
-                  aria-hidden="true"
-                />
-              </OverlayTrigger>
-            </div>
-            <div style={{ fontSize: "11px", color: "green" }}>
-              {texListLike}
-            </div>
-          </div>
-        ) : null}
         <ModalConfirm
           show={this.state.showModalConfirm}
           access={this.access.bind(this)}

@@ -1,19 +1,26 @@
-import React from 'react'
-import RestfulUtils from 'app/utils/RestfulUtils'
-import Gallery from 'react-grid-gallery';
-var _ = require('lodash');
-var ReactPhotoGrid = require('react-photo-grid');
+import React from "react";
+import RestfulUtils from "app/utils/RestfulUtils";
+import Gallery from "react-grid-gallery";
+var _ = require("lodash");
+var ReactPhotoGrid = require("react-photo-grid");
 
 function handleImageClick(image) {
-  console.log('Image clicked. Show it in a nice lightbox?');
+  console.log("Image clicked. Show it in a nice lightbox?");
 }
 
-var feelingLucky = Math.floor(Math.random()*2);
-var luckType = ['', 'nightlife', 'animals', 'city', 'people', 'nature', 'sports', 'cats', 'transport'];
-var imageData = [
-  '/images/upload/378968d6-5236-4064-b613-8af21a5b1133.jpg',
-
+var feelingLucky = Math.floor(Math.random() * 2);
+var luckType = [
+  "",
+  "nightlife",
+  "animals",
+  "city",
+  "people",
+  "nature",
+  "sports",
+  "cats",
+  "transport"
 ];
+var imageData = ["/images/upload/378968d6-5236-4064-b613-8af21a5b1133.jpg"];
 
 // if(feelingLucky || true) {
 //   var luckTypeSelector = luckType[Math.floor(Math.random()*luckType.length)];
@@ -31,7 +38,6 @@ var imageData = [
 //       {path: 'http://placehold.it/600x800'}
 //   ];
 // }
-
 
 // import PropTypes from 'prop-types';
 
@@ -175,122 +181,118 @@ var imageData = [
 // ]
 // };
 
-import PropTypes from 'prop-types';
-import { withStyles } from '@material-ui/core/styles';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
-import GridListTileBar from '@material-ui/core/GridListTileBar';
-import IconButton from '@material-ui/core/IconButton';
-import StarBorderIcon from '@material-ui/icons/StarBorder';
+import PropTypes from "prop-types";
+import { withStyles } from "@material-ui/core/styles";
+import GridList from "@material-ui/core/GridList";
+import GridListTile from "@material-ui/core/GridListTile";
+import GridListTileBar from "@material-ui/core/GridListTileBar";
+import IconButton from "@material-ui/core/IconButton";
+import StarBorderIcon from "@material-ui/icons/StarBorder";
 
 const styles = theme => ({
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
-    overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+    overflow: "hidden",
+    marginLeft: "-15px",
+    marginRight: "-15px",
+    backgroundColor: theme.palette.background.paper
   },
   gridList: {
-    width: '100%',
-    height: '100%',
+    width: "100%",
+    height: "100%",
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: 'translateZ(0)',
+    transform: "translateZ(0)"
   },
   titleBar: {
     background:
-      'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
-      'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
+      "linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, " +
+      "rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)"
   },
   icon: {
-    color: 'white',
-  },
+    color: "white"
+  }
 });
 
-import ComponentVideo from './ComponentVideo'
+import ComponentVideo from "./ComponentVideo";
 
-class  AdvancedGridList extends React.Component {
-  constructor(props){
-    super(props)
-    this.state ={
-        listFile :[]
-    }
+class AdvancedGridList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      listFile: []
+    };
   }
-  componentDidMount(){
-    let post_id = this.props.post_id
-     this.getListFile(post_id)
-
+  componentDidMount() {
+    let post_id = this.props.post_id;
+    this.getListFile(post_id);
   }
-  getListFile(post_id){
-    let self = this
+  getListFile(post_id) {
+    let self = this;
 
-    RestfulUtils.post('/fileupload/getFilePostId',{post_id}).then((res)=>{
-      if(res.EC==0&&res.DT.length>0){
-           self.setState({listFile:self.convertData(res.DT)})
+    RestfulUtils.post("/fileupload/getFilePostId", { post_id }).then(res => {
+      if (res.EC == 0 && res.DT.length > 0) {
+        self.setState({ listFile: self.convertData(res.DT) });
       }
-   })
+    });
   }
 
-  componentWillReceiveProps(nextProps){
-     let {post_id} = nextProps
-     if(post_id!=this.props.post_id)
-        this.getListFile(post_id)
+  componentWillReceiveProps(nextProps) {
+    let { post_id } = nextProps;
+    if (post_id != this.props.post_id) this.getListFile(post_id);
   }
-  convertData(data){
-    if(data.length==1){
-      data[0].cols=data[0].rows = 2
-    }
-    else if(data.length==2){
-      data[0].cols = data[1].cols=2
-      data[0].rows= data[1].rows =1
-    }
-    else if(data.length==3){
-      data[0].cols =2
-      data[0].rows =1
-      data[1].rows= data[2].rows = data[1].cols = data[2].cols = 1
-    }
-    else
-      data[0].cols =data[0].rows  =data[3].cols =data[3].rows  = data[1].rows= data[2].rows = data[1].cols = data[2].cols = 1
+  convertData(data) {
+    if (data.length == 1) {
+      data[0].cols = data[0].rows = 2;
+    } else if (data.length == 2) {
+      data[0].cols = data[1].cols = 2;
+      data[0].rows = data[1].rows = 1;
+    } else if (data.length == 3) {
+      data[0].cols = 2;
+      data[0].rows = 1;
+      data[1].rows = data[2].rows = data[1].cols = data[2].cols = 1;
+    } else
+      data[0].cols = data[0].rows = data[3].cols = data[3].rows = data[1].rows = data[2].rows = data[1].cols = data[2].cols = 1;
 
-
-    return data
-
+    return data;
   }
-  render(){
+  render() {
     let { classes } = this.props;
     let length = this.state.listFile.length;
-    if(this.state.listFile.length>0)
-    return (
-    <div className={classes.root}>
-      <GridList cellHeight={'250'} spacing={1} className={classes.gridList}>
-        {this.state.listFile.map((tile,index) => (
-          <GridListTile key={tile.img} cols={tile.cols} rows={tile.rows}>
-
-           {tile.type_file=="image"?<img src={tile.url_file} alt={tile.title} />:<ComponentVideo src={tile.url_file} />}
-            <GridListTileBar
-              title={tile.title}
-              titlePosition="top"
-              actionIcon={
-                <IconButton className={classes.icon}>
-                  <StarBorderIcon />
-                </IconButton>
-              }
-              actionPosition="left"
-              className={classes.titleBar}
-            />
-          </GridListTile>
-        ))}
-      </GridList>
-    </div>
-
-  );
-  else
-    return null
- }
+    if (this.state.listFile.length > 0)
+      return (
+        <div className={classes.root}>
+          <GridList cellHeight={"250"} spacing={1} className={classes.gridList}>
+            {this.state.listFile.map((tile, index) => (
+              <GridListTile key={tile.img} cols={tile.cols} rows={tile.rows}>
+                {tile.type_file == "image" ? (
+                  <img src={tile.url_file} alt={tile.title} />
+                ) : (
+                  <ComponentVideo src={tile.url_file} />
+                )}
+                <GridListTileBar
+                  title={tile.title}
+                  titlePosition="top"
+                  actionIcon={
+                    <IconButton className={classes.icon}>
+                      <StarBorderIcon />
+                    </IconButton>
+                  }
+                  actionPosition="left"
+                  className={classes.titleBar}
+                />
+              </GridListTile>
+            ))}
+          </GridList>
+        </div>
+      );
+    else return null;
+  }
 }
 
 AdvancedGridList.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(AdvancedGridList);
