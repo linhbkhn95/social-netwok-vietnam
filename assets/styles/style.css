@@ -147,7 +147,10 @@
 }
 .post-repcomment .input-repcomment {
   border-radius: 50px;
-  background: #efeff39c;
+  background: #efeff382;
+  height: 29px;
+  padding: 4px 12px;
+  font-size: 12px;
 }
 .post-status {
   /* padding-bottom: 20px; */
