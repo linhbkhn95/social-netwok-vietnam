@@ -226,6 +226,7 @@ img {
     padding-right: 15px; */
   /* padding: 10px 15px 10px 15px; */
   /* background: #f5f5f5; */
+  margin-top: 15px;
   border-top: 1px solid #f0f0f1;
 }
 .footer-post .btn-heart {
@@ -734,6 +735,5 @@ header .navbar-right {
 header ul li:hover {
   background: #2a6d18;
 }
-header ul li{
-
+header ul li {
 }

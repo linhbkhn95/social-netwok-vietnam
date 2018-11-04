@@ -26,38 +26,38 @@ class ListDiscover extends React.Component{
         //       this.loadMoreItems();
         //     }
         //   });
-        
+
         let self  = this
         $(window).scroll(function () {
             if( ( ($(document).height() - $(window).height())-$(window).scrollTop())<50&&!self.state.fulldata) {
                 self.loadMoreItems();
             }
         });
-      
+
 
         io.socket.post('/post/getList_Wall',{page:this.state.page},function(res,jwres){
             if(res.EC==0){
                 self.setState({listStatus:res.DT,page:self.state.page+1,loadingState:false})
-    
+
             }
           })
         // io.socket.post('/post/getList_Wall',function(resdata,jwres){
         //     console.log('listpost',resdata)
         //     if(resdata.EC==0)
         //         self.setState({listStatus:resdata.DT})
-        // }) 
+        // })
         io.socket.get('/user/getUserId',function(resdata,jwres){
 
             io.socket.on('post'+resdata.userId, function (data) {
                          console.log('event posttt',data)
-               
+
                         self.state.listStatus.unshift(data)
                         self.setState({ listStatus: self.state.listStatus });
-                    
+
                  })
-       
-      
-       }); 
+
+
+       });
     }
     deletePost(data){
         console.log('datadel',data)
@@ -68,7 +68,7 @@ class ListDiscover extends React.Component{
                 break;
             }
         }
-        
+
     }
     likePost(postId){
         for(var i=0;i<this.state.listStatus.length;i++){
@@ -102,19 +102,19 @@ class ListDiscover extends React.Component{
         let self  = this
         io.socket.get('/notification/follow', function gotResponse(data, jwRes) {
             console.log('Server responded with status code ' + jwRes.statusCode + ' and data: ', data);
-          
+
           });
         io.socket.get('/subject/getall',((resdata,jwres)=>{
              console.log('ress',resdata)
              self.setState({options:resdata})
         }))
     }
-    
+
     async getlistSubject(input) {
-       
-       
+
+
         return {options:this.state.options}
-      
+
     }
     accessLike(postId,verb){
         for(var i=0;i<this.state.listStatus.length;i++){
@@ -125,14 +125,14 @@ class ListDiscover extends React.Component{
         }
     }
     onChangeSelect(subject) {
-       
+
         this.setState({ subject,page:2,fulldata:false });
         let self  = this
         io.socket.post('/post/getList_Wall',{listsubject:subject},((resdata,jwres)=>{
             if(resdata.EC==0)
                 self.setState({listStatus:resdata.DT})
         }))
-	
+
     }
     loadMoreItems() {
         if(this.state.loadingState){
@@ -149,7 +149,7 @@ class ListDiscover extends React.Component{
               }
               let data = self.state.listStatus.concat(res.DT)
               self.setState({listStatus:data,page:self.state.page+1,loadingState:false,fulldata:self.state.fulldata})
- 
+
           }
         })
        // setTimeout(() => {
@@ -167,7 +167,7 @@ class ListDiscover extends React.Component{
             color: "#7a887a"
          }}>Chưa có bài đăng nào</div>
         return(
-            <div ref="iScroll" style={{  overflow: "auto" }}>
+            <div ref="iScroll" >
             <div style={{marginBottom:"20px"}} className="col-md-12">
                  <h5 className="title-subject" ><i className="fa fa-tags" aria-hidden="true"></i> Chủ đề  tâm sự <span className="count-subject"> {this.state.options.length}</span>
                 </h5>
@@ -181,12 +181,12 @@ class ListDiscover extends React.Component{
                             onChange={this.onChangeSelect.bind(this)}
                             cache={false}
                             multi
-                            
+
                   />
                     </div>
             </div>
             <div className="col-md-12">
-            
+
                 {ListStatus}
             </div>
             {this.state.loadingState ? <p className="loading"> đang tải dữ liệu..</p> : ""}

@@ -430,7 +430,7 @@ class PostAnhDanh extends React.Component {
               onClick={this.share.bind(this)}
               className="btn-footer-post btn-share"
             >
-              5{" "}
+              {this.props.post.count_share}
               <i
                 style={{ marginRight: "3px" }}
                 className="fas fa-share"

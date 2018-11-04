@@ -91,7 +91,7 @@ class PostNotifi extends React.Component{
             color: "#7a887a"
          }}>Chưa có bài đăng nào</div>
         return(
-            <div>
+            <div style={{display:'flex'}}>
 
             <div style={{background:"white"}} className="col-md-12">
 

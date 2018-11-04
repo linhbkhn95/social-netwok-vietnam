@@ -169,6 +169,8 @@ module.exports = {
                 police = await Police_post.findOne({ id: item.police_id });
                 item.police = police;
               }
+              let count_share = await Post.count({ postId_parent: item.id });
+              item.count_share = count_share;
               let userId = req.session.user ? req.session.user.id : "";
               item.userLikePost = false;
               let userPost = await User.findOne({
@@ -236,6 +238,8 @@ module.exports = {
       Tag_postController.getlist_user(item.id).then(listUserTag => {
         item.listUserTag = listUserTag;
       });
+      let count_share = await Post.count({ postId_parent: item.id });
+      item.count_share = count_share;
       if (item.feel_id) {
         feel = await Feel_post.findOne({ id: item.feel_id });
         item.feel = feel;
@@ -337,7 +341,8 @@ module.exports = {
                 police = await Police_post.findOne({ id: item.police_id });
                 item.police = police;
               }
-
+              let count_share = await Post.count({ postId_parent: item.id });
+              item.count_share = count_share;
               let userId = req.session.user ? req.session.user.id : "";
               item.userLikePost = false;
               let userPost = await User.findOne({
@@ -427,6 +432,8 @@ module.exports = {
                 feel = await Feel_post.findOne({ id: item.feel_id });
                 item.feel = feel;
               }
+              let count_share = await Post.count({ postId_parent: item.id });
+              item.count_share = count_share;
               if (item.police_id) {
                 police = await Police_post.findOne({ id: item.police_id });
                 item.police = police;

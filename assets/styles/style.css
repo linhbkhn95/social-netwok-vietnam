@@ -142,11 +142,12 @@
 
 .post-repcomment {
   padding-bottom: 20px;
-  background: #f2f3f5;
+  /* background: #f2f3f5; */
   padding-top: 20px;
 }
 .post-repcomment .input-repcomment {
   border-radius: 50px;
+  background: #efeff39c;
 }
 .post-status {
   /* padding-bottom: 20px; */
