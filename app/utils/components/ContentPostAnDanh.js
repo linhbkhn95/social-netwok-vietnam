@@ -390,7 +390,6 @@ class PostAnhDanh extends React.Component {
         <div className="content-asw">{this.props.content}</div>
 
         <ContainerFile post_id={this.props.idPost} />
-        {/* <img src="/images/upload/378968d6-5236-4064-b613-8af21a5b1133.jpg" /> */}
         {this.props.post.type_post == 2 ? (
           <Post postId={this.props.post.postId_parent} />
         ) : null}
@@ -403,11 +402,10 @@ class PostAnhDanh extends React.Component {
               onClick={this.like.bind(this)}
               className="btn-footer-post btn-heart"
             >
-              {this.props.countLike}{" "}
+              <span className="count-action"> {this.props.countLike}</span>
               <i
                 style={{
-                  marginRight: "3px",
-                  fontWeight: this.props.userLikePost ? "bold" : "normal"
+                  WebkitTextStroke: this.props.userLikePost ? "1.2px #33771a" : "1.2px #a9a1a1"
                 }}
                 className="far fa-thumbs-up"
                 aria-hidden="true"
@@ -418,27 +416,20 @@ class PostAnhDanh extends React.Component {
               onClick={this.comment.bind(this)}
               className="btn-footer-post btn-comment"
             >
-              {this.props.lengthComment}{" "}
-              <i
-                style={{ marginRight: "3px" }}
-                className="far fa-comment-alt"
-                aria-hidden="true"
-              />
+              <span className="count-action">{this.props.lengthComment} </span>
+              <i className="far fa-comment-alt" aria-hidden="true" />
               Bình luận
             </div>
             <div
               onClick={this.share.bind(this)}
               className="btn-footer-post btn-share"
             >
-              {this.props.post.count_share}
-              <i
-                style={{ marginRight: "3px" }}
-                className="fas fa-share"
-                aria-hidden="true"
-              />
+              <span className="count-action">
+                {this.props.post.count_share}
+              </span>
+              <i className="fas fa-share" aria-hidden="true" />
               Chia sẻ
             </div>
-            {/* <div className="fb-share-button" data-href="http://localhost:1337/wall/discover" data-layout="button_count" data-size="small" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http%3A%2F%2Flocalhost%3A1337%2Fwall%2Fdiscover&amp;src=sdkpreparse" className="fb-xfbml-parse-ignore">Chia sẻ</a></div>                        */}
             <div className="btn-more">
               <NavDropdown
                 style={{ color: "green" }}

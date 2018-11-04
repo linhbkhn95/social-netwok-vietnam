@@ -67,7 +67,6 @@ class PopupInfo extends React.Component {
     let { userInfo } = this.state;
     let { list_friends_general } = userInfo;
 
- 
     if (list_friends_general && list_friends_general.length == 1) {
       return (
         <NavLink
@@ -110,9 +109,16 @@ class PopupInfo extends React.Component {
             {list_friends_general[0].fullname}
           </NavLink>{" "}
           <div style={{ float: "left", marginRight: "3px" }}>và </div>
-
           <OverlayTrigger placement="top" overlay={jsxTooltip}>
-            <div  style={{ wordBreak: " break-word",    fontSize: '12px',marginLeft:"0px",marginRight:"0px"}} className="number-other-tag">
+            <div
+              style={{
+                wordBreak: " break-word",
+                fontSize: "12px",
+                marginLeft: "0px",
+                marginRight: "0px"
+              }}
+              className="number-other-tag"
+            >
               {list_friends_general.length - 1} người khác{" "}
             </div>
           </OverlayTrigger>
@@ -241,7 +247,7 @@ export default props => {
         }
         position="left center"
         on="hover"
-        // closeOnDocumentClick
+        //closeOnDocumentClick
       >
         <PopupInfo user_id={props.user_id} />
       </Popup>

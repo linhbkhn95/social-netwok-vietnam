@@ -505,7 +505,9 @@ section#user_main div.content-main .head {
   padding-left: 7px;
 }
 .text-rep {
-  background: #eff0f3;
+  font-size: 13px;
+  background: #eff1f3;
+  color: #1d2129;
   padding-top: 5px;
   padding-bottom: 5px;
   padding-right: 5px;

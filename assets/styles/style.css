@@ -167,7 +167,7 @@
 }
 .content-like-post {
   padding: 6px;
-  background: #f2f3f5;
+  /* background: #f2f3f5; */
   border-bottom: 1px solid #e2e6e4;
   border-top: 1px solid #e2e6e4;
   padding-bottom: 9px;
@@ -194,7 +194,7 @@
 }
 .comment-item {
   width: 100%;
-  border-bottom: 1px solid #f3eded;
+  /* border-bottom: 1px solid #f3eded; */
   padding: 10px 0px 10px 0px;
   margin-bottom: 5px;
   clear: both;
