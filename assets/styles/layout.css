@@ -88,12 +88,15 @@ body {
   font-family: "IBM Plex Sans", sans-serif !important;
 }
 .list-post {
-  background: white;
+  background: #e9ebee;
   padding: 10px;
   margin-top: 10px;
 }
 .header-listpost {
-  margin: 0px -10px 0px -10px;
+  display: flex;
+  background: white;
+  height: 49px;
+  align-items: center;
 }
 .remove-padding-col {
   padding-left: 0px;

@@ -152,7 +152,7 @@ class ListComment extends React.Component {
               <img className="img-user" src={data.user_comment.url_avatar} />
             </NavLink>
           )}
-          <div className="col-md-10">
+          <div className="col-md-11">
             <div className="text-rep">
               <div>
                 <span
@@ -251,7 +251,7 @@ class ListComment extends React.Component {
             )}
           </div>
 
-          <div className="col-md-10">
+          <div className="col-md-11">
             <div className="text-rep">
               <div>
                 <span
