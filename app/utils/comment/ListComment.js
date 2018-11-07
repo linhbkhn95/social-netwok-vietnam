@@ -38,7 +38,8 @@ class ListComment extends React.Component {
       switch (data.type) {
         case "comment":
           self.acessSocket("listComment", data);
-
+        case "like":
+          console.log("dataadadadaddadad", data.data);
         // case "like" : self.accessLike(data);
       }
       // console.log('Socket `' + data.id + '` joined the party!',data);
@@ -132,6 +133,16 @@ class ListComment extends React.Component {
   closeModalConfirm() {
     this.setState({ showModalConfirm: false });
   }
+  updateCountLike_comment(){
+
+  },
+  likeComment(comment_id) {
+    io.socket.post("/comment/like", { comment_id }, (resdata, jwres) => {
+      if (resdata.EC == 0) {
+
+      }
+    });
+  }
   renderActive(data) {
     let self = this;
     if (data.listRepComment && data.listRepComment.length > 0) {
@@ -154,13 +165,14 @@ class ListComment extends React.Component {
           )}
           <div className="col-md-11">
             <div className="text-rep">
-              <div>
+              <div style={{ float: "left" }}>
                 <span
                   style={{
                     color: "rgb(21, 165, 65)",
                     fontSize: "12px",
                     fontWeight: " bold",
-                    marginRight: "5px"
+                    marginRight: "5px",
+                    float: "left"
                   }}
                   className=""
                 >
@@ -172,7 +184,22 @@ class ListComment extends React.Component {
                     </NavLink>
                   )}{" "}
                 </span>
-                {data.text}
+                <div
+                  className="div-text-comment"
+                  style={{ float: "left", wordBreak: "break-word" }}
+                >
+                  {data.text}
+                </div>
+                {data.count_like ? (
+                  <div className="div-like-comment">
+                    <i
+                      style={{ marginRight: "2px", float: "left" }}
+                      className="far fa-thumbs-up"
+                      aria-hidden="true"
+                    />{" "}
+                    {data.count_like ? data.count_like : null}
+                  </div>
+                ) : null}
               </div>
               <div className="pull-right">
                 <NavDropdown
@@ -205,8 +232,18 @@ class ListComment extends React.Component {
               </div>
             </div>
             <div style={{ marginBottom: "5px" }} className="time">
-              <p style={{ color: "#604a50", cursor: "pointer" }}>Thích</p>
-              <p style={{ color: "#604a50", cursor: "pointer" }}>Trả lời</p>
+              <p
+                onClick={self.likeComment.bind(self, data.id)}
+                style={{ color: "#604a50", cursor: "pointer" }}
+              >
+                Thích
+              </p>
+              <p
+                onClick={self.showInputRep.bind(this, data.id)}
+                style={{ color: "#604a50", cursor: "pointer" }}
+              >
+                Trả lời
+              </p>
               <p style={{ float: "none" }} className="">
                 {moment(data.time)
                   .lang("vi")
@@ -253,13 +290,14 @@ class ListComment extends React.Component {
 
           <div className="col-md-11">
             <div className="text-rep">
-              <div>
+              <div style={{ float: "left" }}>
                 <span
                   style={{
                     color: "rgb(21, 165, 65)",
                     fontSize: "12px",
                     fontWeight: " bold",
-                    marginRight: "5px"
+                    marginRight: "5px",
+                    float: "left"
                   }}
                   className=""
                 >
@@ -271,7 +309,22 @@ class ListComment extends React.Component {
                     </NavLink>
                   )}{" "}
                 </span>
-                {data.text}
+                <div
+                  className="div-text-comment"
+                  style={{ float: "left", wordBreak: "break-word" }}
+                >
+                  {data.text}
+                </div>
+                {data.count_like ? (
+                  <div className="div-like-comment" style={{ float: "left" }}>
+                    <i
+                      style={{ marginRight: "2px", float: "left" }}
+                      className="far fa-thumbs-up"
+                      aria-hidden="true"
+                    />{" "}
+                    {data.count_like ? data.count_like : null}
+                  </div>
+                ) : null}
               </div>
 
               <div className="pull-right">
@@ -305,7 +358,12 @@ class ListComment extends React.Component {
               </div>
             </div>
             <div className="time">
-              <p style={{ color: "#604a50", cursor: "pointer" }}>Thích</p>
+              <p
+                onClick={self.likeComment.bind(self, data.id)}
+                style={{ color: "#604a50", cursor: "pointer" }}
+              >
+                Thích
+              </p>
               <p
                 onClick={self.showInputRep.bind(this, data.id)}
                 style={{ color: "#604a50", cursor: "pointer" }}

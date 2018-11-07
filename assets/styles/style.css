@@ -278,3 +278,21 @@
   clear: both;
   justify-content: flex-start;
 }
+.div-like-comment {
+  float: left;
+  background: white;
+  border-radius: 6px;
+  padding: 2px 3px 2px 3px;
+  align-items: center;
+  display: flex;
+  cursor: pointer;
+  margin-top: 4px;
+}
+.div-like-comment i {
+  font-size: 13px;
+}
+.div-text-comment {
+  float: left;
+  word-break: break-word;
+  margin-right: 3px;
+}

@@ -6,21 +6,18 @@
  */
 
 module.exports = {
-
   attributes: {
-    userId:{
-      type:'integer'
+    userId: {
+      type: "integer"
     },
-    postId:{
-      type:'integer'
+    postId: {
+      type: "integer"
     },
-    status:{
-      type:"boolean",
-
+    status: {
+      type: "boolean"
     },
-    time:{
-      type:'float'
+    time: {
+      type: "float"
     }
   }
 };
-

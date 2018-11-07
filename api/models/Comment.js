@@ -6,27 +6,29 @@
  */
 
 module.exports = {
-
   attributes: {
-      text:{
-        type:'string'
-      },
-      time:{
-        type:"float"
-      },
-      parentId:{
-        type:'integer'
-      },
-      postId:{
-          type:'integer'
-      },
-      userId_comment:{
-        type:'integer'
-      },
-      incognito:{
-        type:"boolean",
-        defaultsTo:false
-      }
+    text: {
+      type: "text"
+    },
+    time: {
+      type: "float"
+    },
+    parentId: {
+      type: "integer"
+    },
+    postId: {
+      type: "integer"
+    },
+    userId_comment: {
+      type: "integer"
+    },
+    incognito: {
+      type: "boolean",
+      defaultsTo: false
+    },
+    count_like: {
+      type: "integer",
+      defaultsTo: 0
+    }
   }
 };
-

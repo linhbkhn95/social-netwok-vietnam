@@ -17,12 +17,7 @@ class Wall extends React.Component {
           <Info username={this.props.username} />
         </div>
         <div className="col-md-8 col-xs-12">
-          <ModalPostStatus
-            wrappedRef={instance => {
-              this.toggle = instance.toggle;
-            }}
-            username={this.props.username}
-          />
+          <ModalPostStatus username={this.props.username} />
           <div className="col-md-12 list-post ">
             <div className="">
               {/* <HeaderListPost /> */}
