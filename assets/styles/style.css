@@ -274,7 +274,7 @@
   width: 5px;
 }
 .data-comment {
-  /* display: flex; */
+  display: flex;
   clear: both;
   justify-content: flex-start;
 }
@@ -295,4 +295,17 @@
   float: left;
   word-break: break-word;
   margin-right: 3px;
+}
+.data-comment .pull-right,
+.text-rep .pull-right {
+  padding-right: 4px;
+  padding-left: 2px;
+  display: none !important;
+}
+.text-rep:hover.text-rep .pull-right {
+  display: block !important;
+}
+
+.list-comment:hover .list-comment .pull-right {
+  display: block !important;
 }

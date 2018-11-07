@@ -40,7 +40,13 @@ module.exports = {
                 fullname: "Người lạ"
               };
             }
+            let likeComment = await Like_comment.findOne({
+              user_id: req.session.user.id,
+              comment_id: item.id
+            });
+            item.isLike = likeComment ? likeComment.status : false;
             list_comment[item.id] = item;
+
             resolve(item);
           });
         })
@@ -82,10 +88,10 @@ module.exports = {
         if (likeComment) {
           likeComment.status = !likeComment.status;
           likeComment.count_like ? likeComment.count_like : 0;
-          likeComment.count_like = likeComment.status
-            ? likeComment.count_like + 1
-            : likeComment.count_like - 1;
-          await likeComment.save(() => {});
+          comment.count_like += likeComment.status ? 1 : -1;
+
+          await comment.save(() => {});
+          console.log("like,", likeComment);
           likeComment.save(function() {
             if (likeComment.status)
               NotificationUtils.notifiCommentUser_Like(comment, req);
@@ -109,7 +115,7 @@ module.exports = {
             return res.send(
               OutputInterface.success({
                 countLike: comment.count_like,
-                like: likeComment.like
+                like: likeComment.status
               })
             );
           });

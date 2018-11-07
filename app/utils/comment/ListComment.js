@@ -133,20 +133,38 @@ class ListComment extends React.Component {
   closeModalConfirm() {
     this.setState({ showModalConfirm: false });
   }
-  updateCountLike_comment(){
-
-  },
+  findWithAttr(array, attr, value) {
+    for (var i = 0; i < array.length; i += 1) {
+      if (array[i][attr] === value) {
+        return i;
+      }
+    }
+    return -1;
+  }
+  updateCountLike_comment(comment_id, count_like, isLike) {
+    let { listComment } = this.state;
+    let index = this.findWithAttr(listComment, "id", comment_id);
+    if (index != -1) {
+      listComment[index].count_like = count_like;
+      listComment[index].isLike = isLike;
+    }
+    this.setState({ listComment });
+  }
   likeComment(comment_id) {
+    let self = this;
     io.socket.post("/comment/like", { comment_id }, (resdata, jwres) => {
       if (resdata.EC == 0) {
-
+        self.updateCountLike_comment(
+          comment_id,
+          resdata.DT.countLike,
+          resdata.DT.like
+        );
       }
     });
   }
   renderActive(data) {
     let self = this;
     if (data.listRepComment && data.listRepComment.length > 0) {
-      // console.log("GroupMenu = " + data.GroupMenu)
       let classMenu = "";
       if (data.PRID) {
         classMenu = "dropdown-submenu";
@@ -236,7 +254,7 @@ class ListComment extends React.Component {
                 onClick={self.likeComment.bind(self, data.id)}
                 style={{ color: "#604a50", cursor: "pointer" }}
               >
-                Thích
+                {data.isLike ? <div>Bỏ thích</div> : "Thích"}
               </p>
               <p
                 onClick={self.showInputRep.bind(this, data.id)}
@@ -362,7 +380,7 @@ class ListComment extends React.Component {
                 onClick={self.likeComment.bind(self, data.id)}
                 style={{ color: "#604a50", cursor: "pointer" }}
               >
-                Thích
+                {data.isLike ? <div>Bỏ thích</div> : "Thích"}
               </p>
               <p
                 onClick={self.showInputRep.bind(this, data.id)}
