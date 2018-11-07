@@ -24,6 +24,7 @@ module.exports = {
       if (err) {
         return res.send(OutputInterface.errServer(err));
       }
+      let list_comment = {};
       Promise.all(
         list.map(item => {
           return new Promise(async (resolve, reject) => {
@@ -39,10 +40,12 @@ module.exports = {
                 fullname: "Người lạ"
               };
             }
+            list_comment[item.id] = item;
             resolve(item);
           });
         })
       ).then(response => {
+        response.list_obj_comment = list_comment;
         return res.send(OutputInterface.success(response));
       });
     });
@@ -61,6 +64,83 @@ module.exports = {
 
       return res.send(OutputInterface.success(list));
     });
+  },
+  like: async function(req, res) {
+    let { comment_id } = req.body;
+    let user_id = req.session.user.id;
+    let dataLike = {
+      user_id,
+      comment_id,
+      status: true
+    };
+    let userLike = req.session.user;
+    Like_comment.findOne({ user_id, comment_id }).exec(
+      async (err, likeComment) => {
+        if (err) {
+        }
+        let comment = await Comment.findOne({ id: comment_id });
+        if (likeComment) {
+          likeComment.status = !likeComment.status;
+          likeComment.count_like ? likeComment.count_like : 0;
+          likeComment.count_like = likeComment.status
+            ? likeComment.count_like + 1
+            : likeComment.count_like - 1;
+          await likeComment.save(() => {});
+          likeComment.save(function() {
+            if (likeComment.status)
+              NotificationUtils.notifiCommentUser_Like(comment, req);
+
+            sails.sockets.broadcast(
+              "Subscribe_Status",
+              comment.postId,
+              UtilsSocket.getData(
+                { userLike, comment },
+                TypeSocket.comment,
+                VerbSocket.like
+              ),
+              // UtilsSocket.getData(
+              //   userLike,
+              //   TypeSocket.like,
+              //   likePost.status ? VerbSocket.like : VerbSocket.unlike
+              // ),
+              req
+            );
+
+            return res.send(
+              OutputInterface.success({
+                countLike: comment.count_like,
+                like: likeComment.like
+              })
+            );
+          });
+        } else {
+          // await  Like_comment.create(dataLike);
+          comment.count_like += 1;
+          await comment.save({});
+          Like_comment.create({ comment_id, user_id, status: true }).exec(
+            (err, result) => {
+              sails.sockets.broadcast(
+                "Subscribe_Status",
+                comment.postId,
+                UtilsSocket.getData(
+                  { userLike, comment },
+                  TypeSocket.comment,
+                  VerbSocket.like
+                ),
+                req
+              );
+              NotificationUtils.notifiCommentUser_Like(comment, req);
+              return res.send(
+                OutputInterface.success({
+                  countLike: comment.count_like,
+                  like: 1
+                })
+              );
+            }
+          );
+        }
+      }
+    );
   },
   create: async function(req, res) {
     if (!req.isSocket) {
