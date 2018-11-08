@@ -232,7 +232,8 @@
 }
 .list-friend {
   background-clip: padding-box;
-  background-color: #e9ebef;
+  background-color: #f3f3f3;
+  /* #e9ebef; */
   border-left: 1px solid rgba(175, 169, 169, 0.4);
   /* box-shadow: inset 2px 0 2px -2px #b2b9c9; */
   display: block;
@@ -274,7 +275,7 @@
   width: 5px;
 }
 .data-comment {
-  display: flex;
+  /* display: flex; */
   clear: both;
   justify-content: flex-start;
 }
