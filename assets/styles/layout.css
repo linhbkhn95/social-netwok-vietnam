@@ -84,11 +84,11 @@ header .dropdown-menu > li > a {
   margin-bottom: 0px !important;
 }
 body {
-  background: #eeeef0;
+  /* background: #eeeef0; */
   font-family: "IBM Plex Sans", sans-serif !important;
 }
 .list-post {
-  background: #e9ebee;
+  /* background: #e9ebee; */
   padding: 10px;
   margin-top: 10px;
 }

@@ -5,6 +5,8 @@ import "react-select/dist/react-select.css";
 import { create } from "domain";
 var Select = require("react-select");
 import { connect } from "react-redux";
+import Skeleton from "react-loading-skeleton";
+
 class ListDiscover extends React.Component {
   constructor(props) {
     super(props);
@@ -199,7 +201,8 @@ class ListDiscover extends React.Component {
             color: "#7a887a"
           }}
         >
-          Chưa có bài đăng nào
+          <Skeleton />
+          <Skeleton count={5} />
         </div>
       );
     return (

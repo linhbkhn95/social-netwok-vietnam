@@ -281,7 +281,7 @@ class HeaderPost extends React.Component {
             placeholder="Bạn đang nghĩ gì..."
             contenteditable="true"
           /> */}
-          <div className="col-md-10 col-sm-2  remove-padding-col">
+          {/* <div className="col-md-10 col-sm-2  remove-padding-col">
             <ContentEditable
               className="div-textarea "
               html={this.state.content} // innerHTML of the editable div
@@ -289,8 +289,8 @@ class HeaderPost extends React.Component {
               onChange={this.onChangeContent.bind(this, "content")} // handle innerHTML change
               tagName="article" // Use a custom HTML tag (uses a div by default)
             />
-          </div>
-          {/* <textarea className="form-control" placeholder="Bạn đang nghĩ gì.." rows="3" id="comment"></textarea> */}
+          </div> */}
+          <textarea className="form-control" onChange={this.onChangeContent.bind(this, "content")}  placeholder="Bạn đang nghĩ gì.." rows="3" id="comment"></textarea>
         </div>
         {/* <div
           style={{ display: "flex", fontSize: "13px" , alignItems: 'center',padding:"7px" }}
