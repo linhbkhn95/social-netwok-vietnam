@@ -23,6 +23,18 @@ import "react-toggle/style.css";
 import { setCurrentUser } from "app/action/authActions.js";
 
 class ToastNotifi extends React.Component {
+  getClassIconNotifi(type) {
+    switch (type) {
+      case "like":
+        return "far fa-thumbs-up";
+      case "tag_post":
+        return "fas fa-user-tag";
+      case "comment":
+        return "far fa-comment-alt";
+      case "group":
+        return "fa fa-users"
+    }
+  }
   render() {
     let notifi = this.props.notifi;
     console.log("notifi", notifi);
@@ -58,9 +70,7 @@ class ToastNotifi extends React.Component {
               <i
                 style={{ marginRight: "3px", fontSize: "12px" }}
                 className={
-                  notifi.type == "like"
-                    ? "far fa-thumbs-up"
-                    : "fas fa-comment-alt"
+                  this.getClassIconNotifi(notifi.type)
                 }
                 aria-hidden="true"
               />{" "}
@@ -199,7 +209,7 @@ class NavContent extends React.Component {
                   style={{
                     display: "flex",
                     alignItems: "center",
-                    height: '46px',
+                    height: "46px"
                   }}
                   eventKey={2}
                   href="#"
