@@ -290,7 +290,10 @@ class HeaderPost extends React.Component {
               tagName="article" // Use a custom HTML tag (uses a div by default)
             />
           </div> */}
+      <div className="col-md-10 col-sm-2  remove-padding-col">
           <textarea className="form-control" onChange={this.onChangeContent.bind(this, "content")}  placeholder="Bạn đang nghĩ gì.." rows="3" id="comment"></textarea>
+
+          </div>
         </div>
         {/* <div
           style={{ display: "flex", fontSize: "13px" , alignItems: 'center',padding:"7px" }}

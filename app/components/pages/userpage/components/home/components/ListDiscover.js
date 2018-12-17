@@ -241,7 +241,10 @@ class ListDiscover extends React.Component {
       );
     return (
       <div>
-        <div style={{ marginBottom: "20px" }} className="col-md-12">
+        <div
+          style={{ marginBottom: "20px" }}
+          className="col-md-12 remove-padding-col"
+        >
           <h5 className="title-subject">
             <i className="fa fa-tags" aria-hidden="true" /> Chủ đề tâm sự{" "}
             <span className="count-subject"> {this.state.options.length}</span>
@@ -259,7 +262,7 @@ class ListDiscover extends React.Component {
             />
           </div>
         </div>
-        <div className="col-md-12">{ListStatus}</div>
+        <div className="col-md-12 remove-padding-col">{ListStatus}</div>
       </div>
     );
   }

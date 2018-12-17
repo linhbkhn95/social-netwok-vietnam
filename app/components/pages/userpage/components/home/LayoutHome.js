@@ -16,9 +16,9 @@ class Wall extends React.Component {
         >
           <Info username={this.props.username} />
         </div>
-        <div className="col-md-8 col-xs-12">
+        <div style={{paddingRight:"0px"}} className="col-md-8 col-xs-12 ">
           <ModalPostStatus username={this.props.username} />
-          <div className="col-md-12 list-post ">
+          <div className="col-md-12 list-post remove-padding-col ">
             <div className="">
               {/* <HeaderListPost /> */}
               <div>{this.props.children}</div>

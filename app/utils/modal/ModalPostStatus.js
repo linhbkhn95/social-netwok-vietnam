@@ -57,7 +57,7 @@ class HeaderPost extends React.Component {
       },
       valueSelect: {},
       styleModalpost: {
-        boxShadow:'none'
+        boxShadow: "none"
       }
     };
   }
@@ -167,7 +167,7 @@ class HeaderPost extends React.Component {
       src: [],
       file: null,
       filename: "",
-
+      content: "",
       showSelect: {
         tag: false,
         feel: false
@@ -197,6 +197,7 @@ class HeaderPost extends React.Component {
             function(resdata, jwres) {
               if (resdata.EC == 0) {
                 self.resetForm();
+                self.handleClickOutside();
                 toast.success("Thành công", {
                   position: toast.POSITION.TOP_CENTER
                 });
@@ -321,7 +322,16 @@ class HeaderPost extends React.Component {
               tagName="article" // Use a custom HTML tag (uses a div by default)
             />
           </div> */}
-          <textarea onChange={this.onChangeContent.bind(this, "content")} className="form-control" placeholder="Bạn đang nghĩ gì.." rows="3" id="comment"></textarea>
+          <div className="col-md-10 col-sm-2  remove-padding-col">
+            {" "}
+            <textarea
+              onChange={this.onChangeContent.bind(this, "content")}
+              className="form-control  remove-padding-col"
+              placeholder="Bạn đang nghĩ gì.."
+              rows="3"
+              id="comment"
+            />
+          </div>
         </div>
         {/* <div
           style={{ display: "flex", fontSize: "13px" , alignItems: 'center',padding:"7px" }}
