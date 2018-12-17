@@ -1,28 +1,23 @@
 /**
- * Product.js
+ * Follow_group.js
  *
  * @description :: TODO: You might write a short summary of how this model works and what it represents here.
  * @docs        :: http://sailsjs.org/documentation/concepts/models-and-orm/models
  */
 
 module.exports = {
-
   attributes: {
-    productId:{
-      type:"string"
+    group_id: {
+      type: "integer"
     },
-    nameProduct:{
-      type:"string"
+    user_id: {
+      type: "integer"
     },
-    price:{
-      type:"string"
+    status: {
+      type: "integer"
     },
-    shopMK:{
-      type:"string"
-    },
-    urlImage:{
-      type:"string"
+    desc: {
+      type: "string"
     }
   }
 };
-

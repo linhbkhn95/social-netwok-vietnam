@@ -81,8 +81,8 @@ section#user_main div.home-user .group-head .bt-info .img-left .avatar-user {
   display: none;
   position: absolute;
   /* float: right; */
-  top: 13px;
-  right: 27px;
+  top: 82px;
+  right: 12px;
   background: black;
   border-radius: 3px;
   padding: 2px;
@@ -122,7 +122,7 @@ section#user_main div.home-user .group-head .box-title .content-right {
   width: 85%;
   height: 100%;
   display: flex;
-  align-items: center;
+  /* align-items: center; */
 }
 section#user_main div.home-user .group-head .box-title .content-right li a {
   text-decoration: none;

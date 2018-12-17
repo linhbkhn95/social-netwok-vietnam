@@ -1,5 +1,5 @@
 import axios from "axios";
-const url_host = "http://192.168.0.105:1338";
+const url_host = "http://10.42.0.1:1338";
 module.exports = {
   upload: function upload(files) {
     const url = "/fileupload/upload_image";
@@ -18,7 +18,7 @@ module.exports = {
     return axios.post(url, formData, config);
   },
   upload_file: function(data) {
-    const url = url_host + "/file/upload";
+    const url = "/fileUpload/upload";
 
     const formData = new FormData();
 
@@ -27,7 +27,8 @@ module.exports = {
     const config = {
       headers: {
         "Access-Control-Allow-Origin": "*",
-        Accept: "application/json",
+        'Accept': "application/json",
+        'Access-Control-Allow-Credentials': 'true',
         "Content-Type": "application/json"
       },
       params: { type_file: data.type_file }

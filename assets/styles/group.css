@@ -1,4 +1,4 @@
-.group-relative .header .title{
+.group-relative .header .title {
   color: #90949c;
   font-size: 11px;
   font-weight: 600;
@@ -6,25 +6,27 @@
   text-transform: uppercase;
   line-height: 15px;
 }
-.group-relative .header{
+.group-relative .header {
   line-height: 12px;
   overflow: hidden;
   padding: 8px 0 7px;
   position: relative;
 }
-.group-relative{
+.group-relative {
   background: white;
   padding-left: 10px;
   padding-right: 10px;
+  margin-left: 10px;
 }
-.group-relative .title .action{
+.group-relative .title .action {
   float: right;
   font-size: 12px;
   text-transform: initial;
   color: green;
   cursor: pointer;
 }
-.group-relative .desc .text-desc, .group-relative .add-group .text-note{
+.group-relative .desc .text-desc,
+.group-relative .add-group .text-note {
   color: #333;
   font-size: 13px;
   display: inline;
@@ -38,26 +40,23 @@
   word-wrap: break-word;
   padding-left: 1px;
 }
-.group-relative .add-group .btn-create{
-
+.group-relative .add-group .btn-create {
 }
 
-.group-relative .add-group .text-note{
-
-
- padding-right:15px;
+.group-relative .add-group .text-note {
+  padding-right: 15px;
 }
 
-.group-relative .add-group .content{
-  display:flex;
+.group-relative .add-group .content {
+  display: flex;
 }
-.group-relative .add-group .div-btn{
+.group-relative .add-group .div-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
 }
-.group-relative .add-group .div-btn .btn-add{
+.group-relative .add-group .div-btn .btn-add {
   font-size: 12px;
   padding: 1px 37px;
   background: green;
@@ -83,32 +82,31 @@
   text-decoration: none;
   white-space: nowrap;
 }
-.member{
+.member {
   font-size: 13px;
 }
-.member .list-member{
-  display:flex;
+.member .list-member {
+  display: flex;
   margin-top: 10px;
 }
-.member ul{
+.member ul {
   list-style: none;
   margin: 0;
-  padding: 0
-
+  padding: 0;
 }
-.div-member.title .number{
+.div-member.title .number {
   float: right;
   font-size: 11px;
   text-transform: initial;
   color: #3b8628;
   cursor: pointer;
 }
- .div-member ul>li{
+.div-member ul > li {
   flex: 1;
   overflow: hidden;
-  margin-left:0px;
+  margin-left: 0px;
 }
- .div-img{
+.div-img {
   height: 0;
   padding-bottom: 100%;
   position: relative;
@@ -117,22 +115,21 @@
   position: relative;
 }
 
-
-.div-img img{
+.div-img img {
   border-radius: 50%;
   overflow: hidden;
   width: 38px;
   height: 38px;
 }
 
-.group-relative .title-group-relative{
+.group-relative .title-group-relative {
   font-size: 13px;
   line-height: 13px;
   text-transform: none;
   font-weight: 600;
   color: #616770;
 }
-.group-relative .group-item{
+.group-relative .group-item {
   border-color: transparent;
   border-left-width: 0;
   border-right-width: 0;
@@ -141,17 +138,17 @@
   border-radius: 3px;
   margin-top: 12px;
 }
-.group-relative .group-item .img-cover{
-    border-top-left-radius: 2px;
-    border-top-right-radius: 2px;
-    height: 122px;
-    overflow: hidden;
-    width: 100%;
+.group-relative .group-item .img-cover {
+  border-top-left-radius: 2px;
+  border-top-right-radius: 2px;
+  height: 122px;
+  overflow: hidden;
+  width: 100%;
 }
-.group-relative .group-item .img-cover img{
+.group-relative .group-item .img-cover img {
   height: 100%;
 }
-.group-relative .group-item .name-group{
+.group-relative .group-item .name-group {
   color: #365899;
   cursor: pointer;
   text-decoration: none;
@@ -160,31 +157,29 @@
   font-size: 12px;
 }
 
-.group-relative .group-item .info-group{
+.group-relative .group-item .info-group {
   display: flex;
   flex-direction: column;
 }
-.group-relative .group-item .number-member{
+.group-relative .group-item .number-member {
   color: #90949c;
   font-size: 13px;
   padding: 6px 0px;
-
 }
-.group-relative .group-item .content{
+.group-relative .group-item .content {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 8px;
-
 }
-.group-relative .group-item .btn-join i{
+.group-relative .group-item .btn-join i {
   font-size: 10px;
   color: #4b4f56;
   margin-right: 4px;
 }
-.group-relative .group-item .btn-join{
+.group-relative .group-item .btn-join {
   background-color: #f5f6f7;
-  border:1px solid #ccd0d5;
+  border: 1px solid #ccd0d5;
   color: #4b4f56;
   font-size: 12px;
 
@@ -205,43 +200,43 @@
   white-space: nowrap;
 }
 
-.group-item .title-mini{
+.group-item .title-mini {
   color: #4b4f56;
   font-size: 11px;
   font-weight: bold;
   line-height: 15px;
   margin-bottom: 4px;
 }
-.group-item .suggestion-member .content{
+.group-item .suggestion-member .content {
   max-height: 365px;
   overflow-x: hidden;
   overflow-y: auto;
 }
-.group-item .suggestion-member .ul{
+.group-item .suggestion-member .ul {
   list-style-type: none;
   margin: 0;
-  padding: 0
+  padding: 0;
 }
-.group-item .suggestion-member .ul li{
+.group-item .suggestion-member .ul li {
   padding-top: 0;
 }
-.group-item .suggestion-member .ul li .friend-item{
+.group-item .suggestion-member .ul li .friend-item {
   zoom: 1;
 }
 
-.group-relative .suggestion-member .title-mini{
+.group-relative .suggestion-member .title-mini {
   font-size: 11px;
   color: black;
   line-height: 17px;
 }
-.group-relative .suggestion-member .content{
+.group-relative .suggestion-member .content {
   display: flex;
 }
-.group-relative .suggestion-member .content ul{
+.group-relative .suggestion-member .content ul {
   list-style: none;
 }
 
-.li-layout .btn{
+.li-layout .btn {
   border: 1px solid;
   border-radius: 2px;
   box-sizing: content-box;
@@ -263,10 +258,10 @@
   justify-content: center;
 }
 
-.li-layout .btn .caret{
+.li-layout .btn .caret {
   margin-left: 5px !important;
 }
-.page-member .header{
+.page-member .header {
   background: #f5f6f7;
   border-bottom: 1px solid #ced0d4;
   border-radius: 2px 2px 0 0;
@@ -276,11 +271,11 @@
   white-space: nowrap;
   display: flex;
 }
-.page-member .header .info-group{
+.page-member .header .info-group {
   display: flex;
   align-items: center;
 }
-.page-member .header .info-group a{
+.page-member .header .info-group a {
   color: #1d2129;
   display: inline-block;
   font-size: 18px;
@@ -292,7 +287,7 @@
   text-decoration: none;
   vertical-align: middle;
 }
-.page-member .header .info-group .number{
+.page-member .header .info-group .number {
   font-size: 14px;
   font-weight: bold;
   line-height: 24px;
@@ -300,32 +295,31 @@
   vertical-align: middle;
   color: #90949c;
 }
-.page-member .list-member{
+.page-member .list-member {
   padding: 4px 12px;
   clear: both;
 }
-.page-member .list-member .member{
+.page-member .list-member .member {
   display: flex;
   padding: 6px 0;
   justify-content: space-between;
   align-items: center;
 }
 
-.page-member .list-member .member .info-member{
+.page-member .list-member .member .info-member {
   display: flex;
   align-items: center;
 }
-.page-member .list-member .info-member .div-avatar{
+.page-member .list-member .info-member .div-avatar {
   margin-right: 12px;
-
 }
-.page-member .list-member .info-member img{
+.page-member .list-member .info-member img {
   border-radius: 50%;
   overflow: hidden;
   width: 72px;
   height: 72px;
 }
-.btn-join{
+.btn-join {
   background-color: #f5f6f7;
   border: 1px solid #ccd0d5;
   color: #4b4f56;
@@ -351,30 +345,29 @@
   color: #4b4f56;
   margin-right: 4px;
 }
-.page-member .list-member .info-member .info-detail{
-
+.page-member .list-member .info-member .info-detail {
 }
-.page-member .list-member .info-member .name{
+.page-member .list-member .info-member .name {
   color: #365899;
   font-size: 14px;
   font-weight: bold;
   line-height: 18px;
   padding-bottom: 1px;
 }
-.page-member .list-member .work{
+.page-member .list-member .work {
   color: #90949c;
   font-size: 12px;
   line-height: 16px;
   font-family: inherit;
 }
-.page-member .list-member .btn-friend .btn  span{
+.page-member .list-member .btn-friend .btn span {
   margin-right: 3px;
   font-size: 10px;
 }
-.btn .caret{
+.btn .caret {
   margin-left: 1px;
 }
-.page-member .list-member .btn-friend .btn{
+.page-member .list-member .btn-friend .btn {
   background-color: #f5f6f7;
   border: 1px solid #ccd0d5;
   color: #4b4f56;
@@ -393,9 +386,9 @@
   cursor: pointer;
   display: inline-block;
   text-decoration: none;
-  white-space: nowrap
+  white-space: nowrap;
 }
-.page-member .info-admin{
+.page-member .info-admin {
   align-items: center;
   border-bottom: 1px solid #dddfe2;
   display: flex;
@@ -409,14 +402,14 @@
   color: #4b4f56;
   font-weight: 600;
 }
-.page-member .info-admin .number-admin{
+.page-member .info-admin .number-admin {
   font-size: 13px;
   margin-left: 4px;
   color: #90949c;
   font-weight: 600;
 }
 
-.page-image .title{
+.page-image .title {
   color: #4e5665;
   display: block;
   font: Helvetica;
@@ -427,7 +420,7 @@
   color: #373e4d;
   font-weight: bold;
 }
-.page-image .header{
+.page-image .header {
   background-color: #f5f6f7;
   border-bottom: 1px solid #ccc;
   border-top: 1px solid #fff;
@@ -437,37 +430,37 @@
   display: flex;
   align-items: center;
 }
-.page-image .item-image{
+.page-image .item-image {
   background: #fff;
 
   display: inline-block;
   outline: none;
   padding: 2px;
   position: relative;
-  vertical-align:bottom;
+  vertical-align: bottom;
 }
-.page-image .item-image img{
- width: 100%;
- height: 186px;
-   border: 1px solid #ccc;
+.page-image .item-image img {
+  width: 100%;
+  height: 186px;
+  border: 1px solid #ccc;
 }
-.page-image .list-image{
-padding: 2px;
-}
-.page-image .list-video{
+.page-image .list-image {
   padding: 2px;
-  }
-  .page-image .item-video{
-    background: #fff;
+}
+.page-image .list-video {
+  padding: 2px;
+}
+.page-image .item-video {
+  background: #fff;
 
-    display: inline-block;
-    outline: none;
-    padding: 2px;
-    height: 200px;
-    position: relative;
-    vertical-align:bottom;
-  }
-.page-about .header{
+  display: inline-block;
+  outline: none;
+  padding: 2px;
+  height: 200px;
+  position: relative;
+  vertical-align: bottom;
+}
+.page-about .header {
   border-bottom: 1px solid #ebedf0;
   color: #4b4f56;
   margin-bottom: 12px;
@@ -476,7 +469,7 @@ padding: 2px;
   font-size: 14px;
   line-height: 18px;
 }
-.page-about .about-text{
+.page-about .about-text {
   border-color: transparent;
   border-left-width: 0;
   border-right-width: 0;
@@ -484,28 +477,39 @@ padding: 2px;
   border: 1px solid #dddfe2;
   border-radius: 3px;
   background-color: #fff;
-
 }
-.page-about .content-text{
+.page-about .content-text {
   color: #4b4f56;
   padding: 0 12px 0 12px;
 }
-.page-about .content-text .text-title{
+.page-about .content-text .text-title {
   color: #90949c;
   font-weight: 600;
   font-size: 14px;
   line-height: 18px;
   margin-bottom: 12px;
 }
-.page-about .content-text .text{
+.page-about .content-text .text {
   font-size: 14px;
   line-height: 18px;
   white-space: pre-wrap;
   margin: 1em 0;
 }
-.page-about .content-text .type-group{
-
+.page-about .content-text .type-group {
   font-size: 14px;
   line-height: 18px;
   margin-bottom: 12px;
+}
+.info-user-join {
+  display: flex;
+  align-items: center;
+}
+.btn-acess-request {
+  display: flext;
+}
+.row-request {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
 }
