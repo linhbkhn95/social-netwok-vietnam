@@ -137,7 +137,7 @@ module.exports = {
     let datanotifi = {
       userId: req.session.user.id,
       url_ref: "/post.notifi." + postId,
-      text: " đã bình luận bài đăng " + post.title + " của",
+      text: " đã bình luận bài đăng  của",
       type: "comment",
       time: Date.now(),
       data: data,
@@ -176,10 +176,13 @@ module.exports = {
   },
   //thông báo like bài viết
   notifiPostUser_Like: async function(post, req) {
+    let title = post.text ? post.text : "";
+    if (post.text && post.text.length > 10) title = post.text.substring(0, 10);
+
     let datanotifi = {
       userId: req.session.user.id,
       url_ref: "/post.notifi." + post.id,
-      text: " đã thích bài đăng " + post.title + " của",
+      text: " đã thích bài đăng " + title + " của",
       type: "like",
       time: Date.now(),
       data: post,
@@ -250,7 +253,8 @@ module.exports = {
         text: "Đã đăng lên tường của bạn",
         type: "friend",
         time: Date.now(),
-        data: post
+        data: post,
+        incognito: req.session.user.incognito
       };
       let notifi = await Notification.create(datanotifi);
       notifi.user_notifi = req.session.user;
@@ -299,7 +303,8 @@ module.exports = {
           : " đã đồng ý kết bạn với ",
       type: "friend",
       time: Date.now(),
-      data: userFriend
+      data: userFriend,
+      incognito: req.session.user.incognito
     };
     let notifi = await Notification.create(datanotifi);
     notifi.user_notifi = req.session.user;
@@ -347,6 +352,73 @@ module.exports = {
       notifi,
       req
     );
+  },
+  // thông báo về  yêu cầu,đồng ý,từ chối tham gia nhóm
+  notifiGroup: async function(data, req) {
+    let datanotifi = {
+      userId: req.session.user.id,
+      url_ref:
+        data.status == 0
+          ? "/groups/" + data.group_id + "/requestJoin"
+          : "/groups/" + data.group_id,
+      text:
+        data.status == 0
+          ? " đã yêu cầu được vào nhóm "
+          : " đã chấp nhận bạn vào nhóm",
+      type: "group",
+      time: Date.now(),
+      data: data,
+      incognito: req.session.user.incognito
+    };
+
+    let user_id_admin_group;
+    let user = req.session.user;
+    let { group_id } = data;
+
+    let notifi = await Notification.create(datanotifi);
+    notifi.user_notifi = req.session.user;
+    //yeu cau vao nhóm
+    if (data.status == 0) {
+      let group = await Group.findOne({ id: group_id });
+      let group_member_admin = await Group_member.find({ group_id, role: 1 }); //lay danh sach thanh vien admin
+
+
+      let listDataInsert = [];
+
+      //duyệt trên danh sác1h member admin group  để gửi notify
+      group_member_admin.forEach(merber_admin => {
+        User.findOne({ id: merber_admin.user_id }).exec((err, user) => {
+          if (!user.number_notifi) user.number_notifi = 1;
+          else user.number_notifi += 1;
+          user.save({});
+        });
+        let dataInsert = {
+          notificationId: notifi.id,
+          userId: merber_admin.user_id,
+          readNotifi: false,
+          status: true
+        };
+        listDataInsert.push(dataInsert);
+
+        //đồng bộ thông báo điến các user
+        //gender data notify theo use
+
+        sails.sockets.broadcast(
+          "NotificationUser",
+          "notifi_user" + merber_admin.user_id,
+          notifi,
+          req
+        );
+      });
+      Ref_notification_user.create(listDataInsert).exec(() => {});
+    } else {
+      sails.sockets.broadcast(
+        "NotificationUser",
+        "notifi_user" + data.user_id,
+        notifi,
+        req
+      );
+    }
   },
   like: "like"
 };

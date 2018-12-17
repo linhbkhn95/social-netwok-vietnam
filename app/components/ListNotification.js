@@ -56,12 +56,24 @@ class ListNotification extends React.Component {
       $("#notificationContainer").hide();
     }
   }
-
+  getClassIconNotifi(type) {
+    switch (type) {
+      case "like":
+        return "far fa-thumbs-up";
+      case "tag_post":
+        return "fas fa-user-tag";
+      case "comment":
+        return "far fa-comment-alt";
+      case "group":
+        return "fa fa-users"
+    }
+  }
   setWrapperRef(node) {
     this.wrapperRef = node;
   }
   render() {
     let { data, number_notifi } = this.props.notification;
+    let self = this
     return (
       <li
         ref={this.setWrapperRef}
@@ -71,7 +83,12 @@ class ListNotification extends React.Component {
         {number_notifi ? (
           <span id="notification_count">{number_notifi}</span>
         ) : null}
-        <div className="div-item-action"  ref="foo" id="notificationLink" data-tip="Thông báo">
+        <div
+          className="div-item-action"
+          ref="foo"
+          id="notificationLink"
+          data-tip="Thông báo"
+        >
           <i
             style={{ color: " rgb(92, 184, 92)" }}
             className="fas fa-bell"
@@ -129,7 +146,7 @@ class ListNotification extends React.Component {
                         )}{" "}
                         {notifi.text}
                         <br />
-                        <div style={{marginTop:"3px"}}>
+                        <div style={{ marginTop: "3px" }}>
                           {" "}
                           <i
                             style={{
@@ -138,11 +155,7 @@ class ListNotification extends React.Component {
                               float: "left"
                             }}
                             className={
-                              notifi.type == "like"
-                                ? "far fa-thumbs-up"
-                                : notifi.type == "tag_post"
-                                  ? "fas fa-user-tag"
-                                  : "far fa-comment-alt"
+                              self.getClassIconNotifi(notifi.type)
                             }
                             aria-hidden="true"
                           />{" "}
