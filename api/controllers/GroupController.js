@@ -11,6 +11,75 @@ module.exports = {
   //   shortcuts: false,
   //   rest: false
   // }
+  //lay thong tin group theo user dang nhap
+  getInfo_with_user: async function(req, res) {
+    try {
+      let user_id = req.session.user.id;
+      let { groupname } = req.body;
+      let group = await Group.findOne({ id: 1 });
+      let count_member = await Group_member.count({
+        group_id: groupname,
+        status: 1
+      });
+      let user_group_member = await Group_member.findOne({
+        user_id,
+        group_id: groupname
+      });
+      let follow_group = await Follow_group.findOne({ user_id });
+      let list_friend = await Friends.find({
+        or: [
+          { userId_one: user_id, status: 1 },
+          { userId_two: user_id, status: 1 }
+        ]
+      });
+      let response = {
+        group: {},
+        count_member: 0,
+        isMember: false,
+        role: 3,
+        isFollow: false,
+        listFriendMember: []
+      };
+      if (group) {
+        response.group = group;
+      }
+      if (count_member) {
+        response.count_member = count_member;
+      }
+      if (user_group_member) {
+        response.isMember = user_group_member.status;
+        response.role = user_group_member.role;
+      }
+      if (follow_group) {
+        response.isFollow = follow_group.status;
+      }
+      if (list_friend && list_friend.length > 0) {
+        listFriend_id = list_friend.map(item => {
+          let userIdFriend =
+            item.userId_one == user_id ? item.userId_two : item.userId_one;
+          return userIdFriend;
+        });
+        listFriendMember = await Group_member.find({
+          user_id: listFriend_id,
+          status: 1
+        }).limit(6);
+        if (listFriendMember && listFriendMember.length > 0)
+          listFriendMember_id = listFriendMember.map(item => item.user_id);
+        let listFriend = await User.find({
+          id: listFriendMember_id,
+          select: ["id", "fullname", "username", "url_avatar"]
+        });
+        response.listFriendMember = listFriend;
+        return res.send(OutputInterface.success(response));
+      } else {
+        return res.send(OutputInterface.success(response));
+      }
+
+      //lay 5 bạn bè trong group này
+    } catch (error) {
+      return res.send(OutputInterface.errServer(error.toString()));
+    }
+  },
   getInfo: function(req, res) {
     let { groupname } = req.body;
     Group.findOne({ id: 1 }).exec(async (err, group) => {
@@ -24,34 +93,99 @@ module.exports = {
       }
     });
   },
+  //yeu cau vao nhom
   join: function(req, res) {
-    let { group_id, status, user_id } = req.body;
+    try {
+      let { group_id, status, user_id } = req.body;
 
-    user_id = user_id || req.session.user.id;
-    status = status || 0; //mac dinh la yeu cau vao nhom
-    let data = {
-      user_id,
-      group_id,
-      status
-    };
-    Group_member.create(data).exec((err, group_member) => {
-      if (err) {
-        console.log("err", err);
-        return res.send(OutputInterface.errServer(err));
-      }
-      if (group_member) {
-        return res.send(OutputInterface.success(group_member));
-      }
+      user_id = user_id || req.session.user.id;
+      status = 0; //mac dinh la yeu cau vao nhom
+      let data = {
+        user_id,
+        group_id,
+        status
+      };
+      Group_member.findOrCreate({ user_id, group_id }, data).exec(
+        (err, group_member, wasCreated) => {
+          if (err) {
+            console.log("err", err);
+            return res.send(OutputInterface.errServer(err.toString()));
+          }
+
+          if (!wasCreated) {
+            //notification
+            group_member.status = 0;
+            group_member.save(() => {
+              NotificationUtils.notifiGroup(group_member, req);
+              return res.send(OutputInterface.success(group_member));
+            });
+          }
+        }
+      );
+    } catch (error) {
+      return res.send(OutputInterface.errServer(error.toString()));
+    }
+  },
+  //chap nhan vao nhom
+  acceptJoin: async function(req, res) {
+    let { group_id, status, user_id } = req.body;
+    let group_member = await Group_member.findOne({ group_id, user_id });
+    group_member.status = status || 1;
+    group_member.save(() => {
+      //notification
+      NotificationUtils.notifiGroup(group_member, req);
+      return res.send(OutputInterface.success(group_member));
     });
   },
+  cancelJoin: async function(req, res) {
+    let { group_id, user_id } = req.body;
+    let group_member = await Group_member.findOne({ group_id, user_id });
+    group_member.status = -1;
+    group_member.save(() => {
+      //notification
+      return res.send(OutputInterface.success(group_member));
+    });
+  },
+  //roi khoi nhom
   leave: async function(req, res) {
     console.log("leave", req.body);
-    let { group_id, status, user_id } = req.body;
-
+    let { group_id, status } = req.body;
+    let user_id = req.session.user.id;
     let group_member = await Group_member.findOne({ group_id, user_id });
     group_member.status = status || -1;
     group_member.save({});
     return res.send(OutputInterface.success(group_member));
+  },
+  //lay danh sach yeu cau tham gia nhom
+  getlist_requestJoin: async function(req, res) {
+    try {
+      let { group_id } = req.body;
+      let user_id = 1;
+      let member = await Group_member.findOne({
+        group_id,
+        user_id,
+        status: 1,
+        role: 1
+      });
+      let listRequestJoin = await Group_member.find({
+        where: { sort: "createdAt DESC" }
+      }).where({ group_id, status: 0 });
+      //chi admin ms co quyen xem danh sach de phe duyet
+      if (member && listRequestJoin && listRequestJoin.length > 0) {
+        let list_user_id = listRequestJoin.map(item => item.user_id);
+
+        let listUser = await User.find({
+          id: list_user_id,
+          select: ["id", "fullname", "username", "url_avatar"]
+        });
+
+        return res.send(OutputInterface.success(listUser));
+      } else {
+        return res.send(OutputInterface.errServer("khong co quyen xem"));
+      }
+    } catch (error) {
+      return res.send(OutputInterface.errServer(error.toString()));
+    }
   },
   getlist_memeber: function(req, res) {
     let { group_id } = req.body;
