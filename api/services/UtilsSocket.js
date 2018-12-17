@@ -28,7 +28,7 @@ module.exports = {
         req
       );
     }
-    if (post.police && post.police.id != 3)
+    if (post.police && post.police.id != 3&&listUserTag&&listUserTag.length>0)
       for (var i = 0; i < listUserTag.length; i++) {
         sails.sockets.broadcast(
           "Subscribe_Status",
