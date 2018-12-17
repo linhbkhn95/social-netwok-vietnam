@@ -9,9 +9,9 @@ import { NavLink, Route } from "react-router-dom";
 class Wall extends React.Component {
   render() {
     return (
-      <div style={{ paddingLeft: "0px" }} className="col-md-12">
+      <div style={{ paddingLeft: "0px" }} className="col-md-12 remove-padding-col">
         <ModalPostStatus groupname={this.props.groupname} />
-        <div className="col-md-12 list-post ">
+        <div className="col-md-12 list-post remove-padding-col">
           <div className="">
             {/* <HeaderListPost /> */}
             <div>{this.props.children}</div>
