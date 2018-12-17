@@ -9,6 +9,22 @@ http = require("http");
 path = require("path");
 var appRoot = require("app-root-path");
 
+let typeFile = {
+  image: "images",
+  video: "videos",
+  document: "document",
+  audio: "audio"
+};
+console.log("urlRoot", appRoot.toString());
+var res = appRoot.toString().split("/");
+// const nameProjectFolder = path.basename(path.dirname(appRoot.toString()));
+const nameProjectFolder = res[res.length - 1];
+
+console.log("nameProject", nameProjectFolder);
+const urlParent = appRoot
+  .toString()
+  .substring(0, appRoot.toString().length - nameProjectFolder.length);
+console.log("urlParent", urlParent);
 module.exports = {
   upload_image: function(req, res) {
     try {
@@ -48,6 +64,53 @@ module.exports = {
           // })
           res.send(OutputInterface.success(result));
         }
+      );
+    } catch (error) {
+      res.send(OutputInterface.errServer(error));
+    }
+  },
+  upload: function(req, res) {
+    try {
+      let data = {};
+      // console.log('params',req.param,req.headers.type);
+      let type_file = req.param("type_file");
+
+      req.file("file").upload(
+        {
+          // uploadMultiple: true,
+
+          // don't allow the total upload size to exceed ~100MB
+          maxBytes: 100000000,
+          // set the directory
+          // dirname: "../../assets/images/upload"
+          dirname: "../../../data/" + typeFile[type_file]
+        },
+        async function(err, uploadedFile) {
+          // if error negotiate
+          if (err) return res.send(OutputInterface.errServer(err));
+          console.log(uploadedFile);
+          //  data.url_image_gobal = uploadedFile.fd
+          //  let result = [];
+          // for (var i = 0; i < uploadedFile.length; i++) {
+          var array_urlfile = uploadedFile[0].fd.split("/");
+          let datafile = {};
+          datafile.filename = array_urlfile[array_urlfile.length - 1];
+          datafile.type_file = type_file;
+          // datafile.fileName = uploadedFile[i].filename;
+          //  result[i] = datafile;
+          // }
+          console.log(uploadedFile);
+
+          // data.url_image = '/images/user/'+img[img.length-1]
+          // User.update({id:req.session.user.id},{url_cover:data.url_image}).exec((err,gt)=>{
+          //   if(err){
+          //       res.send(OutputInterface.errServer(err))
+          //   }
+          //   res.send(OutputInterface.success(gt))
+          // })
+          res.send(OutputInterface.success(datafile));
+        }
+        // res.send(OutputInterface.success(req.headers));
       );
     } catch (error) {
       res.send(OutputInterface.errServer(error));
