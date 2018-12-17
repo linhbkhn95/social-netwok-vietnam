@@ -57,7 +57,7 @@ class ListFriend extends React.Component {
   render() {
     let { listfriend } = this.state;
     return (
-      <div className="col-md-12">
+      <div className="col-md-12 remove-padding-col">
         <div
           style={{ background: "white", padding: "10px" }}
           className="col-md-12 "

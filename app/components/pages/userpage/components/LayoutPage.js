@@ -389,9 +389,9 @@ class Layout extends React.Component {
                   </div>
                 </div>
               </div>
-              <div className="col-md-9">
+              <div style={{paddingLeft:"0px"}} className="col-md-9">
                 <div className="content-main">
-                  <div className="row">{this.props.children}</div>
+                 {this.props.children}
                 </div>
               </div>
             </section>
