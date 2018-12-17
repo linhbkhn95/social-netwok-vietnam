@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, NavLink } from "react-router-dom";
 import axios from "axios";
-import Relative from './Relative'
+import Relative from "./Relative";
 import {
   ButtonToolbar,
   Popover,
@@ -15,6 +15,7 @@ import PropTypes from "prop-types";
 import { ToastContainer, toast } from "react-toastify";
 import { connect } from "react-redux";
 import ModalEdit from "./ModalEditInfo";
+import LayoutRight from "./LayoutRightPage";
 class Layout extends React.Component {
   constructor(props) {
     super(props);
@@ -22,7 +23,7 @@ class Layout extends React.Component {
       fileName: "",
       file: null,
       info: {
-        user: {}
+        group: {}
       },
       showModalSubject: false
     };
@@ -34,7 +35,7 @@ class Layout extends React.Component {
   getData(groupname) {
     let sefl = this;
     if (groupname) {
-      axios.post("/group/getInfo", { groupname }).then(res => {
+      axios.post("/group/getInfo_with_user", { groupname }).then(res => {
         if (res.data.EC == 0) {
           sefl.setState({ info: res.data.DT });
         }
@@ -42,11 +43,10 @@ class Layout extends React.Component {
     }
   }
   componentWillReceiveProps(nextProps) {
-    console.log('componentWillReceiveProps',nextProps)
+    console.log("componentWillReceiveProps", nextProps);
     if (nextProps.groupname != this.props.groupname) {
       this.getData(nextProps.groupname);
     }
-
   }
   accessFollow() {
     let { groupname } = this.props;
@@ -139,17 +139,37 @@ class Layout extends React.Component {
       position: toast.POSITION.TOP_LEFT
     });
   }
+  leaveGroup = () => {
+    let { groupname } = this.props;
 
+    if (groupname) {
+      axios.post("/group/leave", { group_id: groupname }).then(res => {
+        if (res.EC == 0) {
+          location.reload();
+        }
+      });
+    }
+  };
+  joinGroup = () => {
+    let { groupname } = this.props;
+
+    if (groupname) {
+      axios.post("/group/join", { group_id: groupname }).then(res => {
+        if (res.EC == 0) {
+          location.reload();
+        }
+      });
+    }
+  };
   render() {
     let { info } = this.state;
 
-    let styleBanner={
+    let styleBanner = {
       // backgroundSize: "cover",
       backgroundRepeat: "no-repeat",
       backgroundSize: "100% 100%",
-      backgroundImage: "url('" + info.image + "')",
-
-    }
+      backgroundImage: "url('" + info.group.image + "')"
+    };
     return (
       <div className="container" style={{ marginTop: "-24px" }}>
         <div className="fix-product">
@@ -157,7 +177,7 @@ class Layout extends React.Component {
             <section id="user_main">
               <div className="col-md-2 remove-padding-col">
                 <div className="left-group">
-                  <h1 className="name-group">{info.groupname}</h1>
+                  <h1 className="name-group">{info.group.groupname}</h1>
                   <div className="_19s_">
                     <span
                       data-hover="tooltip"
@@ -170,12 +190,18 @@ class Layout extends React.Component {
                   </div>
                   <div className="list-meu">
                     <div className="menu-item">
-                      <Link className="_2yau" to={'/groups/'+this.props.groupname+"/about"}>
+                      <Link
+                        className="_2yau"
+                        to={"/groups/" + this.props.groupname + "/about"}
+                      >
                         <span className="_2yav">Giới thiệu</span>
                       </Link>
                     </div>
                     <div className="menu-item">
-                      <Link to={'/groups/'+this.props.groupname} className="_2yau">
+                      <Link
+                        to={"/groups/" + this.props.groupname}
+                        className="_2yau"
+                      >
                         <span className="_2yav">Thảo luận</span>
                       </Link>
                     </div>
@@ -186,18 +212,27 @@ class Layout extends React.Component {
                     </div>
 
                     <div className="menu-item">
-                      <Link className="_2yau" to={'/groups/'+this.props.groupname+"/members"}>
+                      <Link
+                        className="_2yau"
+                        to={"/groups/" + this.props.groupname + "/members"}
+                      >
                         <span className="_2yav">Thành viên</span>
                       </Link>
                     </div>
                     <div className="menu-item">
-                      <Link className="_2yau" to={'/groups/'+this.props.groupname+"/videos"}>
+                      <Link
+                        className="_2yau"
+                        to={"/groups/" + this.props.groupname + "/videos"}
+                      >
                         <span className="_2yav">Video</span>
                       </Link>
                     </div>
 
                     <div className="menu-item">
-                      <Link className="_2yau" to={'/groups/'+this.props.groupname+"/images"}>
+                      <Link
+                        className="_2yau"
+                        to={"/groups/" + this.props.groupname + "/images"}
+                      >
                         <span className="_2yav">Ảnh</span>
                       </Link>
                     </div>
@@ -391,10 +426,7 @@ class Layout extends React.Component {
               </div>
               <div className="col-md-8 remove-padding-col group-page">
                 <div className="home-user">
-                  <div
-                    className="banner"
-                    style={styleBanner}
-                  >
+                  <div className="banner" style={styleBanner}>
                     <div className="background-cover">
                       <div className="image-cover">
                         {" "}
@@ -424,20 +456,6 @@ class Layout extends React.Component {
                         ) : null}{" "}
                       </div>
                     </div>
-                    <div className="link-share visible-xs">
-                      <a href="http://www.facebook.com/share.php?u=https://moki.vn/shop/MK.Shop.5389">
-                        <i className="icon-svg svg-social-facebook" />
-                      </a>
-                      <a
-                        href="http://twitter.com/share?url=https://moki.vn/shop/MK.Shop.5389;text= Ghé thăm gian hàng của MK Shop trên ứng dụng mua sắm Moki"
-                        target="_blank"
-                      >
-                        <i className="icon-svg svg-social-twitter" />
-                      </a>
-                      <a href="https://plus.google.com/share?url=https://moki.vn/shop/MK.Shop.5389">
-                        <i className="icon-svg svg-social-google" />
-                      </a>
-                    </div>
                   </div>
 
                   <div className="group-head">
@@ -445,23 +463,7 @@ class Layout extends React.Component {
                       <div className="content-right">
                         <ul>
                           <li className="li-layout">
-                            {info.isMe ? (
-                              <button
-                                onClick={this.showModalSubject.bind(this)}
-                                style={{
-                                  padding: "2px 8px",
-                                  fontSize: "12px",
-                                  marginTop: "9px"
-                                }}
-                                className="btn btn-default"
-                              >
-                                <i
-                                  className="fa fa-pencil"
-                                  aria-hidden="true"
-                                />
-                                Chỉnh sửa
-                              </button>
-                            ) : (
+                            {info.isMember == 1 ? (
                               <div
                                 style={{
                                   paddingLeft: "0px",
@@ -473,45 +475,48 @@ class Layout extends React.Component {
                                   <Dropdown.Toggle>Đã tham gia</Dropdown.Toggle>
                                   <Dropdown.Menu className="">
                                     <MenuItem
-                                      onClick={this.accessFollow.bind(this)}
+                                      onClick={this.leaveGroup}
                                       eventKey="1"
                                     >
+                                      Rời khỏi nhóm
+                                    </MenuItem>
+                                    <MenuItem
+                                      onClick={this.accessFollow.bind(this)}
+                                      eventKey="2"
+                                    >
                                       {" "}
-                                      {info.follow && info.follow.status ? (
+                                      {info.isfollow ? (
                                         <i
                                           style={{ marginLeft: "-15px" }}
                                           className="fa fa-check"
                                           aria-hidden="true"
                                         />
                                       ) : null}
-                                      Roi khoi nhom
-                                    </MenuItem>
-                                    <MenuItem eventKey="2">
-                                      Bo theo doi nhom
+                                      Bỏ theo dõi nhóm
                                     </MenuItem>
                                   </Dropdown.Menu>
                                 </Dropdown>
                               </div>
+                            ) : info.isMember == -1 ? (
+                              <div
+                                onClick={this.joinGroup}
+                                className="btn-join"
+                              >
+                                <i className="fa fa-plus" aria-hidden="true" />
+                                Tham gia
+                              </div>
+                            ) : (
+                              <div
+                                style={{ cursor: "none" }}
+                                className="btn-join"
+                              >
+                                <i className="fas fa-pause" />
+                                Chờ phê duyệt
+                              </div>
                             )}
                           </li>
-                          <li className="li-layout">
-                            {info.isMe ? (
-                              <button
-                                onClick={this.showModalSubject.bind(this)}
-                                style={{
-                                  padding: "2px 8px",
-                                  fontSize: "12px",
-                                  marginTop: "9px"
-                                }}
-                                className="btn btn-default"
-                              >
-                                <i
-                                  className="fa fa-pencil"
-                                  aria-hidden="true"
-                                />
-                                Chỉnh sửa
-                              </button>
-                            ) : (
+                          {info.isMember == 1 ? (
+                            <li className="li-layout">
                               <div
                                 style={{
                                   paddingLeft: "0px",
@@ -521,7 +526,14 @@ class Layout extends React.Component {
                               >
                                 <Dropdown id="dropdown-custom-1">
                                   <Dropdown.Toggle>
-                                    <Glyphicon style={{color:'green',fontSize: '11px', top: '0px'}} glyph="ok" />
+                                    <Glyphicon
+                                      style={{
+                                        color: "green",
+                                        fontSize: "11px",
+                                        top: "0px"
+                                      }}
+                                      glyph="ok"
+                                    />
                                     Thông báo
                                   </Dropdown.Toggle>
                                   <Dropdown.Menu className="">
@@ -537,38 +549,19 @@ class Layout extends React.Component {
                                           aria-hidden="true"
                                         />
                                       ) : null}
-                                      Roi khoi nhom
-                                    </MenuItem>
-                                    <MenuItem eventKey="2">
-                                      Bo theo doi nhom
+                                      Hủy nhân thông báo
                                     </MenuItem>
                                   </Dropdown.Menu>
                                 </Dropdown>
                               </div>
-                            )}
-                          </li>
+                            </li>
+                          ) : null}
 
                           <li
                             className="li-layout"
                             style={{ borderRight: "none" }}
                           >
-                            {info.isMe ? (
-                              <button
-                                onClick={this.showModalSubject.bind(this)}
-                                style={{
-                                  padding: "2px 8px",
-                                  fontSize: "12px",
-                                  marginTop: "9px"
-                                }}
-                                className="btn btn-default"
-                              >
-                                <i
-                                  className="fa fa-pencil"
-                                  aria-hidden="true"
-                                />
-                                Chỉnh sửa
-                              </button>
-                            ) : (
+                            {info.isMember == 1 ? (
                               <div
                                 style={{
                                   paddingLeft: "0px",
@@ -611,69 +604,7 @@ class Layout extends React.Component {
                                   </Dropdown.Menu>
                                 </Dropdown>
                               </div>
-                            )}
-                          </li>
-                          <li
-                            className="li-layout"
-                            style={{ borderRight: "none" }}
-                          >
-                            {info.isMe ? (
-                              <button
-                                onClick={this.showModalSubject.bind(this)}
-                                style={{
-                                  padding: "2px 8px",
-                                  fontSize: "12px",
-                                  marginTop: "9px"
-                                }}
-                                className="btn btn-default"
-                              >
-                                <i
-                                  className="fa fa-pencil"
-                                  aria-hidden="true"
-                                />
-                                Chỉnh sửa
-                              </button>
-                            ) : (
-                              <div
-                                style={{
-                                  paddingLeft: "0px",
-                                  lineHeight: "35px"
-                                }}
-                                className="btn-friend"
-                              >
-                                <Dropdown id="dropdown-custom-1">
-                                  <Dropdown.Toggle>
-                                    <Glyphicon glyph="option-horizontal" />
-                                    Khác
-                                  </Dropdown.Toggle>
-                                  <Dropdown.Menu className="">
-                                    <MenuItem
-                                      onClick={this.accessFollow.bind(this)}
-                                      eventKey="1"
-                                    >
-                                      {" "}
-                                      {info.follow && info.follow.status ? (
-                                        <i
-                                          style={{ marginLeft: "-15px" }}
-                                          className="fa fa-check"
-                                          aria-hidden="true"
-                                        />
-                                      ) : null}
-                                      Nhận thông báo
-                                    </MenuItem>
-                                    <MenuItem eventKey="2">Bạn thân</MenuItem>
-
-                                    <MenuItem divider />
-                                    <MenuItem
-                                      onClick={this.destroyFriend.bind(this)}
-                                      eventKey="4"
-                                    >
-                                      Hủy kết bạn
-                                    </MenuItem>
-                                  </Dropdown.Menu>
-                                </Dropdown>
-                              </div>
-                            )}
+                            ) : null}
                           </li>
                         </ul>
                       </div>
@@ -681,15 +612,24 @@ class Layout extends React.Component {
                   </div>
                 </div>
                 <div className="col-md-12 remove-padding-col">
-                <div className={this.props.url_page!="images"&&this.props.url_page!="videos"?"content-main col-md-8":"content-main col-md-12"}>
-                  <div className="row">{this.props.children}</div>
+                  <div
+                    className={
+                      this.props.url_page != "images" &&
+                      this.props.url_page != "videos"
+                        ? "content-main col-md-8"
+                        : "content-main col-md-12"
+                    }
+                  >
+                    <div className="row">{this.props.children}</div>
+                  </div>
+                  {this.props.url_page != "images" &&
+                  this.props.url_page != "videos" ? (
+                    <div className="col-md-4 remove-padding-col">
+                      <Relative />
+                    </div>
+                  ) : null}
                 </div>
-                {this.props.url_page!="images"&&this.props.url_page!="videos"?<div className="col-md-4 remove-padding-col">
-                  <Relative />
-               </div>:null}
               </div>
-              </div>
-
             </section>
           </div>
         </div>
