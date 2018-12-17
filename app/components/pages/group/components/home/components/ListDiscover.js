@@ -151,6 +151,9 @@ class ListDiscover extends React.Component {
       self.setState({ options: resdata });
     });
   }
+  componentWillUnmount() {
+    $(window).unbind("scroll");
+  }
   componentWillReceiveProps(nextProps) {
     let { groupname } = nextProps;
     let self = this;
@@ -230,7 +233,10 @@ class ListDiscover extends React.Component {
       );
     return (
       <div>
-        <div style={{ marginBottom: "20px" }} className="col-md-12 remove-padding-col ">
+        <div
+          style={{ marginBottom: "20px" }}
+          className="col-md-12 remove-padding-col "
+        >
           <h5 className="title-subject">
             <i className="fa fa-tags" aria-hidden="true" /> Chủ đề tâm sự{" "}
             <span className="count-subject"> {this.state.options.length}</span>

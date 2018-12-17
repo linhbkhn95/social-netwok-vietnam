@@ -162,6 +162,10 @@ class ListDiscover extends React.Component {
       self.setState({ options: resdata });
     });
   }
+  componentWillUnmount(){
+    $(window).unbind('scroll');
+
+  }
   componentWillReceiveProps(nextProps) {
     let { username } = nextProps;
     let self = this;

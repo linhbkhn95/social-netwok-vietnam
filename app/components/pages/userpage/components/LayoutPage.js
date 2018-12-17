@@ -76,8 +76,7 @@ class Layout extends React.Component {
     var fileName = file.name;
     this.setState({ file: e.target.files[0], fileName });
 
-    this.upload_file(item).then(resdata => {
-    })
+    this.upload_file(item).then(resdata => {});
 
     // self.fileUpload(e.target.files[0]).then(response => {
     //   if (response.data.EC == 0) {
@@ -335,10 +334,7 @@ class Layout extends React.Component {
                                 style={{ padding: "2px 8px", fontSize: "12px" }}
                                 className="btn btn-default"
                               >
-                                <i
-                                  className="fa fa-pencil"
-                                  aria-hidden="true"
-                                />
+                                <i className="fas fa-pen" />
                                 Chỉnh sửa
                               </button>
                             ) : (
@@ -389,10 +385,8 @@ class Layout extends React.Component {
                   </div>
                 </div>
               </div>
-              <div style={{paddingLeft:"0px"}} className="col-md-9">
-                <div className="content-main">
-                 {this.props.children}
-                </div>
+              <div style={{ paddingLeft: "0px" }} className="col-md-9">
+                <div className="content-main">{this.props.children}</div>
               </div>
             </section>
           </div>

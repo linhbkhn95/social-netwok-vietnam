@@ -222,7 +222,7 @@ class ListNotification extends React.Component {
                           style={{ float: "", height: "36px" }}
                           className="time-alert"
                         >
-                          {moment(chat.time)
+                          {moment(chat.data.time)
                             .lang("vi")
                             .fromNow()}
                         </p>

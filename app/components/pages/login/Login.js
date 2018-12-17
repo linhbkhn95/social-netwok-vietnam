@@ -90,7 +90,7 @@ class Login extends React.Component {
                 className="alert alert-danger col-sm-12"
               />
 
-              <form id="loginform" className="form-horizontal" role="form">
+              <form onSubmit={this.login.bind(this)} id="loginform" className="form-horizontal" role="form">
                 <div style={{ marginBottom: "25px" }} className="input-group">
                   <span className="input-group-addon">
                     <i className="glyphicon glyphicon-user" />
