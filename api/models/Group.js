@@ -27,7 +27,15 @@ module.exports = {
     status:{
        type:'integer',
        defaultsTo : 0
+    },
+    police:{
+      type:'integer',
+      defaultsTo : 1
+    },
+    user_id_create:{
+      type:'integer'
     }
+
   }
 };
 
