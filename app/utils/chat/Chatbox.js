@@ -130,7 +130,7 @@ class ChatBox extends React.Component {
     return (
       <div
         style={{ right: this.props.right + "px" }}
-        className="row chat-window col-xs-4 col-md-3"
+        className="row chat-window col-xs-4 col-md-2"
       >
         <div className="col-xs-12 col-md-12">
           <div className="panel panel-default">
@@ -216,7 +216,7 @@ class ChatBox extends React.Component {
                     else {
                       return (
                         <div className="message-rec" key={index}>
-                          <div className="img-chatbox">
+                        {show ?   <div className="img-chatbox">
                             {" "}
                             {show ? (
                               <NavLink
@@ -231,7 +231,7 @@ class ChatBox extends React.Component {
                             ) : (
                               <div className="img-user" />
                             )}{" "}
-                          </div>
+                          </div>:null}
 
                           <div style={style} className="content-text">
                             {" "}

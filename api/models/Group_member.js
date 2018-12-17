@@ -13,28 +13,38 @@
  */
 
 module.exports = {
-
-
   attributes: {
-    user_id:{
-      type:'integer'
+    user_id: {
+      type: "integer"
     },
-    group_id:{
-      type:'integer'
+    group_id: {
+      type: "integer"
     },
-    desc:{
-      type:'string'
+    desc: {
+      type: "string"
     },
-    desc:{
-      role:'integer'
+    desc: {
+      role: "integer"
     },
-    status:{
-      type:'integer'
+    status: {
+      type: "integer"
     },
 
-    userId_action:{
-       type:'integer',
+    userId_action: {
+      type: "integer"
     }
+  },
+  updateOrCreate: function(criteria, values) {
+    var self = this; // reference for use by callbacks
+    // If no values were specified, use criteria
+    if (!values) values = criteria.where ? criteria.where : criteria;
+
+    return this.findOne(criteria).then(function(result) {
+      if (result) {
+        return self.update(criteria, values);
+      } else {
+        return self.create(values);
+      }
+    });
   }
 };
-
