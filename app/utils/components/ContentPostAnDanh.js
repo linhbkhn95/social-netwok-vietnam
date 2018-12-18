@@ -349,8 +349,8 @@ class PostAnhDanh extends React.Component {
                       float: "left",
                       fontSize: "17px",
                       color: "black",
-                      marginLeft: "-12px",
-                      marginRight: "1px"
+                      marginLeft: "-3px",
+                      marginRight: "5px"
                     }}
                     className="fa fa-caret-right"
                     aria-hidden="true"
