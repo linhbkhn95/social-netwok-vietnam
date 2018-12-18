@@ -39,7 +39,7 @@ const options = [
   { value: "strawberry", label: "Strawberry" },
   { value: "vanilla", label: "Vanilla" }
 ];
-class HeaderPost extends React.Component {
+class ModalPostStatus extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -181,7 +181,9 @@ class HeaderPost extends React.Component {
     let dataPost = {
       content,
       feel_id: valueSelect.feel ? feel.id : null,
-      police_id: police ? police.id : null
+      police_id: police ? police.id : null,
+      username: this.props.username,
+      group_id: this.props.group_id
     };
     let self = this;
     if (src && src.length > 0) {
@@ -207,7 +209,11 @@ class HeaderPost extends React.Component {
             }
           );
         })
-        .catch(err => {});
+        .catch(err => {
+          toast.error("Có lỗi xảy ra", {
+            position: toast.POSITION.TOP_CENTER
+          });
+        });
     } else {
       io.socket.post(
         "/post/postStatus",
@@ -496,4 +502,4 @@ module.exports = connect(function(state) {
   return {
     auth: state.auth
   };
-})(enhanceWithClickOutside(HeaderPost));
+})(enhanceWithClickOutside(ModalPostStatus));
