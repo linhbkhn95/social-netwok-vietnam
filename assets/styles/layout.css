@@ -203,7 +203,7 @@ img {
 }
 .post .user-detail {
   display: flex;
-  flex-flow: column;
+  /* flex-flow: column; */
 }
 .post .user-name {
   /* color: #4dab28; */

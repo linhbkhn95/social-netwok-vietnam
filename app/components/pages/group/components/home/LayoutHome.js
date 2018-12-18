@@ -10,7 +10,7 @@ class Wall extends React.Component {
   render() {
     return (
       <div style={{ paddingLeft: "0px" }} className="col-md-12 remove-padding-col">
-        <ModalPostStatus groupname={this.props.groupname} />
+        <ModalPostStatus group_id={this.props.groupname} />
         <div className="col-md-12 list-post remove-padding-col">
           <div className="">
             {/* <HeaderListPost /> */}

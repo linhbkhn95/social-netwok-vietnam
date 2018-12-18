@@ -44,6 +44,8 @@ module.exports = {
             self.upload_file(item).then(resdata => {
               if (resdata.data.EC == 0) {
                 resolve(resdata.data.DT);
+              }
+              else{
                 reject(resdata.data.EM);
               }
             });
@@ -51,11 +53,9 @@ module.exports = {
         })
       )
         .then(respone => {
-          console.log("respone", respone);
           resolve(respone);
         })
         .catch(err => {
-          console.log("errr", err);
           reject(err);
         });
     });

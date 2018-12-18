@@ -63,7 +63,7 @@ class ToastNotifi extends React.Component {
                 <strong>{notifi.user_notifi.fullname}</strong>
               </NavLink>
             )}{" "}
-            {notifi.text + " bạn"}
+            {notifi.text}
             <br />
             <div>
               {" "}

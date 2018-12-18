@@ -264,7 +264,7 @@ class HeaderPost extends React.Component {
       >
         <div className="header-post-new">
           <div className="question">
-            <i className="fas fa-pencil-alt" aria-hidden="true" /> Viết bài
+            <i className="fas fa-pencil-alt" aria-hidden="true" /> Viết bàixxx a a
           </div>
           <div className="question">
             <span
