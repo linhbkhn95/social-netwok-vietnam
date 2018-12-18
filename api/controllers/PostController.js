@@ -42,14 +42,14 @@ module.exports = {
           user_id: req.session.user.id,
           post_id: post.id,
           status: 1,
-          type: 0
+          type: 0 //ng tao post
         });
         if (userWall) {
           await Follow_postController.add({
             user_id: userWall.id,
             post_id: post.id,
             status: 1,
-            type: 4
+            type: 4 //tuong dang bai post
           });
         }
         let subject = await Subject.findOne({ id: data.subject });
@@ -137,10 +137,14 @@ module.exports = {
     let userId_post;
     if (username) {
       let user = await User.findOne({ username });
-      if (user) userId_post = user.id;
+      if (user) {
+        userId_post = user.id;
+        dataQuery.or = [{userId_post},{userId_wall:userId_post}]
+      }
     }
-    if (userId_post) dataQuery.userId_post = userId_post;
+
     if (listsubject.length > 0) dataQuery.subject = result;
+    console.log("getListPost_username", dataQuery, req.body);
     Post.find({ where: { sort: "createdAt DESC" } })
       .where(dataQuery)
       .paginate({ limit: pagesize, page: page })
