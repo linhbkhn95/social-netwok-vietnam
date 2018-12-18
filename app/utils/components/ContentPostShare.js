@@ -183,6 +183,7 @@ class Post extends React.Component {
 
             {/* <img className="img-user" src={this.props.incognito?"/images/user/robot.png":this.props.userPost.url_avatar} /> */}
           </div>
+          <div>
           <div className="user-detail">
             <div className="user-name">
               {/* {this.props.incognito?"Người lạ":<NavLink to={"/userpage."+this.props.userPost.username}>{this.props.userPost.fullname}</NavLink>} */}
@@ -195,14 +196,14 @@ class Post extends React.Component {
               {jsxAtribute}
             </div>
             {this.props.userWall ? (
-              <div>
+              <div style={{ display: "flex" }}>
                 <i
                   style={{
                     float: "left",
                     fontSize: "17px",
                     color: "black",
-                    marginLeft: "-12px",
-                    marginRight: "1px"
+                    marginLeft: "-3px",
+                    marginRight: "5px"
                   }}
                   className="fa fa-caret-right"
                   aria-hidden="true"
@@ -214,14 +215,14 @@ class Post extends React.Component {
                 </div>
               </div>
             ) : null}
-
-            <div style={{display:"flex",clear:"both"}} className="time">
+        </div>
+            <div className="time">
               <p className="">
                 {moment(this.props.time)
                   .lang("vi")
                   .fromNow()}
               </p>
-              <div style={{marginLeft:"3px"}} className="icon-police-post">
+              <div style={{ marginLeft: "3px" }} className="icon-police-post">
                 <img
                   title={
                     this.props.post.police
