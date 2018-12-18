@@ -80,6 +80,23 @@ module.exports = {
       return res.send(OutputInterface.errServer(error.toString()));
     }
   },
+  getTopOfUser: async function(req, res) {
+    try {
+      let user_id = req.session.user.id;
+      let listGroupmember = await Group_member.find({ user_id, status: 1 });
+      if (listGroupmember && listGroupmember.length > 0) {
+        let list_group_id = listGroupmember.map(item => item.group_id);
+        let listGroup = await Group.Find({ id: list_group_id });
+
+        return res.send(OutputInterface.success(listGroup))
+      }
+      else{
+        return res.send(OutputInterface.errServer('khong co group'));
+      }
+    } catch (error) {
+      return res.send(OutputInterface.errServer(error.toString()));
+    }
+  },
   getInfo: function(req, res) {
     let { groupname } = req.body;
     Group.findOne({ id: 1 }).exec(async (err, group) => {
