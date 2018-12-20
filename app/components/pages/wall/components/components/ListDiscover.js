@@ -11,13 +11,37 @@ class ListDiscover extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      listStatus: [],
+      listStatus: [
+        // {
+        //   content:null,
+        //   countLike: 0,
+        //   count_share: 0,
+        //   createdAt: "2018-12-18T16:57:38.000Z",
+        //   feel_id: null,
+        //   group_id: 1,
+        //   id: 132,
+        //   incognito: false,
+        //   listUserTag: null,
+        //   police: {},
+        //   police_id: 1,
+        //   postId_parent: null,
+        //   subject:null,
+        //   title: null,
+        //   type_post: null,
+        //   updatedAt: "2018-12-18T16:57:38.000Z",
+        //   userId_post:null,
+        //   userId_wall: null,
+        //   userLikePost: false,
+        //   userPost: null
+        // }
+      ],
       options: [],
       subject: null,
 
       items: 10,
       page: 1,
       loadingState: false,
+      callDB: false,
       fulldata: false
     };
   }
@@ -44,6 +68,7 @@ class ListDiscover extends React.Component {
             listStatus: data,
             page: self.state.page + 1,
             loadingState: false,
+            callDB: true,
             fulldata: self.state.fulldata
           });
         }
@@ -65,7 +90,7 @@ class ListDiscover extends React.Component {
           50 &&
         !self.state.fulldata
       ) {
-        self.loadMoreItems();
+        // self.loadMoreItems();
       }
     });
 
@@ -179,6 +204,7 @@ class ListDiscover extends React.Component {
     );
   }
   render() {
+    let { callDB } = this.state;
     let ListStatus =
       this.state.listStatus.length > 0 ? (
         this.state.listStatus.map(status => {
@@ -201,10 +227,10 @@ class ListDiscover extends React.Component {
             color: "#7a887a"
           }}
         >
-          <Skeleton />
-          <Skeleton count={5} />
+          Chưa có bài đăng
         </div>
       );
+
     return (
       <div>
         <div
@@ -230,11 +256,26 @@ class ListDiscover extends React.Component {
             />
           </div>
         </div>
-        <div style={{ display: "table-footer-group" }}>{ListStatus}</div>
+        <div style={{ display: "table-footer-group" }}>
+          {callDB
+            ? ListStatus
+            : [1, 2, 3, 4, 5, 6].map(i => {
+                return (
+                  <div style={{ fontSize: 15, lineHeight: 2 }}>
+                    <h1>
+                      {" "}
+                      <Skeleton />
+                    </h1>
+                    <Skeleton count={6} />
+                  </div>
+                );
+              })}
+        </div>
         <div style={{ textAlign: "center", fontSize: "12px" }}>
           {this.state.loadingState ? (
             <p style={{ fontSize: "12px" }} className="loading">
               {" "}
+              <Skeleton count={5} />
               đang tải dữ liệu..
             </p>
           ) : (

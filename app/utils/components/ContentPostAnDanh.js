@@ -15,6 +15,8 @@ import ContainerFile from "./ContainerFile";
 var date = Date.now();
 var datedemo = 151139964297;
 import moment from "moment";
+import Skeleton from 'react-loading-skeleton';
+
 import { ToastContainer, toast } from "react-toastify";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
@@ -293,10 +295,10 @@ class PostAnhDanh extends React.Component {
       );
     return (
       <div>
-        <header>
+        {this.props.subject&&this.props.subjectId||this.props.title?<header>
           <div className="pull-left title-post">
             <i className="fa fa-header" aria-hidden="true" /> {this.props.title}{" "}
-            <NavLinkUtils />
+
           </div>
           <div>
             {" "}
@@ -309,12 +311,12 @@ class PostAnhDanh extends React.Component {
               {this.props.subject ? this.props.subject.subjectname : ""}
             </div>
           </div>
-        </header>
+        </header>:null}
         <div className="user-answer">
           <div className="user-avatar">
             {this.props.incognito ? (
               <img className="img-user" src="/images/user/robot.png" />
-            ) : (
+            ) :  this.props.userPost? (
               <NavLink
                 style={{ marginRight: "5px" }}
                 to={"/userpage." + this.props.userPost.username}
@@ -324,7 +326,7 @@ class PostAnhDanh extends React.Component {
                   src={this.props.userPost.url_avatar}
                 />
               </NavLink>
-            )}
+            ):<Skeleton count={2} />}
 
             {/* <img className="img-user" src={this.props.incognito?"/images/user/robot.png":this.props.userPost.url_avatar} /> */}
           </div>
