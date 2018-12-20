@@ -8,6 +8,7 @@ import {
   Tooltip
 } from "react-bootstrap";
 import NavLinkUtils from "app/utils/modal/NavLink_Popup";
+import Skeleton from 'react-loading-skeleton';
 
 class HeaderPost extends React.Component {
   renderTooltip() {
@@ -112,7 +113,7 @@ class HeaderPost extends React.Component {
           <NavLinkUtils user_id = {userPost.id} to={"/userpage." + userPost.username}>
             {userPost.fullname}
           </NavLinkUtils>
-        ) : null}
+        ) :null}
         {incognito ? "Người lạ" : ""}
         {/* <a style={{float:'left'}}>Trinh linh</a> */}
         {feel ? (

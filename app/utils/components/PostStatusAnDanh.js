@@ -41,6 +41,7 @@ class PostStatus extends React.Component {
   }
 
   getCountComment(countComment) {
+    console.log('getCountComment',countComment)
     this.setState({ countComment });
   }
   componentDidmount() {}
@@ -48,7 +49,10 @@ class PostStatus extends React.Component {
     let self = this;
 
     return (
-      <div style={{ background: "white" }} className="col-md-12 post-status">
+      <div
+        style={{ background: "white", display: "block", position: "relative" }}
+        className="col-md-12 post-status"
+      >
         <article className="post">
           <ContentPostAnDanh
             hideFooter={this.props.hideFooter}

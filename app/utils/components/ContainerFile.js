@@ -7,6 +7,7 @@ var ReactPhotoGrid = require("react-photo-grid");
 function handleImageClick(image) {
   console.log("Image clicked. Show it in a nice lightbox?");
 }
+import Skeleton from "react-loading-skeleton";
 
 var feelingLucky = Math.floor(Math.random() * 2);
 var luckType = [
@@ -221,7 +222,8 @@ class AdvancedGridList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      listFile: []
+      listFile: [],
+      isLoading: true
     };
   }
   componentDidMount() {
@@ -233,7 +235,9 @@ class AdvancedGridList extends React.Component {
 
     RestfulUtils.post("/fileupload/getFilePostId", { post_id }).then(res => {
       if (res.EC == 0 && res.DT.length > 0) {
-        self.setState({ listFile: self.convertData(res.DT) });
+        self.setState({ listFile: self.convertData(res.DT), isLoading: false });
+      } else {
+        self.setState({ isLoading: false });
       }
     });
   }
@@ -260,6 +264,7 @@ class AdvancedGridList extends React.Component {
   render() {
     let { classes } = this.props;
     let length = this.state.listFile.length;
+    if (this.state.isLoading) return <Skeleton height={100} />;
     if (this.state.listFile.length > 0)
       return (
         <div className={classes.root}>
@@ -267,7 +272,17 @@ class AdvancedGridList extends React.Component {
             {this.state.listFile.map((tile, index) => (
               <GridListTile key={tile.img} cols={tile.cols} rows={tile.rows}>
                 {tile.type_file == "image" ? (
-                  <img src={tile.url_file} alt={tile.title} />
+                  <img
+                    style={{
+                      position: "absolute",
+                      transform: "inherit",
+                      top:"-20%",
+                      imageRendering: "-webkit-optimize-contrast",
+                      objectFit: "contain"
+                     }}
+                    src={tile.url_file}
+                    alt={tile.title}
+                  />
                 ) : (
                   <ComponentVideo src={tile.url_file} />
                 )}
