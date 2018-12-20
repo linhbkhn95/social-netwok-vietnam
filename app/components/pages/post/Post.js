@@ -2,9 +2,10 @@ import React from "react";
 import Post from "app/utils/components/PostStatusAnDanh";
 import axios from "axios";
 import "react-select/dist/react-select.css";
-import { create } from "domain";
 var Select = require("react-select");
 import { connect } from "react-redux";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+
 class PostNotifi extends React.Component {
   constructor(props) {
     super(props);
@@ -92,7 +93,13 @@ class PostNotifi extends React.Component {
           color: "#7a887a"
         }}
       >
-        Chưa có bài đăng nào
+        <div style={{ fontSize: 15, lineHeight: 2 }}>
+          <h1>
+            {" "}
+            <Skeleton />
+          </h1>
+          <Skeleton count={6} />
+        </div>
       </div>
     );
     return (

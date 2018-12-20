@@ -35,11 +35,14 @@ class ListComment extends React.Component {
     //     }
     // });
     io.socket.on(this.props.post.id, function(data) {
+      console.log("xxxasdasdasdsdasdsdadsdad", data);
       switch (data.type) {
-        case "comment":
+        case "comment": {
           self.acessSocket("listComment", data);
+          break;
+        }
         case "like":
-          console.log("dataadadadaddadad", data.data);
+
         // case "like" : self.accessLike(data);
       }
       // console.log('Socket `' + data.id + '` joined the party!',data);
@@ -58,6 +61,7 @@ class ListComment extends React.Component {
       case "add":
         this.state[type].push(data.data);
         this.setState(this.state);
+        this.props.countComment(this.state[type].length);
     }
   }
   constructor(props) {

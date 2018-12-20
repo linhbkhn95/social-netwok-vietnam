@@ -21,6 +21,7 @@ import ToastNotifiComponent from "app/utils/notifi/ToastNotifiComponent";
 import moment from "moment";
 import Toggle from "react-toggle";
 import "react-toggle/style.css";
+import Skeleton from "react-loading-skeleton";
 
 import { setCurrentUser } from "app/action/authActions.js";
 
@@ -34,17 +35,22 @@ class ToastNotifi extends React.Component {
       case "comment":
         return "far fa-comment-alt";
       case "group":
-        return "fa fa-users"
+        return "fa fa-users";
     }
   }
-  redirect = (url)=>{
-    this.context.router.history.push(url)
-  }
+  // redirect = url => {
+  //   this.context.router.history.push(url);
+  // };
+  // onClick={this.redirect(notifi.url_ref)}
   render() {
     let notifi = this.props.notifi;
     console.log("notifi", notifi);
     return (
-      <div onClick={this.redirect(notifi.url_ref)} style={{ borderBottom: "none" }} className=" alert-message">
+      <div
+
+        style={{ borderBottom: "none" }}
+        className=" alert-message"
+      >
         <NavLink to={notifi.url_ref}>
           {" "}
           <div className="col-md-3 row">
@@ -74,9 +80,7 @@ class ToastNotifi extends React.Component {
               {" "}
               <i
                 style={{ marginRight: "3px", fontSize: "12px" }}
-                className={
-                  this.getClassIconNotifi(notifi.type)
-                }
+                className={this.getClassIconNotifi(notifi.type)}
                 aria-hidden="true"
               />{" "}
               <p style={{ float: "right" }} className="time-alert">
@@ -91,9 +95,9 @@ class ToastNotifi extends React.Component {
     );
   }
 }
-ToastNotifi.contextTypes = {
-  router: PropTypes.object.isRequired
-};
+// ToastNotifi.contextTypes = {
+//   router: PropTypes.object.isRequired
+// };
 class NavContent extends React.Component {
   constructor(props) {
     super(props);
@@ -117,7 +121,6 @@ class NavContent extends React.Component {
     });
 
     io.socket.get("/notification/user", function gotResponse(data, jwRes) {
-
       io.socket.on("notifi_user" + data.userId, function(data) {
         console.log("addnotifi", data);
 
@@ -203,7 +206,7 @@ class NavContent extends React.Component {
                     </i>
                   </div>
                 </NavItem>
-               <ListSearch/>
+                <ListSearch />
                 {/* <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
                             <MenuItem eventKey={3.1}>Câu hỏi</MenuItem>
                             <MenuItem eventKey={3.2}>Tag</MenuItem>
@@ -220,19 +223,26 @@ class NavContent extends React.Component {
                   eventKey={2}
                   href="#"
                 >
+
                   <NavLink to={"/userpage." + this.props.auth.user.username}>
                     <div className="user-avatar">
-                      <img
-                        style={{ width: "31px", height: "31px" }}
-                        className="img-user"
-                        src={this.props.auth.user.url_avatar}
-                      />
+                      {this.props.auth.isAuthenticated ? (
+                        <img
+                          style={{ width: "31px", height: "31px" }}
+                          className="img-user"
+                          src={this.props.auth.user.url_avatar}
+                        />
+                      ) : (
+                        <Skeleton height={43} width={43} circle={true} />
+                      )}
                     </div>
                     <div style={{ float: "left" }} className="">
                       <div className="user-name">
-                        {this.props.auth.user.fullname
-                          ? this.props.auth.user.fullname
-                          : this.props.auth.user.username}
+                        {this.props.auth.isAuthenticated ? (
+                          this.props.auth.user.fullname
+                        ) : (
+                          <Skeleton count={1} />
+                        )}
                       </div>
                     </div>
                   </NavLink>
