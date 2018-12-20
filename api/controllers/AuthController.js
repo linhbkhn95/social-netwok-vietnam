@@ -33,7 +33,6 @@ module.exports = {
           if (!user.url_avatar) user.url_avatar = "/images/user/robot.png";
           User.subscribe(req, user);
           req.session.user = user;
-
           return res.send(
             OutputInterface.success({
               user: user,

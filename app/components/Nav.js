@@ -8,6 +8,8 @@ import jwtDecode from "jwt-decode";
 import axios from "axios";
 import { connect } from "react-redux";
 import ListNotifi from "./ListNotification";
+import ListSearch from "./ListSearch";
+
 import ListRequestFrienfs from "./ListRequestFriends";
 import ListFriend from "./ListFriend";
 import ListChat from "./ListChat";
@@ -35,11 +37,14 @@ class ToastNotifi extends React.Component {
         return "fa fa-users"
     }
   }
+  redirect = (url)=>{
+    this.context.router.history.push(url)
+  }
   render() {
     let notifi = this.props.notifi;
     console.log("notifi", notifi);
     return (
-      <div style={{ borderBottom: "none" }} className=" alert-message">
+      <div onClick={this.redirect(notifi.url_ref)} style={{ borderBottom: "none" }} className=" alert-message">
         <NavLink to={notifi.url_ref}>
           {" "}
           <div className="col-md-3 row">
@@ -86,6 +91,9 @@ class ToastNotifi extends React.Component {
     );
   }
 }
+ToastNotifi.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 class NavContent extends React.Component {
   constructor(props) {
     super(props);
@@ -109,10 +117,7 @@ class NavContent extends React.Component {
     });
 
     io.socket.get("/notification/user", function gotResponse(data, jwRes) {
-      console.log(
-        "Server responded with status code " + jwRes.statusCode + " and data: ",
-        data
-      );
+
       io.socket.on("notifi_user" + data.userId, function(data) {
         console.log("addnotifi", data);
 
@@ -198,6 +203,7 @@ class NavContent extends React.Component {
                     </i>
                   </div>
                 </NavItem>
+               <ListSearch/>
                 {/* <NavDropdown eventKey={3} title="Dropdown" id="basic-nav-dropdown">
                             <MenuItem eventKey={3.1}>Câu hỏi</MenuItem>
                             <MenuItem eventKey={3.2}>Tag</MenuItem>

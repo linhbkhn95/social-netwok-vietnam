@@ -30,7 +30,7 @@ class Info extends React.Component{
       let {info} = this.state
      return(
 
-        <div className="group-relative">
+        <div style={{marginLeft:"10px",marginTop:"0px"}} className="group-relative">
               <div className="header"><div className="title" >Thêm thành viên</div></div>
               <div className="header member">
                   <div className="title" >Thành viên  <div className="number">9.744 thành viên</div></div>

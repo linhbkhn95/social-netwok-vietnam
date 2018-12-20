@@ -196,6 +196,8 @@ module.exports = {
       readNotifi: false,
       status: true
     }).exec({});
+
+    
     sails.sockets.broadcast(
       "NotificationUser",
       "notifi_user" + post.userId_post,

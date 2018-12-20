@@ -110,12 +110,25 @@
   -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
   overflow: visible;
   position: absolute;
-  top: 41px;
-  margin-left: -332px;
+  // top: 41px;
+  // margin-left: -332px;
   width: 382px;
   z-index: 9999;
   display: none;
 }
+#searchContainer {
+  background-color: #fff;
+  border: 1px solid rgba(100, 100, 100, 0.4);
+  -webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, 0.25);
+  overflow: visible;
+  position: absolute;
+  // top: 41px;
+  // margin-left: -332px;
+  width: 382px;
+  z-index: 9999;
+  display: none;
+}
+
 #notificationFooter {
   // background-color: #e9eaed;
   text-align: center;
@@ -164,7 +177,8 @@
 .alert-message a {
   color: #555;
 }
-.alert-message a:hover,.alert-message a:focus {
+.alert-message a:hover,
+.alert-message a:focus {
   text-decoration: none !important;
 }
 .time-alert {
@@ -239,13 +253,15 @@
     margin-top: 0px !important;
   }
 }
-.list-friend .input-search {
+.list-friend .input-search,
+.div-item-action .input-search {
   z-index: 9999999;
   position: absolute;
   bottom: 0px;
   padding-bottom: 2px;
 }
-.list-friend .input-search input {
+.list-friend .input-search input,
+.div-item-action .input-search input {
   border-right: none;
   border-left: none;
   padding-left: 0px;
@@ -257,18 +273,21 @@
   border-right: none;
   border-bottom: none;
 }
-.list-friend .input-search .glyphicon {
+.list-friend .input-search .glyphicon,
+.div-item-action .input-search .glyphicon {
   font-size: 13px;
   color: #b9bcbf;
 }
-.list-friend .input-search .input-group-addon {
+.list-friend .input-search .input-group-addon,
+.div-item-action .input-search .input-group-addon {
   border-top: 1px solid #eae5e5;
   border-radius: 0px;
   border-left: none;
   border-right: none;
   border-bottom: none;
 }
-.list-friend .input-search .form-control {
+.list-friend .input-search .form-control,
+.div-item-action .input-search .form-control {
   border-color: #eae5e5 !important;
   box-shadow: none !important;
   height: 33px !important;
@@ -309,4 +328,37 @@
 }
 .list-friend .list {
   margin-top: 50px;
+}
+.topnav .search-container {
+  float: right;
+  width: 100%;
+
+}
+
+.topnav input[type="text"] {
+  padding: 3px 12px;
+  /* margin-top: 8px; */
+  font-size: 14px;
+  border: none;
+  width: 342px;
+}
+
+.topnav .search-container button {
+  /* float: right; */
+  padding: 3px 12px;
+
+  background: #ddd;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+}
+.navbar-nav {
+  align-items: center;
+  display: flex;
+}
+.topnav {
+  height: 100%;
+  align-items: center;
+  display: flex;
+  margin-top: 11px;
 }

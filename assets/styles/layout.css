@@ -359,8 +359,8 @@ textarea {
 }
 .navbar-inverse {
   margin-bottom: 0px;
-  height: 46px;
-  display: flex;
+  /* height: 46px;
+  display: flex; */
   align-items: center;
   background-image: linear-gradient(123deg, #5e8e5e, #157317, #2b8c2d);
   /* background-color: #222; */
