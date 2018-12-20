@@ -54,18 +54,27 @@ module.exports = {
     }
   },
   searchNormal: function() {},
-  searchFullTextIndex: async function(q, index, type) {
-    let data = {
-      index,
-      q
-    };
-    if (type) data["type"] = type;
-    const response = await client.search(data);
-
-    for (const post of response.hits.hits) {
-      console.log("post:", post);
+  
+  searchFullTextIndex: async function(q, index, type, done) {
+    try {
+      let data = {
+        index,
+        q
+      };
+      if (type) data["type"] = type;
+      const response = await client.search(data);
+      if (response && response.hits.hits && response.hits.hits.length > 0) {
+        done(null, response);
+      } else {
+        done(null, null);
+      }
+    } catch (error) {
+      done(error, null);
     }
+
+
   },
+
   add: async function(index, type, data) {
     client.index(
       {
