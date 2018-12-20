@@ -161,7 +161,7 @@ module.exports = {
     if (post)
       Comment.create(req.body).exec(async (err, comment) => {
         if (err) {
-          return res.send(OutputInterface.errServer(err));
+          return res.send(OutputInterface.errServer(err.toString()));
         }
         if (comment) {
           comment.user_comment = req.session.user;

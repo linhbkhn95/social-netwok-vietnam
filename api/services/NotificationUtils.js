@@ -125,7 +125,7 @@ module.exports = {
       follow_post.status = 1;
       follow_post.save(() => {});
     } else {
-      await Follow_post.findOne({
+      await Follow_post.create({
         post_id,
         user_id: req.session.user.id,
         status: 1
@@ -197,7 +197,6 @@ module.exports = {
       status: true
     }).exec({});
 
-    
     sails.sockets.broadcast(
       "NotificationUser",
       "notifi_user" + post.userId_post,
@@ -383,7 +382,6 @@ module.exports = {
     if (data.status == 0) {
       let group = await Group.findOne({ id: group_id });
       let group_member_admin = await Group_member.find({ group_id, role: 1 }); //lay danh sach thanh vien admin
-
 
       let listDataInsert = [];
 
