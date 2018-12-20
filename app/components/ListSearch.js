@@ -114,16 +114,16 @@ class ListNotification extends React.Component {
     document.removeEventListener("mousedown", this.handleClickOutside);
   }
   showNotifi() {
-    $("#searchContainer").fadeToggle(300);
-    let self = this;
-    self.props.dispatch(resetNotification());
-    io.socket.post("/chat/reset_all_know_message", resdata => {
-      if (resdata.EC == 0) {
-        self.setState({ count_wait_user: 0 });
-      }
-    });
-    // $("#notification_count").fadeOut("slow");
-    return false;
+    // $("#searchContainer").fadeToggle(300);
+    // let self = this;
+    // self.props.dispatch(resetNotification());
+    // io.socket.post("/chat/reset_all_know_message", resdata => {
+    //   if (resdata.EC == 0) {
+    //     self.setState({ count_wait_user: 0 });
+    //   }
+    // });
+    // // $("#notification_count").fadeOut("slow");
+    // return false;
   }
   handleClickOutside(event) {
     if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
@@ -145,9 +145,12 @@ class ListNotification extends React.Component {
   setWrapperRef(node) {
     this.wrapperRef = node;
   }
-  onChange=(e)=>{
-    console.log('search',e)
-    $("#searchContainer").fadeToggle(300);
+  onChange(e) {
+    console.log("search", e.target.value);
+    $("#searchContainer").show();
+  }
+  onFocus(e) {
+    $("#searchContainer").show();
   }
   render() {
     let self = this;
@@ -172,7 +175,14 @@ class ListNotification extends React.Component {
         >
           <div className="search-container">
             <form>
-              <input type="text" onChange={this.onChange()} placeholder="Tìm kiếm.." name="search" />
+              <input
+                type="text"
+
+                onFocus={this.onFocus.bind(this)}
+                onChange={this.onChange.bind(this)}
+                placeholder="Tìm kiếm.."
+                name="search"
+              />
               <button type="submit">
                 <i className="fa fa-search" />
               </button>
@@ -181,10 +191,9 @@ class ListNotification extends React.Component {
         </div>
 
         <div id="searchContainer">
-
           <div id="notificationTitle">Tìm kiếm</div>
-          <div className="">Kết quả gần đây</div>
-          <div id="notificationsBody" className="notifications">
+          {/* <div className="">Kết quả gần đây</div> */}
+          <div style={{marginTop:"8px"}} id="notificationsBody" className="notifications">
             {listChat.length > 0 ? (
               listChat.map((chat, index) => {
                 console.log("châtdad", chat);
@@ -213,18 +222,9 @@ class ListNotification extends React.Component {
                         {" "}
                         <strong>{chat.user.fullname}</strong>
                       </div>
-                      <div className="pull-right">
-                        <p
-                          style={{ float: "", height: "36px" }}
-                          className="time-alert"
-                        >
-                          {moment(chat.data.time)
-                            .lang("vi")
-                            .fromNow()}
-                        </p>
-                      </div>
-                      <br />
-                      {chat.data.text}
+
+
+
                     </div>
                   </div>
                 );

@@ -3,11 +3,14 @@ import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import moment from "moment";
 import { addChatbox, openChatbox } from "app/action/actionChatbox";
+import Skeleton from 'react-loading-skeleton';
+
 class List extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      listfriend: []
+      listfriend: [],
+      loading:true
     };
   }
   cancel(username) {
@@ -45,7 +48,7 @@ class List extends React.Component {
           }
         }
 
-        self.setState({ listfriend });
+        self.setState({ listfriend,});
       }
     });
   }
@@ -54,7 +57,7 @@ class List extends React.Component {
 
     io.socket.post("/user/getListFriends_User", {}, resdata => {
       if (resdata.EC == 0) {
-        sefl.setState({ listfriend: resdata.DT });
+        sefl.setState({ listfriend: resdata.DT,loading:false  });
       }
     });
     io.socket.on("status_user", function(data) {
@@ -64,7 +67,7 @@ class List extends React.Component {
 
   render() {
     let self = this;
-    let { listfriend } = this.state;
+    let { listfriend,loading } = this.state;
     return (
       <div
         style={{ display: this.props.auth.isAuthenticated ? "block" : "none" }}
@@ -95,7 +98,11 @@ class List extends React.Component {
               <div />
             </div>
             <div style={{ paddingTop: "20px" }} className="">
-              {listfriend.map((friend, index) => {
+              {listfriend.length==0&& loading?<div style={{ fontSize: 15, lineHeight: 2 }}>
+     
+       <Skeleton count={10} />
+    </div>:
+              listfriend.map((friend, index) => {
                 return (
                   // <NavLink key={index} to={"/userpage."+friend.user.username} >
                   <div
