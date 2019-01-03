@@ -69,7 +69,7 @@ class Login extends React.Component {
           that.refs.username.getValue() + " " + that.refs.password.getValue()
         );
         dispatch(login(that.refs.username.getValue()));
-        that.props.history.push("/");
+        that.props.history.push("/wall/newpost");
         //   if(res.data!=null){
 
         //     dispatch(login(res.data.user.email));

@@ -5,6 +5,8 @@ import "react-select/dist/react-select.css";
 import { create } from "domain";
 var Select = require("react-select");
 import { connect } from "react-redux";
+import Skeleton, { SkeletonTheme } from "react-loading-skeleton";
+
 class ListDiscover extends React.Component {
   constructor(props) {
     super(props);
@@ -15,7 +17,8 @@ class ListDiscover extends React.Component {
       items: 10,
       page: 1,
       loadingState: false,
-      fulldata: false
+      fulldata: false,
+      callDB: false
     };
   }
   loadMoreItems() {
@@ -67,13 +70,14 @@ class ListDiscover extends React.Component {
     if (groupname)
       io.socket.post(
         "/group/getListPost_groupname",
-        { page: this.state.page, groupname: 1 },
+        { page: this.state.page, groupname: groupname },
         function(res, jwres) {
           if (res.EC == 0) {
             self.setState({
               listStatus: res.DT,
               page: self.state.page + 1,
-              loadingState: false
+              loadingState: false,
+              callDB: true
             });
           }
         }
@@ -160,7 +164,7 @@ class ListDiscover extends React.Component {
     if (groupname != this.props.groupname) {
       io.socket.post(
         "/post/getListPost_groupname",
-        { page: 1, groupname: 1 },
+        { page: 1, groupname: groupname },
         function(res, jwres) {
           if (res.EC == 0) {
             self.state.fulldata = false;
@@ -228,7 +232,26 @@ class ListDiscover extends React.Component {
             color: "#7a887a"
           }}
         >
-          Chưa có bài đăng nào
+          {this.state.callDB ? (
+            <div>Chưa có bài đăng</div>
+          ) : (
+            <React.Fragment>
+              <div style={{ fontSize: 15, lineHeight: 2 }}>
+                <h1>
+                  {" "}
+                  <Skeleton />
+                </h1>
+                <Skeleton count={6} />
+              </div>
+              <div style={{ fontSize: 15, lineHeight: 2 }}>
+                <h1>
+                  {" "}
+                  <Skeleton />
+                </h1>
+                <Skeleton count={6} />
+              </div>
+            </React.Fragment>
+          )}
         </div>
       );
     return (

@@ -29,7 +29,9 @@ module.exports = {
     status: {
       type: "integer"
     },
-
+    role: {
+      type: "integer"
+    },
     userId_action: {
       type: "integer"
     }

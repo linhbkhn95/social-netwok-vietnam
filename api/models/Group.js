@@ -26,7 +26,7 @@ module.exports = {
     },
     status:{
        type:'integer',
-       defaultsTo : 0
+       defaultsTo : 1
     },
     police:{
       type:'integer',

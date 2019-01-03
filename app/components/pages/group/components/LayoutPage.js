@@ -23,7 +23,9 @@ class Layout extends React.Component {
       fileName: "",
       file: null,
       info: {
-        group: {}
+        group: {
+          police: {}
+        }
       },
       showModalSubject: false
     };
@@ -184,8 +186,8 @@ class Layout extends React.Component {
                       data-tooltip-content="Bất cứ ai cũng tìm được nhóm. Chỉ thành viên mới xem được những ai tham gia nhóm và những gì họ đăng."
                       id="js_6iw"
                     >
-                      <i className="fa fa-lock" aria-hidden="true" />
-                      Nhóm kín
+                      {info.group.police.id==1?<i className="fas fa-globe-americas"></i>:<i className="fa fa-lock" aria-hidden="true" />}
+                      {info.group.police.policename}
                     </span>
                   </div>
                   <div className="list-meu">

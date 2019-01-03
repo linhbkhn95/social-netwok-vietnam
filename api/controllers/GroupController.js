@@ -17,7 +17,7 @@ module.exports = {
       let { groupname, police, desc } = req.body;
       groupname = groupname ? groupname.trim() : "";
       desc = desc ? desc.trim() : "";
-      police ? police.id : 1;
+      police = police ? police.id : 1;
 
       let user_id_create = req.session.user.id;
       if (!groupname) {
@@ -32,23 +32,27 @@ module.exports = {
         user_id_create
       };
       let groupNew = await Group.create(data);
-      if(groupNew){
-        return  res.send(OutputInterface.success(groupNew));
+      if (groupNew) {
+        await Group_member.create({
+          user_id: user_id_create,
+          group_id: groupNew.id,
+          role: 1,
+          status: 1
+        });
+        return res.send(OutputInterface.success(groupNew));
       }
-      return res.send(
-        OutputInterface.errServer("Hệ thống tạm thời giãn đoạn")
-      );
+      return res.send(OutputInterface.errServer("Hệ thống tạm thời giãn đoạn"));
     } catch (error) {
-      return res.send(
-        OutputInterface.errServer(error.toString())
-      );
+      return res.send(OutputInterface.errServer(error.toString()));
     }
   },
   getInfo_with_user: async function(req, res) {
     try {
       let user_id = req.session.user.id;
       let { groupname } = req.body;
-      let group = await Group.findOne({ id: 1 });
+      let group = await Group.findOne({ id: groupname });
+      let police = await Police_post.findOne({ id: group.police });
+      if (police) group.police = police;
       let count_member = await Group_member.count({
         group_id: groupname,
         status: 1
@@ -91,10 +95,12 @@ module.exports = {
             item.userId_one == user_id ? item.userId_two : item.userId_one;
           return userIdFriend;
         });
-        listFriendMember = await Group_member.find({
+        let listFriendMember = await Group_member.find({
           user_id: listFriend_id,
+          group_id: groupname,
           status: 1
         }).limit(6);
+        let listFriendMember_id =[]
         if (listFriendMember && listFriendMember.length > 0)
           listFriendMember_id = listFriendMember.map(item => item.user_id);
         let listFriend = await User.find({
@@ -299,7 +305,7 @@ module.exports = {
 
     if (listsubject.length > 0) dataQuery.subject = result;
     dataQuery.group_id = groupname;
-
+    console.log("getListPost_groupname", dataQuery);
     Post.find({ where: { sort: "createdAt DESC" } })
       .where(dataQuery)
       .paginate({ limit: pagesize, page: page })

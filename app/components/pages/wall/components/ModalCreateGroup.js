@@ -10,6 +10,8 @@ import {
 import { setCurrentUser } from "app/action/authActions.js";
 import { connect } from "react-redux";
 import SelectPolice from "app/utils/input/SelectPolice";
+import { ToastContainer, toast } from "react-toastify";
+import PropTypes from "prop-types";
 
 class ModalCreateGroup extends React.Component {
   constructor(props) {
@@ -30,8 +32,7 @@ class ModalCreateGroup extends React.Component {
   //   this.setState({ err_msg: "" });
   // }
   onChange(type, event) {
-    if (event && event.target)
-      this.state.group[type] = event.target.value;
+    if (event && event.target) this.state.group[type] = event.target.value;
     else {
       this.state.group[type] = event;
     }
@@ -39,22 +40,22 @@ class ModalCreateGroup extends React.Component {
   }
   add() {
     let self = this;
-    // if (this.state.group.groupname)
-    //   io.socket.post("/user/updateProfile", this.state.group, function(
-    //     resdata,
-    //     jwres
-    //   ) {
-    //     if (resdata.EC == 0) {
-    //       self.props.dispatch(setCurrentUser(resdata.DT));
-    //       self.props.access();
-    //     } else {
-    //       self.setState({ err_msg: resdata.EM });
-    //     }
-    //   });
-    // else {
-    //   self.setState({ err_msg: "Họ tên không dc để trống" });
-    // }
-    self.props.access();
+
+    if (this.state.group.groupname)
+      io.socket.post("/group/add", this.state.group, function(resdata, jwres) {
+        if (resdata.EC == 0) {
+          toast.success("Thành công", {
+            position: toast.POSITION.TOP_CENTER
+          });
+          self.context.router.history.push("/groups/" + resdata.DT.id);
+          self.props.access();
+        } else {
+          self.setState({ err_msg: resdata.EM });
+        }
+      });
+    else {
+      self.setState({ err_msg: "Tên nhóm không được để trống" });
+    }
   }
   render() {
     return (
@@ -63,24 +64,17 @@ class ModalCreateGroup extends React.Component {
           <Modal.Title id="contained-modal-title-lg">
             <div className="title-order">
               <div style={{ float: "left" }}>
-
                 <i className="fa fa-users" aria-hidden="true" />
               </div>
-              <div className="title-modal-post">
-                {" "}
-               Tạo Nhóm mới
-              </div>
+              <div className="title-modal-post"> Tạo Nhóm mới</div>
             </div>
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="body-modal-post">
             <div>
-
               <div className="row">
-                <h5  className="col-md-3 label-input">
-               Tên nhóm
-                </h5>
+                <h5 className="col-md-3 label-input">Tên nhóm</h5>
                 <div className="col-md-7">
                   <input
                     onChange={this.onChange.bind(this, "groupname")}
@@ -100,14 +94,12 @@ class ModalCreateGroup extends React.Component {
 
                 </div> */}
               <div className="row">
-                <h5 className="col-md-3 label-input">
-                  Mô tả
-                </h5>
+                <h5 className="col-md-3 label-input">Mô tả nhóm</h5>
                 <div className="col-md-7">
                   <textarea
                     rows={3}
                     placeholder="Nhập mô tả nhóm"
-                    onChange={this.onChange.bind(this, "p")}
+                    onChange={this.onChange.bind(this, "desc")}
                     value={this.state.group.address}
                     type="text"
                     className="form-control"
@@ -115,24 +107,28 @@ class ModalCreateGroup extends React.Component {
                 </div>
               </div>
             </div>
-            <div className="row">
-                <h5 className="col-md-3 label-input">
-                  Chính sách nhóm
-                </h5>
-                <div className="col-md-7">
-                <SelectPolice onChange={this.onChange.bind(this,'police')} />
-                </div>
-
+            <div className="row select-police">
+              <h5 className="col-md-3 label-input">Chính sách nhóm</h5>
+              <div className="col-md-7">
+                <SelectPolice
+                  urlApi="/feel_post/getlist_option_police_group"
+                  onChange={this.onChange.bind(this, "police")}
+                />
+              </div>
             </div>
-            <div style={{ color: "red" }} className="col-md-12">
+            <div
+              style={{ color: "#f71313", marginTop: "5px", fontSize: "13px" }}
+            >
               {this.state.err_msg}
             </div>
-
-
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button bsStyle="success" onClick={this.add.bind(this)}>
+          <Button
+            disabled={!this.state.group.groupname}
+            bsStyle="success"
+            onClick={this.add.bind(this)}
+          >
             Tạo nhóm
           </Button>
           <Button onClick={this.props.onHide}>Thoát</Button>
@@ -141,7 +137,9 @@ class ModalCreateGroup extends React.Component {
     );
   }
 }
-
+ModalCreateGroup.contextTypes = {
+  router: PropTypes.object.isRequired
+};
 module.exports = connect(function(state) {
   return {};
 })(ModalCreateGroup);

@@ -48,7 +48,7 @@ class Login extends React.Component {
           dispatch(setCurrentUser(jwtDecode(res.data.DT.token)));
 
           dispatch(login(that.refs.username.value));
-          that.props.history.push("/wall");
+          that.props.history.push("/wall/newpost");
         } else {
           that.setState({ textError: res.data.EM });
         }
@@ -90,7 +90,12 @@ class Login extends React.Component {
                 className="alert alert-danger col-sm-12"
               />
 
-              <form onSubmit={this.login.bind(this)} id="loginform" className="form-horizontal" role="form">
+              <form
+                onSubmit={this.login.bind(this)}
+                id="loginform"
+                className="form-horizontal"
+                role="form"
+              >
                 <div style={{ marginBottom: "25px" }} className="input-group">
                   <span className="input-group-addon">
                     <i className="glyphicon glyphicon-user" />

@@ -46,11 +46,7 @@ class ToastNotifi extends React.Component {
     let notifi = this.props.notifi;
     console.log("notifi", notifi);
     return (
-      <div
-
-        style={{ borderBottom: "none" }}
-        className=" alert-message"
-      >
+      <div style={{ borderBottom: "none" }} className=" alert-message">
         <NavLink to={notifi.url_ref}>
           {" "}
           <div className="col-md-3 row">
@@ -223,7 +219,6 @@ class NavContent extends React.Component {
                   eventKey={2}
                   href="#"
                 >
-
                   <NavLink to={"/userpage." + this.props.auth.user.username}>
                     <div className="user-avatar">
                       {this.props.auth.isAuthenticated ? (

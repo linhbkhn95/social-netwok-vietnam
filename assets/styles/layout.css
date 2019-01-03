@@ -308,6 +308,8 @@ img {
 }
 .body-modal-post .row {
   padding-top: 15px;
+  display: flex;
+  align-items: center;
 }
 .content-question .react-toggle-track {
   height: 19px;

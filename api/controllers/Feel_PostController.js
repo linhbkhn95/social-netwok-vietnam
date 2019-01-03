@@ -17,12 +17,24 @@ module.exports = {
   },
   getlist_option_police_post: function(req, res) {
     try {
-      Police_post.find({}).exec((err, list) => {
-        if (err) {
+      Police_post.find({ or: [{ type: "post" }, { type: "all" }] }).exec(
+        (err, list) => {
+          if (err) {
+          }
+          return res.send(OutputInterface.success(list));
         }
-        console.log("getlist_option_police_post", list);
-        return res.send(OutputInterface.success(list));
-      });
+      );
+    } catch (error) {}
+  },
+  getlist_option_police_group: function(req, res) {
+    try {
+      Police_post.find({ or: [{ type: "group" }, { type: "all" }] }).exec(
+        (err, list) => {
+          if (err) {
+          }
+          return res.send(OutputInterface.success(list));
+        }
+      );
     } catch (error) {}
   }
 };
