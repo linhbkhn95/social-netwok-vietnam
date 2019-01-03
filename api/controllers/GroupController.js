@@ -12,6 +12,38 @@ module.exports = {
   //   rest: false
   // }
   //lay thong tin group theo user dang nhap
+  add: async function(req, res) {
+    try {
+      let { groupname, police, desc } = req.body;
+      groupname = groupname ? groupname.trim() : "";
+      desc = desc ? desc.trim() : "";
+      police ? police.id : 1;
+
+      let user_id_create = req.session.user.id;
+      if (!groupname) {
+        return res.send(
+          OutputInterface.errServer("Tên nhóm không được để  trống")
+        );
+      }
+      let data = {
+        groupname,
+        desc,
+        police,
+        user_id_create
+      };
+      let groupNew = await Group.create(data);
+      if(groupNew){
+        return  res.send(OutputInterface.success(groupNew));
+      }
+      return res.send(
+        OutputInterface.errServer("Hệ thống tạm thời giãn đoạn")
+      );
+    } catch (error) {
+      return res.send(
+        OutputInterface.errServer(error.toString())
+      );
+    }
+  },
   getInfo_with_user: async function(req, res) {
     try {
       let user_id = req.session.user.id;
@@ -88,10 +120,9 @@ module.exports = {
         let list_group_id = listGroupmember.map(item => item.group_id);
         let listGroup = await Group.find({ id: list_group_id });
 
-        return res.send(OutputInterface.success(listGroup))
-      }
-      else{
-        return res.send(OutputInterface.errServer('khong co group'));
+        return res.send(OutputInterface.success(listGroup));
+      } else {
+        return res.send(OutputInterface.errServer("khong co group"));
       }
     } catch (error) {
       return res.send(OutputInterface.errServer(error.toString()));
