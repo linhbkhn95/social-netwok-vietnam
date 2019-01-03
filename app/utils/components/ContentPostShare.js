@@ -152,9 +152,10 @@ class Post extends React.Component {
       );
     return (
       <div className="content-share">
-        <header>
+          {this.props.subject&&this.props.subjectId||this.props.title?<header>
           <div className="pull-left title-post">
             <i className="fa fa-header" aria-hidden="true" /> {this.props.title}{" "}
+
           </div>
           <div>
             {" "}
@@ -167,7 +168,7 @@ class Post extends React.Component {
               {this.props.subject ? this.props.subject.subjectname : ""}
             </div>
           </div>
-        </header>
+        </header>:null}
         <div style={{ clear: "both" }} className="user-answer">
           <div className="user-avatar">
             {this.props.incognito ? (

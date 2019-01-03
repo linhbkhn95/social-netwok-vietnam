@@ -276,7 +276,7 @@ class AdvancedGridList extends React.Component {
                     style={{
                       position: "absolute",
                       transform: "inherit",
-                      top:"-20%",
+                      top:"-10%",
                       imageRendering: "-webkit-optimize-contrast",
                       objectFit: "contain"
                      }}
