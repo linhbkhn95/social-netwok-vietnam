@@ -97,6 +97,7 @@ header .dropdown-menu > li > a {
 }
 body {
   /* background: #eeeef0; */
+  background: #f3f3f3;
   font-family: "IBM Plex Sans", sans-serif !important;
 }
 .list-post {
@@ -780,4 +781,7 @@ header ul li {
 .count-action {
   font-weight: normal;
   margin-right: 4px;
+}
+.label-input{
+  font-weight: bold;
 }
