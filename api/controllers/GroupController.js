@@ -86,7 +86,7 @@ module.exports = {
       let listGroupmember = await Group_member.find({ user_id, status: 1 });
       if (listGroupmember && listGroupmember.length > 0) {
         let list_group_id = listGroupmember.map(item => item.group_id);
-        let listGroup = await Group.Find({ id: list_group_id });
+        let listGroup = await Group.find({ id: list_group_id });
 
         return res.send(OutputInterface.success(listGroup))
       }
