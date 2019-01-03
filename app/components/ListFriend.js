@@ -3,14 +3,14 @@ import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import moment from "moment";
 import { addChatbox, openChatbox } from "app/action/actionChatbox";
-import Skeleton from 'react-loading-skeleton';
+import Skeleton from "react-loading-skeleton";
 
 class List extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       listfriend: [],
-      loading:true
+      loading: true
     };
   }
   cancel(username) {
@@ -48,7 +48,7 @@ class List extends React.Component {
           }
         }
 
-        self.setState({ listfriend,});
+        self.setState({ listfriend });
       }
     });
   }
@@ -57,7 +57,7 @@ class List extends React.Component {
 
     io.socket.post("/user/getListFriends_User", {}, resdata => {
       if (resdata.EC == 0) {
-        sefl.setState({ listfriend: resdata.DT,loading:false  });
+        sefl.setState({ listfriend: resdata.DT, loading: false });
       }
     });
     io.socket.on("status_user", function(data) {
@@ -67,7 +67,7 @@ class List extends React.Component {
 
   render() {
     let self = this;
-    let { listfriend,loading } = this.state;
+    let { listfriend, loading } = this.state;
     return (
       <div
         style={{ display: this.props.auth.isAuthenticated ? "block" : "none" }}
@@ -98,51 +98,53 @@ class List extends React.Component {
               <div />
             </div>
             <div style={{ paddingTop: "20px" }} className="">
-              {listfriend.length==0&& loading?<div style={{ fontSize: 15, lineHeight: 2 }}>
-     
-       <Skeleton count={10} />
-    </div>:
-              listfriend.map((friend, index) => {
-                return (
-                  // <NavLink key={index} to={"/userpage."+friend.user.username} >
-                  <div
-                    onClick={this.addChatbox.bind(this, friend.user)}
-                    style={{ paddingTop: "3px", paddingBottom: "3px" }}
-                    className="friend col-md-12 "
-                  >
-                    <div>
-                      <NavLink to={"/userpage." + friend.user.username}>
-                        <img
-                          style={{ width: "33px", height: "33px" }}
-                          className="img-user"
-                          src={friend.user.url_avatar}
-                        />{" "}
-                      </NavLink>
-                      <div style={{ float: "left" }} className="name-user">
+              {listfriend.length == 0 && loading ? (
+                <div style={{ fontSize: 15, lineHeight: 2 }}>
+                  <Skeleton count={10} />
+                </div>
+              ) : (
+                listfriend.map((friend, index) => {
+                  return (
+                    // <NavLink key={index} to={"/userpage."+friend.user.username} >
+                    <div
+                      onClick={this.addChatbox.bind(this, friend.user)}
+                      style={{ paddingTop: "3px", paddingBottom: "3px" }}
+                      className="friend col-md-12 "
+                    >
+                      <div>
                         <NavLink to={"/userpage." + friend.user.username}>
-                          {" "}
-                          {friend.user.fullname}{" "}
+                          <img
+                            style={{ width: "33px", height: "33px" }}
+                            className="img-user"
+                            src={friend.user.url_avatar}
+                          />{" "}
                         </NavLink>
-                      </div>
-                      <div className="status-user">
-                        {friend.user.is_online ? (
-                          <span className="status-online" />
-                        ) : (
-                          <div className="time">
-                            {moment(
-                              friend.user.time_offline
-                                ? friend.user.time_offline
-                                : Date.now()
-                            )
-                              .lang("vi")
-                              .fromNow()}
-                          </div>
-                        )}
+                        <div style={{ float: "left" }} className="name-user">
+                          <NavLink to={"/userpage." + friend.user.username}>
+                            {" "}
+                            {friend.user.fullname}{" "}
+                          </NavLink>
+                        </div>
+                        <div className="status-user">
+                          {friend.user.is_online ? (
+                            <span className="status-online" />
+                          ) : (
+                            <div className="time">
+                              {moment(
+                                friend.user.time_offline
+                                  ? friend.user.time_offline
+                                  : Date.now()
+                              )
+                                .lang("vi")
+                                .fromNow()}
+                            </div>
+                          )}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })
+              )}
             </div>
             <div className="input-search" id="imaginary_container  ">
               <div className="input-group stylish-input-group">

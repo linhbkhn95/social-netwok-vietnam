@@ -6,7 +6,7 @@ class ModalPost extends React.Component{
     constructor(props){
       super(props);
       this.state = {
-          
+
           userProfile:{
 
           }
@@ -16,7 +16,7 @@ class ModalPost extends React.Component{
     componentWillReceiveProps(nextProps){
         let self  = this
         if(nextProps.show){
-            
+
             io.socket.get('/user/getProfile',((resdata,jwres)=>{
                 if(resdata.EC==0){
                     self.setState({userProfile:resdata.DT})
@@ -61,51 +61,51 @@ class ModalPost extends React.Component{
                 <i className="fa fa-commenting" aria-hidden="true"></i>---<i className="fa fa-question-circle" aria-hidden="true"></i>
               </div>
                <div className="title-modal-post"> Thay đổi thông tin người dùng ?</div>
-               
+
                </div>
-            
+
             </Modal.Title>
           </Modal.Header>
           <Modal.Body>
               <div className="body-modal-post">
               <div>
-                 <div className="row"> 
-                    <h5 className="col-md-3" ><i className="fa fa-tags" aria-hidden="true"></i>Tên đăng nhập</h5>
+                 <div className="row">
+                    <h5 className="col-md-3 label-input" ><i className="fa fa-tags" aria-hidden="true"></i>Tên đăng nhập</h5>
                     <div className="col-md-4" >
                     <input disabled  value={this.state.userProfile.username} type="text" className="form-control" />
 
                     </div>
-                    
+
                 </div>
-                <div className="row"> 
-                    <h5 className="col-md-3" ><i className="fa fa-tags" aria-hidden="true"></i>Họ và tên</h5>
+                <div className="row">
+                    <h5 className="col-md-3 label-input" ><i className="fa fa-tags" aria-hidden="true"></i>Họ và tên</h5>
                     <div className="col-md-4" >
                     <input onChange={this.onChange.bind(this,'fullname')} value={this.state.userProfile.fullname} type="text" className="form-control" />
 
                     </div>
-                    
+
                 </div>
-                {/* <div className="row"> 
+                {/* <div className="row">
                     <h5 className="col-md-3" ><i className="fa fa-tags" aria-hidden="true"></i>Giới tính</h5>
                     <div className="col-md-4" >
                     <input onChange={this.onChange.bind(this,'sex')} value={this.state.userProfile.sex} type="text" className="form-control" />
 
                     </div>
-                    
+
                 </div> */}
-                <div className="row"> 
-                    <h5 className="col-md-3" ><i className="fa fa-tags" aria-hidden="true"></i>Địa chỉ</h5>
+                <div className="row">
+                    <h5 className="col-md-3 label-input" ><i className="fa fa-tags" aria-hidden="true"></i>Địa chỉ</h5>
                     <div className="col-md-4" >
                     <input onChange={this.onChange.bind(this,'address')} value={this.state.userProfile.address} type="text" className="form-control" />
 
                     </div>
-                    
+
                 </div>
-              
+
               </div>
                 <div style={{color:"red"}} className="col-md-12">{this.state.err_msg}</div>
               </div>
-                
+
           </Modal.Body>
           <Modal.Footer>
             <Button   bsStyle="success" onClick={this.add.bind(this)}>Cập nhật</Button>
@@ -115,7 +115,7 @@ class ModalPost extends React.Component{
       );
     }
   };
-  
+
   module.exports =connect(function(state){
     return{
     }})
